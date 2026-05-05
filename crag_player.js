@@ -3,8 +3,8 @@
  *
  * Usage:
  *   const player = await CragPlayer.create('graph.wasm', 'graph.wasm.cragmeta');
- *   player.start();      // begin audio output
- *   player.stop();       // stop audio output
+ *   await player.start(); // begin audio output (returns a Promise)
+ *   player.stop();        // stop audio output
  *   player.setParam(idx, value);
  *   player.getParam(idx) -> float
  *   player.meta          // parsed .cragmeta JSON
@@ -40,6 +40,13 @@
  *   crag graphs that use filters require a small heap for coefficient arrays.
  *   A simple bump allocator is provided; it initialises its pointer from the
  *   exported __heap_base symbol after instantiation.
+ *
+ * AudioWorklet:
+ *   Audio processing runs in an AudioWorkletProcessor (dedicated audio thread).
+ *   The WASM module is transferred to the worklet which instantiates its own
+ *   copy.  Parameter / event / sampler changes are forwarded via MessagePort.
+ *   Visualizer frames are rendered inside the worklet and posted back to the
+ *   main thread as transferable ArrayBuffers.
  */
 
 "use strict";
@@ -271,19 +278,337 @@
   }
 
   // ---------------------------------------------------------------------------
+  // AudioWorklet processor source (embedded as a string; loaded via Blob URL).
+  // Must be fully self-contained — no references to outer-scope variables.
+  // ---------------------------------------------------------------------------
+
+  const _CRAG_WORKLET_CODE = `"use strict";
+
+// Identical import-object builder to makeCragImports on the main thread.
+// Duplicated here because the worklet scope cannot access the outer factory.
+function _makeCragWorkletImports(heapState, memState) {
+  return {
+    env: {
+      malloc(size) {
+        const sz      = typeof size === "bigint" ? Number(size) : size;
+        const aligned = (sz + 7) & ~7;
+        const ptr     = heapState.ptr;
+        heapState.ptr += aligned;
+        return ptr;
+      },
+      free(_ptr) {},
+      memset(dst, val, size) {
+        const n = typeof size === "bigint" ? Number(size) : size;
+        const d = typeof dst  === "bigint" ? Number(dst)  : dst;
+        if (memState.memory && n > 0)
+          new Uint8Array(memState.memory.buffer, d, n).fill(val & 0xff);
+        return dst;
+      },
+      memcpy(dst, src, size) {
+        const n = typeof size === "bigint" ? Number(size) : size;
+        const d = typeof dst  === "bigint" ? Number(dst)  : dst;
+        const s = typeof src  === "bigint" ? Number(src)  : src;
+        if (memState.memory && n > 0)
+          new Uint8Array(memState.memory.buffer).copyWithin(d, s, s + n);
+        return dst;
+      },
+      memmove(dst, src, size) {
+        const n = typeof size === "bigint" ? Number(size) : size;
+        const d = typeof dst  === "bigint" ? Number(dst)  : dst;
+        const s = typeof src  === "bigint" ? Number(src)  : src;
+        if (memState.memory && n > 0)
+          new Uint8Array(memState.memory.buffer).copyWithin(d, s, s + n);
+        return dst;
+      },
+      sinf: Math.sin.bind(Math),   cosf: Math.cos.bind(Math),
+      tanf: Math.tan.bind(Math),   asinf: Math.asin.bind(Math),
+      acosf: Math.acos.bind(Math), atanf: Math.atan.bind(Math),
+      atan2f: Math.atan2.bind(Math), sqrtf: Math.sqrt.bind(Math),
+      cbrtf: Math.cbrt.bind(Math), expf: Math.exp.bind(Math),
+      exp2f: Math.pow.bind(Math, 2), expm1f: Math.expm1.bind(Math),
+      logf: Math.log.bind(Math),   log2f: Math.log2.bind(Math),
+      log10f: Math.log10.bind(Math), log1pf: Math.log1p.bind(Math),
+      powf: Math.pow.bind(Math),   fabsf: Math.abs.bind(Math),
+      floorf: Math.floor.bind(Math), ceilf: Math.ceil.bind(Math),
+      truncf: Math.trunc.bind(Math), roundf: Math.round.bind(Math),
+      fmodf:      (a, b) => a - Math.trunc(a / b) * b,
+      remainderf: (a, b) => a - Math.round(a / b) * b,
+      fminf: Math.min.bind(Math),  fmaxf: Math.max.bind(Math),
+      hypotf: Math.hypot.bind(Math),
+      copysignf: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
+      sinhf: Math.sinh.bind(Math), coshf: Math.cosh.bind(Math),
+      tanhf: Math.tanh.bind(Math), asinhf: Math.asinh.bind(Math),
+      acoshf: Math.acosh.bind(Math), atanhf: Math.atanh.bind(Math),
+      sin: Math.sin.bind(Math),    cos: Math.cos.bind(Math),
+      tan: Math.tan.bind(Math),    asin: Math.asin.bind(Math),
+      acos: Math.acos.bind(Math),  atan: Math.atan.bind(Math),
+      atan2: Math.atan2.bind(Math), sqrt: Math.sqrt.bind(Math),
+      cbrt: Math.cbrt.bind(Math),  exp: Math.exp.bind(Math),
+      exp2: Math.pow.bind(Math, 2), expm1: Math.expm1.bind(Math),
+      log: Math.log.bind(Math),    log2: Math.log2.bind(Math),
+      log10: Math.log10.bind(Math), log1p: Math.log1p.bind(Math),
+      pow: Math.pow.bind(Math),    fabs: Math.abs.bind(Math),
+      floor: Math.floor.bind(Math), ceil: Math.ceil.bind(Math),
+      trunc: Math.trunc.bind(Math), round: Math.round.bind(Math),
+      fmod:      (a, b) => a - Math.trunc(a / b) * b,
+      remainder: (a, b) => a - Math.round(a / b) * b,
+      fmin: Math.min.bind(Math),   fmax: Math.max.bind(Math),
+      hypot: Math.hypot.bind(Math),
+      copysign: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
+      sinh: Math.sinh.bind(Math),  cosh: Math.cosh.bind(Math),
+      tanh: Math.tanh.bind(Math),  asinh: Math.asinh.bind(Math),
+      acosh: Math.acosh.bind(Math), atanh: Math.atanh.bind(Math),
+    },
+  };
+}
+
+class CragProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this._ready            = false;
+    this._instance         = null;
+    this._memory           = null;
+    this._process          = null;
+    this._outputPtr        = 0;
+    this._paramsPtr        = 0;
+    this._paramsI32Ptr     = 0;
+    this._blockSize        = 0;
+    this._channels         = 1;
+    this._accumulator      = null;
+    this._accumFill        = 0;
+    this._heapState        = { ptr: 0 };
+    this._fireEventFn      = null;
+    this._fireEventF32Fn   = null;
+    this._fireEventI32Fn   = null;
+    this._bindSamplerFn    = null;
+    this._isStablePtr      = 0;
+    this._unstableCheckIdxPtr = 0;
+    this._vizFn            = null;
+    this._vizOutputPtr     = 0;
+    this._vizWidthFn       = null;
+    this._vizHeightFn      = null;
+    this.port.onmessage    = (ev) => { this._onMessage(ev.data); };
+  }
+
+  _onMessage(msg) {
+    switch (msg.type) {
+      case "init":
+        this._handleInit(msg);
+        break;
+      case "setParam":
+        this._setParam(msg.idx, msg.value);
+        break;
+      case "setParamInt":
+        this._setParamInt(msg.idx, msg.value);
+        break;
+      case "bindSampler":
+        this._bindSampler(msg);
+        break;
+      case "fireEvent":
+        if (this._fireEventFn)
+          this._fireEventFn(msg.idx, msg.sampleOffset | 0);
+        break;
+      case "fireEventFloat":
+        if (this._fireEventF32Fn)
+          this._fireEventF32Fn(msg.idx, msg.sampleOffset | 0, +msg.value);
+        break;
+      case "fireEventInt":
+        if (this._fireEventI32Fn)
+          this._fireEventI32Fn(msg.idx, msg.sampleOffset | 0, msg.value | 0);
+        break;
+      case "visualize":
+        this._handleVisualize(msg.idx);
+        break;
+    }
+  }
+
+  async _handleInit(msg) {
+    const { wasmModule, heapPtr, channels,
+            outputPtr, paramsPtr, paramsI32Ptr,
+            initialParams, initialParamsI32 } = msg;
+
+    this._channels      = channels;
+    this._heapState.ptr = heapPtr;
+
+    const heapState = this._heapState;
+    const memState  = { memory: null };
+    const imports   = _makeCragWorkletImports(heapState, memState);
+
+    const inst = await WebAssembly.instantiate(wasmModule, imports);
+    this._instance = inst;
+    const e = inst.exports;
+
+    memState.memory    = e.memory;
+    this._memory       = e.memory;
+    this._process      = e.crag_process;
+    this._blockSize    = e.crag_block_size();
+
+    // Honour the compiled __heap_base so the bump allocator doesn't collide
+    // with WASM static data.
+    if (e.__heap_base) heapState.ptr = e.__heap_base.value;
+
+    this._outputPtr    = e.crag_output    ? e.crag_output.value    : outputPtr;
+    this._paramsPtr    = e.crag_params    ? e.crag_params.value    : paramsPtr;
+    this._paramsI32Ptr = e.crag_params_i32 ? e.crag_params_i32.value : paramsI32Ptr;
+
+    this._fireEventFn    = e.crag_fire_event        || null;
+    this._fireEventF32Fn = e.crag_fire_event_float  || null;
+    this._fireEventI32Fn = e.crag_fire_event_int    || null;
+    this._bindSamplerFn  = e.crag_bind_audio_by_index || null;
+
+    this._isStablePtr         = e.crag_is_stable          ? e.crag_is_stable.value          : 0;
+    this._unstableCheckIdxPtr = e.crag_unstable_check_idx ? e.crag_unstable_check_idx.value : 0;
+
+    this._vizFn        = e.crag_visualize  || null;
+    this._vizOutputPtr = e.crag_viz_output ? e.crag_viz_output.value : 0;
+    this._vizWidthFn   = e.crag_viz_width  || null;
+    this._vizHeightFn  = e.crag_viz_height || null;
+
+    // Seed parameter values sent from the main thread.
+    if (initialParams && this._paramsPtr) {
+      const f32 = new Float32Array(this._memory.buffer);
+      for (let i = 0; i < initialParams.length; i++)
+        f32[(this._paramsPtr >> 2) + i] = initialParams[i];
+    }
+    if (initialParamsI32 && this._paramsI32Ptr) {
+      const i32 = new Int32Array(this._memory.buffer);
+      for (let i = 0; i < initialParamsI32.length; i++)
+        i32[(this._paramsI32Ptr >> 2) + i] = initialParamsI32[i];
+    }
+
+    this._accumulator = new Float32Array(this._channels * this._blockSize * 4);
+    // × 4 gives headroom so the ring buffer can hold multiple crag blocks,
+    // which is needed when crag's block size is smaller than the Web Audio
+    // quantum (128 samples).
+    this._accumFill   = 0;
+    this._ready       = true;
+
+    this.port.postMessage({ type: "ready" });
+  }
+
+  _setParam(idx, value) {
+    if (!this._ready || !this._paramsPtr) return;
+    new Float32Array(this._memory.buffer)[(this._paramsPtr >> 2) + idx] = value;
+  }
+
+  _setParamInt(idx, value) {
+    if (!this._ready || !this._paramsI32Ptr) return;
+    new Int32Array(this._memory.buffer)[(this._paramsI32Ptr >> 2) + idx] = value | 0;
+  }
+
+  _bindSampler({ idx, samples }) {
+    if (!this._ready || !this._bindSamplerFn) return;
+    const numSamples = samples.length;
+    const byteLen    = numSamples * 4;
+    const mem        = this._memory;
+    const needed     = this._heapState.ptr + byteLen;
+    if (needed > mem.buffer.byteLength) {
+      const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
+      mem.grow(pages);
+    }
+    const ptr = this._heapState.ptr;
+    this._heapState.ptr += (byteLen + 7) & ~7;
+    new Float32Array(mem.buffer, ptr, numSamples).set(samples);
+    this._bindSamplerFn(idx, BigInt(ptr), numSamples);
+  }
+
+  _handleVisualize(idx) {
+    if (!this._vizFn || !this._vizOutputPtr) return;
+    this._vizFn(idx);
+    const w = this._vizWidthFn  ? this._vizWidthFn(idx)  : 0;
+    const h = this._vizHeightFn ? this._vizHeightFn(idx) : 0;
+    if (w === 0 || h === 0) return;
+    const f32 = new Float32Array(this._memory.buffer, this._vizOutputPtr, w * h * 4);
+    const u8  = new Uint8ClampedArray(w * h * 4);
+    for (let i = 0; i < w * h * 4; i++)
+      u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
+    // Transfer the backing ArrayBuffer to avoid a copy.
+    this.port.postMessage(
+      { type: "vizData", idx, data: u8.buffer, width: w, height: h },
+      [u8.buffer]
+    );
+  }
+
+  _checkInstability() {
+    if (!this._isStablePtr) return null;
+    const i32 = new Int32Array(this._memory.buffer);
+    if (i32[this._isStablePtr >> 2] !== 0) return null;
+    const checkIdx = this._unstableCheckIdxPtr
+      ? i32[this._unstableCheckIdxPtr >> 2] : -1;
+    let graphName = "<unknown>";
+    if (checkIdx >= 0 && this._instance) {
+      const nameSym    = "crag_instability_" + checkIdx + "_name";
+      const nameExport = this._instance.exports[nameSym];
+      if (nameExport) {
+        const nameOffset = nameExport.value;
+        const u8         = new Uint8Array(this._memory.buffer);
+        let   name       = "";
+        for (let i = nameOffset; u8[i] !== 0 && i < nameOffset + 256; i++)
+          name += String.fromCharCode(u8[i]);
+        graphName = name;
+      }
+    }
+    return { checkIdx, graphName };
+  }
+
+  process(_inputs, outputs) {
+    if (!this._ready || outputs[0].length === 0) return true;
+
+    const bufSize = outputs[0][0].length;   // typically 128 samples per quantum
+
+    while (this._accumFill < bufSize * this._channels) {
+      this._process();
+
+      const instability = this._checkInstability();
+      if (instability) {
+        this.port.postMessage({ type: "instability", ...instability });
+        this._ready = false;
+        // Return false to signal the processor should be removed.
+        return false;
+      }
+
+      const view = new Float32Array(
+        this._memory.buffer, this._outputPtr, this._blockSize * this._channels
+      );
+      const needed = Math.min(view.length, this._accumulator.length - this._accumFill);
+      this._accumulator.set(view.subarray(0, needed), this._accumFill);
+      this._accumFill += needed;
+    }
+
+    for (let ch = 0; ch < outputs[0].length; ch++) {
+      const chData = outputs[0][ch];
+      for (let i = 0; i < bufSize; i++)
+        chData[i] = this._accumulator[i * this._channels + ch] || 0;
+    }
+
+    const consumed = bufSize * this._channels;
+    this._accumulator.copyWithin(0, consumed);
+    this._accumFill -= consumed;
+    if (this._accumFill < 0) this._accumFill = 0;
+
+    return true;
+  }
+}
+
+registerProcessor("crag-processor", CragProcessor);
+`;
+
+  // ---------------------------------------------------------------------------
   // CragPlayer class
   // ---------------------------------------------------------------------------
 
   class CragPlayer {
     /**
-     * @param {WebAssembly.Instance} instance  Instantiated WASM module.
-     * @param {object}               meta       Parsed .cragmeta JSON.
-     * @param {object}               heapState  Bump-allocator state { ptr }.
+     * @param {WebAssembly.Instance} instance    Instantiated WASM module.
+     * @param {object}               meta         Parsed .cragmeta JSON.
+     * @param {object}               heapState    Bump-allocator state { ptr }.
+     * @param {WebAssembly.Module}   [wasmModule] Compiled module for transfer to AudioWorklet.
      */
-    constructor(instance, meta, heapState) {
+    constructor(instance, meta, heapState, wasmModule) {
       this._instance = instance;
       this.meta = meta;
       this._heapState = heapState;
+      this._wasmModule = wasmModule || null;
 
       const e = instance.exports;
       this._memory    = e.memory;
@@ -335,7 +660,14 @@
       this._crag_viz_height_fn = e.crag_viz_height || null;
 
       this._audioCtx    = null;
-      this._scriptNode  = null;
+      this._workletNode = null;
+      this._workletReady = false;
+      this._startAbort  = null;   // abort callback while awaiting start()
+      // idx -> ImageData; populated by vizData messages from the worklet.
+      this._vizCache    = new Map();
+      // idx -> Float32Array; kept so samplers bound before start() can be
+      // replayed to the worklet after it initialises.
+      this._samplerData = new Map();
       this._running     = false;
     }
 
@@ -361,6 +693,8 @@
       if (idx < 0 || idx >= this._numParams) return;
       const view = new Float32Array(this._memory.buffer);
       view[(this._paramsPtr >> 2) + idx] = value;
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "setParam", idx, value });
     }
 
     /**
@@ -383,6 +717,8 @@
       if (idx < 0 || idx >= this._numParamsI32) return;
       const view = new Int32Array(this._memory.buffer);
       view[(this._paramsI32Ptr >> 2) + idx] = value | 0;
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "setParamInt", idx, value: value | 0 });
     }
 
     /**
@@ -414,6 +750,8 @@
       if (this._fireEvent) {
         this._fireEvent(idx, sampleOffset | 0);
       }
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "fireEvent", idx, sampleOffset: sampleOffset | 0 });
     }
 
     /**
@@ -428,6 +766,8 @@
       if (this._fireEventF32) {
         this._fireEventF32(idx, sampleOffset | 0, +value);
       }
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "fireEventFloat", idx, sampleOffset: sampleOffset | 0, value: +value });
     }
 
     /**
@@ -444,6 +784,8 @@
       if (this._fireEventI32) {
         this._fireEventI32(idx, sampleOffset | 0, value | 0);
       }
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "fireEventInt", idx, sampleOffset: sampleOffset | 0, value: value | 0 });
     }
 
     /**
@@ -480,6 +822,10 @@
      * @returns {object|null}
      */
     checkInstability() {
+      // When the AudioWorklet is running, instability is detected and reported
+      // inside the worklet.  The main-thread instance never calls crag_process()
+      // in that mode, so its stability flag is never updated.
+      if (this._workletNode) return null;
       if (!this._isStablePtr) return null;
       const i32View = new Int32Array(this._memory.buffer);
       const isStable = i32View[this._isStablePtr >> 2];
@@ -548,38 +894,36 @@
         throw new Error("crag_bind_audio_by_index not exported by this WASM module");
 
       const samples = decodeWavToFloat32(arrayBuffer);
-      const numSamples = samples.length;
-      const byteLen    = numSamples * 4;   // f32 = 4 bytes/sample
 
-      // Grow WASM linear memory if the current buffer is too small to hold
-      // the sample data at the current heap pointer.
-      const mem = this._memory;
-      const needed = this._heapState.ptr + byteLen;
-      if (needed > mem.buffer.byteLength) {
-        // WebAssembly pages are 64 KiB each.
-        const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
-        mem.grow(pages);
+      // Keep a copy so samplers bound before start() can be replayed to the
+      // worklet during initialisation, and those bound after start() can be
+      // forwarded immediately.
+      this._samplerData.set(idx, samples);
+
+      if (this._workletNode && this._workletReady) {
+        // Transfer a copy to the worklet (transfer to avoid an extra copy of
+        // the backing buffer; slice() keeps the main-thread copy intact).
+        const copy = samples.slice();
+        this._workletNode.port.postMessage(
+          { type: "bindSampler", idx, samples: copy },
+          [copy.buffer]
+        );
       }
-
-      // Allocate from the bump allocator.
-      const ptr = this._heapState.ptr;
-      this._heapState.ptr += (byteLen + 7) & ~7;  // keep 8-byte alignment
-
-      // Copy Float32 samples into WASM memory.
-      const dest = new Float32Array(mem.buffer, ptr, numSamples);
-      dest.set(samples);
-
-      // crag_bind_audio_by_index(i32 idx, i64 ptr, i32 len)
-      // i64 is represented as BigInt in the WASM JS API.
-      this._bindSamplerByIndex(idx, BigInt(ptr), numSamples);
     }
 
     /**
-     * Start real-time audio output.
+     * Start real-time audio output via an AudioWorkletNode.
      * Requires a user gesture to satisfy browser autoplay policies.
+     * Returns a Promise that resolves once the worklet is ready and audio has
+     * begun.  Callers that do not need to await the start are free to ignore
+     * the returned Promise.
+     * @returns {Promise<void>}
      */
-    start() {
+    async start() {
       if (this._running) return;
+      if (!this._wasmModule)
+        throw new Error("[crag] No WASM module available for AudioWorklet. " +
+          "Ensure CragPlayer.create() was used to construct this player.");
 
       const sampleRate = this.meta.sample_rate || 48000;
       const channels   = this.meta.channels    || 1;
@@ -588,101 +932,130 @@
         { sampleRate }
       );
 
-      // ScriptProcessorNode (deprecated but universally supported).
-      // bufferSize must be a power-of-two; use the crag block size if it
-      // qualifies, otherwise fall back to 4096.
-      const validSizes = [256, 512, 1024, 2048, 4096, 8192, 16384];
-      const bufSize = validSizes.includes(this._blockSize)
-        ? this._blockSize
-        : 4096;
+      // Load the inline worklet processor via a temporary Blob URL so that
+      // no separate .js file is required.
+      const blob    = new Blob([_CRAG_WORKLET_CODE], { type: "application/javascript" });
+      const blobUrl = URL.createObjectURL(blob);
+      try {
+        await this._audioCtx.audioWorklet.addModule(blobUrl);
+      } finally {
+        URL.revokeObjectURL(blobUrl);
+      }
 
-      const node = this._audioCtx.createScriptProcessor(bufSize, 0, channels);
+      const workletNode = new AudioWorkletNode(this._audioCtx, "crag-processor", {
+        numberOfInputs:     0,
+        numberOfOutputs:    1,
+        outputChannelCount: [channels],
+      });
 
-      // Samples to accumulate / discard when crag block size ≠ bufSize.
-      let accumulator = new Float32Array(channels * bufSize * 4);
-      let accumFill = 0;
+      // Collect current parameter values to seed the worklet's WASM instance.
+      const initialParams = [];
+      for (let i = 0; i < this._numParams; i++)
+        initialParams.push(this.getParam(i));
+      const initialParamsI32 = [];
+      for (let i = 0; i < this._numParamsI32; i++)
+        initialParamsI32.push(this.getParamInt(i));
 
-      node.onaudioprocess = (ev) => {
-        // Fill accumulator until we have enough for the output buffer.
-        while (accumFill < bufSize * channels) {
-          this._process();
+      // Wait for the worklet to instantiate its WASM copy and signal "ready".
+      // 10 s is generous; WASM instantiation typically completes in < 100 ms.
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(
+          () => reject(new Error("[crag] AudioWorklet initialisation timed out")),
+          10000
+        );
 
-          // Check for instability after each crag_process() call.
-          const instability = this.checkInstability();
-          if (instability) {
-            console.error(
-              "[crag] INSTABILITY DETECTED in graph: '" +
-              instability.graphName + "' (check index " +
-              instability.checkIdx + ")"
-            );
-            const paramStr = instability.params
-              .map((v, i) => "param[" + i + "]=" + v.toFixed(6))
-              .join(", ");
-            console.error("[crag] Current parameter values: " + paramStr);
-            this.stop();
-            return;
+        // Store an abort function so stop() can cancel the pending Promise.
+        this._startAbort = () => {
+          clearTimeout(timeout);
+          reject(new Error("[crag] start() aborted by stop()"));
+        };
+
+        workletNode.port.onmessage = (ev) => {
+          const msg = ev.data;
+          switch (msg.type) {
+            case "ready":
+              clearTimeout(timeout);
+              this._startAbort    = null;
+              this._workletReady  = true;
+              // Replay any sampler data that was bound before start().
+              for (const [samplerIdx, samples] of this._samplerData) {
+                const copy = samples.slice();
+                workletNode.port.postMessage(
+                  { type: "bindSampler", idx: samplerIdx, samples: copy },
+                  [copy.buffer]
+                );
+              }
+              // Do NOT clear _samplerData so samplers are replayed on restart.
+              resolve();
+              break;
+            case "instability":
+              console.error(
+                "[crag] INSTABILITY DETECTED in graph: '" +
+                msg.graphName + "' (check index " + msg.checkIdx + ")"
+              );
+              this.stop();
+              break;
+            case "vizData": {
+              const u8 = new Uint8ClampedArray(msg.data);
+              this._vizCache.set(msg.idx, new ImageData(u8, msg.width, msg.height));
+              break;
+            }
           }
+        };
 
-          const view = new Float32Array(
-            this._memory.buffer, this._outputPtr, this._blockSize * channels
-          );
-          const needed = Math.min(
-            view.length,
-            accumulator.length - accumFill
-          );
-          accumulator.set(view.subarray(0, needed), accumFill);
-          accumFill += needed;
-        }
+        workletNode.port.postMessage({
+          type:            "init",
+          wasmModule:      this._wasmModule,
+          heapPtr:         this._heapState.ptr,
+          channels,
+          outputPtr:       this._outputPtr,
+          paramsPtr:       this._paramsPtr,
+          paramsI32Ptr:    this._paramsI32Ptr,
+          initialParams,
+          initialParamsI32,
+        });
+      });
 
-        // Copy accumulator to Web Audio output channels.
-        for (let ch = 0; ch < channels; ch++) {
-          const chData = ev.outputBuffer.getChannelData(ch);
-          for (let i = 0; i < bufSize; i++) {
-            chData[i] = accumulator[i * channels + ch] || 0;
-          }
-        }
-
-        // Shift remaining samples down.
-        const consumed = bufSize * channels;
-        accumulator.copyWithin(0, consumed);
-        accumFill -= consumed;
-        if (accumFill < 0) accumFill = 0;
-      };
-
-      node.connect(this._audioCtx.destination);
-      this._scriptNode = node;
-      this._running = true;
+      workletNode.connect(this._audioCtx.destination);
+      this._workletNode = workletNode;
+      this._running     = true;
     }
 
     /**
-     * Run the visualizer at the given index and return an ImageData with the
-     * current frame.  Returns null if no visualizer is present or idx is out
-     * of range.
+     * Request a visualizer frame from the AudioWorklet and return the most
+     * recently received ImageData for visualizer index *idx*.
+     *
+     * The call is non-blocking: it asks the worklet to render the current
+     * frame and post back pixel data, then returns whatever was cached from
+     * the previous request (null on the very first call before any data has
+     * arrived).  In a requestAnimationFrame loop this produces smooth output
+     * with at most one frame of latency.
+     *
+     * Returns null if no visualizer is present or idx is out of range.
      * @param {number} [idx=0]  Visualizer index (0-based).
      * @returns {ImageData|null}
      */
     visualize(idx = 0) {
-      if (!this._hasVisualizer || !this._crag_visualize || !this._vizOutputPtr)
-        return null;
-      if (idx < 0 || idx >= this._numVisualizers)
-        return null;
-      // crag_visualize(idx) writes to crag_viz_output for visualizer at idx.
-      this._crag_visualize(idx);
-      const w = this._crag_viz_width_fn ? this._crag_viz_width_fn(idx) : this._vizW;
-      const h = this._crag_viz_height_fn ? this._crag_viz_height_fn(idx) : this._vizH;
-      const f32 = new Float32Array(this._memory.buffer, this._vizOutputPtr, w * h * 4);
-      const u8  = new Uint8ClampedArray(w * h * 4);
-      for (let i = 0; i < w * h * 4; ++i)
-        u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
-      return new ImageData(u8, w, h);
+      if (!this._hasVisualizer) return null;
+      if (idx < 0 || idx >= this._numVisualizers) return null;
+      if (this._workletNode && this._workletReady)
+        this._workletNode.port.postMessage({ type: "visualize", idx });
+      return this._vizCache.get(idx) || null;
     }
 
     /** Stop real-time audio output. */
     stop() {
-      if (!this._running) return;
-      if (this._scriptNode) {
-        this._scriptNode.disconnect();
-        this._scriptNode = null;
+      if (!this._running && !this._startAbort) return;
+      // If stop() is called while awaiting start(), abort the pending Promise.
+      if (this._startAbort) {
+        this._startAbort();
+        this._startAbort = null;
+      }
+      if (this._workletNode) {
+        this._workletNode.port.onmessage = null;
+        this._workletNode.disconnect();
+        this._workletNode  = null;
+        this._workletReady = false;
       }
       if (this._audioCtx) {
         this._audioCtx.close();
@@ -721,15 +1094,17 @@
       const importObj = makeCragImports(heapState, memState);
 
       // Instantiate — use instantiateStreaming when available.
-      let instance;
+      let instance, wasmModule;
       if (typeof WebAssembly.instantiateStreaming === "function") {
         const resp = fetch(wasmUrl);
         const result = await WebAssembly.instantiateStreaming(resp, importObj);
-        instance = result.instance;
+        instance   = result.instance;
+        wasmModule = result.module;
       } else {
         const buf = await fetch(wasmUrl).then((r) => r.arrayBuffer());
         const result = await WebAssembly.instantiate(buf, importObj);
-        instance = result.instance;
+        instance   = result.instance;
+        wasmModule = result.module;
       }
 
       // Fix up heap pointer from the exported __heap_base symbol.
@@ -742,7 +1117,7 @@
       }
 
       // Apply default parameter values from metadata.
-      const player = new CragPlayer(instance, meta, heapState);
+      const player = new CragPlayer(instance, meta, heapState, wasmModule);
       let floatIdx = 0, intIdx = 0;
       (meta.parameters || []).forEach((p) => {
         const type = p.type || "float";
