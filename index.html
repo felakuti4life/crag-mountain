@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crag Standard Graphs</title>
+  <style>
+
+:root {
+  --bg:    #1a1a2e;
+  --panel: #16213e;
+  --accent: #0f3460;
+  --hi:    #e94560;
+  --text:  #e0e0e0;
+  --muted: #888;
+  --border: #2a2a4a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+a { color: var(--hi); text-decoration: none; }
+a:hover { text-decoration: underline; }
+header {
+  max-width: 860px;
+  margin: 0 auto 2.5rem;
+}
+header h1 { font-size: 2rem; color: var(--hi); margin-bottom: .25rem; }
+header p.subtitle { color: var(--muted); font-size: .9rem; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 860px;
+  margin: 0 auto 2rem;
+}
+.card h2 { font-size: 1.1rem; color: var(--hi); margin-bottom: 1rem; }
+.description {
+  font-size: .875rem;
+  line-height: 1.7;
+  color: #bbb;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  background: #111122;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+button {
+  padding: .5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: opacity .2s;
+}
+button:hover { opacity: .85; }
+#btn-play  { background: var(--hi); color: #fff; }
+#btn-stop  { background: #444; color: #ccc; }
+#status    { color: var(--muted); font-size: .85rem; }
+.param-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+.param-row label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .85rem;
+  margin-bottom: .3rem;
+  color: #ccc;
+}
+.param-row label span.param-name { font-weight: bold; }
+.param-row label span.param-val  { color: var(--hi); font-family: monospace; }
+.param-row input[type=range] {
+  width: 100%;
+  accent-color: var(--hi);
+}
+.param-meta {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .2rem;
+}
+.meta-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.meta-table th, .meta-table td {
+  text-align: left;
+  padding: .35rem .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.meta-table th { color: var(--muted); font-weight: normal; }
+.back { display: inline-block; margin-bottom: 1.5rem; font-size: .9rem; }
+
+.graph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.graph-card {
+  display: block;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .2s, transform .15s;
+}
+.graph-card:hover {
+  border-color: var(--hi);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.graph-name { font-size: 1.1rem; font-weight: bold; color: var(--hi); margin-bottom: .25rem; }
+.graph-meta { font-size: .8rem; color: var(--muted); margin-bottom: .6rem; }
+.graph-desc { font-size: .85rem; color: #bbb; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Crag Standard Graphs</h1>
+    <p class="subtitle">Interactive documentation for each graph in standard-graphs/</p>
+  </header>
+
+  <div class="graph-grid">
+
+    <a class="graph-card" href="compressors/feed-forward-compressor/index.html">
+      <div class="graph-name">feed_forward_compressor</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 8 params</div>
+      <div class="graph-desc">Feed-Forward RMS Compressor</div>
+    </a>
+    <a class="graph-card" href="compressors/peak-limiter/index.html">
+      <div class="graph-name">peak_limiter</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 4 params</div>
+      <div class="graph-desc">Peak Limiter</div>
+    </a>
+    <a class="graph-card" href="conversions/51-to-stereo/index.html">
+      <div class="graph-name">51_to_stereo</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">5.1-to-Stereo Downmix (ITU-R BS.775)</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/decode-foa-mono/index.html">
+      <div class="graph-name">decode_foa_mono</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">First-Order Ambisonics Decoder — FOA → Mono</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/decode-foa-stereo/index.html">
+      <div class="graph-name">decode_foa_stereo</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">First-Order Ambisonics Decoder — FOA → Stereo</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/encode-foa/index.html">
+      <div class="graph-name">encode_foa</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 3 params</div>
+      <div class="graph-desc">First-Order Ambisonics Encoder (Mono → FOA)</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/encode-hoa2/index.html">
+      <div class="graph-name">encode_hoa2</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 3 params</div>
+      <div class="graph-desc">Second-Order Ambisonics Encoder (Mono → HOA2)</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-mirror-frontback/index.html">
+      <div class="graph-name">foa_mirror_frontback</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">FOA Transform: Mirror Front/Back</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-mirror-leftright/index.html">
+      <div class="graph-name">foa_mirror_leftright</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">FOA Transform: Mirror Left/Right</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-mirror-updown/index.html">
+      <div class="graph-name">foa_mirror_updown</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">FOA Transform: Mirror Up/Down</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-rotate-yaw/index.html">
+      <div class="graph-name">foa_rotate_yaw</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">FOA Transform: Rotate (Yaw) — Rotate the Soundfield Around the Z Axis</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-tilt-roll/index.html">
+      <div class="graph-name">foa_tilt_roll</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">FOA Transform: Tilt (Roll) — Rotate the Soundfield Around the X Axis</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-to-hoa2/index.html">
+      <div class="graph-name">foa_to_hoa2</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Order Conversion: First-Order → Second-Order Ambisonics (FOA → HOA2)</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/foa-tumble-pitch/index.html">
+      <div class="graph-name">foa_tumble_pitch</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">FOA Transform: Tumble (Pitch) — Rotate the Soundfield Around the Y Axis</div>
+    </a>
+    <a class="graph-card" href="conversions/ambisonics/hoa2-to-foa/index.html">
+      <div class="graph-name">hoa2_to_foa</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Order Conversion: Second-Order → First-Order Ambisonics (HOA2 → FOA)</div>
+    </a>
+    <a class="graph-card" href="conversions/midside-to-stereo/index.html">
+      <div class="graph-name">midside_to_stereo</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Mid/Side to Stereo Decoder (Mid-Side → Stereo)</div>
+    </a>
+    <a class="graph-card" href="conversions/mono-to-stereo/index.html">
+      <div class="graph-name">mono_to_stereo</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Mono-to-Stereo Channel Mixer</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-51/index.html">
+      <div class="graph-name">stereo_to_51</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo-to-5.1 Upmix (Phantom Centre)</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-midside/index.html">
+      <div class="graph-name">stereo_to_midside</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo to Mid/Side Encoder (Stereo → Mid-Side)</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-mono-average/index.html">
+      <div class="graph-name">stereo_to_mono_average</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo-to-Mono Average Downmix</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-mono-left/index.html">
+      <div class="graph-name">stereo_to_mono_left</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo-to-Mono Left-Channel Downmix</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-mono-mid-side/index.html">
+      <div class="graph-name">stereo_to_mono_mid_side</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo-to-Mono Mid/Side (M/S) Downmix — Mid extraction</div>
+    </a>
+    <a class="graph-card" href="conversions/stereo-to-mono-right/index.html">
+      <div class="graph-name">stereo_to_mono_right</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 1 param</div>
+      <div class="graph-desc">Stereo-to-Mono Right-Channel Downmix</div>
+    </a>
+    <a class="graph-card" href="distortion/cubic-distortion/index.html">
+      <div class="graph-name">cubic_distortion</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 4 params</div>
+      <div class="graph-desc">Cubic Soft Clipper</div>
+    </a>
+    <a class="graph-card" href="distortion/fuzz/index.html">
+      <div class="graph-name">fuzz</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 5 params</div>
+      <div class="graph-desc">Fuzz Distortion</div>
+    </a>
+    <a class="graph-card" href="distortion/hard-clipper/index.html">
+      <div class="graph-name">hard_clipper</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 5 params</div>
+      <div class="graph-desc">Hard Clipper</div>
+    </a>
+    <a class="graph-card" href="distortion/soft-clipper/index.html">
+      <div class="graph-name">soft_clipper</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 4 params</div>
+      <div class="graph-desc">Soft Clipper (Tanh Saturation)</div>
+    </a>
+    <a class="graph-card" href="resamplers/bandlimited-sinc-resampler/index.html">
+      <div class="graph-name">bandlimited_sinc_resampler</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">Band-Limited Sinc Resampler</div>
+    </a>
+    <a class="graph-card" href="resamplers/lagrangian-resampler/index.html">
+      <div class="graph-name">lagrangian_resampler</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">Lagrangian Resampler (4-point Cubic Polynomial Interpolation)</div>
+    </a>
+    <a class="graph-card" href="resamplers/thiran-resampler/index.html">
+      <div class="graph-name">thiran_resampler</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 2 params</div>
+      <div class="graph-desc">Thiran Resampler (Allpass-Chain Fractional Delay)</div>
+    </a>
+    <a class="graph-card" href="reverb/convolution-reverb/index.html">
+      <div class="graph-name">convolution_reverb</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 3 params</div>
+      <div class="graph-desc">Convolution Reverb</div>
+    </a>
+    <a class="graph-card" href="reverb/fft-convolution/index.html">
+      <div class="graph-name">fft_convolution</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 0 params</div>
+      <div class="graph-desc">FFT Convolution</div>
+    </a>
+    <a class="graph-card" href="reverb/freeverb/index.html">
+      <div class="graph-name">freeverb</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 5 params</div>
+      <div class="graph-desc">Freeverb-Inspired Reverb</div>
+    </a>
+    <a class="graph-card" href="reverb/schroeder-reverb/index.html">
+      <div class="graph-name">schroeder_reverb</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 4 params</div>
+      <div class="graph-desc">Schroeder Reverberator</div>
+    </a>
+    <a class="graph-card" href="utility/adsr/index.html">
+      <div class="graph-name">adsr</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 4 params</div>
+      <div class="graph-desc">ADSR Envelope Generator</div>
+    </a>
+    <a class="graph-card" href="utility/amplitude_envelope/index.html">
+      <div class="graph-name">amplitude_envelope</div>
+      <div class="graph-meta">48000 Hz · 1 ch · 5 params</div>
+      <div class="graph-desc">Amplitude Envelope</div>
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+  ],
+  "samplers": ["test_input_0", "test_input_1"],
+  "events": [
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256
+}
