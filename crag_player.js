@@ -393,7 +393,9 @@ class CragProcessor extends AudioWorkletProcessor {
   _onMessage(msg) {
     switch (msg.type) {
       case "init":
-        this._handleInit(msg);
+        this._handleInit(msg).catch((err) => {
+          this.port.postMessage({ type: "error", message: err.message || String(err) });
+        });
         break;
       case "setParam":
         this._setParam(msg.idx, msg.value);
@@ -932,6 +934,10 @@ registerProcessor("crag-processor", CragProcessor);
         { sampleRate }
       );
 
+      // Resume the context if it was created while suspended (e.g. before a
+      // user gesture in some browsers).  This is a no-op when already running.
+      await this._audioCtx.resume();
+
       // Load the inline worklet processor via a temporary Blob URL so that
       // no separate .js file is required.
       const blob    = new Blob([_CRAG_WORKLET_CODE], { type: "application/javascript" });
@@ -947,6 +953,14 @@ registerProcessor("crag-processor", CragProcessor);
         numberOfOutputs:    1,
         outputChannelCount: [channels],
       });
+
+      // Connect the node and store the reference *before* sending "init".
+      // Some browsers only dispatch port messages on the audio thread once the
+      // node is part of the audio graph; connecting here avoids a deadlock
+      // where "init" is sent but the worklet never processes it.  stop() uses
+      // this._workletNode for cleanup even while init is in flight.
+      workletNode.connect(this._audioCtx.destination);
+      this._workletNode = workletNode;
 
       // Collect current parameter values to seed the worklet's WASM instance.
       const initialParams = [];
@@ -988,6 +1002,11 @@ registerProcessor("crag-processor", CragProcessor);
               // Do NOT clear _samplerData so samplers are replayed on restart.
               resolve();
               break;
+            case "error":
+              clearTimeout(timeout);
+              this._startAbort = null;
+              reject(new Error("[crag] AudioWorklet init failed: " + msg.message));
+              break;
             case "instability":
               console.error(
                 "[crag] INSTABILITY DETECTED in graph: '" +
@@ -1016,9 +1035,7 @@ registerProcessor("crag-processor", CragProcessor);
         });
       });
 
-      workletNode.connect(this._audioCtx.destination);
-      this._workletNode = workletNode;
-      this._running     = true;
+      this._running = true;
     }
 
     /**
