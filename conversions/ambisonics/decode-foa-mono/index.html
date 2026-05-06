@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../../index.html">← All Graphs</a>
     <h1>decode_foa_mono</h1>
-    <p class="subtitle">2026-05-06 16:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>f62970b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>f62970b</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-06 17:39 UTC &nbsp;·&nbsp; commit&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; compiled with&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -280,17 +280,6 @@ button:hover { opacity: .85; }
       <button id="btn-play"  onclick="playGraph()">&#9654; Play</button>
       <button id="btn-stop"  onclick="stopGraph()">&#9632; Stop</button>
       <span   id="status">Loading WASM&#8230;</span>
-    </div>
-
-    <div class="sampler-row" style="margin-bottom:1rem">
-      <label style="font-size:.85rem;font-weight:bold;min-width:10rem;color:var(--text)">
-        Test Signal
-      </label>
-      <select id="test-signal-sel" onchange="onTestSignalChange()">
-        <option value="../../../test_signals/white_noise.wav">White Noise (5 s)</option>
-        <option value="../../../test_signals/sine_sweep.wav">Sine Sweep (20 Hz → 20 kHz, 5 s)</option>
-        <option value="../../../test_signals/impulse.wav">Impulse (single sample)</option>
-      </select>
     </div>
     <canvas id="viz-canvas" style="display:none;width:100%;max-width:512px;height:auto;border:1px solid var(--border);margin-top:0.75rem;border-radius:4px;"></canvas>
 
@@ -309,6 +298,28 @@ button:hover { opacity: .85; }
     </div>
   </div>
 
+  <!-- Samplers -->
+  <div class="card">
+    <h2>Samplers</h2>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:1rem">
+      Select a test signal or upload a custom WAV file, then click
+      <strong>Load</strong> to bind it to the sampler before or during playback.
+    </p>
+
+    <div class="sampler-row" id="sampler-row-0">
+      <label title="sampler index 0">audio</label>
+      <select id="sampler-sel-0" onchange="onSamplerSelectChange(0)">
+          <option value="../../../test_signals/white_noise.wav">White Noise (5 s)</option>
+          <option value="../../../test_signals/sine_sweep.wav">Sine Sweep (20 Hz → 20 kHz, 5 s)</option>
+          <option value="../../../test_signals/impulse.wav">Impulse (single sample)</option>
+          <option value="custom">Custom WAV file…</option>
+      </select>
+      <input type="file" id="sampler-file-0" accept=".wav,audio/wav"
+             style="display:none" onchange="onSamplerFileChange(0)">
+      <button class="bind-btn" onclick="bindSampler(0)">Load</button>
+    </div>
+    <div class="sampler-status" id="sampler-status-0">Not loaded.</div>
+  </div>
 
   <!-- Analysis (Signal Flow / Spectrograms / Performance) -->
   <div class="card">
@@ -584,7 +595,7 @@ References:
   <script>
     const _WASM_FILE = 'decode-foa-mono.wasm';
     const _META_FILE = 'decode-foa-mono.wasm.cragmeta';
-    const _TEST_SAMPLER_INDICES = [0];
+    const _SAMPLER_COUNT = 1;
     const _PARAM_DEFAULTS = [1.0];
 
     let player = null;
@@ -640,14 +651,19 @@ References:
       }
     }
 
-    // Bind the selected test signal to all test-input sampler slots.
-    async function _bindTestSignal() {
-      if (!player || !_TEST_SAMPLER_INDICES.length) return;
-      const sel = document.getElementById('test-signal-sel');
-      const url = sel ? sel.value : null;
-      if (!url) return;
-      for (const idx of _TEST_SAMPLER_INDICES) {
-        await player.bindSamplerFromUrl(idx, url);
+    // Auto-bind the current dropdown selection for every sampler on init.
+    async function _autoBindSamplers() {
+      if (!player || !_SAMPLER_COUNT) return;
+      for (let idx = 0; idx < _SAMPLER_COUNT; idx++) {
+        const sel = document.getElementById('sampler-sel-' + idx);
+        if (!sel || sel.value === 'custom') continue;
+        try {
+          await player.bindSamplerFromUrl(idx, sel.value);
+          const st = document.getElementById('sampler-status-' + idx);
+          if (st) st.textContent = 'Bound: ' + sel.options[sel.selectedIndex].text;
+        } catch (e) {
+          console.error('[crag] sampler ' + idx + ' auto-bind error:', e);
+        }
       }
     }
 
@@ -659,7 +675,7 @@ References:
       try {
         player = await CragPlayer.create(_WASM_FILE, _META_FILE);
         _applyCurrentParams();
-        await _bindTestSignal();
+        await _autoBindSamplers();
         document.getElementById('status').textContent =
           'Ready — ' + player.blockSize + ' samples/block';
         _setupVizCanvas();
@@ -706,40 +722,49 @@ References:
       if (player) player.setParam(idx, v);
     }
 
-    // ---------------------------------------------------------------------------
-    // Test signal selector — tear down, rebind, and restart
-    // ---------------------------------------------------------------------------
-
-    async function onTestSignalChange() {
-      const wasRunning = player && player._running;
-      // Stop and discard the current player instance.
-      if (player) {
-        player.stop();
-        _stopVizLoop();
-        _stopMeterLoop();
-        player = null;
-      }
-      document.getElementById('status').textContent = 'Rebinding…';
-      try {
-        player = await CragPlayer.create(_WASM_FILE, _META_FILE);
-        _applyCurrentParams();
-        await _bindTestSignal();
-        _setupVizCanvas();
-        if (wasRunning) {
-          player.start();
-          document.getElementById('status').textContent = 'Playing…';
-          _startVizLoop();
-          _startMeterLoop();
-        } else {
-          document.getElementById('status').textContent =
-            'Ready — ' + player.blockSize + ' samples/block';
-        }
-      } catch (e) {
-        document.getElementById('status').textContent = 'Error: ' + e.message;
-        console.error(e);
+    function onSamplerSelectChange(idx) {
+      const sel = document.getElementById('sampler-sel-' + idx);
+      const fileInput = document.getElementById('sampler-file-' + idx);
+      if (sel.value === 'custom') {
+        fileInput.style.display = 'inline';
+      } else {
+        fileInput.style.display = 'none';
       }
     }
 
+    function onSamplerFileChange(idx) {
+      // Update status to acknowledge file selection.
+      const fi = document.getElementById('sampler-file-' + idx);
+      if (fi.files.length) {
+        document.getElementById('sampler-status-' + idx).textContent =
+          'File selected: ' + fi.files[0].name + ' — click Load to bind.';
+      }
+    }
+
+    async function bindSampler(idx) {
+      if (!player) {
+        alert('Player not ready yet. Wait for WASM to load.');
+        return;
+      }
+      const statusEl = document.getElementById('sampler-status-' + idx);
+      const sel      = document.getElementById('sampler-sel-' + idx);
+      statusEl.textContent = 'Loading…';
+      try {
+        if (sel.value === 'custom') {
+          const fi = document.getElementById('sampler-file-' + idx);
+          if (!fi.files.length) { statusEl.textContent = 'No file chosen.'; return; }
+          const ab = await fi.files[0].arrayBuffer();
+          player.bindSamplerFromArrayBuffer(idx, ab);
+          statusEl.textContent = 'Bound: ' + fi.files[0].name;
+        } else {
+          await player.bindSamplerFromUrl(idx, sel.value);
+          statusEl.textContent = 'Bound: ' + sel.options[sel.selectedIndex].text;
+        }
+      } catch (e) {
+        statusEl.textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
     init();
   </script>
 </body>

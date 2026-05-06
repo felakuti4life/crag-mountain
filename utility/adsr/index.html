@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../index.html">← All Graphs</a>
     <h1>adsr</h1>
-    <p class="subtitle">2026-05-06 16:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>f62970b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>f62970b</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-06 17:39 UTC &nbsp;·&nbsp; commit&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; compiled with&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -281,7 +281,6 @@ button:hover { opacity: .85; }
       <button id="btn-stop"  onclick="stopGraph()">&#9632; Stop</button>
       <span   id="status">Loading WASM&#8230;</span>
     </div>
-
     <canvas id="viz-canvas" style="display:none;width:100%;max-width:512px;height:auto;border:1px solid var(--border);margin-top:0.75rem;border-radius:4px;"></canvas>
 
     <div class="param-grid">
@@ -575,7 +574,7 @@ This file contains only a named subgraph; include it from another module:
   <script>
     const _WASM_FILE = 'adsr.wasm';
     const _META_FILE = 'adsr.wasm.cragmeta';
-    const _TEST_SAMPLER_INDICES = [];
+    const _SAMPLER_COUNT = 0;
     const _PARAM_DEFAULTS = [10.0, 100.0, 0.7, 200.0];
 
     let player = null;
@@ -631,14 +630,19 @@ This file contains only a named subgraph; include it from another module:
       }
     }
 
-    // Bind the selected test signal to all test-input sampler slots.
-    async function _bindTestSignal() {
-      if (!player || !_TEST_SAMPLER_INDICES.length) return;
-      const sel = document.getElementById('test-signal-sel');
-      const url = sel ? sel.value : null;
-      if (!url) return;
-      for (const idx of _TEST_SAMPLER_INDICES) {
-        await player.bindSamplerFromUrl(idx, url);
+    // Auto-bind the current dropdown selection for every sampler on init.
+    async function _autoBindSamplers() {
+      if (!player || !_SAMPLER_COUNT) return;
+      for (let idx = 0; idx < _SAMPLER_COUNT; idx++) {
+        const sel = document.getElementById('sampler-sel-' + idx);
+        if (!sel || sel.value === 'custom') continue;
+        try {
+          await player.bindSamplerFromUrl(idx, sel.value);
+          const st = document.getElementById('sampler-status-' + idx);
+          if (st) st.textContent = 'Bound: ' + sel.options[sel.selectedIndex].text;
+        } catch (e) {
+          console.error('[crag] sampler ' + idx + ' auto-bind error:', e);
+        }
       }
     }
 
@@ -650,7 +654,7 @@ This file contains only a named subgraph; include it from another module:
       try {
         player = await CragPlayer.create(_WASM_FILE, _META_FILE);
         _applyCurrentParams();
-        await _bindTestSignal();
+        await _autoBindSamplers();
         document.getElementById('status').textContent =
           'Ready — ' + player.blockSize + ' samples/block';
         _setupVizCanvas();
@@ -695,40 +699,6 @@ This file contains only a named subgraph; include it from another module:
       document.getElementById('param-val-' + idx).textContent =
         v.toPrecision(5).replace(/\.?0+$/, '') + unit;
       if (player) player.setParam(idx, v);
-    }
-
-    // ---------------------------------------------------------------------------
-    // Test signal selector — tear down, rebind, and restart
-    // ---------------------------------------------------------------------------
-
-    async function onTestSignalChange() {
-      const wasRunning = player && player._running;
-      // Stop and discard the current player instance.
-      if (player) {
-        player.stop();
-        _stopVizLoop();
-        _stopMeterLoop();
-        player = null;
-      }
-      document.getElementById('status').textContent = 'Rebinding…';
-      try {
-        player = await CragPlayer.create(_WASM_FILE, _META_FILE);
-        _applyCurrentParams();
-        await _bindTestSignal();
-        _setupVizCanvas();
-        if (wasRunning) {
-          player.start();
-          document.getElementById('status').textContent = 'Playing…';
-          _startVizLoop();
-          _startMeterLoop();
-        } else {
-          document.getElementById('status').textContent =
-            'Ready — ' + player.blockSize + ' samples/block';
-        }
-      } catch (e) {
-        document.getElementById('status').textContent = 'Error: ' + e.message;
-        console.error(e);
-      }
     }
 
     init();
