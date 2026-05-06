@@ -42,6 +42,29 @@
       "void_index": 1
     }
   ],
+  "meters": [
+    {
+      "name": "progress",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "wave_player",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "encode_foa",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 2
+    }
+  ],
   "has_visualizer": true,
   "viz_width": 512,
   "viz_height": 256

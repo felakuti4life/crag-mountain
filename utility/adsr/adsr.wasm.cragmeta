@@ -46,6 +46,15 @@
       "void_index": 0
     }
   ],
+  "meters": [
+    {
+      "name": "adsr",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
   "has_visualizer": false,
   "viz_width": 0,
   "viz_height": 0

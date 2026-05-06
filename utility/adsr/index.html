@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../index.html">← All Graphs</a>
     <h1>adsr</h1>
-    <p class="subtitle">crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-06 11:23 UTC &nbsp;·&nbsp; commit&nbsp;<code>e51a834</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -478,6 +478,50 @@ button:hover { opacity: .85; }
       });
     }
   </script>
+
+  <!-- Meters card -->
+  <div class="card" id="meters-card" style="display:none">
+    <h2>Meters</h2>
+
+      <div style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem">
+          <span style="font-weight:bold">adsr</span>
+          <span id="meter-val-0" style="color:var(--hi);font-family:monospace">0</span>
+          
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:14px;overflow:hidden">
+          <div id="meter-bar-0" style="background:var(--hi);height:14px;width:0%;border-radius:3px;transition:width .1s"></div>
+        </div>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+  </div>
+  <script>
+    const _METER_DEFS = [{'idx': 0, 'min': 0.0, 'max': 1.0}];
+    let _meterRafId = null;
+
+    function _startMeterLoop() {
+      if (!player || !player.numMeters || !_METER_DEFS.length) return;
+      document.getElementById('meters-card').style.display = '';
+      if (!_meterRafId) _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+
+    function _stopMeterLoop() {
+      if (_meterRafId) { cancelAnimationFrame(_meterRafId); _meterRafId = null; }
+    }
+
+    function _meterLoop() {
+      if (!player) return;
+      for (const def of _METER_DEFS) {
+        const val = player.getMeter(def.idx);
+        const pct = Math.max(0, Math.min(100, (val - def.min) / (def.max - def.min) * 100));
+        const barEl = document.getElementById('meter-bar-' + def.idx);
+        const valEl = document.getElementById('meter-val-' + def.idx);
+        if (barEl) barEl.style.width = pct.toFixed(1) + '%';
+        if (valEl) valEl.textContent = val.toFixed(4);
+      }
+      _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+  </script>
   <!-- Parameter table from .cragmeta -->
   <div class="card">
     <h2>Parameters</h2>
@@ -537,6 +581,10 @@ This file contains only a named subgraph; include it from another module:
     let player = null;
     let _vizRafId = null;
 
+    // Meter loop stubs (overridden by meters_card_html when meters are present).
+    function _startMeterLoop() {}
+    function _stopMeterLoop() {}
+
     // ---------------------------------------------------------------------------
     // Helpers
     // ---------------------------------------------------------------------------
@@ -547,6 +595,7 @@ This file contains only a named subgraph; include it from another module:
       canvas.width  = player.vizWidth;
       canvas.height = player.vizHeight;
       canvas.style.display = 'block';
+      _startMeterLoop();
     }
 
     function _vizLoop() {
@@ -621,6 +670,7 @@ This file contains only a named subgraph; include it from another module:
         player.start();
         document.getElementById('status').textContent = 'Playing…';
         _startVizLoop();
+        _startMeterLoop();
       } catch (e) {
         document.getElementById('status').textContent = 'Error: ' + e.message;
         console.error('[crag] playGraph error: ' + e.message);
@@ -637,6 +687,7 @@ This file contains only a named subgraph; include it from another module:
       player.stop();
       document.getElementById('status').textContent = 'Stopped.';
       _stopVizLoop();
+      _stopMeterLoop();
     }
 
     function onParamChange(idx, value, unit) {
@@ -656,6 +707,7 @@ This file contains only a named subgraph; include it from another module:
       if (player) {
         player.stop();
         _stopVizLoop();
+        _stopMeterLoop();
         player = null;
       }
       document.getElementById('status').textContent = 'Rebinding…';
@@ -668,6 +720,7 @@ This file contains only a named subgraph; include it from another module:
           player.start();
           document.getElementById('status').textContent = 'Playing…';
           _startVizLoop();
+          _startMeterLoop();
         } else {
           document.getElementById('status').textContent =
             'Ready — ' + player.blockSize + ' samples/block';

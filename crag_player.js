@@ -466,6 +466,11 @@ class CragProcessor extends AudioWorkletProcessor {
     this._vizWidthFn   = e.crag_viz_width  || null;
     this._vizHeightFn  = e.crag_viz_height || null;
 
+    this._metersPtr    = e.crag_meters    ? e.crag_meters.value    : 0;
+    this._metersI32Ptr = e.crag_meters_i32 ? e.crag_meters_i32.value : 0;
+    this._numMeters    = e.crag_num_meters    ? e.crag_num_meters()    : 0;
+    this._numMetersI32 = e.crag_num_meters_i32 ? e.crag_num_meters_i32() : 0;
+
     // Seed parameter values sent from the main thread.
     if (initialParams && this._paramsPtr) {
       const f32 = new Float32Array(this._memory.buffer);
@@ -561,6 +566,24 @@ class CragProcessor extends AudioWorkletProcessor {
     while (this._accumFill < bufSize * this._channels) {
       this._process();
 
+      // Post meter values to main thread every 8 blocks.
+      if (this._numMeters > 0 || this._numMetersI32 > 0) {
+        this._meterPostCounter = (this._meterPostCounter || 0) + 1;
+        if (this._meterPostCounter >= 8) {
+          this._meterPostCounter = 0;
+          const f32Arr = this._metersPtr
+            ? new Float32Array(this._memory.buffer, this._metersPtr, this._numMeters).slice()
+            : new Float32Array(0);
+          const i32Arr = this._metersI32Ptr
+            ? new Int32Array(this._memory.buffer, this._metersI32Ptr, this._numMetersI32).slice()
+            : new Int32Array(0);
+          const f32Buf = f32Arr.buffer;
+          const i32Buf = i32Arr.buffer;
+          this.port.postMessage({ type: "meterData", f32: f32Buf, i32: i32Buf },
+                                [f32Buf, i32Buf]);
+        }
+      }
+
       const instability = this._checkInstability();
       if (instability) {
         this.port.postMessage({ type: "instability", ...instability });
@@ -632,6 +655,12 @@ registerProcessor("crag-processor", CragProcessor);
       this._fireEventF32  = e.crag_fire_event_float || null;
       this._fireEventI32  = e.crag_fire_event_int  || null;
 
+      // Meter support (optional — only present when the graph uses meter ops).
+      this._numMeters    = e.crag_num_meters    ? e.crag_num_meters()    : 0;
+      this._numMetersI32 = e.crag_num_meters_i32 ? e.crag_num_meters_i32() : 0;
+      this._metersPtr    = e.crag_meters    ? e.crag_meters.value    : 0;
+      this._metersI32Ptr = e.crag_meters_i32 ? e.crag_meters_i32.value : 0;
+
       // Sampler support (optional — only present when the graph uses
       // crag.sampler ops).
       this._numSamplers = e.crag_num_audio ? e.crag_num_audio() : 0;
@@ -685,6 +714,8 @@ registerProcessor("crag-processor", CragProcessor);
     get numEvents()    { return this._numEvents; }
     get numEventsF32() { return this._numEventsF32; }
     get numEventsI32() { return this._numEventsI32; }
+    get numMeters()    { return this._numMeters; }
+    get numMetersI32() { return this._numMetersI32; }
 
     /**
      * Set a float parameter by index.
@@ -732,6 +763,28 @@ registerProcessor("crag-processor", CragProcessor);
       if (idx < 0 || idx >= this._numParamsI32) return 0;
       const view = new Int32Array(this._memory.buffer);
       return view[(this._paramsI32Ptr >> 2) + idx];
+    }
+
+    /**
+     * Read a float meter by index.
+     * @param {number} idx  Meter index (0-based).
+     * @returns {number}
+     */
+    getMeter(idx) {
+      if (idx < 0 || idx >= this._numMeters || !this._metersPtr) return 0;
+      const view = new Float32Array(this._memory.buffer);
+      return view[(this._metersPtr >> 2) + idx];
+    }
+
+    /**
+     * Read an integer/boolean/enum meter by index.
+     * @param {number} idx  Int-meter index (0-based).
+     * @returns {number}
+     */
+    getMeterInt(idx) {
+      if (idx < 0 || idx >= this._numMetersI32 || !this._metersI32Ptr) return 0;
+      const view = new Int32Array(this._memory.buffer);
+      return view[(this._metersI32Ptr >> 2) + idx];
     }
 
     /**
@@ -1017,6 +1070,21 @@ registerProcessor("crag-processor", CragProcessor);
             case "vizData": {
               const u8 = new Uint8ClampedArray(msg.data);
               this._vizCache.set(msg.idx, new ImageData(u8, msg.width, msg.height));
+              break;
+            }
+            case "meterData": {
+              if (msg.f32 && msg.f32.byteLength > 0 && this._metersPtr) {
+                const f32 = new Float32Array(msg.f32);
+                const view = new Float32Array(this._memory.buffer);
+                for (let i = 0; i < f32.length; i++)
+                  view[(this._metersPtr >> 2) + i] = f32[i];
+              }
+              if (msg.i32 && msg.i32.byteLength > 0 && this._metersI32Ptr) {
+                const i32 = new Int32Array(msg.i32);
+                const view = new Int32Array(this._memory.buffer);
+                for (let i = 0; i < i32.length; i++)
+                  view[(this._metersI32Ptr >> 2) + i] = i32[i];
+              }
               break;
             }
           }
