@@ -694,6 +694,7 @@ registerProcessor("crag-processor", CragProcessor);
       this._workletNode = null;
       this._workletReady = false;
       this._startAbort  = null;   // abort callback while awaiting start()
+      this._starting    = false;  // true while start() is in flight
       // idx -> ImageData; populated by vizData messages from the worklet.
       this._vizCache    = new Map();
       // idx -> Float32Array; kept so samplers bound before start() can be
@@ -975,11 +976,35 @@ registerProcessor("crag-processor", CragProcessor);
      * @returns {Promise<void>}
      */
     async start() {
-      if (this._running) return;
+      if (this._running || this._starting) return;
       if (!this._wasmModule)
         throw new Error("[crag] No WASM module available for AudioWorklet. " +
           "Ensure CragPlayer.create() was used to construct this player.");
 
+      this._starting = true;
+      try {
+        await this._startInternal();
+      } catch (e) {
+        // Clean up any partially-initialised state so that a subsequent
+        // start() call can try again from a clean slate.
+        this._startAbort = null;
+        if (this._workletNode) {
+          this._workletNode.port.onmessage = null;
+          this._workletNode.disconnect();
+          this._workletNode  = null;
+          this._workletReady = false;
+        }
+        if (this._audioCtx) {
+          this._audioCtx.close();
+          this._audioCtx = null;
+        }
+        throw e;
+      } finally {
+        this._starting = false;
+      }
+    }
+
+    async _startInternal() {
       const sampleRate = this.meta.sample_rate || 48000;
       const channels   = this.meta.channels    || 1;
 

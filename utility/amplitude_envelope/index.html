@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../index.html">← All Graphs</a>
     <h1>amplitude_envelope</h1>
-    <p class="subtitle">2026-05-06 17:39 UTC &nbsp;·&nbsp; commit&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; compiled with&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-06 18:52 UTC &nbsp;·&nbsp; commit&nbsp;<code>f0a8013</code> &nbsp;·&nbsp; compiled with&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -729,10 +729,10 @@ Include this file:
     // Playback controls
     // ---------------------------------------------------------------------------
 
-    function playGraph() {
+    async function playGraph() {
       if (!player) return;
       try {
-        player.start();
+        await player.start();
         document.getElementById('status').textContent = 'Playing…';
         _startVizLoop();
         _startMeterLoop();
