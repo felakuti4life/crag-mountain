@@ -16,55 +16,160 @@
   --svg-bg: #1e1e2e;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  /* overflow:hidden locks the viewport to the dashboard grid; each pane
+     manages its own scrolling (controls-pane: overflow-y:auto,
+     preview-pane: overflow-y:auto).  The @media fallback restores
+     document-level scrolling on narrow viewports. */
+  overflow: hidden;
+}
 body {
   font-family: 'Times New Roman', Times, serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
-  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 a { color: var(--hi); text-decoration: none; }
 a:hover { text-decoration: underline; }
-header {
-  max-width: 860px;
-  margin: 0 auto 2.5rem;
-}
-header h1 { font-size: 2rem; color: var(--hi); margin-bottom: .25rem; }
-header p.subtitle { color: var(--muted); font-size: .9rem; }
-.card {
+
+/* ── Compact page header ──────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .4rem 1rem;
+  border-bottom: 1px solid var(--border);
   background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 860px;
-  margin: 0 auto 2rem;
+  flex-shrink: 0;
 }
-.card h2 { font-size: 1.1rem; color: var(--hi); margin-bottom: 1rem; }
-.description {
-  font-size: .875rem;
-  line-height: 1.7;
-  color: var(--text);
-  white-space: pre-wrap;
-  font-family: 'Courier New', monospace;
-  background: var(--bg);
+.page-header .back { font-size: .82rem; white-space: nowrap; color: var(--hi); }
+.header-title { flex: 1; min-width: 0; overflow: hidden; }
+.page-header h1 {
+  font-size: 1.1rem;
+  color: var(--hi);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page-header .subtitle {
+  color: var(--muted);
+  font-size: .7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Dashboard (2-column grid) ────────────────────────── */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Left pane: live preview + meters */
+.preview-pane {
+  display: flex;
+  flex-direction: column;
+  padding: .55rem .75rem;
+  gap: .45rem;
+  overflow: hidden;
+  min-height: 0;
+  border-right: 1px solid var(--border);
+}
+.playback-bar {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  flex-shrink: 0;
+}
+#viz-canvas {
+  display: none;
+  width: 100%;
+  height: auto;
+  max-height: 55vh;
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 1rem;
-  overflow-x: auto;
+  flex-shrink: 1;
+  min-height: 0;
 }
-.controls {
+.meters-section { flex-shrink: 0; }
+.meters-section .section-label {
+  font-size: .7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: .3rem;
+}
+
+/* Right pane: parameters + samplers */
+.controls-pane {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: .55rem .75rem;
+  gap: .3rem;
+  min-height: 0;
 }
+.pane-section-title {
+  font-size: .7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: normal;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .2rem;
+  margin-top: .35rem;
+}
+.pane-section-title:first-child { margin-top: 0; }
+
+/* Compact parameter grid (2 cols) */
+.param-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .3rem .55rem;
+}
+.param-row label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .73rem;
+  margin-bottom: .08rem;
+  color: var(--text);
+}
+.param-row label span.param-name {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Cap at ~58% of the label width so the live value on the right stays
+     visible even for longer parameter names. */
+  max-width: 58%;
+}
+.param-row label span.param-val  { color: var(--hi); font-family: monospace; font-size: .7rem; }
+.param-row input[type=range] {
+  width: 100%;
+  accent-color: var(--hi);
+  height: 16px;
+  cursor: pointer;
+}
+.param-meta {
+  font-size: .6rem;
+  color: var(--muted);
+  margin-top: .04rem;
+}
+
+/* Playback buttons */
 button {
-  padding: .5rem 1.5rem;
+  padding: .32rem .9rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .85rem;
   font-weight: bold;
   font-family: inherit;
   transition: opacity .2s;
@@ -72,43 +177,105 @@ button {
 button:hover { opacity: .85; }
 #btn-play  { background: var(--hi); color: #fff; }
 #btn-stop  { background: var(--border); color: var(--text); }
-#status    { color: var(--muted); font-size: .85rem; }
-.param-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.2rem;
+#status    { color: var(--muted); font-size: .78rem; }
+
+/* ── Side panel (hidden by default) ──────────────────── */
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.22);
+  z-index: 199;
+  display: none;
 }
-.param-row label {
-  display: flex;
-  justify-content: space-between;
-  font-size: .85rem;
-  margin-bottom: .3rem;
+.side-panel-overlay.open { display: block; }
+.side-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 460px;
+  max-width: 92vw;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 2px solid var(--border);
+  transform: translateX(100%);
+  transition: transform .28s ease;
+  z-index: 200;
+  overflow-y: auto;
+  padding: .85rem 1rem;
+  box-shadow: -4px 0 20px rgba(0,0,0,.14);
+}
+.side-panel.open { transform: translateX(0); }
+.side-toggle-btn {
+  padding: .28rem .75rem;
+  font-size: .78rem;
+  font-weight: bold;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity .2s;
+}
+.side-toggle-btn:hover { opacity: .85; }
+.side-close-btn {
+  float: right;
+  padding: .18rem .5rem;
+  font-size: .82rem;
+  background: var(--border);
   color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: .5rem;
 }
-.param-row label span.param-name { font-weight: bold; }
-.param-row label span.param-val  { color: var(--hi); font-family: monospace; }
-.param-row input[type=range] {
-  width: 100%;
-  accent-color: var(--hi);
+.side-panel-section { margin-bottom: 1.1rem; }
+.side-panel-section h2 {
+  font-size: .9rem;
+  color: var(--hi);
+  margin-bottom: .45rem;
+  padding-bottom: .22rem;
+  border-bottom: 1px solid var(--border);
 }
-.param-meta {
-  font-size: .75rem;
-  color: var(--muted);
-  margin-top: .2rem;
+.description {
+  font-size: .77rem;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .65rem;
+  overflow-x: auto;
+  max-height: 32vh;
+  overflow-y: auto;
 }
-.meta-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.meta-table { width: 100%; border-collapse: collapse; font-size: .76rem; }
 .meta-table th, .meta-table td {
   text-align: left;
-  padding: .35rem .6rem;
+  padding: .22rem .4rem;
   border-bottom: 1px solid var(--border);
 }
 .meta-table th { color: var(--muted); font-weight: normal; }
-.back { display: inline-block; margin-bottom: 1.5rem; font-size: .9rem; }
-@media (max-width: 600px) {
-  body { padding: 1rem .75rem; }
-  header h1 { font-size: 1.5rem; }
-  .card { padding: 1rem; }
-  .controls { gap: .5rem; }
+
+/* Override card styles inside side panel so they sit flush */
+.side-panel .card {
+  max-width: none;
+  margin: 0 0 .6rem;
+  padding: .65rem .75rem;
+  border-radius: 6px;
+}
+.side-panel .card h2 { font-size: .88rem; margin-bottom: .5rem; }
+
+@media (max-width: 800px) {
+  html, body { height: auto; overflow: auto; }
+  .dashboard { grid-template-columns: 1fr; overflow: visible; }
+  .preview-pane, .controls-pane { overflow: visible; min-height: 0; }
+  #viz-canvas { max-height: none; }
+  .param-grid { grid-template-columns: 1fr; }
+  .side-panel { width: 100%; max-width: 100%; }
 }
 
 .perf-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
@@ -146,44 +313,48 @@ button:hover { opacity: .85; }
 
 .sampler-row {
   display: flex;
-  gap: .75rem;
+  gap: .4rem;
   align-items: center;
-  margin-bottom: .75rem;
+  margin-bottom: .3rem;
   flex-wrap: wrap;
 }
 .sampler-row label {
-  font-size: .85rem;
+  font-size: .73rem;
   font-weight: bold;
-  min-width: 10rem;
+  min-width: 6rem;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--text);
 }
 .sampler-row select {
   flex: 1;
-  min-width: 12rem;
-  padding: .35rem .5rem;
+  min-width: 6rem;
+  padding: .2rem .3rem;
   border-radius: 4px;
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
-  font-size: .85rem;
+  font-size: .73rem;
   font-family: inherit;
 }
 .sampler-row input[type=file] {
   flex: 1;
-  font-size: .8rem;
+  font-size: .68rem;
   color: var(--muted);
 }
 .sampler-row button.bind-btn {
-  padding: .35rem 1rem;
-  font-size: .85rem;
+  padding: .18rem .55rem;
+  font-size: .73rem;
   background: var(--accent);
   color: #fff;
 }
 .sampler-status {
-  font-size: .75rem;
+  font-size: .65rem;
   color: var(--muted);
-  margin-top: .2rem;
-  min-height: 1em;
+  margin-bottom: .1rem;
+  min-height: .85em;
 }
 
 .svg-flow-wrap {
@@ -267,23 +438,79 @@ button:hover { opacity: .85; }
 </style>
 </head>
 <body>
-  <header>
-    <a class="back" href="../../../index.html">← All Graphs</a>
-    <h1>encode_hoa2</h1>
-    <p class="subtitle">2026-05-07 04:56 UTC &nbsp;·&nbsp; commit&nbsp;<code>501dcc1</code> &nbsp;·&nbsp; compiled with&nbsp;<code>501dcc1</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
-  </header>
-
-  <!-- Playback controls -->
-  <div class="card">
-    <h2>Live Preview</h2>
-    <div class="controls">
-      <button id="btn-play"  onclick="playGraph()">&#9654; Play</button>
-      <button id="btn-stop"  onclick="stopGraph()">&#9632; Stop</button>
-      <span   id="status">Loading WASM&#8230;</span>
+  <!-- Compact header bar -->
+  <div class="page-header">
+    <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
+    <div class="header-title">
+      <h1>encode_hoa2</h1>
+      <p class="subtitle">2026-05-07 06:10 UTC &nbsp;·&nbsp; commit&nbsp;<code>b00cc33</code> &nbsp;·&nbsp; compiled with&nbsp;<code>b00cc33</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
-    <canvas id="viz-canvas" style="display:none;width:100%;max-width:512px;height:auto;border:1px solid var(--border);margin-top:0.75rem;border-radius:4px;"></canvas>
+    <button class="side-toggle-btn" id="side-toggle-btn"
+            aria-expanded="false" aria-controls="side-panel"
+            onclick="toggleSidePanel()">&#9776;&nbsp;Analysis &amp; Info</button>
+  </div>
 
-    <div class="param-grid">
+  <!-- Dashboard: left = preview+meters, right = params+samplers -->
+  <div class="dashboard">
+
+    <!-- Left pane: live preview canvas + meters -->
+    <div class="preview-pane">
+      <div class="playback-bar">
+        <button id="btn-play" onclick="playGraph()">&#9654; Play</button>
+        <button id="btn-stop" onclick="stopGraph()">&#9632; Stop</button>
+        <span id="status">Loading WASM&#8230;</span>
+      </div>
+      <canvas id="viz-canvas"></canvas>
+
+      <div class="meters-section">
+        <div class="section-label">Meters</div>
+
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">progress</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-0" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
+          <div id="meter-bar-0" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
+        </div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">wave_player</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-1" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
+          <div id="meter-bar-1" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
+        </div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">encode_hoa2</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-2" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
+          <div id="meter-bar-2" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
+        </div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Right pane: parameter sliders + samplers -->
+    <div class="controls-pane">
+      <div class="pane-section-title">Parameters</div>
+      <div class="param-grid">
 
         <div class="param-row" id="param-row-0">
           <label>
@@ -317,31 +544,36 @@ button:hover { opacity: .85; }
                  oninput="onParamChange(2, this.value, ' rad')">
           <div class="param-meta">min: -1.5708 &nbsp;|&nbsp; max: 1.5708 &nbsp;|&nbsp; default: 0 rad</div>
         </div>
-    </div>
-  </div>
+      </div>
 
-  <!-- Samplers -->
-  <div class="card">
-    <h2>Samplers</h2>
-    <p style="font-size:.8rem;color:var(--muted);margin-bottom:1rem">
-      Select a test signal or upload a custom WAV file, then click
-      <strong>Load</strong> to bind it to the sampler before or during playback.
-    </p>
+      <div class="pane-section-title">Samplers</div>
 
-    <div class="sampler-row" id="sampler-row-0">
-      <label title="sampler index 0">audio</label>
-      <select id="sampler-sel-0" onchange="onSamplerSelectChange(0)">
+      <div class="sampler-row" id="sampler-row-0">
+        <label title="sampler index 0">audio</label>
+        <select id="sampler-sel-0" onchange="onSamplerSelectChange(0)">
           <option value="../../../test_signals/white_noise.wav">White Noise (5 s)</option>
           <option value="../../../test_signals/sine_sweep.wav">Sine Sweep (20 Hz → 20 kHz, 5 s)</option>
           <option value="../../../test_signals/impulse.wav">Impulse (single sample)</option>
-          <option value="custom">Custom WAV file…</option>
-      </select>
-      <input type="file" id="sampler-file-0" accept=".wav,audio/wav"
-             style="display:none" onchange="onSamplerFileChange(0)">
-      <button class="bind-btn" onclick="bindSampler(0)">Load</button>
+          <option value="custom">Custom WAV…</option>
+        </select>
+        <input type="file" id="sampler-file-0" accept=".wav,audio/wav"
+               style="display:none" onchange="onSamplerFileChange(0)">
+        <button class="bind-btn" onclick="bindSampler(0)">Load</button>
+      </div>
+      <div class="sampler-status" id="sampler-status-0">Not loaded.</div>
     </div>
-    <div class="sampler-status" id="sampler-status-0">Not loaded.</div>
+
   </div>
+
+  <!-- Side panel overlay (click or Enter/Space to close) -->
+  <div class="side-panel-overlay" id="side-overlay" role="button" tabindex="0"
+       aria-label="Close side panel"
+       onclick="toggleSidePanel()"
+       onkeydown="if(event.key==='Enter'||event.key===' ')toggleSidePanel()"></div>
+
+  <!-- Side panel: analysis + description + parameter reference -->
+  <div class="side-panel" id="side-panel" role="complementary" aria-label="Analysis and info">
+    <button class="side-close-btn" id="side-close-btn" onclick="toggleSidePanel()">&#10005; Close</button>
 
   <!-- Analysis (Signal Flow / Spectrograms / Performance) -->
   <div class="card">
@@ -469,85 +701,9 @@ button:hover { opacity: .85; }
       });
     }
   </script>
-
-  <!-- Meters card -->
-  <div class="card" id="meters-card" style="display:none">
-    <h2>Meters</h2>
-
-      <div style="margin-bottom:1rem">
-        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem">
-          <span style="font-weight:bold">progress</span>
-          <span id="meter-val-0" style="color:var(--hi);font-family:monospace">0</span>
-          
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:14px;overflow:hidden">
-          <div id="meter-bar-0" style="background:var(--hi);height:14px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
-        <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem">min: 0 &nbsp;|&nbsp; max: 1</div>
-      </div>
-      <div style="margin-bottom:1rem">
-        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem">
-          <span style="font-weight:bold">wave_player</span>
-          <span id="meter-val-1" style="color:var(--hi);font-family:monospace">0</span>
-          
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:14px;overflow:hidden">
-          <div id="meter-bar-1" style="background:var(--hi);height:14px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
-        <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem">min: 0 &nbsp;|&nbsp; max: 1</div>
-      </div>
-      <div style="margin-bottom:1rem">
-        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem">
-          <span style="font-weight:bold">encode_hoa2</span>
-          <span id="meter-val-2" style="color:var(--hi);font-family:monospace">0</span>
-          
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:14px;overflow:hidden">
-          <div id="meter-bar-2" style="background:var(--hi);height:14px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
-        <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem">min: 0 &nbsp;|&nbsp; max: 1</div>
-      </div>
-  </div>
-  <script>
-    const _METER_DEFS = [{'idx': 0, 'min': 0.0, 'max': 1.0}, {'idx': 1, 'min': 0.0, 'max': 1.0}, {'idx': 2, 'min': 0.0, 'max': 1.0}];
-    let _meterRafId = null;
-
-    function _startMeterLoop() {
-      if (!player || !player.numMeters || !_METER_DEFS.length) return;
-      document.getElementById('meters-card').style.display = '';
-      if (!_meterRafId) _meterRafId = requestAnimationFrame(_meterLoop);
-    }
-
-    function _stopMeterLoop() {
-      if (_meterRafId) { cancelAnimationFrame(_meterRafId); _meterRafId = null; }
-    }
-
-    function _meterLoop() {
-      if (!player) return;
-      for (const def of _METER_DEFS) {
-        const val = player.getMeter(def.idx);
-        const pct = Math.max(0, Math.min(100, (val - def.min) / (def.max - def.min) * 100));
-        const barEl = document.getElementById('meter-bar-' + def.idx);
-        const valEl = document.getElementById('meter-val-' + def.idx);
-        if (barEl) barEl.style.width = pct.toFixed(1) + '%';
-        if (valEl) valEl.textContent = val.toFixed(4);
-      }
-      _meterRafId = requestAnimationFrame(_meterLoop);
-    }
-  </script>
-  <!-- Parameter table from .cragmeta -->
-  <div class="card">
-    <h2>Parameters</h2>
-    <table class="meta-table">
-      <tr><th>Index</th><th>Name</th><th>Min</th><th>Max</th><th>Default</th><th>Unit</th></tr>
-      <tr><td>0</td><td>loop</td><td>0</td><td>1</td><td>1</td><td></td></tr><tr><td>1</td><td>azimuth</td><td>-3.14159</td><td>3.14159</td><td>0</td><td>rad</td></tr><tr><td>2</td><td>elevation</td><td>-1.5708</td><td>1.5708</td><td>0</td><td>rad</td></tr>
-    </table>
-  </div>
-
-  <!-- Description from source file -->
-  <div class="card">
-    <h2>Algorithm Description</h2>
-    <div class="description">Second-Order Ambisonics Encoder (Mono → HOA2)
+    <div class="side-panel-section">
+      <h2>Algorithm Description</h2>
+      <div class="description">Second-Order Ambisonics Encoder (Mono → HOA2)
 
 Encodes a mono audio source into Second-Order Ambisonics (HOA, order 2)
 using the ACN channel ordering and SN3D normalisation (AmbiX format).
@@ -575,7 +731,39 @@ References:
     Université Paris VI.
   Zotter, F. &amp; Frank, M. (2019). Ambisonics. Springer.
   IEM Plugin Suite documentation, https://plugins.iem.at/</div>
+    </div>
+    <div class="side-panel-section">
+      <h2>Parameters</h2>
+      <table class="meta-table"><tr><th>Index</th><th>Name</th><th>Min</th><th>Max</th><th>Default</th><th>Unit</th></tr><tr><td>0</td><td>loop</td><td>0</td><td>1</td><td>1</td><td></td></tr><tr><td>1</td><td>azimuth</td><td>-3.14159</td><td>3.14159</td><td>0</td><td>rad</td></tr><tr><td>2</td><td>elevation</td><td>-1.5708</td><td>1.5708</td><td>0</td><td>rad</td></tr></table>
+    </div>
   </div>
+
+  <script>
+    const _METER_DEFS = [{'idx': 0, 'min': 0.0, 'max': 1.0}, {'idx': 1, 'min': 0.0, 'max': 1.0}, {'idx': 2, 'min': 0.0, 'max': 1.0}];
+    let _meterRafId = null;
+
+    function _startMeterLoop() {
+      if (!player || !_METER_DEFS.length) return;
+      if (!_meterRafId) _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+
+    function _stopMeterLoop() {
+      if (_meterRafId) { cancelAnimationFrame(_meterRafId); _meterRafId = null; }
+    }
+
+    function _meterLoop() {
+      if (!player) return;
+      for (const def of _METER_DEFS) {
+        const val = player.getMeter(def.idx);
+        const pct = Math.max(0, Math.min(100, (val - def.min) / (def.max - def.min) * 100));
+        const barEl = document.getElementById('meter-bar-' + def.idx);
+        const valEl = document.getElementById('meter-val-' + def.idx);
+        if (barEl) barEl.style.width = pct.toFixed(1) + '%';
+        if (valEl) valEl.textContent = val.toFixed(4);
+      }
+      _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+  </script>
   <script src="../../../crag_player.js"></script>
   <script>
     const _WASM_FILE = 'encode-hoa2.wasm';
@@ -586,7 +774,27 @@ References:
     let player = null;
     let _vizRafId = null;
 
-    // _startMeterLoop/_stopMeterLoop defined above in the meters card.
+    // _startMeterLoop/_stopMeterLoop defined in the meters script block above.
+
+    // ---------------------------------------------------------------------------
+    // Side panel toggle
+    // ---------------------------------------------------------------------------
+
+    function toggleSidePanel() {
+      const panel     = document.getElementById('side-panel');
+      const overlay   = document.getElementById('side-overlay');
+      const toggleBtn = document.getElementById('side-toggle-btn');
+      const closeBtn  = document.getElementById('side-close-btn');
+      const open      = panel.classList.toggle('open');
+      overlay.classList.toggle('open', open);
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // Move focus into/out of the panel for keyboard users.
+      if (open && closeBtn) {
+        closeBtn.focus();
+      } else if (!open && toggleBtn) {
+        toggleBtn.focus();
+      }
+    }
 
     // ---------------------------------------------------------------------------
     // Helpers
