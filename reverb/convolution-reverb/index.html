@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../index.html">← All Graphs</a>
     <h1>convolution_reverb</h1>
-    <p class="subtitle">2026-05-06 18:52 UTC &nbsp;·&nbsp; commit&nbsp;<code>f0a8013</code> &nbsp;·&nbsp; compiled with&nbsp;<code>eb9b53c</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-07 02:25 UTC &nbsp;·&nbsp; commit&nbsp;<code>6e2c1bd</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6e2c1bd</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -387,51 +387,33 @@ button:hover { opacity: .85; }
 <rect x="338" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="394" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
 </svg></div></div>
-<div class="svg-panel" id="panel-post"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 943 298" width="943" height="298">
+<div class="svg-panel" id="panel-post"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 633 298" width="633" height="298">
 <defs><marker id="fwd" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3a7a3a"/></marker><marker id="fb" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#c0392b"/></marker></defs>
-<rect width="943" height="298" fill="#1a1a2e"/>
+<rect width="633" height="298" fill="#1a1a2e"/>
 <text x="28" y="12" font-size="10" fill="#888888" font-family="monospace">convolution_reverb — internals</text>
-<rect x="18" y="18" width="907" height="280" rx="8" fill="#1a2e1a" stroke="#1a2e1a" stroke-width="1.5"/>
+<rect x="18" y="18" width="597" height="280" rx="8" fill="#1a2e1a" stroke="#1a2e1a" stroke-width="1.5"/>
 <text x="28" y="30" font-size="9" fill="#888888" font-family="monospace" font-style="italic">convolution_reverb</text>
-<path d="M 140.0,118.0 C 161.5,118.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 140.0,58.0 C 161.5,58.0 161.5,118.0 183.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
 <path d="M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 295.0,118.0 L 316.5,118.0 L 316.5,88.0 L 471.5,88.0 L 471.5,58.0 L 493.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 140.0,178.0 L 161.5,178.0 L 161.5,88.0 L 316.5,88.0 L 316.5,58.0 L 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
 <path d="M 450.0,58.0 C 471.5,58.0 471.5,58.0 493.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 605.0,58.0 C 757.0,58.0 341.0,118.0 493.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 605.0,118.0 C 626.5,118.0 626.5,58.0 648.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 140.0,58.0 C 161.5,58.0 161.5,178.0 183.0,178.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 295.0,178.0 L 316.5,178.0 L 316.5,88.0 L 781.5,88.0 L 781.5,58.0 L 803.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 760.0,58.0 C 781.5,58.0 781.5,58.0 803.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 915.0,58.0 C 1377.0,58.0 31.0,178.0 493.0,178.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
 <rect x="28" y="36" width="112" height="44" rx="6" fill="#0d3347" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="84" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Input</text>
 <text x="84" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">arg0</text>
 <rect x="28" y="96" width="112" height="44" rx="6" fill="#0d2d3d" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="84" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Sampler</text>
 <text x="84" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">&quot;impulse_response&quot;</text>
-<rect x="183" y="36" width="112" height="44" rx="6" fill="#0d3d1c" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="239" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Sample</text>
-<rect x="183" y="96" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="239" y="122" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">FFT</text>
-<rect x="338" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="394" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">FFT</text>
-<rect x="493" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="549" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">⊗</text>
-<text x="549" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">FreqMul</text>
-<rect x="493" y="96" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="549" y="122" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">IFFT</text>
-<rect x="648" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="704" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
-<text x="704" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
-<rect x="183" y="156" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="239" y="173" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
-<text x="239" y="188" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
-<rect x="803" y="36" width="112" height="44" rx="6" fill="#3a1050" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="859" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Σ</text>
-<text x="859" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">sum</text>
-<rect x="493" y="156" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="549" y="182" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
+<rect x="28" y="156" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="84" y="173" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="84" y="188" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="183" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="239" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="239" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="338" y="36" width="112" height="44" rx="6" fill="#3a1050" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="394" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Σ</text>
+<text x="394" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">sum</text>
+<rect x="493" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="549" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
 </svg></div></div>
     <div class="svg-legend">
       <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0d3347"></span>Input</div>
@@ -463,10 +445,49 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.124</td>
-        <td class="num">209.8</td>
-        <td class="num">0.4097</td>
-        <td class="num">533</td>
+        <td class="num">1.351</td>
+        <td class="num">206.5</td>
+        <td class="num">0.4033</td>
+        <td class="num">602</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:93%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
+        <td class="num">1.542</td>
+        <td class="num">136.7</td>
+        <td class="num">0.2669</td>
+        <td class="num">602</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:61%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
+        <td class="num">2.102</td>
+        <td class="num">102.2</td>
+        <td class="num">0.1995</td>
+        <td class="num">600</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:46%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
+        <td class="num">1.130</td>
+        <td class="num">222.7</td>
+        <td class="num">0.4349</td>
+        <td class="num">562</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -475,53 +496,14 @@ button:hover { opacity: .85; }
       </tr>
 
       <tr>
-        <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.268</td>
-        <td class="num">139.0</td>
-        <td class="num">0.2715</td>
-        <td class="num">533</td>
-        <td class="perf-bar-cell">
-          <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:66%"></div>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.169</td>
-        <td class="num">90.7</td>
-        <td class="num">0.1771</td>
-        <td class="num">531</td>
-        <td class="perf-bar-cell">
-          <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:43%"></div>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.109</td>
-        <td class="num">193.0</td>
-        <td class="num">0.3770</td>
-        <td class="num">484</td>
-        <td class="perf-bar-cell">
-          <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:92%"></div>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.097</td>
-        <td class="num">94.7</td>
-        <td class="num">0.1849</td>
-        <td class="num">483</td>
+        <td class="num">1.129</td>
+        <td class="num">112.0</td>
+        <td class="num">0.2188</td>
+        <td class="num">560</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:45%"></div>
+            <div class="perf-bar" style="width:50%"></div>
           </div>
         </td>
       </tr>
@@ -637,19 +619,15 @@ from a sampler.  This models reverberation caused by reflections in a room,
 hallway, concert hall, or other acoustic environment.
 
 Algorithm:
-  The impulse response is sampled from the bound &quot;impulse_response&quot; sampler
-  starting at position 0 (the first blockSize samples of the IR file are
-  used as the convolution kernel — see the note below).  The input signal
-  and that IR window are convolved via FFT multiplication, then the result
-  is wet/dry mixed with the original dry signal.
-
-Note on IR length:
-  This graph applies a single-block FFT convolution, which is accurate only
-  when the impulse response is shorter than or equal to one block.  For
-  longer IRs (typical in real-world convolution reverb), an overlap-add or
-  overlap-save scheme partitioned across many blocks is required.  This
-  graph therefore serves as a reference implementation and as a building
-  block for more advanced partitioned-convolution engines.
+  Uses partitioned overlap-save FFT convolution (crag.overlap_save_conv)
+  with up to `num_partitions = 32` partitions.  At each block the op:
+    1. FFTs the input block and pushes it into an internal ring buffer.
+    2. Queries the runtime IR length to compute k = min(ceil(len/B), 32).
+    3. For each partition p in [0, k): multiplies the input history block
+       with the p-th partition of the IR in the frequency domain.
+    4. Accumulates all products and IFFTs to produce the reverberant signal.
+  This yields constant per-block cost regardless of IR length, and accurately
+  captures IRs of up to 32 * blockSize samples (≈ 341 ms at 48 kHz/512 B).
 
 Sampler:
   Bind a mono WAV file containing the impulse response to the sampler named
