@@ -1,0 +1,37 @@
+{
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "freq",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 2.000000e+04,
+      "default": 4.400000e+02,
+      "float_index": 0
+    },
+    {
+      "name": "wave_type",
+      "type": "enum",
+      "values": ["sine", "saw", "square", "triangle"],
+      "default": 0,
+      "int_index": 0
+    }
+  ],
+  "samplers": [],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "random-wave",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "b00cc33"
+}
