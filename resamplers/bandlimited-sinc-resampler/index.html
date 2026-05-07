@@ -270,7 +270,7 @@ button:hover { opacity: .85; }
   <header>
     <a class="back" href="../../index.html">← All Graphs</a>
     <h1>bandlimited_sinc_resampler</h1>
-    <p class="subtitle">2026-05-07 02:25 UTC &nbsp;·&nbsp; commit&nbsp;<code>6e2c1bd</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6e2c1bd</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
+    <p class="subtitle">2026-05-07 04:56 UTC &nbsp;·&nbsp; commit&nbsp;<code>501dcc1</code> &nbsp;·&nbsp; compiled with&nbsp;<code>501dcc1</code> &nbsp;·&nbsp; crag standard-graph &nbsp;·&nbsp; 48000 Hz &nbsp;·&nbsp; 1 channel</p>
   </header>
 
   <!-- Playback controls -->
@@ -654,9 +654,7 @@ Usage (after crag.include):
     let player = null;
     let _vizRafId = null;
 
-    // Meter loop stubs (overridden by meters_card_html when meters are present).
-    function _startMeterLoop() {}
-    function _stopMeterLoop() {}
+    // _startMeterLoop/_stopMeterLoop defined above in the meters card.
 
     // ---------------------------------------------------------------------------
     // Helpers
