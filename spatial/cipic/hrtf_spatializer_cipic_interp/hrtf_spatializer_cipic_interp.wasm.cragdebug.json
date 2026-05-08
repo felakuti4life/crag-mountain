@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "d78d16d",
+  "compiled_with": "bc0d7fb",
   "ops": [
     {
       "id": 0,
@@ -334,7 +334,7 @@
       "id": 25,
       "op": "crag.channel_join",
       "name": "",
-      "file": "/tmp/tmp3k2y23mp/hrtf_spatializer_cipic_interp.wrapper.mlir",
+      "file": "/tmp/tmp9k9w2n7u/hrtf_spatializer_cipic_interp.wrapper.mlir",
       "line": 10,
       "col": 16,
       "graph_stack": [],

@@ -564,7 +564,17 @@ class CragProcessor extends AudioWorkletProcessor {
     const bufSize = outputs[0][0].length;   // typically 128 samples per quantum
 
     while (this._accumFill < bufSize * this._channels) {
+      // Snapshot/restore the bump-allocator pointer around crag_process so
+      // that transient per-block memref.alloc allocations (whose paired
+      // memref.dealloc lowers to a no-op free in this host) do not leak
+      // across blocks.  Without this, the WASM linear memory fills up and
+      // a memref store eventually traps with "RuntimeError: index out of
+      // bounds".  Persistent state (sampler bindings, parameters, output
+      // buffer) lives in static globals or in heap regions allocated
+      // outside crag_process, so it is unaffected by the restore.
+      const heapBefore = this._heapState.ptr;
       this._process();
+      this._heapState.ptr = heapBefore;
 
       // Post meter values to main thread every 8 blocks.
       if (this._numMeters > 0 || this._numMetersI32 > 0) {

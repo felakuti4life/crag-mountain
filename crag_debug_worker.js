@@ -286,7 +286,19 @@ function _evalSwBreakpoints(buf) {
 
 function _runOneBlock() {
   if (!_exports || !_exports.crag_process) return;
+  // The bump allocator's free() is a no-op (see _makeImports above), so every
+  // malloc made by crag_process() — typically the transient per-block buffers
+  // that One-Shot Bufferize inserts (memref.alloc / memref.dealloc pairs) —
+  // would otherwise leak.  With the default 16 MiB WASM linear memory the
+  // accumulated leak crosses the memory boundary after ~1.1 k blocks and the
+  // next memref store traps with `RuntimeError: index out of bounds`.
+  // Snapshot/restore the heap pointer around the call to give the no-op free
+  // proper LIFO-stack semantics for intra-block allocations, while leaving
+  // persistent state (sampler bindings, parameter buffers) — which lives in
+  // static globals or in heap regions allocated outside crag_process — alone.
+  const heapBefore = _heapState.ptr;
   _exports.crag_process();
+  _heapState.ptr = heapBefore;
   _blockCount += 1;
   _samplePos  += _blockSize;
 
