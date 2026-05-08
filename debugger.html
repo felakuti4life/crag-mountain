@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crag Debugger</title>
+  <style>
+:root {
+  --bg: #0e0e1a;
+  --panel: #161628;
+  --panel-2: #1f1f36;
+  --border: #2a2a4a;
+  --text: #e0e0f0;
+  --muted: #8a8aa6;
+  --accent: #6db3ff;
+  --accent-warn: #ffb86d;
+  --accent-bad: #ff6d6d;
+  --accent-ok: #6dffb3;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--text);
+             font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+.dbg-header { display: flex; align-items: center; gap: 1rem;
+              padding: .6rem 1rem; background: var(--panel); border-bottom: 1px solid var(--border); }
+.dbg-header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+.dbg-header .subtitle { color: var(--muted); font-size: .82rem; }
+.dbg-header .spacer { flex: 1; }
+.dbg-header select, .dbg-header button, .dbg-header input[type=file] {
+  font-family: inherit; background: var(--panel-2); color: var(--text);
+  border: 1px solid var(--border); padding: .35rem .6rem; border-radius: 4px; }
+.dbg-header a.back { color: var(--accent); text-decoration: none; font-size: .9rem; }
+
+.dbg-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.4fr) minmax(280px, 1fr);
+  gap: .75rem;
+  padding: .75rem;
+  height: calc(100vh - 56px);
+}
+.dbg-pane { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+            display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.dbg-pane h2 { margin: 0; padding: .5rem .75rem; font-size: .9rem; font-weight: 600;
+               border-bottom: 1px solid var(--border); background: var(--panel-2); }
+.dbg-pane-body { padding: .5rem .75rem; overflow: auto; flex: 1; min-height: 0; }
+
+/* Source viewer */
+#src-viewer { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+              font-size: .78rem; line-height: 1.35; white-space: pre; }
+.src-line { padding: 0 .25rem; display: flex; gap: .4rem; }
+.src-line .ln { color: var(--muted); width: 3rem; text-align: right;
+                user-select: none; flex-shrink: 0; cursor: pointer; }
+.src-line .ln:hover { color: var(--accent); }
+.src-line.has-bp { background: rgba(255, 109, 109, 0.10); }
+.src-line.has-bp .ln::before { content: "● "; color: var(--accent-bad); }
+.src-line.current { background: rgba(109, 179, 255, 0.18); }
+.src-line.broken  { background: rgba(255, 184, 109, 0.18); }
+
+/* Graph-stack breadcrumb */
+#graph-stack { font-size: .8rem; color: var(--muted); padding: .35rem .75rem;
+               border-top: 1px solid var(--border); background: var(--panel-2); }
+#graph-stack .crumb { color: var(--accent); text-decoration: none; cursor: pointer; }
+#graph-stack .crumb:hover { text-decoration: underline; }
+#graph-stack .sep { color: var(--muted); padding: 0 .25rem; }
+
+/* Breakpoint list */
+#bp-list { padding: .35rem .75rem; border-top: 1px solid var(--border);
+           background: var(--panel-2); max-height: 8rem; overflow: auto; }
+#bp-list .bp-row { display: flex; gap: .4rem; align-items: center;
+                   font-size: .78rem; padding: .15rem 0; }
+#bp-list .bp-row button { background: none; color: var(--accent-bad);
+                          border: none; cursor: pointer; font-size: .9rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .25rem; padding: .35rem .5rem 0;
+        border-bottom: 1px solid var(--border); background: var(--panel-2); }
+.tab-btn { background: var(--panel); color: var(--muted); border: 1px solid var(--border);
+           border-bottom: none; padding: .3rem .7rem; cursor: pointer;
+           font-family: inherit; font-size: .82rem; border-radius: 4px 4px 0 0; }
+.tab-btn.active { color: var(--text); background: var(--panel); }
+.tab-pane { display: none; padding: .5rem .75rem; overflow: auto; }
+.tab-pane.active { display: block; }
+
+/* Audio probe waveforms */
+.audio-probe { margin-bottom: .8rem; }
+.audio-probe .label { font-size: .78rem; color: var(--muted); margin-bottom: .15rem; }
+.audio-probe canvas { width: 100%; height: 80px; background: #0a0a14;
+                      border: 1px solid var(--border); border-radius: 4px; display: block; }
+.audio-probe.bad .label { color: var(--accent-bad); font-weight: 600; }
+
+/* Texture probe tiles */
+.tex-grid { display: grid; gap: .5rem; grid-template-columns: 1fr; }
+.tex-tile .label { font-size: .78rem; color: var(--muted); margin-bottom: .15rem; }
+.tex-tile canvas { width: 100%; max-height: 240px; background: #0a0a14;
+                   border: 1px solid var(--border); border-radius: 4px;
+                   image-rendering: pixelated; display: block; }
+
+/* Param sliders */
+.param-row { display: grid; grid-template-columns: 1fr 1.5fr 4rem;
+             gap: .4rem; align-items: center; padding: .15rem 0;
+             font-size: .78rem; }
+.param-row .name  { color: var(--muted); }
+.param-row .value { color: var(--accent); font-family: ui-monospace, monospace; text-align: right; }
+.param-row input[type=range] { width: 100%; }
+
+/* Execution controls */
+.exec-status { padding: .5rem .75rem; font-family: ui-monospace, monospace;
+               font-size: .82rem; background: var(--panel-2);
+               border-bottom: 1px solid var(--border); white-space: pre-wrap; }
+.exec-status.broken { color: var(--accent-warn); }
+.exec-status.error  { color: var(--accent-bad); }
+.exec-buttons { display: flex; flex-wrap: wrap; gap: .35rem; padding: .5rem .75rem; }
+.exec-buttons button { background: var(--panel-2); color: var(--text);
+                       border: 1px solid var(--border); padding: .35rem .7rem;
+                       border-radius: 4px; cursor: pointer; font-family: inherit; font-size: .85rem; }
+.exec-buttons button:hover { border-color: var(--accent); color: var(--accent); }
+.exec-buttons button:disabled { opacity: .4; cursor: not-allowed; }
+
+.exec-section { padding: .5rem .75rem; border-top: 1px solid var(--border); }
+.exec-section h3 { margin: 0 0 .35rem 0; font-size: .82rem;
+                   font-weight: 600; color: var(--muted); }
+.exec-section label { display: block; font-size: .78rem; padding: .1rem 0; }
+
+#bp-form { display: grid; grid-template-columns: 1fr 1fr 4rem auto;
+           gap: .25rem; align-items: center; }
+#bp-form select, #bp-form input { font-family: inherit; font-size: .78rem;
+                                  background: var(--panel); color: var(--text);
+                                  border: 1px solid var(--border);
+                                  padding: .2rem .35rem; border-radius: 3px; }
+#bp-form button { background: var(--accent); color: #000; border: none;
+                  border-radius: 3px; padding: .2rem .55rem; cursor: pointer;
+                  font-family: inherit; font-size: .78rem; }
+
+#dbg-console { font-family: ui-monospace, monospace; font-size: .76rem;
+               line-height: 1.35; max-height: 12rem; overflow: auto;
+               background: #0a0a14; border-top: 1px solid var(--border);
+               padding: .35rem .5rem; }
+#dbg-console .log-info  { color: var(--muted); }
+#dbg-console .log-warn  { color: var(--accent-warn); }
+#dbg-console .log-error { color: var(--accent-bad); }
+#dbg-console .log-hit   { color: var(--accent); }
+
+#drop-overlay { position: fixed; inset: 0; background: rgba(14,14,26,0.9);
+                display: none; align-items: center; justify-content: center;
+                font-size: 1.1rem; color: var(--accent); z-index: 100;
+                border: 4px dashed var(--accent); }
+#drop-overlay.show { display: flex; }
+</style>
+</head>
+<body>
+  <div id="drop-overlay">Drop graph.wasm + .cragmeta + .cragdebug.json + .crag.mlir here</div>
+
+  <div class="dbg-header">
+    <a class="back" href="index.html">&#8592; All Graphs</a>
+    <h1>Crag Debugger</h1>
+    <span class="subtitle">2026-05-08 19:34 UTC · commit d78d16d</span>
+    <div class="spacer"></div>
+    <label for="graph-select" style="font-size:.85rem;color:var(--muted)">Graph:</label>
+    <select id="graph-select"></select>
+    <button id="btn-reload" title="Reload selected graph">&#x21bb; Reload</button>
+  </div>
+
+  <div class="dbg-grid">
+    <!-- LEFT: source viewer + graph stack + breakpoints -->
+    <div class="dbg-pane" id="left-pane">
+      <h2>Source &amp; Call Stack</h2>
+      <div class="dbg-pane-body" id="src-viewer">Select a graph above to begin.</div>
+      <div id="graph-stack"><span class="muted">no op selected</span></div>
+      <div id="bp-list"></div>
+    </div>
+
+    <!-- CENTER: state inspector tabs -->
+    <div class="dbg-pane" id="center-pane">
+      <h2>State Inspector</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="audio">Audio</button>
+        <button class="tab-btn" data-tab="tex">Textures</button>
+        <button class="tab-btn" data-tab="params">Parameters</button>
+      </div>
+      <div class="tab-pane active" id="tab-audio"><em>No graph loaded.</em></div>
+      <div class="tab-pane" id="tab-tex"><em>No graph loaded.</em></div>
+      <div class="tab-pane" id="tab-params"><em>No graph loaded.</em></div>
+    </div>
+
+    <!-- RIGHT: execution control + breakpoints + console -->
+    <div class="dbg-pane" id="right-pane">
+      <h2>Execution Control</h2>
+      <div class="exec-status" id="exec-status">Stopped (no graph loaded).</div>
+      <div class="exec-buttons">
+        <button id="btn-run">&#9654; Run</button>
+        <button id="btn-pause" disabled>&#10074;&#10074; Pause</button>
+        <button id="btn-step">&#10142; Step Block</button>
+        <button id="btn-step10">&#10145; Step 10</button>
+        <button id="btn-reset">&#8634; Reset</button>
+      </div>
+      <div class="exec-section">
+        <h3>Speed (delay between blocks)</h3>
+        <input id="speed-slider" type="range" min="0" max="500" value="0" style="width:100%">
+        <div style="font-size:.78rem;color:var(--muted)" id="speed-label">0&nbsp;ms (fast)</div>
+      </div>
+      <div class="exec-section">
+        <h3>Break on Exception</h3>
+        <label><input type="checkbox" id="bf-nan"> NaN in output</label>
+        <label><input type="checkbox" id="bf-inf"> Inf in output</label>
+        <label><input type="checkbox" id="bf-unstable"> Instability detected</label>
+      </div>
+      <div class="exec-section">
+        <h3>Add Breakpoint (output buffer)</h3>
+        <form id="bp-form" onsubmit="event.preventDefault(); _addBp();">
+          <select id="bp-probe"><option value="0">output</option></select>
+          <select id="bp-kind">
+            <option value="nan">is NaN</option>
+            <option value="gt">value &gt;</option>
+            <option value="lt">value &lt;</option>
+            <option value="abs_gt">|value| &gt;</option>
+          </select>
+          <input id="bp-thresh" type="number" step="any" value="1.0">
+          <button type="submit">Add</button>
+        </form>
+      </div>
+      <div id="dbg-console"></div>
+    </div>
+  </div>
+
+<script>
+"use strict";
+// ---------------------------------------------------------------------------
+// Debugger main-thread controller
+// ---------------------------------------------------------------------------
+
+const _state = {
+  index:        null,    // debug_index.json contents
+  target:       null,    // currently selected target dict
+  meta:         null,    // .cragmeta
+  debugInfo:    null,    // .cragdebug.json
+  source:       "",      // .crag.mlir text
+  worker:       null,
+  ready:        false,
+  numProbes:    0,
+  numTexProbes: 0,
+  blockSize:    512,
+  sampleRate:   48000,
+  channels:     1,
+  blockCount:   0,
+  samplePos:    0,
+  running:      false,
+  breakpoints:  [],
+  currentLine:  -1,
+  brokenLine:   -1,
+  hasInstability: false,
+};
+
+function _log(level, msg) {
+  const c = document.getElementById("dbg-console");
+  const div = document.createElement("div");
+  div.className = "log-" + level;
+  const ts = new Date().toLocaleTimeString();
+  div.textContent = "[" + ts + "] " + msg;
+  c.appendChild(div);
+  c.scrollTop = c.scrollHeight;
+}
+
+function _setStatus(text, cls) {
+  const e = document.getElementById("exec-status");
+  e.textContent = text;
+  e.className = "exec-status" + (cls ? " " + cls : "");
+}
+
+// ---------------------------------------------------------------------------
+// Index loading + dropdown
+// ---------------------------------------------------------------------------
+
+async function _loadIndex() {
+  try {
+    const r = await fetch("debug_index.json", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    _state.index = await r.json();
+  } catch (e) {
+    _log("error", "Could not load debug_index.json: " + e.message);
+    _state.index = { version: 1, targets: [] };
+  }
+  const sel = document.getElementById("graph-select");
+  sel.innerHTML = "";
+  if (!_state.index.targets || !_state.index.targets.length) {
+    const o = document.createElement("option");
+    o.textContent = "(no debug-enabled graphs found)";
+    o.value = "";
+    sel.appendChild(o);
+    sel.disabled = true;
+    return;
+  }
+  for (const t of _state.index.targets) {
+    const o = document.createElement("option");
+    o.value = t.stem;
+    o.textContent = t.subdir ? (t.subdir + "/" + t.stem) : t.stem;
+    sel.appendChild(o);
+  }
+  sel.onchange = () => _selectByStem(sel.value);
+  _selectByStem(_state.index.targets[0].stem);
+}
+
+async function _selectByStem(stem) {
+  const t = (_state.index.targets || []).find(x => x.stem === stem);
+  if (!t) return;
+  await _loadTarget(t);
+}
+
+// ---------------------------------------------------------------------------
+// Per-target load
+// ---------------------------------------------------------------------------
+
+async function _loadTarget(t) {
+  _state.target = t;
+  _state.ready  = false;
+  _state.running = false;
+  _setStatus("Loading " + t.stem + "\u2026");
+
+  try {
+    const [wasmRes, metaRes, dbgRes, srcRes] = await Promise.all([
+      fetch(t.wasm,   { cache: "no-store" }),
+      fetch(t.meta,   { cache: "no-store" }),
+      fetch(t.debug,  { cache: "no-store" }),
+      fetch(t.source, { cache: "no-store" }),
+    ]);
+    if (!wasmRes.ok) throw new Error("wasm: HTTP " + wasmRes.status);
+    if (!metaRes.ok) throw new Error("meta: HTTP " + metaRes.status);
+    if (!dbgRes.ok)  throw new Error("debug: HTTP " + dbgRes.status);
+    if (!srcRes.ok)  throw new Error("source: HTTP " + srcRes.status);
+
+    const wasmBuf = await wasmRes.arrayBuffer();
+    _state.meta      = await metaRes.json();
+    _state.debugInfo = await dbgRes.json();
+    _state.source    = await srcRes.text();
+
+    _renderSource();
+    _renderParams();
+    _renderBreakpoints();
+
+    _spawnWorker(wasmBuf);
+  } catch (e) {
+    _log("error", "Load failed: " + e.message);
+    _setStatus("Load failed: " + e.message, "error");
+  }
+}
+
+function _spawnWorker(wasmBuf) {
+  if (_state.worker) { _state.worker.terminate(); _state.worker = null; }
+  const w = new Worker("crag_debug_worker.js");
+  _state.worker = w;
+  w.onmessage = (ev) => _onWorkerMsg(ev.data);
+  w.onerror = (e) => _log("error", "worker: " + e.message);
+  w.postMessage({
+    type: "init",
+    wasmBuffer: wasmBuf,
+    meta:       _state.meta,
+    debugInfo:  _state.debugInfo,
+  }, [wasmBuf]);
+}
+
+function _onWorkerMsg(m) {
+  if (m.type === "ready") {
+    _state.ready          = true;
+    _state.numProbes      = m.numProbes;
+    _state.numTexProbes   = m.numTexProbes;
+    _state.blockSize      = m.blockSize;
+    _state.sampleRate     = m.sampleRate;
+    _state.channels       = m.channels;
+    _state.hasInstability = !!m.hasInstability;
+    _state.blockCount     = 0;
+    _state.samplePos      = 0;
+    _state.brokenLine     = -1;
+    _ensureProbeDropdown();
+    _renderTexturesEmpty();
+    _renderAudioEmpty();
+    _setStatus("Stopped at block 0 (" + m.blockSize + " samples/block, "
+               + m.sampleRate + " Hz, " + m.channels + " ch).");
+    _log("info", "Loaded " + (_state.target ? _state.target.stem : "")
+         + " (" + (_state.debugInfo.ops || []).length + " ops"
+         + ", " + m.numTexProbes + " visualizer texture(s)).");
+    // Disable instability checkbox if WASM has no crag_is_stable.
+    document.getElementById("bf-unstable").disabled = !_state.hasInstability;
+    // Push speed and break flags so they take effect immediately.
+    _pushSpeed();
+    _pushBreakFlags();
+    _pushBreakpoints();
+  } else if (m.type === "blockDone") {
+    _onBlockDone(m);
+  } else if (m.type === "error") {
+    _log("error", "worker: " + m.error);
+    _setStatus("Worker error: " + m.error, "error");
+    _state.running = false; _updateRunPause();
+  }
+}
+
+function _onBlockDone(m) {
+  _state.blockCount = m.blockCount;
+  _state.samplePos  = m.samplePos;
+  _renderAudio(m.output, m.probeStats);
+  _renderTextures(m.textures);
+  if (m.hit) {
+    _state.running = false;
+    _updateRunPause();
+    const op = _opAtCurrent();
+    _state.brokenLine = op ? op.line : -1;
+    _renderSource();
+    _setStatus("Broken at block " + m.blockCount
+               + " / sample " + m.samplePos
+               + " (t=" + (m.samplePos / _state.sampleRate).toFixed(3) + "s)\n"
+               + "Reason: " + (m.hitReason || "(unknown)"), "broken");
+    _log("hit", "Hit @ block " + m.blockCount + ": " + (m.hitReason || ""));
+  } else {
+    const peakDb = m.probeStats.peak > 0
+                     ? (20 * Math.log10(m.probeStats.peak)).toFixed(1) + " dB"
+                     : "-inf dB";
+    _setStatus((_state.running ? "Running" : "Stopped")
+               + " at block " + m.blockCount
+               + " / sample " + m.samplePos
+               + " (t=" + (m.samplePos / _state.sampleRate).toFixed(3) + "s)\n"
+               + "Output peak: " + peakDb
+               + (m.probeStats.hasNaN ? " — NaN!" : "")
+               + (m.probeStats.hasInf ? " — Inf!" : "")
+               + (_state.hasInstability && !m.stable ? " — unstable!" : ""));
+    _state.brokenLine = -1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Source viewer
+// ---------------------------------------------------------------------------
+
+function _renderSource() {
+  const v = document.getElementById("src-viewer");
+  if (!_state.source) { v.textContent = "(no source loaded)"; return; }
+  const lines = _state.source.split("\n");
+  const bpLines = new Set(_state.breakpoints.map(b => b.line).filter(l => l > 0));
+  const cur     = _state.currentLine;
+  const broken  = _state.brokenLine;
+
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < lines.length; i++) {
+    const ln = i + 1;
+    const div = document.createElement("div");
+    let cls = "src-line";
+    if (bpLines.has(ln)) cls += " has-bp";
+    if (ln === broken) cls += " broken";
+    else if (ln === cur) cls += " current";
+    div.className = cls;
+    const lnSpan = document.createElement("span");
+    lnSpan.className = "ln";
+    lnSpan.textContent = String(ln);
+    lnSpan.title = "click to toggle a line breakpoint (output |value| > 1.0)";
+    lnSpan.onclick = () => _toggleLineBp(ln);
+    const codeSpan = document.createElement("span");
+    codeSpan.textContent = lines[i] || " ";
+    div.appendChild(lnSpan);
+    div.appendChild(codeSpan);
+    frag.appendChild(div);
+  }
+  v.innerHTML = "";
+  v.appendChild(frag);
+
+  // Auto-scroll to broken / current line.
+  const hi = broken > 0 ? broken : (cur > 0 ? cur : -1);
+  if (hi > 0 && v.children[hi - 1]) v.children[hi - 1].scrollIntoView({ block: "center" });
+
+  _renderGraphStack();
+}
+
+function _renderGraphStack() {
+  const el = document.getElementById("graph-stack");
+  const op = _opAtCurrent() || _opAtBroken();
+  if (!op) { el.innerHTML = "<span style='color:var(--muted)'>no op selected</span>"; return; }
+  const parts = [];
+  parts.push(op.file ? (op.file.split("/").pop() + ":" + op.line) : "(unknown)");
+  if (op.graph_stack && op.graph_stack.length) {
+    for (const g of op.graph_stack) parts.push(g);
+  }
+  el.innerHTML = parts.map((p, i) => {
+    const sep = i === 0 ? "" : "<span class='sep'>&#8594;</span>";
+    return sep + "<span class='crumb'>" + _esc(p) + "</span>";
+  }).join("");
+}
+
+function _opAtCurrent() {
+  if (!_state.debugInfo || !_state.debugInfo.ops) return null;
+  return _state.debugInfo.ops.find(o => o.line === _state.currentLine) || null;
+}
+function _opAtBroken() {
+  if (_state.brokenLine <= 0 || !_state.debugInfo || !_state.debugInfo.ops) return null;
+  return _state.debugInfo.ops.find(o => o.line === _state.brokenLine) || null;
+}
+
+function _esc(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;",
+       '"': "&quot;", "'": "&#39;" })[c]);
+}
+
+// ---------------------------------------------------------------------------
+// Breakpoints
+// ---------------------------------------------------------------------------
+
+function _toggleLineBp(line) {
+  const idx = _state.breakpoints.findIndex(b => b.line === line);
+  if (idx >= 0) _state.breakpoints.splice(idx, 1);
+  else _state.breakpoints.push({ line, probeIdx: 0, kind: "abs_gt", threshold: 1.0,
+                                 label: "line " + line + ": |out| > 1.0" });
+  _renderBreakpoints();
+  _renderSource();
+  _pushBreakpoints();
+}
+
+function _addBp() {
+  const probeIdx = parseInt(document.getElementById("bp-probe").value, 10) || 0;
+  const kind     = document.getElementById("bp-kind").value;
+  const thresh   = parseFloat(document.getElementById("bp-thresh").value) || 0;
+  const label = "probe " + probeIdx + ": "
+              + (kind === "nan" ? "is NaN"
+                : kind === "gt" ? ("> " + thresh)
+                : kind === "lt" ? ("< " + thresh)
+                : ("|x| > " + thresh));
+  _state.breakpoints.push({ probeIdx, kind, threshold: thresh, label });
+  _renderBreakpoints();
+  _pushBreakpoints();
+  _log("info", "Added breakpoint: " + label);
+}
+
+function _removeBp(i) {
+  const b = _state.breakpoints[i];
+  _state.breakpoints.splice(i, 1);
+  _renderBreakpoints();
+  _renderSource();
+  _pushBreakpoints();
+  _log("info", "Removed breakpoint: " + (b ? b.label : ""));
+}
+
+function _renderBreakpoints() {
+  const el = document.getElementById("bp-list");
+  if (!_state.breakpoints.length) { el.innerHTML = "<span style='color:var(--muted);font-size:.78rem'>no breakpoints</span>"; return; }
+  el.innerHTML = "";
+  _state.breakpoints.forEach((b, i) => {
+    const row = document.createElement("div");
+    row.className = "bp-row";
+    row.innerHTML = "<span style='color:var(--accent-bad)'>●</span> "
+                  + "<span>" + _esc(b.label) + "</span> "
+                  + "<button title='remove' onclick='_removeBp(" + i + ")'>&times;</button>";
+    el.appendChild(row);
+  });
+}
+
+function _pushBreakpoints() {
+  if (!_state.worker) return;
+  _state.worker.postMessage({
+    type: "setSwBreakpoints",
+    bps:  _state.breakpoints.map(b => ({ probeIdx: b.probeIdx,
+                                          kind: b.kind, threshold: b.threshold })),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Audio probes
+// ---------------------------------------------------------------------------
+
+function _renderAudioEmpty() {
+  const t = document.getElementById("tab-audio");
+  t.innerHTML = "";
+  const probe = document.createElement("div");
+  probe.className = "audio-probe";
+  probe.id = "probe-0";
+  probe.innerHTML = "<div class='label'>output (probe 0) — waiting for first block&#8230;</div>"
+                  + "<canvas width='400' height='80'></canvas>";
+  t.appendChild(probe);
+}
+
+function _renderAudio(buf, stats) {
+  const t = document.getElementById("tab-audio");
+  let probe = document.getElementById("probe-0");
+  if (!probe) { _renderAudioEmpty(); probe = document.getElementById("probe-0"); }
+  probe.classList.toggle("bad", stats.hasNaN || stats.hasInf);
+  const labelEl = probe.querySelector(".label");
+  labelEl.textContent = "output (probe 0) — peak "
+                      + (stats.peak === 0 ? "0"
+                         : stats.peak.toFixed(4))
+                      + (stats.hasNaN ? " — NaN!" : "")
+                      + (stats.hasInf ? " — Inf!" : "");
+  const cv = probe.querySelector("canvas");
+  _drawWaveform(cv, buf);
+}
+
+function _drawWaveform(canvas, buf) {
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width, h = canvas.height;
+  ctx.fillStyle = "#0a0a14"; ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = "#2a2a4a"; ctx.beginPath();
+  ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
+  if (!buf || !buf.length) return;
+  ctx.strokeStyle = "#6db3ff"; ctx.beginPath();
+  for (let x = 0; x < w; x++) {
+    const i = Math.floor(x * buf.length / w);
+    const v = buf[i];
+    let y;
+    if (Number.isNaN(v) || !Number.isFinite(v)) y = 0;
+    else y = (1 - Math.max(-1, Math.min(1, v))) * 0.5 * h;
+    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+// ---------------------------------------------------------------------------
+// Texture probes
+// ---------------------------------------------------------------------------
+
+function _renderTexturesEmpty() {
+  const t = document.getElementById("tab-tex");
+  t.innerHTML = "";
+  if (_state.numTexProbes === 0) {
+    t.innerHTML = "<em>This graph has no visualizers (texture probes).</em>";
+    return;
+  }
+  const grid = document.createElement("div");
+  grid.className = "tex-grid";
+  for (let i = 0; i < _state.numTexProbes; i++) {
+    const tile = document.createElement("div");
+    tile.className = "tex-tile";
+    tile.id = "tex-" + i;
+    tile.innerHTML = "<div class='label'>visualizer " + i + " — waiting&#8230;</div>"
+                   + "<canvas width='1' height='1'></canvas>";
+    grid.appendChild(tile);
+  }
+  t.appendChild(grid);
+}
+
+function _renderTextures(textures) {
+  if (!textures || !textures.length) return;
+  for (const tex of textures) {
+    const tile = document.getElementById("tex-" + tex.idx);
+    if (!tile) continue;
+    const cv = tile.querySelector("canvas");
+    if (cv.width !== tex.width)  cv.width  = tex.width;
+    if (cv.height !== tex.height) cv.height = tex.height;
+    const ctx = cv.getContext("2d");
+    const img = new ImageData(tex.rgba, tex.width, tex.height);
+    ctx.putImageData(img, 0, 0);
+    tile.querySelector(".label").textContent =
+      "visualizer " + tex.idx + " — " + tex.width + "\u00d7" + tex.height;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Parameters
+// ---------------------------------------------------------------------------
+
+function _renderParams() {
+  const t = document.getElementById("tab-params");
+  t.innerHTML = "";
+  const params = (_state.meta && _state.meta.parameters) || [];
+  if (!params.length) { t.innerHTML = "<em>This graph has no parameters.</em>"; return; }
+  for (let i = 0; i < params.length; i++) {
+    const p = params[i];
+    const row = document.createElement("div");
+    row.className = "param-row";
+    const nameEl = document.createElement("div");
+    nameEl.className = "name"; nameEl.textContent = p.name;
+    const ctlEl = document.createElement("div");
+    const valEl = document.createElement("div");
+    valEl.className = "value";
+    if (p.type === "float") {
+      const inp = document.createElement("input");
+      inp.type = "range";
+      inp.min = p.min; inp.max = p.max;
+      inp.step = (p.max - p.min) / 1000;
+      inp.value = p.default;
+      valEl.textContent = String(p.default);
+      inp.oninput = () => {
+        valEl.textContent = inp.value;
+        if (_state.worker)
+          _state.worker.postMessage({ type: "setParam",
+                                      idx: p.float_index, value: parseFloat(inp.value) });
+      };
+      ctlEl.appendChild(inp);
+    } else {
+      // int / bool / enum: simple number input
+      const inp = document.createElement("input");
+      inp.type = "number";
+      if (typeof p.min === "number") inp.min = p.min;
+      if (typeof p.max === "number") inp.max = p.max;
+      inp.value = p.default;
+      valEl.textContent = String(p.default);
+      inp.oninput = () => {
+        valEl.textContent = inp.value;
+        if (_state.worker)
+          _state.worker.postMessage({ type: "setParamI32",
+                                      idx: p.int_index, value: parseInt(inp.value, 10) });
+      };
+      ctlEl.appendChild(inp);
+    }
+    row.appendChild(nameEl); row.appendChild(ctlEl); row.appendChild(valEl);
+    t.appendChild(row);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tabs
+// ---------------------------------------------------------------------------
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    const id = "tab-" + btn.dataset.tab;
+    document.querySelectorAll(".tab-pane").forEach(p => p.classList.toggle("active", p.id === id));
+  };
+});
+
+// ---------------------------------------------------------------------------
+// Execution control
+// ---------------------------------------------------------------------------
+
+function _ensureProbeDropdown() {
+  const sel = document.getElementById("bp-probe");
+  sel.innerHTML = "<option value='0'>output</option>";
+}
+
+function _updateRunPause() {
+  document.getElementById("btn-run").disabled   = !_state.ready ||  _state.running;
+  document.getElementById("btn-pause").disabled = !_state.ready || !_state.running;
+}
+
+document.getElementById("btn-run").onclick = () => {
+  if (!_state.ready) return;
+  _state.running = true; _updateRunPause();
+  _state.worker.postMessage({ type: "clearHit" });
+  _state.worker.postMessage({ type: "run" });
+};
+document.getElementById("btn-pause").onclick = () => {
+  if (!_state.ready) return;
+  _state.running = false; _updateRunPause();
+  _state.worker.postMessage({ type: "pause" });
+};
+document.getElementById("btn-step").onclick = () => {
+  if (!_state.ready) return;
+  _state.worker.postMessage({ type: "clearHit" });
+  _state.worker.postMessage({ type: "runBlock" });
+};
+document.getElementById("btn-step10").onclick = () => {
+  if (!_state.ready) return;
+  _state.worker.postMessage({ type: "clearHit" });
+  _state.worker.postMessage({ type: "step", count: 10 });
+};
+document.getElementById("btn-reset").onclick = () => {
+  if (!_state.ready) return;
+  _state.worker.postMessage({ type: "reset" });
+  _state.blockCount = 0; _state.samplePos = 0; _state.brokenLine = -1;
+  _renderSource();
+  _setStatus("Reset.");
+};
+document.getElementById("btn-reload").onclick = () => {
+  if (_state.target) _loadTarget(_state.target);
+};
+
+// Speed
+const _speedSlider = document.getElementById("speed-slider");
+_speedSlider.oninput = () => {
+  const v = parseInt(_speedSlider.value, 10) || 0;
+  document.getElementById("speed-label").textContent =
+    v === 0 ? "0\u00a0ms (fast)" : v + "\u00a0ms";
+  _pushSpeed();
+};
+function _pushSpeed() {
+  if (!_state.worker) return;
+  _state.worker.postMessage({ type: "setSpeed",
+                              delayMs: parseInt(_speedSlider.value, 10) || 0 });
+}
+
+// Break flags
+function _pushBreakFlags() {
+  if (!_state.worker) return;
+  let mask = 0;
+  if (document.getElementById("bf-nan").checked)      mask |= 1;
+  if (document.getElementById("bf-inf").checked)      mask |= 2;
+  if (document.getElementById("bf-unstable").checked) mask |= 4;
+  _state.worker.postMessage({ type: "setBreakFlags", mask });
+}
+["bf-nan", "bf-inf", "bf-unstable"].forEach(id =>
+  document.getElementById(id).addEventListener("change", _pushBreakFlags));
+
+// Drag-and-drop loading of a custom (wasm + meta + debug + source) bundle.
+const _drop = document.getElementById("drop-overlay");
+window.addEventListener("dragover", (e) => { e.preventDefault(); _drop.classList.add("show"); });
+window.addEventListener("dragleave", (e) => { if (e.target === _drop) _drop.classList.remove("show"); });
+window.addEventListener("drop", async (e) => {
+  e.preventDefault(); _drop.classList.remove("show");
+  const files = Array.from(e.dataTransfer.files || []);
+  let wasm = null, meta = null, dbg = null, src = null;
+  for (const f of files) {
+    if (f.name.endsWith(".wasm")) wasm = f;
+    else if (f.name.endsWith(".cragmeta")) meta = f;
+    else if (f.name.endsWith(".cragdebug.json")) dbg = f;
+    else if (f.name.endsWith(".crag.mlir") || f.name.endsWith(".mlir")) src = f;
+  }
+  if (!wasm) { _log("error", "drop: missing .wasm"); return; }
+  try {
+    const wasmBuf = await wasm.arrayBuffer();
+    _state.target    = { stem: wasm.name.replace(/\.wasm$/, ""), name: wasm.name };
+    _state.meta      = meta ? JSON.parse(await meta.text()) : { parameters: [], samplers: [] };
+    _state.debugInfo = dbg  ? JSON.parse(await dbg.text())  : { ops: [], block_size: 512 };
+    _state.source    = src ? await src.text() : "(no source provided)";
+    _renderSource(); _renderParams(); _renderBreakpoints();
+    _spawnWorker(wasmBuf);
+    _log("info", "Loaded dropped file: " + wasm.name);
+  } catch (err) {
+    _log("error", "drop: " + err.message);
+  }
+});
+
+_loadIndex();
+</script>
+</body>
+</html>

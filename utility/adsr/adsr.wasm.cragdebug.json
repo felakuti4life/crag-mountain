@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "d78d16d",
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 41,
+      "col": 19,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 42,
+      "col": 19,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 43,
+      "col": 19,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 44,
+      "col": 19,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 4,
+      "op": "crag.event_void",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 46,
+      "col": 19,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 5,
+      "op": "crag.adsr",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 48,
+      "col": 12,
+      "graph_stack": ["adsr"],
+      "is_audio": true,
+      "channels": 1,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 6,
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 51,
+      "col": 5,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 7,
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/utility/adsr.crag.mlir",
+      "line": 51,
+      "col": 5,
+      "graph_stack": ["adsr"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}

@@ -1,0 +1,495 @@
+{
+  "version": 1,
+  "targets": [
+    {
+      "stem": "feed-forward-compressor",
+      "subdir": "compressors",
+      "name": "feed_forward_compressor",
+      "wasm": "compressors/feed-forward-compressor/feed-forward-compressor.wasm",
+      "meta": "compressors/feed-forward-compressor/feed-forward-compressor.wasm.cragmeta",
+      "debug": "compressors/feed-forward-compressor/feed-forward-compressor.wasm.cragdebug.json",
+      "source": "compressors/feed-forward-compressor/feed-forward-compressor.crag.mlir",
+      "short_desc": "Feed-Forward RMS Compressor"
+    },
+    {
+      "stem": "peak-limiter",
+      "subdir": "compressors",
+      "name": "peak_limiter",
+      "wasm": "compressors/peak-limiter/peak-limiter.wasm",
+      "meta": "compressors/peak-limiter/peak-limiter.wasm.cragmeta",
+      "debug": "compressors/peak-limiter/peak-limiter.wasm.cragdebug.json",
+      "source": "compressors/peak-limiter/peak-limiter.crag.mlir",
+      "short_desc": "Peak Limiter"
+    },
+    {
+      "stem": "51-to-stereo",
+      "subdir": "conversions",
+      "name": "51_to_stereo",
+      "wasm": "conversions/51-to-stereo/51-to-stereo.wasm",
+      "meta": "conversions/51-to-stereo/51-to-stereo.wasm.cragmeta",
+      "debug": "conversions/51-to-stereo/51-to-stereo.wasm.cragdebug.json",
+      "source": "conversions/51-to-stereo/51-to-stereo.crag.mlir",
+      "short_desc": "5.1-to-Stereo Downmix (ITU-R BS.775)"
+    },
+    {
+      "stem": "decode-foa-mono",
+      "subdir": "conversions/ambisonics",
+      "name": "decode_foa_mono",
+      "wasm": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm",
+      "meta": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm.cragmeta",
+      "debug": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.crag.mlir",
+      "short_desc": "First-Order Ambisonics Decoder \u2014 FOA \u2192 Mono"
+    },
+    {
+      "stem": "decode-foa-stereo",
+      "subdir": "conversions/ambisonics",
+      "name": "decode_foa_stereo",
+      "wasm": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm",
+      "meta": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm.cragmeta",
+      "debug": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.crag.mlir",
+      "short_desc": "First-Order Ambisonics Decoder \u2014 FOA \u2192 Stereo"
+    },
+    {
+      "stem": "encode-foa",
+      "subdir": "conversions/ambisonics",
+      "name": "encode_foa",
+      "wasm": "conversions/ambisonics/encode-foa/encode-foa.wasm",
+      "meta": "conversions/ambisonics/encode-foa/encode-foa.wasm.cragmeta",
+      "debug": "conversions/ambisonics/encode-foa/encode-foa.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/encode-foa/encode-foa.crag.mlir",
+      "short_desc": "First-Order Ambisonics Encoder (Mono \u2192 FOA)"
+    },
+    {
+      "stem": "encode-hoa2",
+      "subdir": "conversions/ambisonics",
+      "name": "encode_hoa2",
+      "wasm": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm",
+      "meta": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm.cragmeta",
+      "debug": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/encode-hoa2/encode-hoa2.crag.mlir",
+      "short_desc": "Second-Order Ambisonics Encoder (Mono \u2192 HOA2)"
+    },
+    {
+      "stem": "foa-mirror-frontback",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_mirror_frontback",
+      "wasm": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm",
+      "meta": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.crag.mlir",
+      "short_desc": "FOA Transform: Mirror Front/Back"
+    },
+    {
+      "stem": "foa-mirror-leftright",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_mirror_leftright",
+      "wasm": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm",
+      "meta": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.crag.mlir",
+      "short_desc": "FOA Transform: Mirror Left/Right"
+    },
+    {
+      "stem": "foa-mirror-updown",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_mirror_updown",
+      "wasm": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm",
+      "meta": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.crag.mlir",
+      "short_desc": "FOA Transform: Mirror Up/Down"
+    },
+    {
+      "stem": "foa-rotate-yaw",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_rotate_yaw",
+      "wasm": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm",
+      "meta": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.crag.mlir",
+      "short_desc": "FOA Transform: Rotate (Yaw) \u2014 Rotate the Soundfield Around the Z Axis"
+    },
+    {
+      "stem": "foa-tilt-roll",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_tilt_roll",
+      "wasm": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm",
+      "meta": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.crag.mlir",
+      "short_desc": "FOA Transform: Tilt (Roll) \u2014 Rotate the Soundfield Around the X Axis"
+    },
+    {
+      "stem": "foa-to-hoa2",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_to_hoa2",
+      "wasm": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm",
+      "meta": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.crag.mlir",
+      "short_desc": "Order Conversion: First-Order \u2192 Second-Order Ambisonics (FOA \u2192 HOA2)"
+    },
+    {
+      "stem": "foa-tumble-pitch",
+      "subdir": "conversions/ambisonics",
+      "name": "foa_tumble_pitch",
+      "wasm": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm",
+      "meta": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm.cragmeta",
+      "debug": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.crag.mlir",
+      "short_desc": "FOA Transform: Tumble (Pitch) \u2014 Rotate the Soundfield Around the Y Axis"
+    },
+    {
+      "stem": "hoa2-to-foa",
+      "subdir": "conversions/ambisonics",
+      "name": "hoa2_to_foa",
+      "wasm": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm",
+      "meta": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm.cragmeta",
+      "debug": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm.cragdebug.json",
+      "source": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.crag.mlir",
+      "short_desc": "Order Conversion: Second-Order \u2192 First-Order Ambisonics (HOA2 \u2192 FOA)"
+    },
+    {
+      "stem": "midside-to-stereo",
+      "subdir": "conversions",
+      "name": "midside_to_stereo",
+      "wasm": "conversions/midside-to-stereo/midside-to-stereo.wasm",
+      "meta": "conversions/midside-to-stereo/midside-to-stereo.wasm.cragmeta",
+      "debug": "conversions/midside-to-stereo/midside-to-stereo.wasm.cragdebug.json",
+      "source": "conversions/midside-to-stereo/midside-to-stereo.crag.mlir",
+      "short_desc": "Mid/Side to Stereo Decoder (Mid-Side \u2192 Stereo)"
+    },
+    {
+      "stem": "mono-to-stereo",
+      "subdir": "conversions",
+      "name": "mono_to_stereo",
+      "wasm": "conversions/mono-to-stereo/mono-to-stereo.wasm",
+      "meta": "conversions/mono-to-stereo/mono-to-stereo.wasm.cragmeta",
+      "debug": "conversions/mono-to-stereo/mono-to-stereo.wasm.cragdebug.json",
+      "source": "conversions/mono-to-stereo/mono-to-stereo.crag.mlir",
+      "short_desc": "Mono-to-Stereo Channel Mixer"
+    },
+    {
+      "stem": "stereo-to-51",
+      "subdir": "conversions",
+      "name": "stereo_to_51",
+      "wasm": "conversions/stereo-to-51/stereo-to-51.wasm",
+      "meta": "conversions/stereo-to-51/stereo-to-51.wasm.cragmeta",
+      "debug": "conversions/stereo-to-51/stereo-to-51.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-51/stereo-to-51.crag.mlir",
+      "short_desc": "Stereo-to-5.1 Upmix (Phantom Centre)"
+    },
+    {
+      "stem": "stereo-to-midside",
+      "subdir": "conversions",
+      "name": "stereo_to_midside",
+      "wasm": "conversions/stereo-to-midside/stereo-to-midside.wasm",
+      "meta": "conversions/stereo-to-midside/stereo-to-midside.wasm.cragmeta",
+      "debug": "conversions/stereo-to-midside/stereo-to-midside.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-midside/stereo-to-midside.crag.mlir",
+      "short_desc": "Stereo to Mid/Side Encoder (Stereo \u2192 Mid-Side)"
+    },
+    {
+      "stem": "stereo-to-mono-average",
+      "subdir": "conversions",
+      "name": "stereo_to_mono_average",
+      "wasm": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm",
+      "meta": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm.cragmeta",
+      "debug": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-mono-average/stereo-to-mono-average.crag.mlir",
+      "short_desc": "Stereo-to-Mono Average Downmix"
+    },
+    {
+      "stem": "stereo-to-mono-left",
+      "subdir": "conversions",
+      "name": "stereo_to_mono_left",
+      "wasm": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm",
+      "meta": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm.cragmeta",
+      "debug": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-mono-left/stereo-to-mono-left.crag.mlir",
+      "short_desc": "Stereo-to-Mono Left-Channel Downmix"
+    },
+    {
+      "stem": "stereo-to-mono-mid-side",
+      "subdir": "conversions",
+      "name": "stereo_to_mono_mid_side",
+      "wasm": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm",
+      "meta": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm.cragmeta",
+      "debug": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.crag.mlir",
+      "short_desc": "Stereo-to-Mono Mid/Side (M/S) Downmix \u2014 Mid extraction"
+    },
+    {
+      "stem": "stereo-to-mono-right",
+      "subdir": "conversions",
+      "name": "stereo_to_mono_right",
+      "wasm": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm",
+      "meta": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm.cragmeta",
+      "debug": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm.cragdebug.json",
+      "source": "conversions/stereo-to-mono-right/stereo-to-mono-right.crag.mlir",
+      "short_desc": "Stereo-to-Mono Right-Channel Downmix"
+    },
+    {
+      "stem": "cubic-distortion",
+      "subdir": "distortion",
+      "name": "cubic_distortion",
+      "wasm": "distortion/cubic-distortion/cubic-distortion.wasm",
+      "meta": "distortion/cubic-distortion/cubic-distortion.wasm.cragmeta",
+      "debug": "distortion/cubic-distortion/cubic-distortion.wasm.cragdebug.json",
+      "source": "distortion/cubic-distortion/cubic-distortion.crag.mlir",
+      "short_desc": "Cubic Soft Clipper"
+    },
+    {
+      "stem": "fuzz",
+      "subdir": "distortion",
+      "name": "fuzz",
+      "wasm": "distortion/fuzz/fuzz.wasm",
+      "meta": "distortion/fuzz/fuzz.wasm.cragmeta",
+      "debug": "distortion/fuzz/fuzz.wasm.cragdebug.json",
+      "source": "distortion/fuzz/fuzz.crag.mlir",
+      "short_desc": "Fuzz Distortion"
+    },
+    {
+      "stem": "hard-clipper",
+      "subdir": "distortion",
+      "name": "hard_clipper",
+      "wasm": "distortion/hard-clipper/hard-clipper.wasm",
+      "meta": "distortion/hard-clipper/hard-clipper.wasm.cragmeta",
+      "debug": "distortion/hard-clipper/hard-clipper.wasm.cragdebug.json",
+      "source": "distortion/hard-clipper/hard-clipper.crag.mlir",
+      "short_desc": "Hard Clipper"
+    },
+    {
+      "stem": "soft-clipper",
+      "subdir": "distortion",
+      "name": "soft_clipper",
+      "wasm": "distortion/soft-clipper/soft-clipper.wasm",
+      "meta": "distortion/soft-clipper/soft-clipper.wasm.cragmeta",
+      "debug": "distortion/soft-clipper/soft-clipper.wasm.cragdebug.json",
+      "source": "distortion/soft-clipper/soft-clipper.crag.mlir",
+      "short_desc": "Soft Clipper (Tanh Saturation)"
+    },
+    {
+      "stem": "granulator",
+      "subdir": "granulation",
+      "name": "granulator",
+      "wasm": "granulation/granulator/granulator.wasm",
+      "meta": "granulation/granulator/granulator.wasm.cragmeta",
+      "debug": "granulation/granulator/granulator.wasm.cragdebug.json",
+      "source": "granulation/granulator/granulator.crag.mlir",
+      "short_desc": "Granulator"
+    },
+    {
+      "stem": "chorus",
+      "subdir": "modulation",
+      "name": "chorus",
+      "wasm": "modulation/chorus/chorus.wasm",
+      "meta": "modulation/chorus/chorus.wasm.cragmeta",
+      "debug": "modulation/chorus/chorus.wasm.cragdebug.json",
+      "source": "modulation/chorus/chorus.crag.mlir",
+      "short_desc": "Stereo Chorus"
+    },
+    {
+      "stem": "flanger",
+      "subdir": "modulation",
+      "name": "flanger",
+      "wasm": "modulation/flanger/flanger.wasm",
+      "meta": "modulation/flanger/flanger.wasm.cragmeta",
+      "debug": "modulation/flanger/flanger.wasm.cragdebug.json",
+      "source": "modulation/flanger/flanger.crag.mlir",
+      "short_desc": "Flanger"
+    },
+    {
+      "stem": "phaser",
+      "subdir": "modulation",
+      "name": "phaser",
+      "wasm": "modulation/phaser/phaser.wasm",
+      "meta": "modulation/phaser/phaser.wasm.cragmeta",
+      "debug": "modulation/phaser/phaser.wasm.cragdebug.json",
+      "source": "modulation/phaser/phaser.crag.mlir",
+      "short_desc": "Phaser"
+    },
+    {
+      "stem": "vibrato",
+      "subdir": "modulation",
+      "name": "vibrato",
+      "wasm": "modulation/vibrato/vibrato.wasm",
+      "meta": "modulation/vibrato/vibrato.wasm.cragmeta",
+      "debug": "modulation/vibrato/vibrato.wasm.cragdebug.json",
+      "source": "modulation/vibrato/vibrato.crag.mlir",
+      "short_desc": "Vibrato"
+    },
+    {
+      "stem": "random-wave",
+      "subdir": "playback",
+      "name": "random-wave",
+      "wasm": "playback/random-wave/random-wave.wasm",
+      "meta": "playback/random-wave/random-wave.wasm.cragmeta",
+      "debug": "playback/random-wave/random-wave.wasm.cragdebug.json",
+      "source": "playback/random-wave/random-wave.crag.mlir",
+      "short_desc": "Random Wave"
+    },
+    {
+      "stem": "bandlimited-sinc-resampler",
+      "subdir": "resamplers",
+      "name": "bandlimited_sinc_resampler",
+      "wasm": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm",
+      "meta": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm.cragmeta",
+      "debug": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm.cragdebug.json",
+      "source": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.crag.mlir",
+      "short_desc": "Band-Limited Sinc Resampler"
+    },
+    {
+      "stem": "lagrangian-resampler",
+      "subdir": "resamplers",
+      "name": "lagrangian_resampler",
+      "wasm": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm",
+      "meta": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm.cragmeta",
+      "debug": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm.cragdebug.json",
+      "source": "resamplers/lagrangian-resampler/lagrangian-resampler.crag.mlir",
+      "short_desc": "Lagrangian Resampler (4-point Cubic Polynomial Interpolation)"
+    },
+    {
+      "stem": "thiran-resampler",
+      "subdir": "resamplers",
+      "name": "thiran_resampler",
+      "wasm": "resamplers/thiran-resampler/thiran-resampler.wasm",
+      "meta": "resamplers/thiran-resampler/thiran-resampler.wasm.cragmeta",
+      "debug": "resamplers/thiran-resampler/thiran-resampler.wasm.cragdebug.json",
+      "source": "resamplers/thiran-resampler/thiran-resampler.crag.mlir",
+      "short_desc": "Thiran Resampler (Allpass-Chain Fractional Delay)"
+    },
+    {
+      "stem": "convolution-reverb",
+      "subdir": "reverb",
+      "name": "convolution_reverb",
+      "wasm": "reverb/convolution-reverb/convolution-reverb.wasm",
+      "meta": "reverb/convolution-reverb/convolution-reverb.wasm.cragmeta",
+      "debug": "reverb/convolution-reverb/convolution-reverb.wasm.cragdebug.json",
+      "source": "reverb/convolution-reverb/convolution-reverb.crag.mlir",
+      "short_desc": "Convolution Reverb"
+    },
+    {
+      "stem": "fft-convolution",
+      "subdir": "reverb",
+      "name": "fft_convolution",
+      "wasm": "reverb/fft-convolution/fft-convolution.wasm",
+      "meta": "reverb/fft-convolution/fft-convolution.wasm.cragmeta",
+      "debug": "reverb/fft-convolution/fft-convolution.wasm.cragdebug.json",
+      "source": "reverb/fft-convolution/fft-convolution.crag.mlir",
+      "short_desc": "FFT Convolution"
+    },
+    {
+      "stem": "freeverb",
+      "subdir": "reverb",
+      "name": "freeverb",
+      "wasm": "reverb/freeverb/freeverb.wasm",
+      "meta": "reverb/freeverb/freeverb.wasm.cragmeta",
+      "debug": "reverb/freeverb/freeverb.wasm.cragdebug.json",
+      "source": "reverb/freeverb/freeverb.crag.mlir",
+      "short_desc": "Freeverb-Inspired Reverb"
+    },
+    {
+      "stem": "schroeder-reverb",
+      "subdir": "reverb",
+      "name": "schroeder_reverb",
+      "wasm": "reverb/schroeder-reverb/schroeder-reverb.wasm",
+      "meta": "reverb/schroeder-reverb/schroeder-reverb.wasm.cragmeta",
+      "debug": "reverb/schroeder-reverb/schroeder-reverb.wasm.cragdebug.json",
+      "source": "reverb/schroeder-reverb/schroeder-reverb.crag.mlir",
+      "short_desc": "Schroeder Reverberator"
+    },
+    {
+      "stem": "hrtf_spatializer_cipic",
+      "subdir": "spatial/cipic",
+      "name": "hrtf_spatializer_cipic",
+      "wasm": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm",
+      "meta": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm.cragmeta",
+      "debug": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm.cragdebug.json",
+      "source": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.crag.mlir",
+      "short_desc": "HRTF Spatializer (CIPIC, fixed-position renderer)"
+    },
+    {
+      "stem": "hrtf_spatializer_cipic_interp",
+      "subdir": "spatial/cipic",
+      "name": "hrtf_spatializer_cipic_interp",
+      "wasm": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm",
+      "meta": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm.cragmeta",
+      "debug": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm.cragdebug.json",
+      "source": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.crag.mlir",
+      "short_desc": "HRTF Spatializer (CIPIC, k=3 linear-interpolation renderer)"
+    },
+    {
+      "stem": "hrtf_spatializer_cipic_runtime",
+      "subdir": "spatial/cipic",
+      "name": "hrtf_spatializer_cipic_runtime",
+      "wasm": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm",
+      "meta": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm.cragmeta",
+      "debug": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm.cragdebug.json",
+      "source": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.crag.mlir",
+      "short_desc": "HRTF Spatializer (CIPIC, runtime-position renderer)"
+    },
+    {
+      "stem": "hrtf_spatializer",
+      "subdir": "spatial",
+      "name": "hrtf_spatializer",
+      "wasm": "spatial/hrtf_spatializer/hrtf_spatializer.wasm",
+      "meta": "spatial/hrtf_spatializer/hrtf_spatializer.wasm.cragmeta",
+      "debug": "spatial/hrtf_spatializer/hrtf_spatializer.wasm.cragdebug.json",
+      "source": "spatial/hrtf_spatializer/hrtf_spatializer.crag.mlir",
+      "short_desc": "HRTF Spatializer (Naive ITD/ILD Reference)"
+    },
+    {
+      "stem": "hrtf_spatializer_ss2",
+      "subdir": "spatial/ss2",
+      "name": "hrtf_spatializer_ss2",
+      "wasm": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm",
+      "meta": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm.cragmeta",
+      "debug": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm.cragdebug.json",
+      "source": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.crag.mlir",
+      "short_desc": "HRTF Spatializer (SS2, fixed-position renderer)"
+    },
+    {
+      "stem": "hrtf_spatializer_ss2_interp",
+      "subdir": "spatial/ss2",
+      "name": "hrtf_spatializer_ss2_interp",
+      "wasm": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm",
+      "meta": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm.cragmeta",
+      "debug": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm.cragdebug.json",
+      "source": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.crag.mlir",
+      "short_desc": "HRTF Spatializer (SS2, k=3 linear-interpolation renderer)"
+    },
+    {
+      "stem": "hrtf_spatializer_ss2_runtime",
+      "subdir": "spatial/ss2",
+      "name": "hrtf_spatializer_ss2_runtime",
+      "wasm": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm",
+      "meta": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragmeta",
+      "debug": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragdebug.json",
+      "source": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.crag.mlir",
+      "short_desc": "HRTF Spatializer (SS2, runtime-position renderer)"
+    },
+    {
+      "stem": "adsr",
+      "subdir": "utility",
+      "name": "adsr",
+      "wasm": "utility/adsr/adsr.wasm",
+      "meta": "utility/adsr/adsr.wasm.cragmeta",
+      "debug": "utility/adsr/adsr.wasm.cragdebug.json",
+      "source": "utility/adsr/adsr.crag.mlir",
+      "short_desc": "ADSR Envelope Generator"
+    },
+    {
+      "stem": "amplitude_envelope",
+      "subdir": "utility",
+      "name": "amplitude_envelope",
+      "wasm": "utility/amplitude_envelope/amplitude_envelope.wasm",
+      "meta": "utility/amplitude_envelope/amplitude_envelope.wasm.cragmeta",
+      "debug": "utility/amplitude_envelope/amplitude_envelope.wasm.cragdebug.json",
+      "source": "utility/amplitude_envelope/amplitude_envelope.crag.mlir",
+      "short_desc": "Amplitude Envelope"
+    }
+  ]
+}

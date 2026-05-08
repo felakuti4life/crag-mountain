@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "d78d16d",
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 27,
+      "col": 13,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "crag.param_enum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 28,
+      "col": 18,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 35,
+      "col": 14,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 36,
+      "col": 14,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 4,
+      "op": "crag.selector",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 41,
+      "col": 12,
+      "graph_stack": ["random-wave"],
+      "is_audio": true,
+      "channels": 1,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 5,
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 60,
+      "col": 5,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 6,
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/random-wave.crag.mlir",
+      "line": 60,
+      "col": 5,
+      "graph_stack": ["random-wave"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}
