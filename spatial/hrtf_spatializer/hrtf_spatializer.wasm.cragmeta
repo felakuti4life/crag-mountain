@@ -1,0 +1,81 @@
+{
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "loop",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "azimuth_rad",
+      "type": "float",
+      "min": -3.141593e+00,
+      "max": 3.141593e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 1
+    },
+    {
+      "name": "elevation_rad",
+      "type": "float",
+      "min": -1.570796e+00,
+      "max": 1.570796e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 2
+    },
+    {
+      "name": "distance_m",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 1.000000e+01,
+      "default": 1.000000e+00,
+      "unit": "m",
+      "float_index": 3
+    }
+  ],
+  "samplers": ["audio"],
+  "events": [
+    {
+      "name": "start",
+      "type": "void",
+      "void_index": 0
+    },
+    {
+      "name": "stop",
+      "type": "void",
+      "void_index": 1
+    }
+  ],
+  "meters": [
+    {
+      "name": "progress",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "wave_player",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "hrtf_spatializer",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 2
+    }
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "8d250f5"
+}

@@ -238,6 +238,20 @@ button:hover { opacity: .85; }
   padding-bottom: .22rem;
   border-bottom: 1px solid var(--border);
 }
+.hrtf-banner p {
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  padding: .55rem .7rem;
+  margin: 0;
+}
+.hrtf-banner code { font-family: 'Courier New', monospace; font-size: .9em; }
+.hrtf-banner-placeholder p { border-left-color: #d99a00; }
+.hrtf-banner-real p { border-left-color: #4caf50; }
 .description {
   font-size: .77rem;
   line-height: 1.55;
@@ -443,7 +457,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>stereo_to_mono_average</h1>
-      <p class="subtitle">2026-05-07 16:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>9dc8b70</code> &nbsp;·&nbsp; compiled with&nbsp;<code>b00cc33</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-08 17:14 UTC &nbsp;·&nbsp; commit&nbsp;<code>8d250f5</code> &nbsp;·&nbsp; compiled with&nbsp;<code>8d250f5</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <button class="side-toggle-btn" id="side-toggle-btn"
             aria-expanded="false" aria-controls="side-panel"
@@ -532,6 +546,9 @@ button:hover { opacity: .85; }
           <option value="../../test_signals/white_noise.wav">White Noise (5 s)</option>
           <option value="../../test_signals/sine_sweep.wav">Sine Sweep (20 Hz → 20 kHz, 5 s)</option>
           <option value="../../test_signals/impulse.wav">Impulse (single sample)</option>
+          <option value="../../test_signals/pink_noise_burst.wav">Pink Noise Burst (1.5 s)</option>
+          <option value="../../test_signals/click_train.wav">Click Train (8 × 500 ms)</option>
+          <option value="../../test_signals/tonal_burst.wav">Tonal Burst (A4 + C♯5, 1 s)</option>
           <option value="custom">Custom WAV…</option>
         </select>
         <input type="file" id="sampler-file-0" accept=".wav,audio/wav"
@@ -678,6 +695,7 @@ Usage via crag-inject-channel-mixers (preferred_channel_mixer = &quot;stereo_to_
       <h2>Parameters</h2>
       <table class="meta-table"><tr><th>Index</th><th>Name</th><th>Min</th><th>Max</th><th>Default</th><th>Unit</th></tr><tr><td>0</td><td>loop</td><td>0</td><td>1</td><td>1</td><td></td></tr></table>
     </div>
+
   </div>
 
   <script>

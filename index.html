@@ -238,6 +238,20 @@ button:hover { opacity: .85; }
   padding-bottom: .22rem;
   border-bottom: 1px solid var(--border);
 }
+.hrtf-banner p {
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  padding: .55rem .7rem;
+  margin: 0;
+}
+.hrtf-banner code { font-family: 'Courier New', monospace; font-size: .9em; }
+.hrtf-banner-placeholder p { border-left-color: #d99a00; }
+.hrtf-banner-real p { border-left-color: #4caf50; }
 .description {
   font-size: .77rem;
   line-height: 1.55;
@@ -391,7 +405,7 @@ details.tree-subdir > summary::marker { display: none; }
 <body>
   <header>
     <h1>Crag Mountain</h1>
-    <p class="subtitle">2026-05-07 16:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>9dc8b70</code></p>
+    <p class="subtitle">2026-05-08 17:14 UTC &nbsp;·&nbsp; commit&nbsp;<code>8d250f5</code></p>
   </header>
 
   <div class="search-wrap">
@@ -474,6 +488,21 @@ details.tree-subdir > summary::marker { display: none; }
 <a class="graph-card" href="reverb/freeverb/index.html" data-name="freeverb" data-desc="freeverb-inspired reverb" data-dir="reverb"><div class="graph-name">freeverb</div><div class="graph-meta">48000 Hz · 1 ch · 5 params</div><div class="graph-desc">Freeverb-Inspired Reverb</div></a>
 <a class="graph-card" href="reverb/schroeder-reverb/index.html" data-name="schroeder_reverb" data-desc="schroeder reverberator" data-dir="reverb"><div class="graph-name">schroeder_reverb</div><div class="graph-meta">48000 Hz · 1 ch · 4 params</div><div class="graph-desc">Schroeder Reverberator</div></a>
 </div>
+</details>
+<details class="tree-dir" open><summary><span class="dir-arrow">&#9658;</span>&nbsp;Spatial&nbsp;<span class="dir-count">(7)</span></summary>
+<div class="graph-grid">
+<a class="graph-card" href="spatial/hrtf_spatializer/index.html" data-name="hrtf_spatializer" data-desc="hrtf spatializer (naive itd/ild reference)" data-dir="spatial"><div class="graph-name">hrtf_spatializer</div><div class="graph-meta">48000 Hz · 1 ch · 4 params</div><div class="graph-desc">HRTF Spatializer (Naive ITD/ILD Reference)</div></a>
+</div>
+<details class="tree-subdir" open><summary><span class="dir-arrow">&#9658;</span>&nbsp;Cipic&nbsp;<span class="dir-count">(3)</span></summary><div class="subdir-graph-grid">
+<a class="graph-card" href="spatial/cipic/hrtf_spatializer_cipic/index.html" data-name="hrtf_spatializer_cipic" data-desc="hrtf spatializer (cipic, fixed-position renderer)" data-dir="spatial/cipic"><div class="graph-name">hrtf_spatializer_cipic</div><div class="graph-meta">48000 Hz · 1 ch · 4 params</div><div class="graph-desc">HRTF Spatializer (CIPIC, fixed-position renderer)</div></a>
+<a class="graph-card" href="spatial/cipic/hrtf_spatializer_cipic_interp/index.html" data-name="hrtf_spatializer_cipic_interp" data-desc="hrtf spatializer (cipic, k=3 linear-interpolation renderer)" data-dir="spatial/cipic"><div class="graph-name">hrtf_spatializer_cipic_interp</div><div class="graph-meta">48000 Hz · 1 ch · 10 params</div><div class="graph-desc">HRTF Spatializer (CIPIC, k=3 linear-interpolation renderer)</div></a>
+<a class="graph-card" href="spatial/cipic/hrtf_spatializer_cipic_runtime/index.html" data-name="hrtf_spatializer_cipic_runtime" data-desc="hrtf spatializer (cipic, runtime-position renderer)" data-dir="spatial/cipic"><div class="graph-name">hrtf_spatializer_cipic_runtime</div><div class="graph-meta">48000 Hz · 1 ch · 5 params</div><div class="graph-desc">HRTF Spatializer (CIPIC, runtime-position renderer)</div></a>
+</div></details>
+<details class="tree-subdir" open><summary><span class="dir-arrow">&#9658;</span>&nbsp;Ss2&nbsp;<span class="dir-count">(3)</span></summary><div class="subdir-graph-grid">
+<a class="graph-card" href="spatial/ss2/hrtf_spatializer_ss2/index.html" data-name="hrtf_spatializer_ss2" data-desc="hrtf spatializer (ss2, fixed-position renderer)" data-dir="spatial/ss2"><div class="graph-name">hrtf_spatializer_ss2</div><div class="graph-meta">48000 Hz · 1 ch · 4 params</div><div class="graph-desc">HRTF Spatializer (SS2, fixed-position renderer)</div></a>
+<a class="graph-card" href="spatial/ss2/hrtf_spatializer_ss2_interp/index.html" data-name="hrtf_spatializer_ss2_interp" data-desc="hrtf spatializer (ss2, k=3 linear-interpolation renderer)" data-dir="spatial/ss2"><div class="graph-name">hrtf_spatializer_ss2_interp</div><div class="graph-meta">48000 Hz · 1 ch · 10 params</div><div class="graph-desc">HRTF Spatializer (SS2, k=3 linear-interpolation renderer)</div></a>
+<a class="graph-card" href="spatial/ss2/hrtf_spatializer_ss2_runtime/index.html" data-name="hrtf_spatializer_ss2_runtime" data-desc="hrtf spatializer (ss2, runtime-position renderer)" data-dir="spatial/ss2"><div class="graph-name">hrtf_spatializer_ss2_runtime</div><div class="graph-meta">48000 Hz · 1 ch · 5 params</div><div class="graph-desc">HRTF Spatializer (SS2, runtime-position renderer)</div></a>
+</div></details>
 </details>
 <details class="tree-dir" open><summary><span class="dir-arrow">&#9658;</span>&nbsp;Utility&nbsp;<span class="dir-count">(2)</span></summary>
 <div class="graph-grid">
