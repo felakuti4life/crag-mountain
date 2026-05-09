@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "bc0d7fb",
+  "compiled_with": "d8baeb2",
   "ops": [
     {
       "id": 0,
@@ -334,7 +334,7 @@
       "id": 25,
       "op": "crag.channel_join",
       "name": "",
-      "file": "/tmp/tmpena1_go4/hrtf_spatializer_ss2.wrapper.mlir",
+      "file": "/tmp/tmp6qw7t49b/hrtf_spatializer_ss2.wrapper.mlir",
       "line": 10,
       "col": 16,
       "graph_stack": [],

@@ -357,6 +357,28 @@ button:hover { opacity: .85; }
   margin-left: .3rem;
 }
 
+.memory-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.memory-table th, .memory-table td {
+  text-align: left;
+  padding: .35rem .5rem;
+  border-bottom: 1px solid var(--border);
+}
+.memory-table th { color: var(--muted); font-weight: normal; }
+.memory-table td.num {
+  text-align: right;
+  font-family: monospace;
+  color: var(--hi);
+}
+.memory-table td.name {
+  font-family: monospace;
+  word-break: break-word;
+}
+.memory-total {
+  margin: .55rem 0 .7rem;
+  font-size: .83rem;
+  color: var(--text);
+}
+
 .sampler-row {
   display: flex;
   gap: .4rem;
@@ -489,7 +511,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>amplitude_envelope</h1>
-      <p class="subtitle">2026-05-09 06:30 UTC &nbsp;·&nbsp; commit&nbsp;<code>5aa6330</code> &nbsp;·&nbsp; compiled with&nbsp;<code>bc0d7fb</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-09 19:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>d8baeb2</code> &nbsp;·&nbsp; compiled with&nbsp;<code>d8baeb2</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=amplitude_envelope"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -642,7 +664,7 @@ button:hover { opacity: .85; }
   <div class="side-panel" id="side-panel" role="complementary" aria-label="Analysis and info">
     <button class="side-close-btn" id="side-close-btn" onclick="toggleSidePanel()">&#10005; Close</button>
 
-  <!-- Analysis (Signal Flow / Spectrograms / Performance) -->
+  <!-- Analysis (Signal Flow / Spectrograms / Performance / Memory Usage) -->
   <div class="card">
     <h2>Analysis</h2>
     <div class="analysis-tabs">

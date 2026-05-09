@@ -357,6 +357,28 @@ button:hover { opacity: .85; }
   margin-left: .3rem;
 }
 
+.memory-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.memory-table th, .memory-table td {
+  text-align: left;
+  padding: .35rem .5rem;
+  border-bottom: 1px solid var(--border);
+}
+.memory-table th { color: var(--muted); font-weight: normal; }
+.memory-table td.num {
+  text-align: right;
+  font-family: monospace;
+  color: var(--hi);
+}
+.memory-table td.name {
+  font-family: monospace;
+  word-break: break-word;
+}
+.memory-total {
+  margin: .55rem 0 .7rem;
+  font-size: .83rem;
+  color: var(--text);
+}
+
 .sampler-row {
   display: flex;
   gap: .4rem;
@@ -489,7 +511,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>chorus</h1>
-      <p class="subtitle">2026-05-09 01:26 UTC &nbsp;·&nbsp; commit&nbsp;<code>b04855b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>bc0d7fb</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-09 19:13 UTC &nbsp;·&nbsp; commit&nbsp;<code>d8baeb2</code> &nbsp;·&nbsp; compiled with&nbsp;<code>d8baeb2</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=chorus"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -653,7 +675,7 @@ button:hover { opacity: .85; }
   <div class="side-panel" id="side-panel" role="complementary" aria-label="Analysis and info">
     <button class="side-close-btn" id="side-close-btn" onclick="toggleSidePanel()">&#10005; Close</button>
 
-  <!-- Analysis (Signal Flow / Spectrograms / Performance) -->
+  <!-- Analysis (Signal Flow / Spectrograms / Performance / Memory Usage) -->
   <div class="card">
     <h2>Analysis</h2>
     <div class="analysis-tabs">
@@ -705,10 +727,10 @@ button:hover { opacity: .85; }
 <text x="84" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">arg0</text>
 <rect x="28" y="96" width="112" height="44" rx="6" fill="#3d2800" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="84" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Delay</text>
-<text x="84" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">D=4800</text>
+<text x="84" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">D=?</text>
 <rect x="183" y="36" width="112" height="44" rx="6" fill="#5c1a00" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="239" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Write↺</text>
-<text x="239" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">D=4800</text>
+<text x="239" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">D=?</text>
 <rect x="183" y="96" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
 <text x="239" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
 <text x="239" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
@@ -759,10 +781,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.211</td>
-        <td class="num">111.5</td>
-        <td class="num">0.2178</td>
-        <td class="num">308</td>
+        <td class="num">1.221</td>
+        <td class="num">112.8</td>
+        <td class="num">0.2202</td>
+        <td class="num">313</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:92%"></div>
@@ -772,10 +794,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.548</td>
-        <td class="num">74.2</td>
-        <td class="num">0.1449</td>
-        <td class="num">308</td>
+        <td class="num">1.560</td>
+        <td class="num">75.0</td>
+        <td class="num">0.1465</td>
+        <td class="num">313</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:61%"></div>
@@ -785,10 +807,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.178</td>
-        <td class="num">52.0</td>
-        <td class="num">0.1016</td>
-        <td class="num">308</td>
+        <td class="num">2.198</td>
+        <td class="num">52.8</td>
+        <td class="num">0.1032</td>
+        <td class="num">313</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:43%"></div>
@@ -798,10 +820,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.148</td>
-        <td class="num">121.0</td>
-        <td class="num">0.2363</td>
-        <td class="num">312</td>
+        <td class="num">1.158</td>
+        <td class="num">122.7</td>
+        <td class="num">0.2396</td>
+        <td class="num">317</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -811,13 +833,13 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.144</td>
+        <td class="num">1.154</td>
         <td class="num">60.7</td>
         <td class="num">0.1185</td>
-        <td class="num">312</td>
+        <td class="num">317</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:50%"></div>
+            <div class="perf-bar" style="width:49%"></div>
           </div>
         </td>
       </tr>
@@ -861,18 +883,32 @@ Algorithm:
     2. Compute LFO: lfo(t) = sin(2π · rate · t + phase_offset)
     3. Compute modulated delay (in samples):
          D = center_ms · sr / 1000 + depth_ms · sr / 1000 · lfo(t)
-    4. Compute peek offset from buffer head: offset = bufSize - D
+    4. Clamp D into the safe range [blockSize, maxSize] so the read never
+       walks off the end of the buffer or past the most recent write.
+       Without this clamp, parameter combinations such as
+       center_ms = 10, depth_ms = 20, lfo = -1  would yield a negative
+       delay and the peek offset would wrap, producing very loud audio
+       artifacts.  `crag.block_size` is used so the lower bound tracks
+       the actual host block size at compile time.
+    5. Compute peek offset from buffer head: offset = maxSize - D
        (since head points to the oldest sample, offset selects how far
-        past the head to start reading, giving a delay of bufSize-offset
+        past the head to start reading, giving a delay of maxSize-offset
         samples from the most recent write)
-    5. Peek (non-destructive read) at that offset.
-    6. Mix: out = dry_level · in + wet_level · peeked
+    6. Peek (non-destructive read) at that offset.
+    7. Mix: out = dry_level · in + wet_level · peeked
 
-The buffer is large enough to accommodate the maximum modulated delay
-(center + depth) with headroom.  At 48 kHz:
-  bufSize = 4800 samples (100 ms)
-  center  ≈ 20 ms = 960 samples
-  depth   ≈ 10 ms = 480 samples   → max delay 30 ms = 1440 samples
+The buffer uses the modulatable-delay form (delaySize, maxSize):
+  delaySize = 960  samples — nominal centre delay (20 ms) used for
+                             periodicity analysis and run-time estimates.
+  maxSize   = 4800 samples — actual allocated buffer (100 ms) sized to
+                             hold the worst-case modulated delay
+                             (max_center + max_depth = 50 + 20 = 70 ms
+                             = 3360 samples) plus block-size headroom.
+At 48 kHz, parameter ranges produce delays in:
+  center_ms ∈ [10, 50]  → [480, 2400] samples
+  depth_ms  ∈ [1, 20]   → [48, 960]   samples
+  delay     = center ± depth          → [-480, 3360] samples (pre-clamp)
+                                      → [blockSize, 3360]    (post-clamp)
 
 Parameters:
   rate       [0.05, 5]   – LFO frequency in Hz        (default 0.5)

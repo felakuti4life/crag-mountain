@@ -10,18 +10,32 @@
 //     2. Compute LFO: lfo(t) = sin(2π · rate · t + phase_offset)
 //     3. Compute modulated delay (in samples):
 //          D = center_ms · sr / 1000 + depth_ms · sr / 1000 · lfo(t)
-//     4. Compute peek offset from buffer head: offset = bufSize - D
+//     4. Clamp D into the safe range [blockSize, maxSize] so the read never
+//        walks off the end of the buffer or past the most recent write.
+//        Without this clamp, parameter combinations such as
+//        center_ms = 10, depth_ms = 20, lfo = -1  would yield a negative
+//        delay and the peek offset would wrap, producing very loud audio
+//        artifacts.  `crag.block_size` is used so the lower bound tracks
+//        the actual host block size at compile time.
+//     5. Compute peek offset from buffer head: offset = maxSize - D
 //        (since head points to the oldest sample, offset selects how far
-//         past the head to start reading, giving a delay of bufSize-offset
+//         past the head to start reading, giving a delay of maxSize-offset
 //         samples from the most recent write)
-//     5. Peek (non-destructive read) at that offset.
-//     6. Mix: out = dry_level · in + wet_level · peeked
+//     6. Peek (non-destructive read) at that offset.
+//     7. Mix: out = dry_level · in + wet_level · peeked
 //
-// The buffer is large enough to accommodate the maximum modulated delay
-// (center + depth) with headroom.  At 48 kHz:
-//   bufSize = 4800 samples (100 ms)
-//   center  ≈ 20 ms = 960 samples
-//   depth   ≈ 10 ms = 480 samples   → max delay 30 ms = 1440 samples
+// The buffer uses the modulatable-delay form (delaySize, maxSize):
+//   delaySize = 960  samples — nominal centre delay (20 ms) used for
+//                              periodicity analysis and run-time estimates.
+//   maxSize   = 4800 samples — actual allocated buffer (100 ms) sized to
+//                              hold the worst-case modulated delay
+//                              (max_center + max_depth = 50 + 20 = 70 ms
+//                              = 3360 samples) plus block-size headroom.
+// At 48 kHz, parameter ranges produce delays in:
+//   center_ms ∈ [10, 50]  → [480, 2400] samples
+//   depth_ms  ∈ [1, 20]   → [48, 960]   samples
+//   delay     = center ± depth          → [-480, 3360] samples (pre-clamp)
+//                                       → [blockSize, 3360]    (post-clamp)
 //
 // Parameters:
 //   rate       [0.05, 5]   – LFO frequency in Hz        (default 0.5)
@@ -53,11 +67,13 @@ module {
     %dry_level = crag.param "dry_level" min = 0.0  max = 1.0  default = 0.5  : f32
 
     // -----------------------------------------------------------------------
-    // Shared circular buffer (mono input, 100 ms at 48 kHz)
-    // bufSize = 4800 samples
+    // Shared circular buffer (mono input) using the modulatable-delay form:
+    //   delaySize = 960  — nominal 20 ms reading depth for timing analysis.
+    //   maxSize   = 4800 — actual 100 ms backing buffer for the LFO swing
+    //                       plus block-size headroom.
     // -----------------------------------------------------------------------
-    %dl = crag.delay_line : !crag.delay<f32, 48000, 1, 4800>
-    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 4800>,
+    %dl = crag.delay_line : !crag.delay<f32, 48000, 1, 960, 4800>
+    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 960, 4800>,
                                 !crag.audio<f32, 0, 0>
 
     // -----------------------------------------------------------------------
@@ -66,7 +82,14 @@ module {
     %sr       = arith.constant 48000.0 : f32
     %two_pi   = arith.constant 6.28318530 : f32
     %ms_scale = arith.constant 0.001 : f32  // multiply ms by sr * 0.001 → samples
-    %buf_f    = arith.constant 4800.0 : f32 // bufSize as f32
+    %buf_f    = arith.constant 4800.0 : f32 // maxSize as f32
+
+    // Block size as f32 — used as the lower clamp for the modulated delay
+    // so the peek offset never exceeds maxSize - blockSize (the strict
+    // bounds check enforces 0 ≤ offset ≤ maxSize - blockSize).
+    %bs_i64 = crag.block_size : i64
+    %bs_i32 = arith.trunci %bs_i64 : i64 to i32
+    %bs_f   = arith.sitofp %bs_i32 : i32 to f32
 
     // Convert current time to f32 for LFO computation
     %t_f64 = crag.curtime : f64
@@ -93,11 +116,15 @@ module {
     //
     //   center_samp = center_ms · sr · ms_scale
     //   depth_samp  = depth_ms  · sr · ms_scale
-    //   delay_samp  = center_samp + depth_samp · lfo   (in [0, bufSize))
-    //   offset_i32  = (int)(bufSize - delay_samp)
+    //   delay_samp  = center_samp + depth_samp · lfo
+    //   delay_clamp = clamp(delay_samp, blockSize, maxSize)
+    //   offset_i32  = (int)(maxSize - delay_clamp)
     //
-    // The offset is clamped implicitly: center ≥ 10 ms (480 samp) and
-    // depth ≤ 20 ms (960 samp) so delay ≤ 30 ms (1440 samp) << 4800.
+    // The clamp guarantees offset ∈ [0, maxSize - blockSize] regardless of
+    // parameter combination, satisfying the strict-bounds-check invariant
+    // for crag.peek_delay and eliminating the loud wrap-around artifacts
+    // that would otherwise occur when (center - depth · lfo) goes near or
+    // below zero.
     // -----------------------------------------------------------------------
     %sr_ms = arith.mulf %sr, %ms_scale : f32
 
@@ -105,23 +132,27 @@ module {
     %depth_samp  = arith.mulf %depth_ms,  %sr_ms : f32
 
     // Left delay
-    %mod_l     = arith.mulf %depth_samp, %lfo_l : f32
-    %delay_l   = arith.addf %center_samp, %mod_l : f32
-    %off_l_f   = arith.subf %buf_f, %delay_l : f32
-    %off_l     = arith.fptosi %off_l_f : f32 to i32
+    %mod_l       = arith.mulf %depth_samp, %lfo_l : f32
+    %delay_l     = arith.addf %center_samp, %mod_l : f32
+    %delay_l_lo  = arith.maximumf %delay_l, %bs_f : f32
+    %delay_l_c   = arith.minimumf %delay_l_lo, %buf_f : f32
+    %off_l_f     = arith.subf %buf_f, %delay_l_c : f32
+    %off_l       = arith.fptosi %off_l_f : f32 to i32
 
     // Right delay
-    %mod_r     = arith.mulf %depth_samp, %lfo_r : f32
-    %delay_r   = arith.addf %center_samp, %mod_r : f32
-    %off_r_f   = arith.subf %buf_f, %delay_r : f32
-    %off_r     = arith.fptosi %off_r_f : f32 to i32
+    %mod_r       = arith.mulf %depth_samp, %lfo_r : f32
+    %delay_r     = arith.addf %center_samp, %mod_r : f32
+    %delay_r_lo  = arith.maximumf %delay_r, %bs_f : f32
+    %delay_r_c   = arith.minimumf %delay_r_lo, %buf_f : f32
+    %off_r_f     = arith.subf %buf_f, %delay_r_c : f32
+    %off_r       = arith.fptosi %off_r_f : f32 to i32
 
     // -----------------------------------------------------------------------
     // Peek at each offset
     // -----------------------------------------------------------------------
-    %wet_l = crag.peek_delay %dl, %off_l : !crag.delay<f32, 48000, 1, 4800>, i32
+    %wet_l = crag.peek_delay %dl, %off_l : !crag.delay<f32, 48000, 1, 960, 4800>, i32
                  -> !crag.audio<f32, 0, 0>
-    %wet_r = crag.peek_delay %dl, %off_r : !crag.delay<f32, 48000, 1, 4800>, i32
+    %wet_r = crag.peek_delay %dl, %off_r : !crag.delay<f32, 48000, 1, 960, 4800>, i32
                  -> !crag.audio<f32, 0, 0>
 
     // -----------------------------------------------------------------------

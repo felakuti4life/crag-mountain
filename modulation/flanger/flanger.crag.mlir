@@ -11,16 +11,31 @@
 //   1. Push the dry input into the circular buffer.
 //   2. Compute the LFO-modulated delay time:
 //        D = center_ms · sr/1000 + depth_ms · sr/1000 · sin(2π · rate · t)
-//   3. Peek (non-destructive read) at offset = bufSize - D from buffer head.
-//   4. Mix with feedback from the previous block:
+//   3. Clamp D into the safe range [blockSize, maxSize] so the peek offset
+//      stays within the buffer.  Without this clamp the typical flanger
+//      parameter range — center_ms ≈ 1 ms, depth_ms ≈ 1 ms — yields
+//      delays at or below the block size, the peek offset overflows the
+//      strict-bounds invariant and the read wraps to give very loud
+//      artifacts.  `crag.block_size` is used so the lower bound tracks
+//      the host block size automatically.
+//   4. Peek (non-destructive read) at offset = maxSize - D from buffer head.
+//   5. Mix with feedback from the previous block:
 //        wet[n] = peeked[n] + feedback · prev_wet[n]
 //        (prev_wet is stored in a second delay_line of length 1 block)
-//   5. Output: out = dry · in + wet_level · wet
+//   6. Output: out = dry · in + wet_level · wet
 //
-// Buffer parameters (at 48 kHz):
-//   bufSize = 2400 samples (50 ms — covers the longest modulated delay)
-//   center  ≈ 1 ms  = 48 samples
-//   depth   ≈ 1 ms  = 48 samples   → delay range [0 ms, 2 ms]
+// Buffer parameters (at 48 kHz) — modulatable-delay form (delaySize, maxSize):
+//   delaySize = 48   samples — nominal centre delay (1 ms) for periodicity
+//                              analysis and run-time estimates.
+//   maxSize   = 2400 samples — actual allocated buffer (50 ms) sized to hold
+//                              the worst-case modulated delay (max_center +
+//                              max_depth = 15 ms = 720 samples) plus
+//                              comfortable block-size headroom.
+// At 48 kHz, parameter ranges produce delays in:
+//   center_ms ∈ [0.5, 10] → [24, 480] samples
+//   depth_ms  ∈ [0.1, 5]  → [4.8, 240] samples
+//   delay     = center ± depth → [-216, 720] samples (pre-clamp)
+//                              → [blockSize, 720]    (post-clamp)
 //
 // Parameters:
 //   rate       [0.05, 5]   – LFO frequency in Hz           (default 0.3)
@@ -55,11 +70,14 @@ module {
     %dry_level = crag.param "dry_level" min = 0.0  max = 1.0  default = 0.7  : f32
 
     // -----------------------------------------------------------------------
-    // Circular delay buffer for the main signal (50 ms @ 48 kHz = 2400 samples)
+    // Circular delay buffer for the main signal — modulatable-delay form:
+    //   delaySize = 48   — nominal 1 ms reading depth for timing analysis.
+    //   maxSize   = 2400 — actual 50 ms backing buffer for the LFO swing
+    //                       plus block-size headroom.
     // Feedback delay line: stores one block of the wet output so it can be
     // mixed back in on the next block.
     // -----------------------------------------------------------------------
-    %dl  = crag.delay_line : !crag.delay<f32, 48000, 1, 2400>
+    %dl  = crag.delay_line : !crag.delay<f32, 48000, 1, 48, 2400>
     %fbl = crag.delay_line : !crag.delay<f32, 48000, 1, 512>
 
     // -----------------------------------------------------------------------
@@ -71,7 +89,7 @@ module {
     // -----------------------------------------------------------------------
     // Push the dry input into the circular buffer
     // -----------------------------------------------------------------------
-    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 2400>,
+    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 48, 2400>,
                                 !crag.audio<f32, 0, 0>
 
     // -----------------------------------------------------------------------
@@ -80,7 +98,13 @@ module {
     %sr       = arith.constant 48000.0 : f32
     %two_pi   = arith.constant 6.28318530 : f32
     %ms_scale = arith.constant 0.001 : f32
-    %buf_f    = arith.constant 2400.0 : f32
+    %buf_f    = arith.constant 2400.0 : f32   // maxSize as f32
+
+    // Block size as f32 — used as the lower clamp for the modulated delay
+    // so the peek offset stays within [0, maxSize - blockSize].
+    %bs_i64 = crag.block_size : i64
+    %bs_i32 = arith.trunci %bs_i64 : i64 to i32
+    %bs_f   = arith.sitofp %bs_i32 : i32 to f32
 
     %t_f64 = crag.curtime : f64
     %t_f32 = arith.truncf %t_f64 : f64 to f32
@@ -89,20 +113,29 @@ module {
     %lfo   = math.sin %phase : f32
 
     // -----------------------------------------------------------------------
-    // Compute modulated delay in samples and offset from head
+    // Compute modulated delay in samples and offset from head.
+    //
+    //   delay_samp  = center_samp + depth_samp · lfo
+    //   delay_clamp = clamp(delay_samp, blockSize, maxSize)
+    //   offset      = (int)(maxSize - delay_clamp)
+    //
+    // The clamp guarantees offset ∈ [0, maxSize - blockSize] regardless of
+    // parameter combination.
     // -----------------------------------------------------------------------
     %sr_ms       = arith.mulf %sr, %ms_scale : f32
     %center_samp = arith.mulf %center_ms, %sr_ms : f32
     %depth_samp  = arith.mulf %depth_ms,  %sr_ms : f32
     %mod         = arith.mulf %depth_samp, %lfo : f32
     %delay_samp  = arith.addf %center_samp, %mod : f32
-    %off_f       = arith.subf %buf_f, %delay_samp : f32
+    %delay_lo    = arith.maximumf %delay_samp, %bs_f : f32
+    %delay_c     = arith.minimumf %delay_lo,   %buf_f : f32
+    %off_f       = arith.subf %buf_f, %delay_c : f32
     %off         = arith.fptosi %off_f : f32 to i32
 
     // -----------------------------------------------------------------------
     // Peek at the modulated offset
     // -----------------------------------------------------------------------
-    %peeked = crag.peek_delay %dl, %off : !crag.delay<f32, 48000, 1, 2400>, i32
+    %peeked = crag.peek_delay %dl, %off : !crag.delay<f32, 48000, 1, 48, 2400>, i32
                   -> !crag.audio<f32, 0, 0>
 
     // -----------------------------------------------------------------------
