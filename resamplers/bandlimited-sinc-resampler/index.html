@@ -105,6 +105,38 @@ a:hover { text-decoration: underline; }
   letter-spacing: .05em;
   margin-bottom: .3rem;
 }
+/* Native <meter> bar styling */
+meter.crag-meter {
+  width: 100%;
+  display: block;
+  height: 12px;
+  /* Firefox resets native appearance so we can restyle. */
+  appearance: none;
+  -moz-appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+/* WebKit: bar background */
+meter.crag-meter::-webkit-meter-bar {
+  background: var(--bg);
+  border: none;
+  border-radius: 3px;
+}
+/* WebKit: fill colour — override all three states so it always shows --hi */
+meter.crag-meter::-webkit-meter-optimum-value,
+meter.crag-meter::-webkit-meter-suboptimum-value,
+meter.crag-meter::-webkit-meter-even-less-good-value {
+  background: var(--hi);
+  border-radius: 3px;
+  transition: width .1s;
+}
+/* Firefox: fill colour */
+meter.crag-meter::-moz-meter-bar {
+  background: var(--hi);
+  border-radius: 3px;
+}
 
 /* Right pane: parameters + samplers */
 .controls-pane {
@@ -457,7 +489,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>bandlimited_sinc_resampler</h1>
-      <p class="subtitle">2026-05-08 21:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>bc0d7fb</code> &nbsp;·&nbsp; compiled with&nbsp;<code>bc0d7fb</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-09 01:26 UTC &nbsp;·&nbsp; commit&nbsp;<code>b04855b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>bc0d7fb</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=bandlimited-sinc-resampler"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -489,9 +521,7 @@ button:hover { opacity: .85; }
             
           </span>
         </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
-          <div id="meter-bar-0" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
+        <meter id="meter-bar-0" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
         <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
       </div>
       <div style="margin-bottom:.5rem">
@@ -502,9 +532,7 @@ button:hover { opacity: .85; }
             
           </span>
         </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
-          <div id="meter-bar-1" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
+        <meter id="meter-bar-1" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
         <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
       </div>
       <div style="margin-bottom:.5rem">
@@ -515,9 +543,7 @@ button:hover { opacity: .85; }
             
           </span>
         </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;height:10px;overflow:hidden">
-          <div id="meter-bar-2" style="background:var(--hi);height:10px;width:0%;border-radius:3px;transition:width .1s"></div>
-        </div>
+        <meter id="meter-bar-2" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
         <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
       </div>
       </div>
@@ -843,10 +869,9 @@ Usage (after crag.include):
       if (!player) return;
       for (const def of _METER_DEFS) {
         const val = player.getMeter(def.idx);
-        const pct = Math.max(0, Math.min(100, (val - def.min) / (def.max - def.min) * 100));
         const barEl = document.getElementById('meter-bar-' + def.idx);
         const valEl = document.getElementById('meter-val-' + def.idx);
-        if (barEl) barEl.style.width = pct.toFixed(1) + '%';
+        if (barEl) barEl.value = val;
         if (valEl) valEl.textContent = val.toFixed(4);
       }
       _meterRafId = requestAnimationFrame(_meterLoop);

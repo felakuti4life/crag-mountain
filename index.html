@@ -105,6 +105,38 @@ a:hover { text-decoration: underline; }
   letter-spacing: .05em;
   margin-bottom: .3rem;
 }
+/* Native <meter> bar styling */
+meter.crag-meter {
+  width: 100%;
+  display: block;
+  height: 12px;
+  /* Firefox resets native appearance so we can restyle. */
+  appearance: none;
+  -moz-appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+/* WebKit: bar background */
+meter.crag-meter::-webkit-meter-bar {
+  background: var(--bg);
+  border: none;
+  border-radius: 3px;
+}
+/* WebKit: fill colour — override all three states so it always shows --hi */
+meter.crag-meter::-webkit-meter-optimum-value,
+meter.crag-meter::-webkit-meter-suboptimum-value,
+meter.crag-meter::-webkit-meter-even-less-good-value {
+  background: var(--hi);
+  border-radius: 3px;
+  transition: width .1s;
+}
+/* Firefox: fill colour */
+meter.crag-meter::-moz-meter-bar {
+  background: var(--hi);
+  border-radius: 3px;
+}
 
 /* Right pane: parameters + samplers */
 .controls-pane {
@@ -405,7 +437,7 @@ details.tree-subdir > summary::marker { display: none; }
 <body>
   <header>
     <h1>Crag Mountain</h1>
-    <p class="subtitle">2026-05-08 21:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>bc0d7fb</code></p>
+    <p class="subtitle">2026-05-09 01:26 UTC &nbsp;·&nbsp; commit&nbsp;<code>b04855b</code></p>
     <p style="margin:.5rem 0 0"><a href="debugger.html"
        style="color:var(--accent,#6db3ff);text-decoration:none">&#x1F52C;&nbsp;Open
        Debugger</a></p>
