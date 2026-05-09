@@ -282,26 +282,6 @@
       "short_desc": "Granulator"
     },
     {
-      "stem": "chorus",
-      "subdir": "modulation",
-      "name": "chorus",
-      "wasm": "modulation/chorus/chorus.wasm",
-      "meta": "modulation/chorus/chorus.wasm.cragmeta",
-      "debug": "modulation/chorus/chorus.wasm.cragdebug.json",
-      "source": "modulation/chorus/chorus.crag.mlir",
-      "short_desc": "Stereo Chorus"
-    },
-    {
-      "stem": "flanger",
-      "subdir": "modulation",
-      "name": "flanger",
-      "wasm": "modulation/flanger/flanger.wasm",
-      "meta": "modulation/flanger/flanger.wasm.cragmeta",
-      "debug": "modulation/flanger/flanger.wasm.cragdebug.json",
-      "source": "modulation/flanger/flanger.crag.mlir",
-      "short_desc": "Flanger"
-    },
-    {
       "stem": "phaser",
       "subdir": "modulation",
       "name": "phaser",
@@ -310,16 +290,6 @@
       "debug": "modulation/phaser/phaser.wasm.cragdebug.json",
       "source": "modulation/phaser/phaser.crag.mlir",
       "short_desc": "Phaser"
-    },
-    {
-      "stem": "vibrato",
-      "subdir": "modulation",
-      "name": "vibrato",
-      "wasm": "modulation/vibrato/vibrato.wasm",
-      "meta": "modulation/vibrato/vibrato.wasm.cragmeta",
-      "debug": "modulation/vibrato/vibrato.wasm.cragdebug.json",
-      "source": "modulation/vibrato/vibrato.crag.mlir",
-      "short_desc": "Vibrato"
     },
     {
       "stem": "random-wave",
