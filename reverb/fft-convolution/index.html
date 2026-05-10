@@ -425,6 +425,51 @@ button:hover { opacity: .85; }
   min-height: .85em;
 }
 
+.event-row {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .3rem;
+  flex-wrap: wrap;
+}
+.event-row label {
+  font-size: .73rem;
+  font-weight: bold;
+  min-width: 6rem;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+.event-row input[type=number] {
+  width: 5rem;
+  padding: .2rem .3rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .73rem;
+  font-family: inherit;
+}
+.event-row select {
+  flex: 1;
+  min-width: 5rem;
+  padding: .2rem .3rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .73rem;
+  font-family: inherit;
+}
+.event-row button.fire-btn {
+  padding: .18rem .55rem;
+  font-size: .73rem;
+  background: var(--hi);
+  color: #fff;
+}
+
 .svg-flow-wrap {
   overflow-x: auto;
   border-radius: 6px;
@@ -511,7 +556,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>fft_convolution</h1>
-      <p class="subtitle">2026-05-10 00:43 UTC &nbsp;·&nbsp; commit&nbsp;<code>144d46a</code> &nbsp;·&nbsp; compiled with&nbsp;<code>144d46a</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-10 18:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>7c7d134</code> &nbsp;·&nbsp; compiled with&nbsp;<code>71f5f39</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=fft-convolution"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -549,7 +594,7 @@ button:hover { opacity: .85; }
       </div>
     </div>
 
-    <!-- Right pane: parameter sliders + samplers -->
+    <!-- Right pane: parameter sliders + samplers + events -->
     <div class="controls-pane">
       <div class="pane-section-title">Parameters</div>
       <div class="param-grid">
@@ -591,6 +636,7 @@ button:hover { opacity: .85; }
         <button class="bind-btn" onclick="bindSampler(1)">Load</button>
       </div>
       <div class="sampler-status" id="sampler-status-1">Not loaded.</div>
+
     </div>
 
   </div>
@@ -975,6 +1021,7 @@ a standalone module.  Include it from another module via:
         console.error(e);
       }
     }
+
     init();
   </script>
 </body>
