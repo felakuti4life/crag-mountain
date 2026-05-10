@@ -323,6 +323,13 @@ function _runOneBlock() {
   _hit       = hit;
   _hitReason = reason;
 
+  // Halt immediately on breakpoint hit so execution stops even if anything in
+  // the reporting path below (texture snapshotting / postMessage) fails.
+  if (hit) {
+    _runMode = "stopped";
+    _stopRunLoop();
+  }
+
   // Texture snapshots (one per visualizer).
   const textures = [];
   for (let i = 0; i < _numVisualizers; i++) {
@@ -342,10 +349,6 @@ function _runOneBlock() {
     stable:     _readStable(),
   });
 
-  if (hit) {
-    _runMode = "stopped";
-    _stopRunLoop();
-  }
 }
 
 function _startRunLoop() {

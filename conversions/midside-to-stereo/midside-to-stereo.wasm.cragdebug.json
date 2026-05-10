@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "d8baeb2",
+  "compiled_with": "144d46a",
   "ops": [
     {
       "id": 0,
@@ -334,7 +334,7 @@
       "id": 25,
       "op": "crag.channel_join",
       "name": "",
-      "file": "/tmp/tmp6qw7t49b/midside-to-stereo.wrapper.mlir",
+      "file": "/tmp/tmp8175fg1s/midside-to-stereo.wrapper.mlir",
       "line": 8,
       "col": 14,
       "graph_stack": [],
