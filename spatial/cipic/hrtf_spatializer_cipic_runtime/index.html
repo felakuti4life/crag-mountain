@@ -469,6 +469,28 @@ button:hover { opacity: .85; }
   background: var(--hi);
   color: #fff;
 }
+/* Struct event field layout */
+.event-struct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  min-width: 0;
+}
+.event-struct-field {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.event-struct-field-name {
+  font-size: .68rem;
+  color: var(--muted);
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .svg-flow-wrap {
   overflow-x: auto;
@@ -556,7 +578,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>hrtf_spatializer_cipic_runtime</h1>
-      <p class="subtitle">2026-05-10 18:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>7c7d134</code> &nbsp;·&nbsp; compiled with&nbsp;<code>71f5f39</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-11 15:41 UTC &nbsp;·&nbsp; commit&nbsp;<code>6148f55</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6148f55</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../../debugger.html?graph=hrtf_spatializer_cipic_runtime"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -847,10 +869,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.367</td>
-        <td class="num">248.8</td>
-        <td class="num">0.4858</td>
-        <td class="num">740</td>
+        <td class="num">1.395</td>
+        <td class="num">255.8</td>
+        <td class="num">0.4995</td>
+        <td class="num">768</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:89%"></div>
@@ -860,10 +882,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.597</td>
-        <td class="num">165.0</td>
-        <td class="num">0.3223</td>
-        <td class="num">740</td>
+        <td class="num">1.605</td>
+        <td class="num">169.7</td>
+        <td class="num">0.3314</td>
+        <td class="num">768</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:59%"></div>
@@ -873,10 +895,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.268</td>
-        <td class="num">125.2</td>
-        <td class="num">0.2445</td>
-        <td class="num">738</td>
+        <td class="num">2.280</td>
+        <td class="num">129.8</td>
+        <td class="num">0.2536</td>
+        <td class="num">766</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:45%"></div>
@@ -886,10 +908,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.111</td>
-        <td class="num">280.7</td>
-        <td class="num">0.5482</td>
-        <td class="num">716</td>
+        <td class="num">1.133</td>
+        <td class="num">288.3</td>
+        <td class="num">0.5632</td>
+        <td class="num">740</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -899,10 +921,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.093</td>
-        <td class="num">143.7</td>
-        <td class="num">0.2806</td>
-        <td class="num">712</td>
+        <td class="num">1.122</td>
+        <td class="num">146.3</td>
+        <td class="num">0.2858</td>
+        <td class="num">736</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:51%"></div>
@@ -1239,6 +1261,8 @@ packed cache entry.</div>
         console.error(e);
       }
     }
+
+    const _STRUCT_EVENT_DEFS = {};
 
     function fireVoidEvent(idx) {
       if (!player) { alert('Player not ready yet.'); return; }

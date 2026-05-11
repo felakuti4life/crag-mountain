@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "loop",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "drive",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 7.500000e-01,
+      "float_index": 1
+    },
+    {
+      "name": "turns_ratio",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 8.000000e+00,
+      "default": 2.300000e+00,
+      "float_index": 2
+    }
+  ],
+  "samplers": ["audio"],
+  "events": [
+    {
+      "name": "start",
+      "type": "void",
+      "void_index": 0
+    },
+    {
+      "name": "stop",
+      "type": "void",
+      "void_index": 1
+    }
+  ],
+  "meters": [
+    {
+      "name": "progress",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "wave_player",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "el34_push_pull",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 2
+    }
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "6148f55"
+}

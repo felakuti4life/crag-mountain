@@ -469,6 +469,28 @@ button:hover { opacity: .85; }
   background: var(--hi);
   color: #fff;
 }
+/* Struct event field layout */
+.event-struct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  min-width: 0;
+}
+.event-struct-field {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.event-struct-field-name {
+  font-size: .68rem;
+  color: var(--muted);
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .svg-flow-wrap {
   overflow-x: auto;
@@ -556,7 +578,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>decode_foa_mono</h1>
-      <p class="subtitle">2026-05-10 18:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>7c7d134</code> &nbsp;·&nbsp; compiled with&nbsp;<code>71f5f39</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-11 15:41 UTC &nbsp;·&nbsp; commit&nbsp;<code>6148f55</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6148f55</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../../debugger.html?graph=decode-foa-mono"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -1095,6 +1117,8 @@ References:
         console.error(e);
       }
     }
+
+    const _STRUCT_EVENT_DEFS = {};
 
     function fireVoidEvent(idx) {
       if (!player) { alert('Player not ready yet.'); return; }

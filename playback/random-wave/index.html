@@ -469,6 +469,28 @@ button:hover { opacity: .85; }
   background: var(--hi);
   color: #fff;
 }
+/* Struct event field layout */
+.event-struct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  min-width: 0;
+}
+.event-struct-field {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.event-struct-field-name {
+  font-size: .68rem;
+  color: var(--muted);
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .svg-flow-wrap {
   overflow-x: auto;
@@ -556,7 +578,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>random-wave</h1>
-      <p class="subtitle">2026-05-10 18:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>7c7d134</code> &nbsp;·&nbsp; compiled with&nbsp;<code>71f5f39</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-11 15:41 UTC &nbsp;·&nbsp; commit&nbsp;<code>6148f55</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6148f55</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=random-wave"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -702,10 +724,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.207</td>
-        <td class="num">81.8</td>
-        <td class="num">0.1597</td>
-        <td class="num">214</td>
+        <td class="num">1.176</td>
+        <td class="num">85.8</td>
+        <td class="num">0.1675</td>
+        <td class="num">223</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -715,10 +737,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.387</td>
-        <td class="num">53.8</td>
-        <td class="num">0.1051</td>
-        <td class="num">214</td>
+        <td class="num">1.418</td>
+        <td class="num">56.3</td>
+        <td class="num">0.1100</td>
+        <td class="num">223</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:66%"></div>
@@ -728,10 +750,10 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.371</td>
-        <td class="num">36.3</td>
-        <td class="num">0.0710</td>
-        <td class="num">214</td>
+        <td class="num">2.379</td>
+        <td class="num">38.0</td>
+        <td class="num">0.0742</td>
+        <td class="num">223</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:44%"></div>
@@ -741,26 +763,26 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">0.984</td>
-        <td class="num">80.7</td>
-        <td class="num">0.1576</td>
-        <td class="num">208</td>
+        <td class="num">1.003</td>
+        <td class="num">84.3</td>
+        <td class="num">0.1647</td>
+        <td class="num">216</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:99%"></div>
+            <div class="perf-bar" style="width:98%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.217</td>
-        <td class="num">43.0</td>
-        <td class="num">0.0840</td>
-        <td class="num">208</td>
+        <td class="num">1.053</td>
+        <td class="num">44.0</td>
+        <td class="num">0.0859</td>
+        <td class="num">216</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:53%"></div>
+            <div class="perf-bar" style="width:51%"></div>
           </div>
         </td>
       </tr>

@@ -380,6 +380,7 @@ class CragProcessor extends AudioWorkletProcessor {
     this._fireEventFn      = null;
     this._fireEventF32Fn   = null;
     this._fireEventI32Fn   = null;
+    this._fireEventStructFn = null;
     this._bindSamplerFn    = null;
     this._isStablePtr      = 0;
     this._unstableCheckIdxPtr = 0;
@@ -417,6 +418,9 @@ class CragProcessor extends AudioWorkletProcessor {
       case "fireEventInt":
         if (this._fireEventI32Fn)
           this._fireEventI32Fn(msg.idx, msg.sampleOffset | 0, msg.value | 0);
+        break;
+      case "fireEventStruct":
+        this._fireWorkletEventStruct(msg);
         break;
       case "visualize":
         this._handleVisualize(msg.idx);
@@ -456,6 +460,7 @@ class CragProcessor extends AudioWorkletProcessor {
     this._fireEventFn    = e.crag_fire_event        || null;
     this._fireEventF32Fn = e.crag_fire_event_float  || null;
     this._fireEventI32Fn = e.crag_fire_event_int    || null;
+    this._fireEventStructFn = e.crag_fire_event_struct || null;
     this._bindSamplerFn  = e.crag_bind_audio_by_index || null;
 
     this._isStablePtr         = e.crag_is_stable          ? e.crag_is_stable.value          : 0;
@@ -517,6 +522,22 @@ class CragProcessor extends AudioWorkletProcessor {
     this._heapState.ptr += (byteLen + 7) & ~7;
     new Float32Array(mem.buffer, ptr, numSamples).set(samples);
     this._bindSamplerFn(idx, BigInt(ptr), numSamples);
+  }
+
+  _fireWorkletEventStruct({ idx, sampleOffset, bytes }) {
+    if (!this._ready || !this._fireEventStructFn) return;
+    const byteLen = bytes.byteLength;
+    if (byteLen <= 0 || byteLen > 65536) return; // sanity check — struct payloads are small
+    const mem     = this._memory;
+    const needed  = this._heapState.ptr + byteLen;
+    if (needed > mem.buffer.byteLength) {
+      const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
+      mem.grow(pages);
+    }
+    const ptr = this._heapState.ptr;
+    this._heapState.ptr += (byteLen + 7) & ~7;
+    new Uint8Array(mem.buffer, ptr, byteLen).set(bytes);
+    this._fireEventStructFn(idx | 0, sampleOffset | 0, BigInt(ptr), byteLen);
   }
 
   _handleVisualize(idx) {
@@ -664,6 +685,7 @@ registerProcessor("crag-processor", CragProcessor);
       this._fireEvent     = e.crag_fire_event      || null;
       this._fireEventF32  = e.crag_fire_event_float || null;
       this._fireEventI32  = e.crag_fire_event_int  || null;
+      this._fireEventStruct = e.crag_fire_event_struct || null;
 
       // Meter support (optional — only present when the graph uses meter ops).
       this._numMeters    = e.crag_num_meters    ? e.crag_num_meters()    : 0;
@@ -852,6 +874,49 @@ registerProcessor("crag-processor", CragProcessor);
       }
       if (this._workletNode && this._workletReady)
         this._workletNode.port.postMessage({ type: "fireEventInt", idx, sampleOffset: sampleOffset | 0, value: value | 0 });
+    }
+
+    /**
+     * Fire a struct event at a specific sample within the next block.
+     *
+     * The *bytes* argument is a Uint8Array whose contents match the struct
+     * payload expected by the graph (same field order, natural C alignment,
+     * little-endian).  The caller is responsible for building the correct
+     * payload — typically via a DataView with setFloat32/setInt32 calls at
+     * the byte offsets listed in the .cragmeta struct_fields array.
+     *
+     * @param {number}     idx           Int-event index (from struct event's
+     *                                   int_index in .cragmeta).
+     * @param {number}     sampleOffset  Sample offset within the block.
+     * @param {Uint8Array} bytes         Packed struct payload bytes.
+     */
+    fireEventStruct(idx, sampleOffset, bytes) {
+      if (!this._fireEventStruct && !(this._workletNode && this._workletReady)) return;
+      const byteLen = bytes.byteLength;
+      if (byteLen <= 0 || byteLen > 65536) return; // sanity check — struct payloads are small
+      if (this._fireEventStruct) {
+        // Write the struct bytes into the main-thread WASM linear memory using
+        // the bump allocator and call the exported function.
+        const mem    = this._memory;
+        const needed = this._heapState.ptr + byteLen;
+        if (needed > mem.buffer.byteLength) {
+          const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
+          mem.grow(pages);
+        }
+        const ptr = this._heapState.ptr;
+        this._heapState.ptr += (byteLen + 7) & ~7;
+        new Uint8Array(mem.buffer, ptr, byteLen).set(bytes);
+        this._fireEventStruct(idx | 0, sampleOffset | 0, BigInt(ptr), byteLen);
+      }
+      if (this._workletNode && this._workletReady) {
+        // Transfer a copy to the worklet so it can write the bytes into its
+        // own WASM linear memory before calling crag_fire_event_struct.
+        const copy = bytes.slice();
+        this._workletNode.port.postMessage(
+          { type: "fireEventStruct", idx, sampleOffset: sampleOffset | 0, bytes: copy },
+          [copy.buffer]
+        );
+      }
     }
 
     /**

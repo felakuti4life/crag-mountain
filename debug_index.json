@@ -2,6 +2,246 @@
   "version": 1,
   "targets": [
     {
+      "stem": "big_muff_clip_stages",
+      "subdir": "amps/clippers",
+      "name": "big_muff_clip_stages",
+      "wasm": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm",
+      "meta": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm.cragmeta",
+      "debug": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm.cragdebug.json",
+      "source": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "boss_ds1_clip",
+      "subdir": "amps/clippers",
+      "name": "boss_ds1_clip",
+      "wasm": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm",
+      "meta": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm.cragmeta",
+      "debug": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm.cragdebug.json",
+      "source": "amps/clippers/boss_ds1_clip/boss_ds1_clip.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "dod250_mxr_distortion_plus_clip",
+      "subdir": "amps/clippers",
+      "name": "dod250_mxr_distortion_plus_clip",
+      "wasm": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm",
+      "meta": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm.cragmeta",
+      "debug": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm.cragdebug.json",
+      "source": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "proco_rat_clip",
+      "subdir": "amps/clippers",
+      "name": "proco_rat_clip",
+      "wasm": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm",
+      "meta": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm.cragmeta",
+      "debug": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm.cragdebug.json",
+      "source": "amps/clippers/proco_rat_clip/proco_rat_clip.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "tubescreamer_ts808_clip",
+      "subdir": "amps/clippers",
+      "name": "tubescreamer_ts808_clip",
+      "wasm": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm",
+      "meta": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragmeta",
+      "debug": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragdebug.json",
+      "source": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "6l6_push_pull",
+      "subdir": "amps/power-amp",
+      "name": "6l6_push_pull",
+      "wasm": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm",
+      "meta": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm.cragmeta",
+      "debug": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm.cragdebug.json",
+      "source": "amps/power-amp/6l6_push_pull/6l6_push_pull.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "el34_push_pull",
+      "subdir": "amps/power-amp",
+      "name": "el34_push_pull",
+      "wasm": "amps/power-amp/el34_push_pull/el34_push_pull.wasm",
+      "meta": "amps/power-amp/el34_push_pull/el34_push_pull.wasm.cragmeta",
+      "debug": "amps/power-amp/el34_push_pull/el34_push_pull.wasm.cragdebug.json",
+      "source": "amps/power-amp/el34_push_pull/el34_push_pull.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "baxandall_tone_control",
+      "subdir": "amps/tone-stacks",
+      "name": "baxandall_tone_control",
+      "wasm": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm",
+      "meta": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm.cragmeta",
+      "debug": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm.cragdebug.json",
+      "source": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "fender_bassman_tone_stack",
+      "subdir": "amps/tone-stacks",
+      "name": "fender_bassman_tone_stack",
+      "wasm": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm",
+      "meta": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm.cragmeta",
+      "debug": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm.cragdebug.json",
+      "source": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "marshall_jtm45_jcm800_tone_stack",
+      "subdir": "amps/tone-stacks",
+      "name": "marshall_jtm45_jcm800_tone_stack",
+      "wasm": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm",
+      "meta": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm.cragmeta",
+      "debug": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm.cragdebug.json",
+      "source": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "mesa_boogie_5band_graphic_eq",
+      "subdir": "amps/tone-stacks",
+      "name": "mesa_boogie_5band_graphic_eq",
+      "wasm": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm",
+      "meta": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm.cragmeta",
+      "debug": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm.cragdebug.json",
+      "source": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "vox_ac30_topboost_tone_stack",
+      "subdir": "amps/tone-stacks",
+      "name": "vox_ac30_topboost_tone_stack",
+      "wasm": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm",
+      "meta": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm.cragmeta",
+      "debug": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm.cragdebug.json",
+      "source": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "fender_bassman_5f6a_input_12ay7",
+      "subdir": "amps/tube",
+      "name": "fender_bassman_5f6a_input_12ay7",
+      "wasm": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm",
+      "meta": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm.cragmeta",
+      "debug": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm.cragdebug.json",
+      "source": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "fender_deluxe_5e3_preamp_12ax7",
+      "subdir": "amps/tube",
+      "name": "fender_deluxe_5e3_preamp_12ax7",
+      "wasm": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm",
+      "meta": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm.cragmeta",
+      "debug": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm.cragdebug.json",
+      "source": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "marshall_jcm800_v1_12ax7",
+      "subdir": "amps/tube",
+      "name": "marshall_jcm800_v1_12ax7",
+      "wasm": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm",
+      "meta": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm.cragmeta",
+      "debug": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm.cragdebug.json",
+      "source": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "mesa_mark1_preamp_12ax7_cascade",
+      "subdir": "amps/tube",
+      "name": "mesa_mark1_preamp_12ax7_cascade",
+      "wasm": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm",
+      "meta": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm.cragmeta",
+      "debug": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm.cragdebug.json",
+      "source": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "peavey_5150_6505_preamp_12ax7_stack",
+      "subdir": "amps/tube",
+      "name": "peavey_5150_6505_preamp_12ax7_stack",
+      "wasm": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm",
+      "meta": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm.cragmeta",
+      "debug": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm.cragdebug.json",
+      "source": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "vox_ac30_topboost_ecc83",
+      "subdir": "amps/tube",
+      "name": "vox_ac30_topboost_ecc83",
+      "wasm": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm",
+      "meta": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm.cragmeta",
+      "debug": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm.cragdebug.json",
+      "source": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "nonlinear-polynomial-tube",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_nonlinear_polynomial_tube",
+      "wasm": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm",
+      "meta": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm.cragmeta",
+      "debug": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm.cragdebug.json",
+      "source": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "nonlinear-tanh-diode",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_nonlinear_tanh_diode",
+      "wasm": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm",
+      "meta": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm.cragmeta",
+      "debug": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm.cragdebug.json",
+      "source": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "parallel-junction",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_parallel_junction",
+      "wasm": "amps/wdf-core/parallel-junction/parallel-junction.wasm",
+      "meta": "amps/wdf-core/parallel-junction/parallel-junction.wasm.cragmeta",
+      "debug": "amps/wdf-core/parallel-junction/parallel-junction.wasm.cragdebug.json",
+      "source": "amps/wdf-core/parallel-junction/parallel-junction.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "resistor-load-wrapper",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_resistor_load",
+      "wasm": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm",
+      "meta": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm.cragmeta",
+      "debug": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm.cragdebug.json",
+      "source": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "resistor-source-wrapper",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_resistor_source",
+      "wasm": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm",
+      "meta": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragmeta",
+      "debug": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragdebug.json",
+      "source": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "series-junction",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_series_junction",
+      "wasm": "amps/wdf-core/series-junction/series-junction.wasm",
+      "meta": "amps/wdf-core/series-junction/series-junction.wasm.cragmeta",
+      "debug": "amps/wdf-core/series-junction/series-junction.wasm.cragdebug.json",
+      "source": "amps/wdf-core/series-junction/series-junction.crag.mlir",
+      "short_desc": ""
+    },
+    {
       "stem": "feed-forward-compressor",
       "subdir": "compressors",
       "name": "feed_forward_compressor",

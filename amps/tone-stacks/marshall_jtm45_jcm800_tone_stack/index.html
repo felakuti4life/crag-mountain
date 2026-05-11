@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>marshall_jtm45_jcm800_tone_stack — Crag Graph</title>
+  <style>
+:root {
+  --bg:    #fdf6ee;
+  --panel: #ffffff;
+  --accent: #5a8f6e;
+  --hi:    #c45c82;
+  --text:  #2a1f1a;
+  --muted: #897870;
+  --border: #ddd0c2;
+  --svg-bg: #1e1e2e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  /* overflow:hidden locks the viewport to the dashboard grid; each pane
+     manages its own scrolling (controls-pane: overflow-y:auto,
+     preview-pane: overflow-y:auto).  The @media fallback restores
+     document-level scrolling on narrow viewports. */
+  overflow: hidden;
+}
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--hi); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Compact page header ──────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .4rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  flex-shrink: 0;
+}
+.page-header .back { font-size: .82rem; white-space: nowrap; color: var(--hi); }
+.header-title { flex: 1; min-width: 0; overflow: hidden; }
+.page-header h1 {
+  font-size: 1.1rem;
+  color: var(--hi);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page-header .subtitle {
+  color: var(--muted);
+  font-size: .7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Dashboard (2-column grid) ────────────────────────── */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Left pane: live preview + meters */
+.preview-pane {
+  display: flex;
+  flex-direction: column;
+  padding: .55rem .75rem;
+  gap: .45rem;
+  overflow: hidden;
+  min-height: 0;
+  border-right: 1px solid var(--border);
+}
+.playback-bar {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  flex-shrink: 0;
+}
+#viz-canvas {
+  display: none;
+  width: 100%;
+  height: auto;
+  max-height: 55vh;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 1;
+  min-height: 0;
+}
+.meters-section { flex-shrink: 0; }
+.meters-section .section-label {
+  font-size: .7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: .3rem;
+}
+/* Native <meter> bar styling */
+meter.crag-meter {
+  width: 100%;
+  display: block;
+  height: 12px;
+  /* Firefox resets native appearance so we can restyle. */
+  appearance: none;
+  -moz-appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+/* WebKit: bar background */
+meter.crag-meter::-webkit-meter-bar {
+  background: var(--bg);
+  border: none;
+  border-radius: 3px;
+}
+/* WebKit: fill colour — override all three states so it always shows --hi */
+meter.crag-meter::-webkit-meter-optimum-value,
+meter.crag-meter::-webkit-meter-suboptimum-value,
+meter.crag-meter::-webkit-meter-even-less-good-value {
+  background: var(--hi);
+  border-radius: 3px;
+  transition: width .1s;
+}
+/* Firefox: fill colour */
+meter.crag-meter::-moz-meter-bar {
+  background: var(--hi);
+  border-radius: 3px;
+}
+
+/* Right pane: parameters + samplers */
+.controls-pane {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: .55rem .75rem;
+  gap: .3rem;
+  min-height: 0;
+}
+.pane-section-title {
+  font-size: .7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: normal;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .2rem;
+  margin-top: .35rem;
+}
+.pane-section-title:first-child { margin-top: 0; }
+
+/* Compact parameter grid (2 cols) */
+.param-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .3rem .55rem;
+}
+.param-row label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .73rem;
+  margin-bottom: .08rem;
+  color: var(--text);
+}
+.param-row label span.param-name {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Cap at ~58% of the label width so the live value on the right stays
+     visible even for longer parameter names. */
+  max-width: 58%;
+}
+.param-row label span.param-val  { color: var(--hi); font-family: monospace; font-size: .7rem; }
+.param-row input[type=range] {
+  width: 100%;
+  accent-color: var(--hi);
+  height: 16px;
+  cursor: pointer;
+}
+.param-meta {
+  font-size: .6rem;
+  color: var(--muted);
+  margin-top: .04rem;
+}
+
+/* Playback buttons */
+button {
+  padding: .32rem .9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: bold;
+  font-family: inherit;
+  transition: opacity .2s;
+}
+button:hover { opacity: .85; }
+#btn-play  { background: var(--hi); color: #fff; }
+#btn-stop  { background: var(--border); color: var(--text); }
+#status    { color: var(--muted); font-size: .78rem; }
+
+/* ── Side panel (hidden by default) ──────────────────── */
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.22);
+  z-index: 199;
+  display: none;
+}
+.side-panel-overlay.open { display: block; }
+.side-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 460px;
+  max-width: 92vw;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 2px solid var(--border);
+  transform: translateX(100%);
+  transition: transform .28s ease;
+  z-index: 200;
+  overflow-y: auto;
+  padding: .85rem 1rem;
+  box-shadow: -4px 0 20px rgba(0,0,0,.14);
+}
+.side-panel.open { transform: translateX(0); }
+.side-toggle-btn {
+  padding: .28rem .75rem;
+  font-size: .78rem;
+  font-weight: bold;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity .2s;
+}
+.side-toggle-btn:hover { opacity: .85; }
+.side-close-btn {
+  float: right;
+  padding: .18rem .5rem;
+  font-size: .82rem;
+  background: var(--border);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: .5rem;
+}
+.side-panel-section { margin-bottom: 1.1rem; }
+.side-panel-section h2 {
+  font-size: .9rem;
+  color: var(--hi);
+  margin-bottom: .45rem;
+  padding-bottom: .22rem;
+  border-bottom: 1px solid var(--border);
+}
+.hrtf-banner p {
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  padding: .55rem .7rem;
+  margin: 0;
+}
+.hrtf-banner code { font-family: 'Courier New', monospace; font-size: .9em; }
+.hrtf-banner-placeholder p { border-left-color: #d99a00; }
+.hrtf-banner-real p { border-left-color: #4caf50; }
+.description {
+  font-size: .77rem;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .65rem;
+  overflow-x: auto;
+  max-height: 32vh;
+  overflow-y: auto;
+}
+.meta-table { width: 100%; border-collapse: collapse; font-size: .76rem; }
+.meta-table th, .meta-table td {
+  text-align: left;
+  padding: .22rem .4rem;
+  border-bottom: 1px solid var(--border);
+}
+.meta-table th { color: var(--muted); font-weight: normal; }
+
+/* Override card styles inside side panel so they sit flush */
+.side-panel .card {
+  max-width: none;
+  margin: 0 0 .6rem;
+  padding: .65rem .75rem;
+  border-radius: 6px;
+}
+.side-panel .card h2 { font-size: .88rem; margin-bottom: .5rem; }
+
+@media (max-width: 800px) {
+  html, body { height: auto; overflow: auto; }
+  .dashboard { grid-template-columns: 1fr; overflow: visible; }
+  .preview-pane, .controls-pane { overflow: visible; min-height: 0; }
+  #viz-canvas { max-height: none; }
+  .param-grid { grid-template-columns: 1fr; }
+  .side-panel { width: 100%; max-width: 100%; }
+}
+
+.perf-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.perf-table th, .perf-table td {
+  text-align: left;
+  padding: .4rem .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.perf-table th { color: var(--muted); font-weight: normal; }
+.perf-table td.num { text-align: right; font-family: monospace; color: var(--hi); }
+.perf-bar-cell { min-width: 120px; }
+.perf-bar-wrap {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  height: 10px;
+  overflow: hidden;
+}
+.perf-bar {
+  background: var(--hi);
+  height: 10px;
+  border-radius: 3px;
+  transition: width .3s;
+}
+.arch-badge {
+  display: inline-block;
+  font-size: .7rem;
+  padding: .1rem .4rem;
+  border-radius: 3px;
+  font-family: monospace;
+  background: var(--accent);
+  color: #fff;
+  margin-left: .3rem;
+}
+
+.memory-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.memory-table th, .memory-table td {
+  text-align: left;
+  padding: .35rem .5rem;
+  border-bottom: 1px solid var(--border);
+}
+.memory-table th { color: var(--muted); font-weight: normal; }
+.memory-table td.num {
+  text-align: right;
+  font-family: monospace;
+  color: var(--hi);
+}
+.memory-table td.name {
+  font-family: monospace;
+  word-break: break-word;
+}
+.memory-total {
+  margin: .55rem 0 .7rem;
+  font-size: .83rem;
+  color: var(--text);
+}
+
+.sampler-row {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .3rem;
+  flex-wrap: wrap;
+}
+.sampler-row label {
+  font-size: .73rem;
+  font-weight: bold;
+  min-width: 6rem;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+.sampler-row select {
+  flex: 1;
+  min-width: 6rem;
+  padding: .2rem .3rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .73rem;
+  font-family: inherit;
+}
+.sampler-row input[type=file] {
+  flex: 1;
+  font-size: .68rem;
+  color: var(--muted);
+}
+.sampler-row button.bind-btn {
+  padding: .18rem .55rem;
+  font-size: .73rem;
+  background: var(--accent);
+  color: #fff;
+}
+.sampler-status {
+  font-size: .65rem;
+  color: var(--muted);
+  margin-bottom: .1rem;
+  min-height: .85em;
+}
+
+.event-row {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .3rem;
+  flex-wrap: wrap;
+}
+.event-row label {
+  font-size: .73rem;
+  font-weight: bold;
+  min-width: 6rem;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+.event-row input[type=number] {
+  width: 5rem;
+  padding: .2rem .3rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .73rem;
+  font-family: inherit;
+}
+.event-row select {
+  flex: 1;
+  min-width: 5rem;
+  padding: .2rem .3rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .73rem;
+  font-family: inherit;
+}
+.event-row button.fire-btn {
+  padding: .18rem .55rem;
+  font-size: .73rem;
+  background: var(--hi);
+  color: #fff;
+}
+/* Struct event field layout */
+.event-struct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  min-width: 0;
+}
+.event-struct-field {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.event-struct-field-name {
+  font-size: .68rem;
+  color: var(--muted);
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.svg-flow-wrap {
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--svg-bg);
+  margin-bottom: .75rem;
+}
+.svg-flow-wrap svg {
+  display: block;
+}
+.svg-tabs {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: .75rem;
+  flex-wrap: wrap;
+}
+.svg-tab-btn {
+  padding: .3rem .9rem;
+  font-size: .8rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: background .2s;
+}
+.svg-tab-btn.active {
+  background: var(--hi);
+  color: #fff;
+  border-color: var(--hi);
+}
+.svg-panel { display: none; }
+.svg-panel.active { display: block; }
+.svg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.2rem;
+  margin-top: .6rem;
+  font-size: .75rem;
+  color: var(--muted);
+}
+.svg-legend-item {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+.svg-legend-swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.analysis-tabs {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.analysis-tab-btn {
+  padding: .35rem 1rem;
+  font-size: .85rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: background .2s;
+}
+.analysis-tab-btn.active {
+  background: var(--hi);
+  color: #fff;
+  border-color: var(--hi);
+}
+.analysis-panel { display: none; }
+.analysis-panel.active { display: block; }
+</style>
+</head>
+<body>
+  <!-- Compact header bar -->
+  <div class="page-header">
+    <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
+    <div class="header-title">
+      <h1>marshall_jtm45_jcm800_tone_stack</h1>
+      <p class="subtitle">2026-05-11 15:41 UTC &nbsp;·&nbsp; commit&nbsp;<code>6148f55</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6148f55</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+    </div>
+    <a class="back" href="../../../debugger.html?graph=marshall_jtm45_jcm800_tone_stack"
+       title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
+    <button class="side-toggle-btn" id="side-toggle-btn"
+            aria-expanded="false" aria-controls="side-panel"
+            onclick="toggleSidePanel()">&#9776;&nbsp;Analysis &amp; Info</button>
+  </div>
+
+  <!-- Dashboard: left = preview+meters, right = params+samplers -->
+  <div class="dashboard">
+
+    <!-- Left pane: live preview canvas + meters -->
+    <div class="preview-pane">
+      <div class="playback-bar">
+        <button id="btn-play" onclick="playGraph()">&#9654; Play</button>
+        <button id="btn-stop" onclick="stopGraph()">&#9632; Stop</button>
+        <span id="status">Loading WASM&#8230;</span>
+      </div>
+      <canvas id="viz-canvas"></canvas>
+
+      <div class="meters-section">
+        <div class="section-label">Meters</div>
+
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">progress</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-0" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <meter id="meter-bar-0" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">wave_player</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-1" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <meter id="meter-bar-1" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      <div style="margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.15rem">
+          <span style="font-weight:bold">marshall_jtm45_jcm800_tone_stack</span>
+          <span style="display:flex;align-items:center">
+            <span id="meter-val-2" style="color:var(--hi);font-family:monospace">0</span>
+            
+          </span>
+        </div>
+        <meter id="meter-bar-2" class="crag-meter" min="0.0" max="1.0" value="0.0"></meter>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:.1rem">min: 0 &nbsp;|&nbsp; max: 1</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Right pane: parameter sliders + samplers + events -->
+    <div class="controls-pane">
+      <div class="pane-section-title">Parameters</div>
+      <div class="param-grid">
+
+        <div class="param-row" id="param-row-0">
+          <label>
+            <span class="param-name">loop</span>
+            <span class="param-val" id="param-val-0">1</span>
+          </label>
+          <input type="range" min="0.0" max="1.0" step="0.001"
+                 value="1.0" id="slider-0"
+                 oninput="onParamChange(0, this.value, '')">
+          <div class="param-meta">min: 0 &nbsp;|&nbsp; max: 1 &nbsp;|&nbsp; default: 1</div>
+        </div>
+
+        <div class="param-row" id="param-row-1">
+          <label>
+            <span class="param-name">bass</span>
+            <span class="param-val" id="param-val-1">0.5</span>
+          </label>
+          <input type="range" min="0.0" max="1.0" step="0.001"
+                 value="0.5" id="slider-1"
+                 oninput="onParamChange(1, this.value, '')">
+          <div class="param-meta">min: 0 &nbsp;|&nbsp; max: 1 &nbsp;|&nbsp; default: 0.5</div>
+        </div>
+
+        <div class="param-row" id="param-row-2">
+          <label>
+            <span class="param-name">mid</span>
+            <span class="param-val" id="param-val-2">0.5</span>
+          </label>
+          <input type="range" min="0.0" max="1.0" step="0.001"
+                 value="0.5" id="slider-2"
+                 oninput="onParamChange(2, this.value, '')">
+          <div class="param-meta">min: 0 &nbsp;|&nbsp; max: 1 &nbsp;|&nbsp; default: 0.5</div>
+        </div>
+
+        <div class="param-row" id="param-row-3">
+          <label>
+            <span class="param-name">treble</span>
+            <span class="param-val" id="param-val-3">0.5</span>
+          </label>
+          <input type="range" min="0.0" max="1.0" step="0.001"
+                 value="0.5" id="slider-3"
+                 oninput="onParamChange(3, this.value, '')">
+          <div class="param-meta">min: 0 &nbsp;|&nbsp; max: 1 &nbsp;|&nbsp; default: 0.5</div>
+        </div>
+      </div>
+
+      <div class="pane-section-title">Samplers</div>
+
+      <div class="sampler-row" id="sampler-row-0">
+        <label title="sampler index 0">audio</label>
+        <select id="sampler-sel-0" onchange="onSamplerSelectChange(0)">
+          <option value="../../../test_signals/white_noise.wav">White Noise (5 s)</option>
+          <option value="../../../test_signals/sine_sweep.wav">Sine Sweep (20 Hz → 20 kHz, 5 s)</option>
+          <option value="../../../test_signals/impulse.wav">Impulse (single sample)</option>
+          <option value="../../../test_signals/pink_noise_burst.wav">Pink Noise Burst (1.5 s)</option>
+          <option value="../../../test_signals/click_train.wav">Click Train (8 × 500 ms)</option>
+          <option value="../../../test_signals/tonal_burst.wav">Tonal Burst (A4 + C♯5, 1 s)</option>
+          <option value="custom">Custom WAV…</option>
+        </select>
+        <input type="file" id="sampler-file-0" accept=".wav,audio/wav"
+               style="display:none" onchange="onSamplerFileChange(0)">
+        <button class="bind-btn" onclick="bindSampler(0)">Load</button>
+      </div>
+      <div class="sampler-status" id="sampler-status-0">Not loaded.</div>
+
+      <div class="pane-section-title">Events</div>
+
+      <div class="event-row">
+        <label title="void event, index 0">start</label>
+        <button class="fire-btn" onclick="fireVoidEvent(0)">Fire</button>
+      </div>
+
+      <div class="event-row">
+        <label title="void event, index 1">stop</label>
+        <button class="fire-btn" onclick="fireVoidEvent(1)">Fire</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Side panel overlay (click or Enter/Space to close) -->
+  <div class="side-panel-overlay" id="side-overlay" role="button" tabindex="0"
+       aria-label="Close side panel"
+       onclick="toggleSidePanel()"
+       onkeydown="if(event.key==='Enter'||event.key===' ')toggleSidePanel()"></div>
+
+  <!-- Side panel: analysis + description + parameter reference -->
+  <div class="side-panel" id="side-panel" role="complementary" aria-label="Analysis and info">
+    <button class="side-close-btn" id="side-close-btn" onclick="toggleSidePanel()">&#10005; Close</button>
+
+  <!-- Analysis (Signal Flow / Spectrograms / Performance / Memory Usage) -->
+  <div class="card">
+    <h2>Analysis</h2>
+    <div class="analysis-tabs">
+    <button class="analysis-tab-btn active" id="analysis-tab-svg" onclick="analysisTab('svg')">Signal Flow</button>
+    <button class="analysis-tab-btn" id="analysis-tab-spec" onclick="analysisTab('spec')">Spectrograms</button>
+    <button class="analysis-tab-btn" id="analysis-tab-perf" onclick="analysisTab('perf')">Performance</button>
+    </div>
+  <div class="analysis-panel active" id="analysis-panel-svg">
+    <div class="svg-tabs">
+    <button class="svg-tab-btn active" id="tab-pre" onclick="svgTab('pre')">Overview</button>
+    <button class="svg-tab-btn" id="tab-post" onclick="svgTab('post')">Internals</button>
+    </div>
+<div class="svg-panel active" id="panel-pre"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 478 178" width="478" height="178">
+<defs><marker id="fwd" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3a7a3a"/></marker><marker id="fb" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#c0392b"/></marker></defs>
+<rect width="478" height="178" fill="#1a1a2e"/>
+<text x="28" y="20" font-size="11" fill="#888888" font-family="monospace">marshall_jtm45_jcm800_tone_stack — overview</text>
+<path d="M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<rect x="28" y="36" width="112" height="44" rx="6" fill="#0f3460" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="84" y="48" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">wave</text>
+<text x="84" y="60" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">player</text>
+<text x="84" y="72" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">(subgraph)</text>
+<rect x="183" y="36" width="112" height="44" rx="6" fill="#0f3460" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="239" y="48" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">marshall_jtm45</text>
+<text x="239" y="60" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">jcm800_tone_stack</text>
+<text x="239" y="72" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">(subgraph)</text>
+<rect x="338" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="394" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
+</svg></div></div>
+<div class="svg-panel" id="panel-post"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 943 298" width="943" height="298">
+<defs><marker id="fwd" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3a7a3a"/></marker><marker id="fb" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#c0392b"/></marker></defs>
+<rect width="943" height="298" fill="#1a1a2e"/>
+<text x="28" y="12" font-size="10" fill="#888888" font-family="monospace">marshall_jtm45_jcm800_tone_stack — internals</text>
+<rect x="18" y="18" width="907" height="280" rx="8" fill="#1a2e1a" stroke="#1a2e1a" stroke-width="1.5"/>
+<text x="28" y="30" font-size="9" fill="#888888" font-family="monospace" font-style="italic">marshall_jtm45_jcm800_tone_stack</text>
+<path d="M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 140.0,58.0 L 161.5,58.0 L 161.5,88.0 L 471.5,88.0 L 471.5,58.0 L 493.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 450.0,58.0 C 471.5,58.0 471.5,58.0 493.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 295.0,58.0 C 316.5,58.0 316.5,118.0 338.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 140.0,58.0 C 161.5,58.0 161.5,118.0 183.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 605.0,58.0 C 912.0,58.0 31.0,178.0 338.0,178.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 450.0,118.0 C 471.5,118.0 471.5,118.0 493.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 295.0,118.0 L 316.5,118.0 L 316.5,148.0 L 471.5,148.0 L 471.5,118.0 L 493.0,118.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 605.0,118.0 C 626.5,118.0 626.5,58.0 648.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 450.0,178.0 L 471.5,178.0 L 471.5,88.0 L 626.5,88.0 L 626.5,58.0 L 648.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<path d="M 760.0,58.0 C 781.5,58.0 781.5,58.0 803.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
+<rect x="28" y="36" width="112" height="44" rx="6" fill="#0d3347" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="84" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Input</text>
+<text x="84" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">arg0</text>
+<rect x="183" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="239" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">IIR</text>
+<text x="239" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">Filter</text>
+<rect x="338" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="394" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="394" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="493" y="36" width="112" height="44" rx="6" fill="#3a1050" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="549" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Σ</text>
+<text x="549" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">sum</text>
+<rect x="338" y="96" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="394" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="394" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="183" y="96" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="239" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="239" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="338" y="156" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="394" y="173" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
+<text x="394" y="188" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
+<rect x="493" y="96" width="112" height="44" rx="6" fill="#3a1050" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="549" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Σ</text>
+<text x="549" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">sum</text>
+<rect x="648" y="36" width="112" height="44" rx="6" fill="#3a1050" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="704" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Σ</text>
+<text x="704" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">sum</text>
+<rect x="803" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
+<text x="859" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
+</svg></div></div>
+    <div class="svg-legend">
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0d3347"></span>Input</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0d3d1c"></span>Audio Source</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#3d2800"></span>Delay Line</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#4a3800"></span>Delay Read</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#5c1a00"></span>Delay Write (↺)</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#1a1a50"></span>Processor</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#3a1050"></span>Sum / Mix</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0f3460"></span>Subgraph Ref</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#500d0d"></span>Output</div>
+    </div>
+  </div>
+  <div class="analysis-panel" id="analysis-panel-spec">
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">White Noise (5 s → decay)</p><img src="marshall_jtm45_jcm800_tone_stack_white_noise_spectrogram.png" alt="marshall_jtm45_jcm800_tone_stack — White Noise (5 s → decay) spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">Impulse Response</p><img src="marshall_jtm45_jcm800_tone_stack_impulse_spectrogram.png" alt="marshall_jtm45_jcm800_tone_stack — Impulse Response spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">Chirp (0 Hz → Nyquist over 5 s → decay)</p><img src="marshall_jtm45_jcm800_tone_stack_chirp_spectrogram.png" alt="marshall_jtm45_jcm800_tone_stack — Chirp (0 Hz → Nyquist over 5 s → decay) spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+  </div>
+  <div class="analysis-panel" id="analysis-panel-perf">
+    <table class="perf-table">
+      <tr>
+        <th>CPU Target</th>
+        <th>IPC</th>
+        <th>Cycles / block</th>
+        <th>Cycles / sample</th>
+        <th>Insns / block</th>
+        <th>Relative throughput</th>
+      </tr>
+
+      <tr>
+        <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
+        <td class="num">1.153</td>
+        <td class="num">104.5</td>
+        <td class="num">0.2041</td>
+        <td class="num">277</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:100%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
+        <td class="num">1.445</td>
+        <td class="num">69.5</td>
+        <td class="num">0.1357</td>
+        <td class="num">277</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:67%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
+        <td class="num">2.108</td>
+        <td class="num">46.3</td>
+        <td class="num">0.0905</td>
+        <td class="num">277</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:44%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
+        <td class="num">1.128</td>
+        <td class="num">99.3</td>
+        <td class="num">0.1940</td>
+        <td class="num">253</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:95%"></div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
+        <td class="num">1.100</td>
+        <td class="num">55.0</td>
+        <td class="num">0.1074</td>
+        <td class="num">253</td>
+        <td class="perf-bar-cell">
+          <div class="perf-bar-wrap">
+            <div class="perf-bar" style="width:53%"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">Block size: 512 samples at 48 kHz. Metrics are static estimates from llvm-mca (steady-state throughput). IPC = instructions per cycle; Cycles/block = throughput cycles for one 512-sample block; Cycles/sample = Cycles/block ÷ 512.</p>
+  </div>
+  </div>
+  <script>
+    function analysisTab(which) {
+      ['svg', 'spec', 'perf'].forEach(function(id) {
+        var btn = document.getElementById('analysis-tab-' + id);
+        var pnl = document.getElementById('analysis-panel-' + id);
+        if (!btn || !pnl) return;
+        var active = (id === which);
+        btn.classList.toggle('active', active);
+        pnl.classList.toggle('active', active);
+      });
+    }
+    function svgTab(which) {
+      ['pre','post'].forEach(function(id) {
+        var btn = document.getElementById('tab-' + id);
+        var pnl = document.getElementById('panel-' + id);
+        if (!btn || !pnl) return;
+        var active = (id === which);
+        btn.classList.toggle('active', active);
+        pnl.classList.toggle('active', active);
+      });
+    }
+  </script>
+    <div class="side-panel-section">
+      <h2>Algorithm Description</h2>
+      <div class="description"></div>
+    </div>
+    <div class="side-panel-section">
+      <h2>Parameters</h2>
+      <table class="meta-table"><tr><th>Index</th><th>Name</th><th>Min</th><th>Max</th><th>Default</th><th>Unit</th></tr><tr><td>0</td><td>loop</td><td>0</td><td>1</td><td>1</td><td></td></tr><tr><td>1</td><td>bass</td><td>0</td><td>1</td><td>0.5</td><td></td></tr><tr><td>2</td><td>mid</td><td>0</td><td>1</td><td>0.5</td><td></td></tr><tr><td>3</td><td>treble</td><td>0</td><td>1</td><td>0.5</td><td></td></tr></table>
+    </div>
+
+  </div>
+
+  <script>
+    const _METER_DEFS = [{'idx': 0, 'min': 0.0, 'max': 1.0}, {'idx': 1, 'min': 0.0, 'max': 1.0}, {'idx': 2, 'min': 0.0, 'max': 1.0}];
+    let _meterRafId = null;
+
+    function _startMeterLoop() {
+      if (!player || !_METER_DEFS.length) return;
+      if (!_meterRafId) _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+
+    function _stopMeterLoop() {
+      if (_meterRafId) { cancelAnimationFrame(_meterRafId); _meterRafId = null; }
+    }
+
+    function _meterLoop() {
+      if (!player) return;
+      for (const def of _METER_DEFS) {
+        const val = player.getMeter(def.idx);
+        const barEl = document.getElementById('meter-bar-' + def.idx);
+        const valEl = document.getElementById('meter-val-' + def.idx);
+        if (barEl) barEl.value = val;
+        if (valEl) valEl.textContent = val.toFixed(4);
+      }
+      _meterRafId = requestAnimationFrame(_meterLoop);
+    }
+  </script>
+  <script src="../../../crag_player.js"></script>
+  <script>
+    const _WASM_FILE = 'marshall_jtm45_jcm800_tone_stack.wasm';
+    const _META_FILE = 'marshall_jtm45_jcm800_tone_stack.wasm.cragmeta';
+    const _SAMPLER_COUNT = 1;
+    const _PARAM_DEFAULTS = [1.0, 0.5, 0.5, 0.5];
+
+    let player = null;
+    let _vizRafId = null;
+
+    // _startMeterLoop/_stopMeterLoop defined in the meters script block above.
+
+    // ---------------------------------------------------------------------------
+    // Side panel toggle
+    // ---------------------------------------------------------------------------
+
+    function toggleSidePanel() {
+      const panel     = document.getElementById('side-panel');
+      const overlay   = document.getElementById('side-overlay');
+      const toggleBtn = document.getElementById('side-toggle-btn');
+      const closeBtn  = document.getElementById('side-close-btn');
+      const open      = panel.classList.toggle('open');
+      overlay.classList.toggle('open', open);
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // Move focus into/out of the panel for keyboard users.
+      if (open && closeBtn) {
+        closeBtn.focus();
+      } else if (!open && toggleBtn) {
+        toggleBtn.focus();
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------------------
+
+    function _setupVizCanvas() {
+      if (!player || !player.hasVisualizer) return;
+      const canvas = document.getElementById('viz-canvas');
+      canvas.width  = player.vizWidth;
+      canvas.height = player.vizHeight;
+      canvas.style.display = 'block';
+      _startMeterLoop();
+    }
+
+    function _vizLoop() {
+      if (!player || !player.hasVisualizer) return;
+      const img = player.visualize();
+      if (img) {
+        const canvas = document.getElementById('viz-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.putImageData(img, 0, 0);
+      }
+      _vizRafId = requestAnimationFrame(_vizLoop);
+    }
+
+    function _startVizLoop() {
+      if (!_vizRafId && player && player.hasVisualizer)
+        _vizRafId = requestAnimationFrame(_vizLoop);
+    }
+
+    function _stopVizLoop() {
+      if (_vizRafId) {
+        cancelAnimationFrame(_vizRafId);
+        _vizRafId = null;
+      }
+    }
+
+    // Restore current slider values to the player after a re-create.
+    function _applyCurrentParams() {
+      if (!player) return;
+      for (let i = 0; i < _PARAM_DEFAULTS.length; i++) {
+        const slider = document.getElementById('slider-' + i);
+        const v = slider ? parseFloat(slider.value) : _PARAM_DEFAULTS[i];
+        player.setParam(i, v);
+      }
+    }
+
+    // Auto-bind the current dropdown selection for every sampler on init.
+    async function _autoBindSamplers() {
+      if (!player || !_SAMPLER_COUNT) return;
+      for (let idx = 0; idx < _SAMPLER_COUNT; idx++) {
+        const sel = document.getElementById('sampler-sel-' + idx);
+        if (!sel || sel.value === 'custom') continue;
+        try {
+          await player.bindSamplerFromUrl(idx, sel.value);
+          const st = document.getElementById('sampler-status-' + idx);
+          if (st) st.textContent = 'Bound: ' + sel.options[sel.selectedIndex].text;
+        } catch (e) {
+          console.error('[crag] sampler ' + idx + ' auto-bind error:', e);
+        }
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Initialisation
+    // ---------------------------------------------------------------------------
+
+    async function init() {
+      try {
+        player = await CragPlayer.create(_WASM_FILE, _META_FILE);
+        _applyCurrentParams();
+        await _autoBindSamplers();
+        document.getElementById('status').textContent =
+          'Ready — ' + player.blockSize + ' samples/block';
+        _setupVizCanvas();
+      } catch (e) {
+        document.getElementById('status').textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Playback controls
+    // ---------------------------------------------------------------------------
+
+    async function playGraph() {
+      if (!player) return;
+      try {
+        await player.start();
+        document.getElementById('status').textContent = 'Playing…';
+        _startVizLoop();
+        _startMeterLoop();
+      } catch (e) {
+        document.getElementById('status').textContent = 'Error: ' + e.message;
+        console.error('[crag] playGraph error: ' + e.message);
+        const paramStr = _PARAM_DEFAULTS.map((_, i) => {
+          const s = document.getElementById('slider-' + i);
+          return 'param[' + i + ']=' + (s ? s.value : _PARAM_DEFAULTS[i]);
+        }).join(', ');
+        if (paramStr) console.error('[crag] Current parameter values: ' + paramStr);
+      }
+    }
+
+    function stopGraph() {
+      if (!player) return;
+      player.stop();
+      document.getElementById('status').textContent = 'Stopped.';
+      _stopVizLoop();
+      _stopMeterLoop();
+    }
+
+    function onParamChange(idx, value, unit) {
+      const v = parseFloat(value);
+      document.getElementById('param-val-' + idx).textContent =
+        v.toPrecision(5).replace(/\.?0+$/, '') + unit;
+      if (player) player.setParam(idx, v);
+    }
+
+    function onSamplerSelectChange(idx) {
+      const sel = document.getElementById('sampler-sel-' + idx);
+      const fileInput = document.getElementById('sampler-file-' + idx);
+      if (sel.value === 'custom') {
+        fileInput.style.display = 'inline';
+      } else {
+        fileInput.style.display = 'none';
+      }
+    }
+
+    function onSamplerFileChange(idx) {
+      // Update status to acknowledge file selection.
+      const fi = document.getElementById('sampler-file-' + idx);
+      if (fi.files.length) {
+        document.getElementById('sampler-status-' + idx).textContent =
+          'File selected: ' + fi.files[0].name + ' — click Load to bind.';
+      }
+    }
+
+    async function bindSampler(idx) {
+      if (!player) {
+        alert('Player not ready yet. Wait for WASM to load.');
+        return;
+      }
+      const statusEl = document.getElementById('sampler-status-' + idx);
+      const sel      = document.getElementById('sampler-sel-' + idx);
+      statusEl.textContent = 'Loading…';
+      try {
+        if (sel.value === 'custom') {
+          const fi = document.getElementById('sampler-file-' + idx);
+          if (!fi.files.length) { statusEl.textContent = 'No file chosen.'; return; }
+          const ab = await fi.files[0].arrayBuffer();
+          player.bindSamplerFromArrayBuffer(idx, ab);
+          statusEl.textContent = 'Bound: ' + fi.files[0].name;
+        } else {
+          await player.bindSamplerFromUrl(idx, sel.value);
+          statusEl.textContent = 'Bound: ' + sel.options[sel.selectedIndex].text;
+        }
+      } catch (e) {
+        statusEl.textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    }
+
+    const _STRUCT_EVENT_DEFS = {};
+
+    function fireVoidEvent(idx) {
+      if (!player) { alert('Player not ready yet.'); return; }
+      player.fireEvent(idx, 0);
+    }
+
+    function fireFloatEvent(idx, inputId) {
+      if (!player) { alert('Player not ready yet.'); return; }
+      const v = parseFloat(document.getElementById(inputId).value) || 0;
+      player.fireEventFloat(idx, 0, v);
+    }
+
+    function fireIntEvent(idx, value) {
+      if (!player) { alert('Player not ready yet.'); return; }
+      player.fireEventInt(idx, 0, Math.trunc(value));
+    }
+
+    function fireEnumEvent(idx, selectId) {
+      if (!player) { alert('Player not ready yet.'); return; }
+      const sel = document.getElementById(selectId);
+      player.fireEventInt(idx, 0, Math.trunc(sel ? parseInt(sel.value, 10) : 0));
+    }
+
+    function fireIntEventFromInput(idx, inputId) {
+      if (!player) { alert('Player not ready yet.'); return; }
+      const v = parseInt(document.getElementById(inputId).value, 10) || 0;
+      player.fireEventInt(idx, 0, Math.trunc(v));
+    }
+    init();
+  </script>
+</body>
+</html>

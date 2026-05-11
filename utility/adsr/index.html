@@ -469,6 +469,28 @@ button:hover { opacity: .85; }
   background: var(--hi);
   color: #fff;
 }
+/* Struct event field layout */
+.event-struct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  min-width: 0;
+}
+.event-struct-field {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.event-struct-field-name {
+  font-size: .68rem;
+  color: var(--muted);
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .svg-flow-wrap {
   overflow-x: auto;
@@ -556,7 +578,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>adsr</h1>
-      <p class="subtitle">2026-05-10 18:12 UTC &nbsp;·&nbsp; commit&nbsp;<code>7c7d134</code> &nbsp;·&nbsp; compiled with&nbsp;<code>71f5f39</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-11 15:41 UTC &nbsp;·&nbsp; commit&nbsp;<code>6148f55</code> &nbsp;·&nbsp; compiled with&nbsp;<code>6148f55</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=adsr"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -722,49 +744,49 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.384</td>
-        <td class="num">82.5</td>
-        <td class="num">0.1611</td>
-        <td class="num">237</td>
+        <td class="num">1.302</td>
+        <td class="num">86.5</td>
+        <td class="num">0.1689</td>
+        <td class="num">247</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:81%"></div>
+            <div class="perf-bar" style="width:85%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.510</td>
-        <td class="num">53.2</td>
-        <td class="num">0.1038</td>
-        <td class="num">236</td>
+        <td class="num">1.564</td>
+        <td class="num">55.7</td>
+        <td class="num">0.1087</td>
+        <td class="num">246</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:52%"></div>
+            <div class="perf-bar" style="width:55%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.600</td>
-        <td class="num">40.0</td>
-        <td class="num">0.0781</td>
-        <td class="num">237</td>
+        <td class="num">2.551</td>
+        <td class="num">41.8</td>
+        <td class="num">0.0817</td>
+        <td class="num">247</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:39%"></div>
+            <div class="perf-bar" style="width:41%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">0.881</td>
+        <td class="num">0.868</td>
         <td class="num">102.0</td>
         <td class="num">0.1992</td>
-        <td class="num">211</td>
+        <td class="num">219</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -774,13 +796,13 @@ button:hover { opacity: .85; }
 
       <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.205</td>
-        <td class="num">45.0</td>
-        <td class="num">0.0879</td>
-        <td class="num">211</td>
+        <td class="num">1.234</td>
+        <td class="num">46.0</td>
+        <td class="num">0.0898</td>
+        <td class="num">219</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:44%"></div>
+            <div class="perf-bar" style="width:45%"></div>
           </div>
         </td>
       </tr>
@@ -1030,6 +1052,8 @@ This file contains only a named subgraph; include it from another module:
       if (player) player.setParam(idx, v);
     }
 
+
+    const _STRUCT_EVENT_DEFS = {};
 
     function fireVoidEvent(idx) {
       if (!player) { alert('Player not ready yet.'); return; }
