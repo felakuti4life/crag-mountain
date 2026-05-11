@@ -1,0 +1,66 @@
+{
+  "graph": "nonlinear-lambert-diode",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 0.9001,
+      "block_rthroughput": 51.5,
+      "cycles_per_sample": 0.1006,
+      "insns_per_block": 120,
+      "uops_per_block": 206
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.2457,
+      "block_rthroughput": 34.17,
+      "cycles_per_sample": 0.0667,
+      "insns_per_block": 120,
+      "uops_per_block": 205
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.1834,
+      "block_rthroughput": 24.67,
+      "cycles_per_sample": 0.0482,
+      "insns_per_block": 120,
+      "uops_per_block": 121
+    },
+    {
+      "label": "ARM Cortex-A57 (AArch64)",
+      "triple": "aarch64-linux-gnu",
+      "march": "aarch64",
+      "mcpu": "cortex-a57",
+      "arch": "aarch64",
+      "ipc": 1.064,
+      "block_rthroughput": 43.67,
+      "cycles_per_sample": 0.0853,
+      "insns_per_block": 110,
+      "uops_per_block": 131
+    },
+    {
+      "label": "ARM Neoverse N1 (AArch64)",
+      "triple": "aarch64-linux-gnu",
+      "march": "aarch64",
+      "mcpu": "neoverse-n1",
+      "arch": "aarch64",
+      "ipc": 1.0262,
+      "block_rthroughput": 32.0,
+      "cycles_per_sample": 0.0625,
+      "insns_per_block": 110,
+      "uops_per_block": 140
+    }
+  ]
+}

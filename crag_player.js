@@ -199,6 +199,33 @@
         asinh: Math.asinh.bind(Math),
         acosh: Math.acosh.bind(Math),
         atanh: Math.atanh.bind(Math),
+
+        // ----------------------------------------------------------------
+        // Crag runtime helpers — emitted as external function imports by
+        // crag-compile when the corresponding op is not handled by the
+        // inline-runtime-functions code path.  Provide JS implementations
+        // here so the WASM module instantiates successfully.
+        // ----------------------------------------------------------------
+        // Principal branch W₀ of the Lambert W function (real input only).
+        // Uses Halley's iteration; converges to ~1e-7 in a handful of steps
+        // for the input range exercised by audio (typically 0…20).
+        crag_rt_lambert_w(x) {
+          if (!isFinite(x)) return x;
+          const minArg = -1.0 / Math.E;
+          if (x < minArg) return NaN;
+          if (x === 0)   return 0;
+          // Initial guess: log(x) for large x, otherwise x itself.
+          let w = x < 1.0 ? x : Math.log(x);
+          for (let i = 0; i < 32; i++) {
+            const ew  = Math.exp(w);
+            const wew = w * ew;
+            const denom = ew * (w + 1) - ((w + 2) * (wew - x)) / (2 * w + 2);
+            const dw  = (wew - x) / denom;
+            w -= dw;
+            if (Math.abs(dw) < 1e-7) break;
+          }
+          return w;
+        },
       },
     };
   }
@@ -358,6 +385,24 @@ function _makeCragWorkletImports(heapState, memState) {
       sinh: Math.sinh.bind(Math),  cosh: Math.cosh.bind(Math),
       tanh: Math.tanh.bind(Math),  asinh: Math.asinh.bind(Math),
       acosh: Math.acosh.bind(Math), atanh: Math.atanh.bind(Math),
+
+      // Crag runtime helper — see top of this file for full notes.
+      crag_rt_lambert_w(x) {
+        if (!isFinite(x)) return x;
+        const minArg = -1.0 / Math.E;
+        if (x < minArg) return NaN;
+        if (x === 0)   return 0;
+        let w = x < 1.0 ? x : Math.log(x);
+        for (let i = 0; i < 32; i++) {
+          const ew  = Math.exp(w);
+          const wew = w * ew;
+          const denom = ew * (w + 1) - ((w + 2) * (wew - x)) / (2 * w + 2);
+          const dw  = (wew - x) / denom;
+          w -= dw;
+          if (Math.abs(dw) < 1e-7) break;
+        }
+        return w;
+      },
     },
   };
 }

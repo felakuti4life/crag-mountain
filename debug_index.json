@@ -2,6 +2,56 @@
   "version": 1,
   "targets": [
     {
+      "stem": "big_muff_full",
+      "subdir": "amps/channels",
+      "name": "big_muff_full",
+      "wasm": "amps/channels/big_muff_full/big_muff_full.wasm",
+      "meta": "amps/channels/big_muff_full/big_muff_full.wasm.cragmeta",
+      "debug": "amps/channels/big_muff_full/big_muff_full.wasm.cragdebug.json",
+      "source": "amps/channels/big_muff_full/big_muff_full.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "fender_bassman_preamp",
+      "subdir": "amps/channels",
+      "name": "fender_bassman_preamp",
+      "wasm": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm",
+      "meta": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm.cragmeta",
+      "debug": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm.cragdebug.json",
+      "source": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "marshall_jcm800_preamp",
+      "subdir": "amps/channels",
+      "name": "marshall_jcm800_preamp",
+      "wasm": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm",
+      "meta": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm.cragmeta",
+      "debug": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm.cragdebug.json",
+      "source": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "tubescreamer_full",
+      "subdir": "amps/channels",
+      "name": "tubescreamer_full",
+      "wasm": "amps/channels/tubescreamer_full/tubescreamer_full.wasm",
+      "meta": "amps/channels/tubescreamer_full/tubescreamer_full.wasm.cragmeta",
+      "debug": "amps/channels/tubescreamer_full/tubescreamer_full.wasm.cragdebug.json",
+      "source": "amps/channels/tubescreamer_full/tubescreamer_full.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "vox_ac30_topboost_preamp",
+      "subdir": "amps/channels",
+      "name": "vox_ac30_topboost_preamp",
+      "wasm": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm",
+      "meta": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm.cragmeta",
+      "debug": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm.cragdebug.json",
+      "source": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.crag.mlir",
+      "short_desc": ""
+    },
+    {
       "stem": "big_muff_clip_stages",
       "subdir": "amps/clippers",
       "name": "big_muff_clip_stages",
@@ -49,6 +99,36 @@
       "meta": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragmeta",
       "debug": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragdebug.json",
       "source": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "boss_ce2_filter_section",
+      "subdir": "amps/opamp",
+      "name": "boss_ce2_filter_section",
+      "wasm": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm",
+      "meta": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm.cragmeta",
+      "debug": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm.cragdebug.json",
+      "source": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "ehx_small_clone_filter",
+      "subdir": "amps/opamp",
+      "name": "ehx_small_clone_filter",
+      "wasm": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm",
+      "meta": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm.cragmeta",
+      "debug": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm.cragdebug.json",
+      "source": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "mxr_phase90_allpass_stage",
+      "subdir": "amps/opamp",
+      "name": "mxr_phase90_allpass_stage",
+      "wasm": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm",
+      "meta": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm.cragmeta",
+      "debug": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm.cragdebug.json",
+      "source": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.crag.mlir",
       "short_desc": ""
     },
     {
@@ -122,6 +202,46 @@
       "short_desc": ""
     },
     {
+      "stem": "boss_sd1_transistor_buffer",
+      "subdir": "amps/transistor-fet",
+      "name": "boss_sd1_transistor_buffer",
+      "wasm": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm",
+      "meta": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm.cragmeta",
+      "debug": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm.cragdebug.json",
+      "source": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "dallas_rangemaster_oc44",
+      "subdir": "amps/transistor-fet",
+      "name": "dallas_rangemaster_oc44",
+      "wasm": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm",
+      "meta": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm.cragmeta",
+      "debug": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm.cragdebug.json",
+      "source": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "fuzz_face_bc108c",
+      "subdir": "amps/transistor-fet",
+      "name": "fuzz_face_bc108c",
+      "wasm": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm",
+      "meta": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm.cragmeta",
+      "debug": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm.cragdebug.json",
+      "source": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "jfet_preamp_2n5457_j201",
+      "subdir": "amps/transistor-fet",
+      "name": "jfet_preamp_2n5457_j201",
+      "wasm": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm",
+      "meta": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm.cragmeta",
+      "debug": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm.cragdebug.json",
+      "source": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.crag.mlir",
+      "short_desc": ""
+    },
+    {
       "stem": "fender_bassman_5f6a_input_12ay7",
       "subdir": "amps/tube",
       "name": "fender_bassman_5f6a_input_12ay7",
@@ -182,6 +302,16 @@
       "short_desc": ""
     },
     {
+      "stem": "nonlinear-lambert-diode",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_nonlinear_lambert_diode",
+      "wasm": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm",
+      "meta": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm.cragmeta",
+      "debug": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm.cragdebug.json",
+      "source": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.crag.mlir",
+      "short_desc": ""
+    },
+    {
       "stem": "nonlinear-polynomial-tube",
       "subdir": "amps/wdf-core",
       "name": "wdf_nonlinear_polynomial_tube",
@@ -212,6 +342,16 @@
       "short_desc": ""
     },
     {
+      "stem": "rc-adaptor",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_rc_adaptor",
+      "wasm": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm",
+      "meta": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm.cragmeta",
+      "debug": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm.cragdebug.json",
+      "source": "amps/wdf-core/rc-adaptor/rc-adaptor.crag.mlir",
+      "short_desc": ""
+    },
+    {
       "stem": "resistor-load-wrapper",
       "subdir": "amps/wdf-core",
       "name": "wdf_resistor_load",
@@ -229,6 +369,16 @@
       "meta": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragmeta",
       "debug": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragdebug.json",
       "source": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.crag.mlir",
+      "short_desc": ""
+    },
+    {
+      "stem": "rl-adaptor",
+      "subdir": "amps/wdf-core",
+      "name": "wdf_rl_adaptor",
+      "wasm": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm",
+      "meta": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm.cragmeta",
+      "debug": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm.cragdebug.json",
+      "source": "amps/wdf-core/rl-adaptor/rl-adaptor.crag.mlir",
       "short_desc": ""
     },
     {
@@ -710,6 +860,16 @@
       "debug": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragdebug.json",
       "source": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.crag.mlir",
       "short_desc": "HRTF Spatializer (SS2, runtime-position renderer)"
+    },
+    {
+      "stem": "mono_synth",
+      "subdir": "synth",
+      "name": "mono_synth",
+      "wasm": "synth/mono_synth/mono_synth.wasm",
+      "meta": "synth/mono_synth/mono_synth.wasm.cragmeta",
+      "debug": "synth/mono_synth/mono_synth.wasm.cragdebug.json",
+      "source": "synth/mono_synth/mono_synth.crag.mlir",
+      "short_desc": "Monophonic synthesizer \u2014 music_note event \u2192 oscillator \u2192 filter \u2192 envelope"
     },
     {
       "stem": "adsr",

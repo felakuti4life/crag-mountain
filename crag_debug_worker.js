@@ -103,6 +103,27 @@ function _makeImports(heapState, memState) {
       copysign: (a, b) => M.abs(a) * (b < 0 || (b === 0 && (1/b) === -Infinity) ? -1 : 1),
       sinh: M.sinh.bind(M), cosh: M.cosh.bind(M), tanh: M.tanh.bind(M),
       asinh: M.asinh.bind(M), acosh: M.acosh.bind(M), atanh: M.atanh.bind(M),
+
+      // Crag runtime helper — see crag_player.js for full notes.  Provides
+      // the principal branch W₀ of the Lambert W function via Halley's
+      // iteration so WASM modules emitted from graphs containing
+      // `crag.lambert_w` can instantiate inside the debug worker.
+      crag_rt_lambert_w(x) {
+        if (!isFinite(x)) return x;
+        const minArg = -1.0 / Math.E;
+        if (x < minArg) return NaN;
+        if (x === 0)   return 0;
+        let w = x < 1.0 ? x : Math.log(x);
+        for (let i = 0; i < 32; i++) {
+          const ew  = Math.exp(w);
+          const wew = w * ew;
+          const denom = ew * (w + 1) - ((w + 2) * (wew - x)) / (2 * w + 2);
+          const dw  = (wew - x) / denom;
+          w -= dw;
+          if (Math.abs(dw) < 1e-7) break;
+        }
+        return w;
+      },
     },
   };
 }
