@@ -63,14 +63,56 @@
   // WASM import object builder
   // ---------------------------------------------------------------------------
 
+  // Default arena size for the bump allocator: 256 MiB.  Large enough to
+  // hold multi-minute audio samples bound through `bindSamplerFromArrayBuffer`
+  // without overflowing the WASM linear memory and triggering the wasm-side
+  // "RuntimeError: index out of bounds" trap.  Configurable per-page via
+  // CragPlayer.create(wasmUrl, metaUrl, { arenaSize: <bytes> }).
+  const DEFAULT_ARENA_BYTES = 256 * 1024 * 1024;
+  const WASM_PAGE_BYTES     = 65536;
+
+  /**
+   * Grow the given WebAssembly.Memory so its buffer is at least *requiredBytes*
+   * long.  Returns the (possibly increased) byteLength.  Throws if grow() fails
+   * (e.g. when the host runs out of memory or the requested size exceeds the
+   * 4 GiB wasm32 limit).
+   *
+   * @param {WebAssembly.Memory} memory
+   * @param {number}             requiredBytes
+   */
+  function growMemoryTo(memory, requiredBytes) {
+    const have = memory.buffer.byteLength;
+    if (have >= requiredBytes) return have;
+    const pages = Math.ceil((requiredBytes - have) / WASM_PAGE_BYTES);
+    const prev  = memory.grow(pages);
+    if (prev < 0)
+      throw new Error(
+        `[crag] Unable to grow WASM memory by ${pages} pages ` +
+        `(${(pages * WASM_PAGE_BYTES) >> 20} MiB) to satisfy arena size`
+      );
+    return memory.buffer.byteLength;
+  }
+
   /**
    * Build the WebAssembly import object for a crag WASM module.
    * Math functions are supplied from JavaScript's Math object.
-   * A simple bump-allocator handles malloc.
    *
-   * @param {object} heapState  Mutable object: { ptr: number }
-   *                            The caller updates ptr from __heap_base after
-   *                            instantiation.
+   * The bump allocator is *bounded* by the arena described in heapState:
+   * malloc throws a JS Error when an allocation would exceed heapState.end,
+   * surfacing the overflow at the call site instead of returning an
+   * out-of-bounds pointer that would later trap inside the wasm module with
+   * "RuntimeError: index out of bounds".  The allocator also tracks a peak
+   * usage high-water mark and an allocation count for instrumentation
+   * (exposed via CragPlayer.getAllocatorStats()).
+   *
+   * @param {object} heapState  Mutable bump-arena state.  Fields:
+   *                              ptr         current bump pointer (bytes)
+   *                              base        arena base = post-init __heap_base
+   *                              end         exclusive upper bound = base+arenaSize
+   *                              peak        max ptr ever observed
+   *                              allocCount  number of successful mallocs
+   *                              lastError   string|null (most recent OOM msg)
+   *                            Caller updates base/ptr/end after instantiation.
    * @param {object} memState   Mutable object: { memory: WebAssembly.Memory|null }
    *                            The caller sets memory from instance.exports.memory
    *                            after instantiation so that memset/memcpy/memmove
@@ -80,14 +122,33 @@
     return {
       env: {
         // ----------------------------------------------------------------
-        // malloc — bump allocator; heapState.ptr is updated post-init.
+        // malloc — instrumented, bounded bump allocator.
         // The WASM ABI may pass i32 or i64 sizes; handle both.
         // ----------------------------------------------------------------
         malloc(size) {
           const sz = typeof size === "bigint" ? Number(size) : size;
+          if (!Number.isFinite(sz) || sz < 0) {
+            const msg = "[crag] malloc: invalid size " + size;
+            heapState.lastError = msg;
+            throw new RangeError(msg);
+          }
           const aligned = (sz + 7) & ~7;
-          const ptr = heapState.ptr;
-          heapState.ptr += aligned;
+          const ptr     = heapState.ptr;
+          const next    = ptr + aligned;
+          if (heapState.end && next > heapState.end) {
+            const msg =
+              "[crag] arena exhausted: requested " + sz +
+              " bytes (aligned " + aligned + "), have " +
+              (heapState.end - ptr) + " bytes free of " +
+              (heapState.end - heapState.base) +
+              " byte arena. Increase via CragPlayer.create(" +
+              "wasmUrl, metaUrl, { arenaSize: <bytes> }).";
+            heapState.lastError = msg;
+            throw new RangeError(msg);
+          }
+          heapState.ptr        = next;
+          heapState.allocCount = (heapState.allocCount | 0) + 1;
+          if (next > (heapState.peak | 0)) heapState.peak = next;
           return ptr;
         },
         free(_ptr) { /* bump allocator: no-op */ },
@@ -316,11 +377,34 @@
 function _makeCragWorkletImports(heapState, memState) {
   return {
     env: {
+      // Bounded, instrumented bump allocator (mirror of makeCragImports on
+      // the main thread).  Throws a JS error when the arena is exhausted
+      // so the caller sees a clear "arena exhausted" message instead of a
+      // wasm "RuntimeError: index out of bounds" from a downstream load.
       malloc(size) {
         const sz      = typeof size === "bigint" ? Number(size) : size;
+        if (!Number.isFinite(sz) || sz < 0) {
+          const msg = "[crag] malloc: invalid size " + size;
+          heapState.lastError = msg;
+          throw new RangeError(msg);
+        }
         const aligned = (sz + 7) & ~7;
         const ptr     = heapState.ptr;
-        heapState.ptr += aligned;
+        const next    = ptr + aligned;
+        if (heapState.end && next > heapState.end) {
+          const msg =
+            "[crag] arena exhausted in AudioWorklet: requested " + sz +
+            " bytes (aligned " + aligned + "), have " +
+            (heapState.end - ptr) + " bytes free of " +
+            (heapState.end - heapState.base) +
+            " byte arena. Increase via CragPlayer.create(" +
+            "wasmUrl, metaUrl, { arenaSize: <bytes> }).";
+          heapState.lastError = msg;
+          throw new RangeError(msg);
+        }
+        heapState.ptr        = next;
+        heapState.allocCount = (heapState.allocCount | 0) + 1;
+        if (next > (heapState.peak | 0)) heapState.peak = next;
         return ptr;
       },
       free(_ptr) {},
@@ -476,10 +560,20 @@ class CragProcessor extends AudioWorkletProcessor {
   async _handleInit(msg) {
     const { wasmModule, heapPtr, channels,
             outputPtr, paramsPtr, paramsI32Ptr,
-            initialParams, initialParamsI32 } = msg;
+            initialParams, initialParamsI32,
+            arenaSize } = msg;
 
     this._channels      = channels;
-    this._heapState.ptr = heapPtr;
+    // Re-initialise the arena state.  Bounds are populated below once
+    // __heap_base is known, but seed ptr from the value the main thread
+    // computed so that allocations made before instantiation completes
+    // (none today, but defensive) start at a sane offset.
+    this._heapState.ptr        = heapPtr;
+    this._heapState.base       = heapPtr;
+    this._heapState.end        = 0; // disabled until base + arenaSize is fixed
+    this._heapState.peak       = heapPtr;
+    this._heapState.allocCount = 0;
+    this._heapState.lastError  = null;
 
     const heapState = this._heapState;
     const memState  = { memory: null };
@@ -497,6 +591,30 @@ class CragProcessor extends AudioWorkletProcessor {
     // Honour the compiled __heap_base so the bump allocator doesn't collide
     // with WASM static data.
     if (e.__heap_base) heapState.ptr = e.__heap_base.value;
+
+    // Establish the arena bounds and pre-grow linear memory so the entire
+    // arena is backed before any malloc happens.  This prevents the wasm
+    // module from trapping with "RuntimeError: index out of bounds" when a
+    // large sampler payload pushes the bump pointer past the initial
+    // memory size.
+    const requestedArena = (typeof arenaSize === "number" && arenaSize > 0)
+      ? arenaSize
+      : ${DEFAULT_ARENA_BYTES};
+    heapState.base = heapState.ptr;
+    heapState.end  = heapState.base + requestedArena;
+    heapState.peak = heapState.ptr;
+    {
+      const have = e.memory.buffer.byteLength;
+      if (heapState.end > have) {
+        const pages = Math.ceil((heapState.end - have) / 65536);
+        const prev  = e.memory.grow(pages);
+        if (prev < 0)
+          throw new Error(
+            "[crag] AudioWorklet: failed to grow WASM memory by " + pages +
+            " pages for " + (requestedArena >> 20) + " MiB arena"
+          );
+      }
+    }
 
     this._outputPtr    = e.crag_output    ? e.crag_output.value    : outputPtr;
     this._paramsPtr    = e.crag_params    ? e.crag_params.value    : paramsPtr;
@@ -557,14 +675,34 @@ class CragProcessor extends AudioWorkletProcessor {
     if (!this._ready || !this._bindSamplerFn) return;
     const numSamples = samples.length;
     const byteLen    = numSamples * 4;
+    const aligned    = (byteLen + 7) & ~7;
     const mem        = this._memory;
-    const needed     = this._heapState.ptr + byteLen;
-    if (needed > mem.buffer.byteLength) {
-      const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
-      mem.grow(pages);
+    const heapState  = this._heapState;
+    const ptr        = heapState.ptr;
+    const next       = ptr + aligned;
+    if (heapState.end && next > heapState.end) {
+      const msg =
+        "[crag] arena exhausted in AudioWorklet sampler bind: requested " +
+        byteLen + " bytes (" + (byteLen >> 20) + " MiB), have " +
+        (heapState.end - ptr) + " bytes free of " +
+        (heapState.end - heapState.base) +
+        " byte arena. Increase via CragPlayer.create(" +
+        "wasmUrl, metaUrl, { arenaSize: <bytes> }).";
+      heapState.lastError = msg;
+      this.port.postMessage({ type: "error", message: msg });
+      return;
     }
-    const ptr = this._heapState.ptr;
-    this._heapState.ptr += (byteLen + 7) & ~7;
+    if (next > mem.buffer.byteLength) {
+      const pages = Math.ceil((next - mem.buffer.byteLength) / 65536);
+      if (mem.grow(pages) < 0) {
+        const msg = "[crag] AudioWorklet: failed to grow memory for sampler";
+        heapState.lastError = msg;
+        this.port.postMessage({ type: "error", message: msg });
+        return;
+      }
+    }
+    heapState.ptr = next;
+    if (next > (heapState.peak | 0)) heapState.peak = next;
     new Float32Array(mem.buffer, ptr, numSamples).set(samples);
     this._bindSamplerFn(idx, BigInt(ptr), numSamples);
   }
@@ -573,14 +711,22 @@ class CragProcessor extends AudioWorkletProcessor {
     if (!this._ready || !this._fireEventStructFn) return;
     const byteLen = bytes.byteLength;
     if (byteLen <= 0 || byteLen > 65536) return; // sanity check — struct payloads are small
-    const mem     = this._memory;
-    const needed  = this._heapState.ptr + byteLen;
-    if (needed > mem.buffer.byteLength) {
-      const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
-      mem.grow(pages);
+    const aligned   = (byteLen + 7) & ~7;
+    const mem       = this._memory;
+    const heapState = this._heapState;
+    const ptr       = heapState.ptr;
+    const next      = ptr + aligned;
+    if (heapState.end && next > heapState.end) {
+      heapState.lastError =
+        "[crag] arena exhausted in AudioWorklet fireEventStruct";
+      return;
     }
-    const ptr = this._heapState.ptr;
-    this._heapState.ptr += (byteLen + 7) & ~7;
+    if (next > mem.buffer.byteLength) {
+      const pages = Math.ceil((next - mem.buffer.byteLength) / 65536);
+      if (mem.grow(pages) < 0) return;
+    }
+    heapState.ptr = next;
+    if (next > (heapState.peak | 0)) heapState.peak = next;
     new Uint8Array(mem.buffer, ptr, byteLen).set(bytes);
     this._fireEventStructFn(idx | 0, sampleOffset | 0, BigInt(ptr), byteLen);
   }
@@ -942,14 +1088,28 @@ registerProcessor("crag-processor", CragProcessor);
       if (this._fireEventStruct) {
         // Write the struct bytes into the main-thread WASM linear memory using
         // the bump allocator and call the exported function.
-        const mem    = this._memory;
-        const needed = this._heapState.ptr + byteLen;
-        if (needed > mem.buffer.byteLength) {
-          const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
-          mem.grow(pages);
+        const mem       = this._memory;
+        const aligned   = (byteLen + 7) & ~7;
+        const heapState = this._heapState;
+        const ptr       = heapState.ptr;
+        const next      = ptr + aligned;
+        if (heapState.end && next > heapState.end) {
+          const msg =
+            "[crag] arena exhausted in fireEventStruct: requested " +
+            byteLen + " bytes, have " + (heapState.end - ptr) +
+            " bytes free of " + (heapState.end - heapState.base) +
+            " byte arena. Increase via CragPlayer.create(" +
+            "wasmUrl, metaUrl, { arenaSize: <bytes> }).";
+          heapState.lastError = msg;
+          throw new RangeError(msg);
         }
-        const ptr = this._heapState.ptr;
-        this._heapState.ptr += (byteLen + 7) & ~7;
+        if (next > mem.buffer.byteLength) {
+          const pages = Math.ceil((next - mem.buffer.byteLength) / 65536);
+          if (mem.grow(pages) < 0)
+            throw new Error("[crag] failed to grow WASM memory for fireEventStruct");
+        }
+        heapState.ptr = next;
+        if (next > (heapState.peak | 0)) heapState.peak = next;
         new Uint8Array(mem.buffer, ptr, byteLen).set(bytes);
         this._fireEventStruct(idx | 0, sampleOffset | 0, BigInt(ptr), byteLen);
       }
@@ -1239,6 +1399,7 @@ registerProcessor("crag-processor", CragProcessor);
           type:            "init",
           wasmModule:      this._wasmModule,
           heapPtr:         this._heapState.ptr,
+          arenaSize:       this._arenaSize || DEFAULT_ARENA_BYTES,
           channels,
           outputPtr:       this._outputPtr,
           paramsPtr:       this._paramsPtr,
@@ -1294,6 +1455,44 @@ registerProcessor("crag-processor", CragProcessor);
       this._running = false;
     }
 
+    /**
+     * Return a snapshot of the bump-arena instrumentation for the
+     * **main-thread** WASM instance.  Useful for diagnosing
+     * "RuntimeError: index out of bounds" failures originating from large
+     * sampler binds or other allocations: a `peak` close to `end` indicates
+     * the arena is too small and `arenaSize` should be increased via
+     * `CragPlayer.create(wasm, meta, { arenaSize: <bytes> })`.
+     *
+     * @returns {{
+     *   base: number,
+     *   ptr: number,
+     *   end: number,
+     *   peak: number,
+     *   used: number,
+     *   capacity: number,
+     *   free: number,
+     *   allocCount: number,
+     *   memoryBytes: number,
+     *   lastError: (string|null)
+     * }}
+     */
+    getAllocatorStats() {
+      const h = this._heapState;
+      const memBytes = this._memory ? this._memory.buffer.byteLength : 0;
+      return {
+        base:        h.base | 0,
+        ptr:         h.ptr  | 0,
+        end:         h.end  | 0,
+        peak:        h.peak | 0,
+        used:        (h.ptr  - h.base) | 0,
+        capacity:    (h.end  - h.base) | 0,
+        free:        (h.end  - h.ptr ) | 0,
+        allocCount:  h.allocCount | 0,
+        memoryBytes: memBytes,
+        lastError:   h.lastError || null,
+      };
+    }
+
     // -------------------------------------------------------------------------
     // Factory
     // -------------------------------------------------------------------------
@@ -1304,10 +1503,21 @@ registerProcessor("crag-processor", CragProcessor);
      * @param {string|URL} wasmUrl   URL of the .wasm file.
      * @param {string|URL} metaUrl   URL of the .wasm.cragmeta file.
      *                               If omitted, "<wasmUrl>.cragmeta" is used.
+     * @param {object}     [options]
+     * @param {number}     [options.arenaSize]  Size in bytes of the bump
+     *                     allocator's arena.  Defaults to 256 MiB
+     *                     ({@link DEFAULT_ARENA_BYTES}).  WASM linear memory
+     *                     is pre-grown to fit `__heap_base + arenaSize` so
+     *                     large `bindSamplerFromArrayBuffer` payloads do not
+     *                     trap with "RuntimeError: index out of bounds".
      * @returns {Promise<CragPlayer>}
      */
-    static async create(wasmUrl, metaUrl) {
+    static async create(wasmUrl, metaUrl, options) {
       if (!metaUrl) metaUrl = wasmUrl + ".cragmeta";
+      const opts      = options || {};
+      const arenaSize = (typeof opts.arenaSize === "number" && opts.arenaSize > 0)
+        ? opts.arenaSize
+        : DEFAULT_ARENA_BYTES;
 
       // Fetch metadata.
       const meta = await fetch(metaUrl).then((r) => {
@@ -1315,8 +1525,17 @@ registerProcessor("crag-processor", CragProcessor);
         return r.json();
       });
 
-      // Heap state shared between import object and post-init fixup.
-      const heapState = { ptr: 8 * 1024 * 1024 }; // 8 MB default
+      // Instrumented bump-arena state shared between the import object and
+      // the post-init fixup.  Bounds (base/end) and counters are populated
+      // once __heap_base is known.
+      const heapState = {
+        ptr:        8 * 1024 * 1024, // provisional until __heap_base fixup
+        base:       0,
+        end:        0,               // disabled until base is finalised
+        peak:       0,
+        allocCount: 0,
+        lastError:  null,
+      };
       // Memory state: populated from instance.exports.memory after instantiation
       // so that memset/memcpy/memmove have access to WASM linear memory.
       const memState = { memory: null };
@@ -1346,8 +1565,21 @@ registerProcessor("crag-processor", CragProcessor);
         memState.memory = instance.exports.memory;
       }
 
+      // Establish the arena bounds and pre-grow WASM linear memory so the
+      // entire arena (default 256 MiB) is backed up front.  This is what
+      // prevents large sampler binds from pushing the bump pointer past the
+      // initial 16 KiB linear memory and trapping with
+      // "RuntimeError: index out of bounds" inside the wasm module.
+      heapState.base = heapState.ptr;
+      heapState.peak = heapState.ptr;
+      heapState.end  = heapState.base + arenaSize;
+      if (memState.memory) {
+        growMemoryTo(memState.memory, heapState.end);
+      }
+
       // Apply default parameter values from metadata.
       const player = new CragPlayer(instance, meta, heapState, wasmModule);
+      player._arenaSize = arenaSize;
       let floatIdx = 0, intIdx = 0;
       (meta.parameters || []).forEach((p) => {
         const type = p.type || "float";
