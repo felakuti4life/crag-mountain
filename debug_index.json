@@ -862,6 +862,56 @@
       "short_desc": "HRTF Spatializer (SS2, runtime-position renderer)"
     },
     {
+      "stem": "fft_block_echo",
+      "subdir": "spectral",
+      "name": "fft_block_echo",
+      "wasm": "spectral/fft_block_echo/fft_block_echo.wasm",
+      "meta": "spectral/fft_block_echo/fft_block_echo.wasm.cragmeta",
+      "debug": "spectral/fft_block_echo/fft_block_echo.wasm.cragdebug.json",
+      "source": "spectral/fft_block_echo/fft_block_echo.crag.mlir",
+      "short_desc": "FFT Block Echo"
+    },
+    {
+      "stem": "fft_round_trip",
+      "subdir": "spectral",
+      "name": "fft_round_trip",
+      "wasm": "spectral/fft_round_trip/fft_round_trip.wasm",
+      "meta": "spectral/fft_round_trip/fft_round_trip.wasm.cragmeta",
+      "debug": "spectral/fft_round_trip/fft_round_trip.wasm.cragdebug.json",
+      "source": "spectral/fft_round_trip/fft_round_trip.crag.mlir",
+      "short_desc": "FFT Round-Trip"
+    },
+    {
+      "stem": "spectral_block_delay",
+      "subdir": "spectral",
+      "name": "spectral_block_delay",
+      "wasm": "spectral/spectral_block_delay/spectral_block_delay.wasm",
+      "meta": "spectral/spectral_block_delay/spectral_block_delay.wasm.cragmeta",
+      "debug": "spectral/spectral_block_delay/spectral_block_delay.wasm.cragdebug.json",
+      "source": "spectral/spectral_block_delay/spectral_block_delay.crag.mlir",
+      "short_desc": "Spectral Block Delay"
+    },
+    {
+      "stem": "spectral_cross_synthesis",
+      "subdir": "spectral",
+      "name": "spectral_cross_synthesis",
+      "wasm": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm",
+      "meta": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm.cragmeta",
+      "debug": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm.cragdebug.json",
+      "source": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.crag.mlir",
+      "short_desc": "Spectral Cross-Synthesis"
+    },
+    {
+      "stem": "spectral_self_convolution",
+      "subdir": "spectral",
+      "name": "spectral_self_convolution",
+      "wasm": "spectral/spectral_self_convolution/spectral_self_convolution.wasm",
+      "meta": "spectral/spectral_self_convolution/spectral_self_convolution.wasm.cragmeta",
+      "debug": "spectral/spectral_self_convolution/spectral_self_convolution.wasm.cragdebug.json",
+      "source": "spectral/spectral_self_convolution/spectral_self_convolution.crag.mlir",
+      "short_desc": "Spectral Self-Convolution"
+    },
+    {
       "stem": "mono_synth",
       "subdir": "synth",
       "name": "mono_synth",

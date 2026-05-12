@@ -517,6 +517,8 @@ class CragProcessor extends AudioWorkletProcessor {
     this._vizOutputPtr     = 0;
     this._vizWidthFn       = null;
     this._vizHeightFn      = null;
+    this._numVisualizers   = 0;
+    this._vizDisabled      = new Set();
     this.port.onmessage    = (ev) => { this._onMessage(ev.data); };
   }
 
@@ -633,6 +635,8 @@ class CragProcessor extends AudioWorkletProcessor {
     this._vizOutputPtr = e.crag_viz_output ? e.crag_viz_output.value : 0;
     this._vizWidthFn   = e.crag_viz_width  || null;
     this._vizHeightFn  = e.crag_viz_height || null;
+    this._numVisualizers = e.crag_num_visualizers ? e.crag_num_visualizers()
+                         : (e.crag_has_visualizer && e.crag_has_visualizer() !== 0 ? 1 : 0);
 
     this._metersPtr    = e.crag_meters    ? e.crag_meters.value    : 0;
     this._metersI32Ptr = e.crag_meters_i32 ? e.crag_meters_i32.value : 0;
@@ -733,13 +737,28 @@ class CragProcessor extends AudioWorkletProcessor {
 
   _handleVisualize(idx) {
     if (!this._vizFn || !this._vizOutputPtr) return;
-    this._vizFn(idx);
-    const w = this._vizWidthFn  ? this._vizWidthFn(idx)  : 0;
-    const h = this._vizHeightFn ? this._vizHeightFn(idx) : 0;
+    idx = idx | 0;
+    if (idx < 0 || idx >= this._numVisualizers) return;
+    if (this._vizDisabled.has(idx)) return;
+    try {
+      this._vizFn(idx);
+    } catch (_err) {
+      // A buggy visualizer implementation should not kill audio playback.
+      // Disable this index for the rest of this worklet lifetime.
+      this._vizDisabled.add(idx);
+      return;
+    }
+    const w = this._vizWidthFn  ? (this._vizWidthFn(idx)  | 0) : 0;
+    const h = this._vizHeightFn ? (this._vizHeightFn(idx) | 0) : 0;
     if (w === 0 || h === 0) return;
-    const f32 = new Float32Array(this._memory.buffer, this._vizOutputPtr, w * h * 4);
-    const u8  = new Uint8ClampedArray(w * h * 4);
-    for (let i = 0; i < w * h * 4; i++)
+    const pixels = w * h * 4;
+    const bytesNeeded = pixels * 4;
+    if (pixels <= 0 || bytesNeeded <= 0) return;
+    const byteOffset = this._vizOutputPtr | 0;
+    if ((byteOffset + bytesNeeded) > this._memory.buffer.byteLength) return;
+    const f32 = new Float32Array(this._memory.buffer, byteOffset, pixels);
+    const u8  = new Uint8ClampedArray(pixels);
+    for (let i = 0; i < pixels; i++)
       u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
     // Transfer the backing ArrayBuffer to avoid a copy.
     this.port.postMessage(
