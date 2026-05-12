@@ -3,7 +3,12 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "cde46ee",
+  "compiled_with": "bc3f416",
+  "adaa": {
+    "mode": "off",
+    "tanh_count": 0,
+    "hard_clip_count": 0
+  },
   "ops": [
     {
       "id": 0,
@@ -334,7 +339,7 @@
       "id": 25,
       "op": "crag.channel_join",
       "name": "",
-      "file": "/tmp/tmp5hol6u0y/hrtf_spatializer_ss2_interp.wrapper.mlir",
+      "file": "/tmp/tmpwo98245d/hrtf_spatializer_ss2_interp.wrapper.mlir",
       "line": 10,
       "col": 16,
       "graph_stack": [],

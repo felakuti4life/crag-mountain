@@ -73,6 +73,7 @@
     }
   ],
   "samplers": ["audio"],
+  "texture_samplers": [],
   "events": [
     {
       "name": "start",
@@ -111,5 +112,5 @@
   "has_visualizer": true,
   "viz_width": 512,
   "viz_height": 256,
-  "compiled_with": "cde46ee"
+  "compiled_with": "bc3f416"
 }
