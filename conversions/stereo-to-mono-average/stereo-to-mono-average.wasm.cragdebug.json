@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "9f8ddba",
+  "compiled_with": "cde46ee",
   "ops": [
     {
       "id": 0,
@@ -334,7 +334,7 @@
       "id": 25,
       "op": "crag.channel_join",
       "name": "",
-      "file": "/tmp/tmpn21xfgze/stereo-to-mono-average.wrapper.mlir",
+      "file": "/tmp/tmpdsrd4kgt/stereo-to-mono-average.wrapper.mlir",
       "line": 8,
       "col": 14,
       "graph_stack": [],

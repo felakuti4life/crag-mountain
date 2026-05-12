@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "9f8ddba",
+  "compiled_with": "cde46ee",
   "ops": [
     {
       "id": 0,
