@@ -641,7 +641,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>two_band_compressor</h1>
-      <p class="subtitle">2026-05-13 18:32 UTC &nbsp;·&nbsp; commit&nbsp;<code>56c5146</code> &nbsp;·&nbsp; compiled with&nbsp;<code>56c5146</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-13 19:24 UTC &nbsp;·&nbsp; commit&nbsp;<code>2f5dc3f</code> &nbsp;·&nbsp; compiled with&nbsp;<code>56c5146</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=two-band-compressor"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -874,6 +874,124 @@ button:hover { opacity: .85; }
   <div class="side-panel" id="side-panel" role="complementary" aria-label="Analysis and info">
     <button class="side-close-btn" id="side-close-btn" onclick="toggleSidePanel()">&#10005; Close</button>
 
+<script>
+window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
+  var viewer = document.getElementById(viewerId);
+  if (!viewer) return;
+  var bundleEl = viewer.querySelector('script.svg-flow-bundle');
+  if (!bundleEl) return;
+  var bundle;
+  try { bundle = JSON.parse(bundleEl.textContent); }
+  catch (e) { return; }
+  var graphs = bundle.graphs || {};
+  var entry  = bundle.entry;
+  var wrap   = viewer.querySelector('.svg-flow-wrap');
+  var crumb  = viewer.querySelector('.svg-flow-breadcrumb');
+  var btnBack    = viewer.querySelector('button[data-action="back"]');
+  var btnPopOut  = viewer.querySelector('button[data-action="pop-out"]');
+  var btnPopIn   = viewer.querySelector('button[data-action="pop-in"]');
+  // Stack of graph keys representing the navigation history.
+  var stack = [entry];
+  var inlinedView = false;
+
+  function currentKey() { return stack[stack.length - 1]; }
+
+  function renderInlined() {
+    inlinedView = true;
+    wrap.innerHTML = bundle.fully_inlined || '';
+    crumb.innerHTML = '<b>fully inlined</b>';
+    if (btnBack)   btnBack.disabled   = false;
+    if (btnPopIn)  btnPopIn.disabled  = true;
+    if (btnPopOut) btnPopOut.disabled = false;
+    applyOverlayState();
+  }
+
+  function renderCurrent() {
+    inlinedView = false;
+    var key = currentKey();
+    var entry = graphs[key];
+    if (!entry) {
+      wrap.innerHTML = '<p style="color:#888;padding:.6rem">'
+        + 'Graph "' + key + '" is not available in this bundle.</p>';
+    } else {
+      wrap.innerHTML = entry.svg || '';
+    }
+    var parts = stack.map(function(k, i) {
+      var label = (graphs[k] && graphs[k].title) ? graphs[k].title : k;
+      return (i === stack.length - 1)
+        ? '<b>' + escapeHtml(label) + '</b>'
+        : escapeHtml(label);
+    });
+    crumb.innerHTML = parts.join(' &rsaquo; ');
+    if (btnBack)   btnBack.disabled   = (stack.length <= 1);
+    if (btnPopIn)  btnPopIn.disabled  = false;
+    if (btnPopOut) btnPopOut.disabled = (stack.length <= 1);
+    bindSubgraphClicks();
+    applyOverlayState();
+  }
+
+  function bindSubgraphClicks() {
+    var refs = wrap.querySelectorAll('[data-graph]');
+    refs.forEach(function(node) {
+      node.style.cursor = 'pointer';
+      node.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        var target = node.getAttribute('data-graph');
+        if (!target) return;
+        if (!graphs[target]) {
+          // No body for this subgraph in the bundle — nothing to do.
+          return;
+        }
+        // Avoid trivial cycles (clicking the same graph re-pushes a no-op).
+        if (target === currentKey()) return;
+        // Cap the navigation stack to keep cycles (A→B→A→B→…) from
+        // growing memory unbounded; the user can still pop back via
+        // ← back / pop out all.
+        if (stack.length >= 64) {
+          stack = [stack[0]];
+        }
+        stack.push(target);
+        renderCurrent();
+      });
+    });
+  }
+
+  function applyOverlayState() {
+    var w = viewer.querySelector('.svg-flow-wrap');
+    if (!w) return;
+    var disabled = [];
+    viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]').forEach(
+      function(cb) {
+        if (!cb.checked) disabled.push(cb.getAttribute('data-pass'));
+      });
+    w.setAttribute('data-pass-disabled', disabled.join(' '));
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  if (btnBack) btnBack.addEventListener('click', function() {
+    if (inlinedView) { renderCurrent(); return; }
+    if (stack.length > 1) { stack.pop(); renderCurrent(); }
+  });
+  if (btnPopOut) btnPopOut.addEventListener('click', function() {
+    stack = [entry];
+    renderCurrent();
+  });
+  if (btnPopIn) btnPopIn.addEventListener('click', function() {
+    renderInlined();
+  });
+  viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]')
+    .forEach(function(cb) { cb.addEventListener('change', applyOverlayState); });
+
+  renderCurrent();
+};
+</script>
+
   <!-- Analysis (Signal Flow / Spectrograms / Performance / Memory Usage) -->
   <div class="card">
     <h2>Analysis</h2>
@@ -1004,124 +1122,6 @@ button:hover { opacity: .85; }
       });
     }
   </script>
-<script>
-window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
-  var viewer = document.getElementById(viewerId);
-  if (!viewer) return;
-  var bundleEl = viewer.querySelector('script.svg-flow-bundle');
-  if (!bundleEl) return;
-  var bundle;
-  try { bundle = JSON.parse(bundleEl.textContent); }
-  catch (e) { return; }
-  var graphs = bundle.graphs || {};
-  var entry  = bundle.entry;
-  var wrap   = viewer.querySelector('.svg-flow-wrap');
-  var crumb  = viewer.querySelector('.svg-flow-breadcrumb');
-  var btnBack    = viewer.querySelector('button[data-action="back"]');
-  var btnPopOut  = viewer.querySelector('button[data-action="pop-out"]');
-  var btnPopIn   = viewer.querySelector('button[data-action="pop-in"]');
-  // Stack of graph keys representing the navigation history.
-  var stack = [entry];
-  var inlinedView = false;
-
-  function currentKey() { return stack[stack.length - 1]; }
-
-  function renderInlined() {
-    inlinedView = true;
-    wrap.innerHTML = bundle.fully_inlined || '';
-    crumb.innerHTML = '<b>fully inlined</b>';
-    if (btnBack)   btnBack.disabled   = false;
-    if (btnPopIn)  btnPopIn.disabled  = true;
-    if (btnPopOut) btnPopOut.disabled = false;
-    applyOverlayState();
-  }
-
-  function renderCurrent() {
-    inlinedView = false;
-    var key = currentKey();
-    var entry = graphs[key];
-    if (!entry) {
-      wrap.innerHTML = '<p style="color:#888;padding:.6rem">'
-        + 'Graph "' + key + '" is not available in this bundle.</p>';
-    } else {
-      wrap.innerHTML = entry.svg || '';
-    }
-    var parts = stack.map(function(k, i) {
-      var label = (graphs[k] && graphs[k].title) ? graphs[k].title : k;
-      return (i === stack.length - 1)
-        ? '<b>' + escapeHtml(label) + '</b>'
-        : escapeHtml(label);
-    });
-    crumb.innerHTML = parts.join(' &rsaquo; ');
-    if (btnBack)   btnBack.disabled   = (stack.length <= 1);
-    if (btnPopIn)  btnPopIn.disabled  = false;
-    if (btnPopOut) btnPopOut.disabled = (stack.length <= 1);
-    bindSubgraphClicks();
-    applyOverlayState();
-  }
-
-  function bindSubgraphClicks() {
-    var refs = wrap.querySelectorAll('[data-graph]');
-    refs.forEach(function(node) {
-      node.style.cursor = 'pointer';
-      node.addEventListener('click', function(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        var target = node.getAttribute('data-graph');
-        if (!target) return;
-        if (!graphs[target]) {
-          // No body for this subgraph in the bundle — nothing to do.
-          return;
-        }
-        // Avoid trivial cycles (clicking the same graph re-pushes a no-op).
-        if (target === currentKey()) return;
-        // Cap the navigation stack to keep cycles (A→B→A→B→…) from
-        // growing memory unbounded; the user can still pop back via
-        // ← back / pop out all.
-        if (stack.length >= 64) {
-          stack = [stack[0]];
-        }
-        stack.push(target);
-        renderCurrent();
-      });
-    });
-  }
-
-  function applyOverlayState() {
-    var w = viewer.querySelector('.svg-flow-wrap');
-    if (!w) return;
-    var disabled = [];
-    viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]').forEach(
-      function(cb) {
-        if (!cb.checked) disabled.push(cb.getAttribute('data-pass'));
-      });
-    w.setAttribute('data-pass-disabled', disabled.join(' '));
-  }
-
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, function(c) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
-  }
-
-  if (btnBack) btnBack.addEventListener('click', function() {
-    if (inlinedView) { renderCurrent(); return; }
-    if (stack.length > 1) { stack.pop(); renderCurrent(); }
-  });
-  if (btnPopOut) btnPopOut.addEventListener('click', function() {
-    stack = [entry];
-    renderCurrent();
-  });
-  if (btnPopIn) btnPopIn.addEventListener('click', function() {
-    renderInlined();
-  });
-  viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]')
-    .forEach(function(cb) { cb.addEventListener('change', applyOverlayState); });
-
-  renderCurrent();
-};
-</script>
-
     <div class="side-panel-section">
       <h2>Algorithm Description</h2>
       <div class="description">Two-Band Compressor
