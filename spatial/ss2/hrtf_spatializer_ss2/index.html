@@ -545,6 +545,69 @@ button:hover { opacity: .85; }
   border-radius: 2px;
   flex-shrink: 0;
 }
+/* Traversable signal-flow viewer: toolbar + breadcrumb + per-pass toggles. */
+.svg-flow-viewer { display: block; }
+.svg-flow-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .55rem;
+  margin-bottom: .5rem;
+  font-size: .78rem;
+}
+.svg-flow-toolbar button {
+  padding: .2rem .65rem;
+  font-size: .75rem;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.svg-flow-toolbar button:hover { background: var(--hi); color: #fff; }
+.svg-flow-toolbar button[disabled] {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.svg-flow-toolbar .svg-flow-breadcrumb {
+  margin-left: .25rem;
+  color: var(--muted);
+  font-family: monospace;
+  font-size: .75rem;
+  word-break: break-all;
+}
+.svg-flow-toolbar .svg-flow-breadcrumb b { color: var(--text); }
+.svg-flow-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .15rem .85rem;
+  margin-bottom: .6rem;
+  font-size: .72rem;
+  color: var(--muted);
+}
+.svg-flow-toggles label {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  cursor: pointer;
+}
+.svg-flow-toggles .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+/* When a pass is disabled at the viewer level, dim its badges + outlines. */
+.svg-flow-wrap[data-pass-disabled~="channel_conv"] .crag-pass-channel_conv,
+.svg-flow-wrap[data-pass-disabled~="visualizer"] .crag-pass-visualizer,
+.svg-flow-wrap[data-pass-disabled~="resampler"] .crag-pass-resampler,
+.svg-flow-wrap[data-pass-disabled~="periodicity_fold"] .crag-pass-periodicity_fold {
+  opacity: 0;
+}
+.crag-subgraph-ref:hover rect:nth-of-type(1) {
+  filter: brightness(1.4);
+}
 
 .analysis-tabs {
   display: flex;
@@ -578,7 +641,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>hrtf_spatializer_ss2</h1>
-      <p class="subtitle">2026-05-13 03:25 UTC &nbsp;·&nbsp; commit&nbsp;<code>08bb7dc</code> &nbsp;·&nbsp; compiled with&nbsp;<code>08bb7dc</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-13 18:32 UTC &nbsp;·&nbsp; commit&nbsp;<code>56c5146</code> &nbsp;·&nbsp; compiled with&nbsp;<code>56c5146</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../../debugger.html?graph=hrtf_spatializer_ss2"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -781,69 +844,29 @@ button:hover { opacity: .85; }
     <button class="analysis-tab-btn" id="analysis-tab-perf" onclick="analysisTab('perf')">Performance</button>
     </div>
   <div class="analysis-panel active" id="analysis-panel-svg">
-    <div class="svg-tabs">
-    <button class="svg-tab-btn active" id="tab-pre" onclick="svgTab('pre')">Overview</button>
-    <button class="svg-tab-btn" id="tab-post" onclick="svgTab('post')">Internals</button>
-    </div>
-<div class="svg-panel active" id="panel-pre"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 633 178" width="633" height="178">
-<defs><marker id="fwd" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3a7a3a"/></marker><marker id="fb" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#c0392b"/></marker></defs>
-<rect width="633" height="178" fill="#1a1a2e"/>
-<text x="28" y="20" font-size="11" fill="#888888" font-family="monospace">hrtf_spatializer_ss2 — overview</text>
-<path d="M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 450.0,58.0 C 471.5,58.0 471.5,58.0 493.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<rect x="28" y="36" width="112" height="44" rx="6" fill="#0f3460" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="48" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">wave</text>
-<text x="84" y="60" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">player</text>
-<text x="84" y="72" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">(subgraph)</text>
-<rect x="183" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="239" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Join</text>
-<rect x="338" y="36" width="112" height="44" rx="6" fill="#0f3460" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="394" y="48" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">hrtf_spatializer</text>
-<text x="394" y="60" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">ss2</text>
-<text x="394" y="72" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">(subgraph)</text>
-<rect x="493" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="549" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
-</svg></div></div>
-<div class="svg-panel" id="panel-post"><div class="svg-flow-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 478 418" width="478" height="418">
-<defs><marker id="fwd" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3a7a3a"/></marker><marker id="fb" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#c0392b"/></marker></defs>
-<rect width="478" height="418" fill="#1a1a2e"/>
-<text x="28" y="12" font-size="10" fill="#888888" font-family="monospace">hrtf_spatializer_ss2 — internals</text>
-<rect x="18" y="18" width="442" height="400" rx="8" fill="#1a2e1a" stroke="#1a2e1a" stroke-width="1.5"/>
-<text x="28" y="30" font-size="9" fill="#888888" font-family="monospace" font-style="italic">hrtf_spatializer_ss2</text>
-<path d="M 140.0,238.0 C 161.5,238.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 140.0,298.0 C 161.5,298.0 161.5,58.0 183.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<path d="M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0" stroke="#3a7a3a" stroke-width="1.5" fill="none" marker-end="url(#fwd)"/>
-<rect x="28" y="36" width="112" height="44" rx="6" fill="#0d3347" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="53" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Input</text>
-<text x="84" y="68" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">arg0</text>
-<rect x="28" y="96" width="112" height="44" rx="6" fill="#0d2d3d" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="113" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Sampler</text>
-<text x="84" y="128" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">&quot;hrir_ss2_L&quot;</text>
-<rect x="28" y="156" width="112" height="44" rx="6" fill="#0d2d3d" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="173" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">Sampler</text>
-<text x="84" y="188" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">&quot;hrir_ss2_R&quot;</text>
-<rect x="28" y="216" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="233" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
-<text x="84" y="248" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
-<rect x="28" y="276" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="84" y="293" text-anchor="middle" font-size="11" fill="#e0e0e0" font-family="monospace" font-weight="bold">×</text>
-<text x="84" y="308" text-anchor="middle" font-size="9" fill="#888888" font-family="monospace">gain</text>
-<rect x="183" y="36" width="112" height="44" rx="6" fill="#1a1a50" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="239" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Join</text>
-<rect x="338" y="36" width="112" height="44" rx="6" fill="#500d0d" stroke="#2a2a4a" stroke-width="1.5"/>
-<text x="394" y="62" text-anchor="middle" font-size="12" fill="#e0e0e0" font-family="monospace" font-weight="bold">Output</text>
-</svg></div></div>
-    <div class="svg-legend">
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0d3347"></span>Input</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0d3d1c"></span>Audio Source</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#3d2800"></span>Delay Line</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#4a3800"></span>Delay Read</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#5c1a00"></span>Delay Write (↺)</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#1a1a50"></span>Processor</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#3a1050"></span>Sum / Mix</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#0f3460"></span>Subgraph Ref</div>
-      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#500d0d"></span>Output</div>
+    <div class="svg-flow-viewer" id="svg-flow-viewer-1">
+      <div class="svg-flow-toolbar">
+        <button data-action="back" disabled>← Back</button>
+        <button data-action="pop-out" disabled>⤡ Pop out all</button>
+        <button data-action="pop-in">⤢ Pop in all</button>
+        <span class="svg-flow-breadcrumb"></span>
+      </div>
+      <div class="svg-flow-toggles" title="Compiler-pass overlays">
+      <label><input type="checkbox" data-pass="channel_conv" checked><span class="swatch" style="background:#4a90e2"></span>channel conversion</label>
+      <label><input type="checkbox" data-pass="visualizer" checked><span class="swatch" style="background:#c44dc4"></span>visualizer injection</label>
+      <label><input type="checkbox" data-pass="resampler" checked><span class="swatch" style="background:#e2a04a"></span>resampler</label>
+      <label><input type="checkbox" data-pass="periodicity_fold" checked><span class="swatch" style="background:#4ae2a0"></span>periodicity folding</label>
+      </div>
+      <div class="svg-flow-wrap" data-pass-disabled=""></div>
+      <div class="svg-legend">
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#3a7a3a"></span>crag.audio</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#c44dc4"></span>crag.texture</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#7a8aa0"></span>scalar (f32 / i32)</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#7a5a00"></span>delay-line read</div>
+      <div class="svg-legend-item"><span class="svg-legend-swatch" style="background:#c0392b"></span>feedback ↩</div>
+      </div>
+      <script class="svg-flow-bundle" type="application/json">{"graphs": {"<top>": {"svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 633 178\" width=\"633\" height=\"178\">\n<defs><marker id=\"fwd_audio\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><marker id=\"fwd_texture\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c44dc4\"/><\/marker><marker id=\"fwd_scalar\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a8aa0\"/><\/marker><marker id=\"fwd_delay\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a5a00\"/><\/marker><marker id=\"fb\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c0392b\"/><\/marker><marker id=\"fwd\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><\/defs>\n<rect width=\"633\" height=\"178\" fill=\"#1a1a2e\"/>\n<text x=\"28\" y=\"20\" font-size=\"11\" fill=\"#888888\" font-family=\"monospace\">&lt;top&gt;<\/text>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 450.0,58.0 C 471.5,58.0 471.5,58.0 493.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<g class=\"crag-node crag-subgraph-ref\" style=\"cursor:pointer\" data-graph=\"wave_player\">\n<rect x=\"28\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0f3460\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"48\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">wave<\/text>\n<text x=\"84\" y=\"60\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">player<\/text>\n<text x=\"84\" y=\"72\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">(subgraph)<\/text>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"channel_conv\">\n<rect class=\"crag-pass-overlay crag-pass-channel_conv\" x=\"180\" y=\"33\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#4a90e2\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"183\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"239\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Join<\/text>\n<circle class=\"crag-pass-badge crag-pass-channel_conv\" cx=\"290\" cy=\"41\" r=\"3.5\" fill=\"#4a90e2\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>channel conversion<\/title><\/circle>\n<\/g>\n<g class=\"crag-node crag-subgraph-ref\" style=\"cursor:pointer\" data-graph=\"hrtf_spatializer_ss2\">\n<rect x=\"338\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0f3460\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"394\" y=\"48\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">hrtf_spatializer<\/text>\n<text x=\"394\" y=\"60\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">ss2<\/text>\n<text x=\"394\" y=\"72\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">(subgraph)<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"493\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#500d0d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"549\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Output<\/text>\n<\/g>\n<\/svg>", "title": "<top>", "subgraph_calls": ["wave_player", "hrtf_spatializer_ss2"]}, "hrtf_spatializer_ss2": {"svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 478 598\" width=\"478\" height=\"598\">\n<defs><marker id=\"fwd_audio\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><marker id=\"fwd_texture\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c44dc4\"/><\/marker><marker id=\"fwd_scalar\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a8aa0\"/><\/marker><marker id=\"fwd_delay\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a5a00\"/><\/marker><marker id=\"fb\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c0392b\"/><\/marker><marker id=\"fwd\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><\/defs>\n<rect width=\"478\" height=\"598\" fill=\"#1a1a2e\"/>\n<text x=\"28\" y=\"20\" font-size=\"11\" fill=\"#888888\" font-family=\"monospace\">hrtf_spatializer_ss2<\/text>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,418.0 C 161.5,418.0 161.5,58.0 183.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,478.0 C 161.5,478.0 161.5,58.0 183.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-audio\" d=\"M 140.0,58.0 C 161.5,58.0 161.5,118.0 183.0,118.0\" stroke=\"#3a7a3a\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_audio)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,118.0 C 161.5,118.0 161.5,118.0 183.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,178.0 C 161.5,178.0 161.5,118.0 183.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,238.0 C 161.5,238.0 161.5,118.0 183.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 295.0,58.0 C 316.5,58.0 316.5,58.0 338.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"53\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Input<\/text>\n<text x=\"84\" y=\"68\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">arg0<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"108\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">azimuth<\/text>\n<text x=\"84\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"84\" y=\"132\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"156\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"168\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">elevation<\/text>\n<text x=\"84\" y=\"180\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"84\" y=\"192\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"216\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"233\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">distance_m<\/text>\n<text x=\"84\" y=\"248\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"276\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"293\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"84\" y=\"308\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_L&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"336\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"353\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"84\" y=\"368\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_R&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"396\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"413\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"84\" y=\"428\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"456\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"473\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"84\" y=\"488\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"channel_conv\">\n<rect class=\"crag-pass-overlay crag-pass-channel_conv\" x=\"180\" y=\"33\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#4a90e2\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"183\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"239\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Join<\/text>\n<circle class=\"crag-pass-badge crag-pass-channel_conv\" cx=\"290\" cy=\"41\" r=\"3.5\" fill=\"#4a90e2\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>channel conversion<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"visualizer\">\n<rect class=\"crag-pass-overlay crag-pass-visualizer\" x=\"180\" y=\"93\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#c44dc4\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"183\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"239\" y=\"113\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">visualizer<\/text>\n<text x=\"239\" y=\"128\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">ref p:azimuth_rad,elevation_rad,distance_m<\/text>\n<circle class=\"crag-pass-badge crag-pass-visualizer\" cx=\"290\" cy=\"101\" r=\"3.5\" fill=\"#c44dc4\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>visualizer injection<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"338\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#500d0d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"394\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Output<\/text>\n<\/g>\n<\/svg>", "title": "hrtf_spatializer_ss2", "subgraph_calls": []}}, "entry": "<top>", "fully_inlined": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1151 598\" width=\"1151\" height=\"598\">\n<defs><marker id=\"fwd_audio\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><marker id=\"fwd_texture\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c44dc4\"/><\/marker><marker id=\"fwd_scalar\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a8aa0\"/><\/marker><marker id=\"fwd_delay\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#7a5a00\"/><\/marker><marker id=\"fb\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#c0392b\"/><\/marker><marker id=\"fwd\" markerWidth=\"7\" markerHeight=\"7\" refX=\"6\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L0,7 L7,3.5 Z\" fill=\"#3a7a3a\"/><\/marker><\/defs>\n<rect width=\"1151\" height=\"598\" fill=\"#1a1a2e\"/>\n<text x=\"28\" y=\"12\" font-size=\"10\" fill=\"#888888\" font-family=\"monospace\">hrtf_spatializer_ss2<\/text>\n<rect x=\"18\" y=\"18\" width=\"597\" height=\"580\" rx=\"8\" fill=\"#1a2e1a\" stroke=\"#1a2e1a\" stroke-width=\"1.5\"/>\n<text x=\"28\" y=\"30\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\" font-style=\"italic\">anonymous#1<\/text>\n<rect x=\"691\" y=\"18\" width=\"442\" height=\"580\" rx=\"8\" fill=\"#2e1a2e\" stroke=\"#2e1a2e\" stroke-width=\"1.5\"/>\n<text x=\"701\" y=\"30\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\" font-style=\"italic\">hrtf_spatializer_ss2<\/text>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,58.0 C 161.5,58.0 161.5,58.0 183.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,418.0 C 161.5,418.0 161.5,118.0 183.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,478.0 C 161.5,478.0 161.5,118.0 183.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-audio\" d=\"M 450.0,118.0 C 471.5,118.0 471.5,58.0 493.0,58.0\" stroke=\"#3a7a3a\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_audio)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,118.0 L 161.5,118.0 L 161.5,88.0 L 471.5,88.0 L 471.5,58.0 L 493.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,178.0 L 161.5,178.0 L 161.5,88.0 L 471.5,88.0 L 471.5,58.0 L 493.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 140.0,238.0 L 161.5,238.0 L 161.5,88.0 L 471.5,88.0 L 471.5,58.0 L 493.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-audio\" d=\"M 295.0,58.0 C 316.5,58.0 316.5,118.0 338.0,118.0\" stroke=\"#3a7a3a\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_audio)\"/>\n<path class=\"crag-edge crag-edge-audio\" d=\"M 295.0,118.0 C 316.5,118.0 316.5,58.0 338.0,58.0\" stroke=\"#3a7a3a\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_audio)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 813.0,418.0 C 834.5,418.0 834.5,58.0 856.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 813.0,478.0 C 834.5,478.0 834.5,58.0 856.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-audio\" d=\"M 813.0,58.0 C 834.5,58.0 834.5,118.0 856.0,118.0\" stroke=\"#3a7a3a\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_audio)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 813.0,118.0 C 834.5,118.0 834.5,118.0 856.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 813.0,178.0 C 834.5,178.0 834.5,118.0 856.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 813.0,238.0 C 834.5,238.0 834.5,118.0 856.0,118.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<path class=\"crag-edge crag-edge-scalar\" d=\"M 968.0,58.0 C 989.5,58.0 989.5,58.0 1011.0,58.0\" stroke=\"#7a8aa0\" stroke-width=\"1.5\" fill=\"none\" marker-end=\"url(#fwd_scalar)\"/>\n<g class=\"crag-node crag-subgraph-ref\" style=\"cursor:pointer\" data-graph=\"wave_player\">\n<rect x=\"28\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0f3460\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"48\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">wave<\/text>\n<text x=\"84\" y=\"60\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">player<\/text>\n<text x=\"84\" y=\"72\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">(subgraph)<\/text>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"channel_conv\">\n<rect class=\"crag-pass-overlay crag-pass-channel_conv\" x=\"180\" y=\"33\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#4a90e2\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"183\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"239\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Join<\/text>\n<circle class=\"crag-pass-badge crag-pass-channel_conv\" cx=\"290\" cy=\"41\" r=\"3.5\" fill=\"#4a90e2\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>channel conversion<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"338\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#500d0d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"394\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Output<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"338\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"394\" y=\"113\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Input<\/text>\n<text x=\"394\" y=\"128\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">arg0<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"108\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">azimuth<\/text>\n<text x=\"84\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"84\" y=\"132\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"156\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"168\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">elevation<\/text>\n<text x=\"84\" y=\"180\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"84\" y=\"192\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"216\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"233\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">distance_m<\/text>\n<text x=\"84\" y=\"248\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"276\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"293\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"84\" y=\"308\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_L&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"336\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"353\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"84\" y=\"368\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_R&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"396\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"413\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"84\" y=\"428\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"28\" y=\"456\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"84\" y=\"473\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"84\" y=\"488\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"channel_conv\">\n<rect class=\"crag-pass-overlay crag-pass-channel_conv\" x=\"180\" y=\"93\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#4a90e2\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"183\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"239\" y=\"122\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Join<\/text>\n<circle class=\"crag-pass-badge crag-pass-channel_conv\" cx=\"290\" cy=\"101\" r=\"3.5\" fill=\"#4a90e2\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>channel conversion<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"visualizer\">\n<rect class=\"crag-pass-overlay crag-pass-visualizer\" x=\"490\" y=\"33\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#c44dc4\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"493\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"549\" y=\"53\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">visualizer<\/text>\n<text x=\"549\" y=\"68\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">ref p:azimuth_rad,elevation_rad,distance_m<\/text>\n<circle class=\"crag-pass-badge crag-pass-visualizer\" cx=\"600\" cy=\"41\" r=\"3.5\" fill=\"#c44dc4\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>visualizer injection<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"53\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Input<\/text>\n<text x=\"757\" y=\"68\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">arg0<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"108\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">azimuth<\/text>\n<text x=\"757\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"757\" y=\"132\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"156\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"168\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">elevation<\/text>\n<text x=\"757\" y=\"180\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">rad<\/text>\n<text x=\"757\" y=\"192\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"216\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d3347\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"233\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">distance_m<\/text>\n<text x=\"757\" y=\"248\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">param<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"276\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"293\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"757\" y=\"308\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_L&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"336\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#0d2d3d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"353\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Sampler<\/text>\n<text x=\"757\" y=\"368\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">&quot;hrir_ss2_R&quot;<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"396\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"413\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"757\" y=\"428\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"701\" y=\"456\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"757\" y=\"473\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">\u00d7<\/text>\n<text x=\"757\" y=\"488\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">gain<\/text>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"channel_conv\">\n<rect class=\"crag-pass-overlay crag-pass-channel_conv\" x=\"853\" y=\"33\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#4a90e2\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"856\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"912\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Join<\/text>\n<circle class=\"crag-pass-badge crag-pass-channel_conv\" cx=\"963\" cy=\"41\" r=\"3.5\" fill=\"#4a90e2\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>channel conversion<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\" data-pass-tags=\"visualizer\">\n<rect class=\"crag-pass-overlay crag-pass-visualizer\" x=\"853\" y=\"93\" width=\"118\" height=\"50\" rx=\"8\" fill=\"none\" stroke=\"#c44dc4\" stroke-width=\"2\" opacity=\"0.85\"/>\n<rect x=\"856\" y=\"96\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#1a1a50\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"912\" y=\"113\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">visualizer<\/text>\n<text x=\"912\" y=\"128\" text-anchor=\"middle\" font-size=\"9\" fill=\"#888888\" font-family=\"monospace\">ref p:azimuth_rad,elevation_rad,distance_m<\/text>\n<circle class=\"crag-pass-badge crag-pass-visualizer\" cx=\"963\" cy=\"101\" r=\"3.5\" fill=\"#c44dc4\" stroke=\"#2a2a4a\" stroke-width=\"0.5\"><title>visualizer injection<\/title><\/circle>\n<\/g>\n<g class=\"crag-node\">\n<rect x=\"1011\" y=\"36\" width=\"112\" height=\"44\" rx=\"6\" fill=\"#500d0d\" stroke=\"#2a2a4a\" stroke-width=\"1.5\"/>\n<text x=\"1067\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"#e0e0e0\" font-family=\"monospace\" font-weight=\"bold\">Output<\/text>\n<\/g>\n<\/svg>", "edge_legend": [{"kind": "audio", "label": "crag.audio", "color": "#3a7a3a"}, {"kind": "texture", "label": "crag.texture", "color": "#c44dc4"}, {"kind": "scalar", "label": "scalar (f32 / i32)", "color": "#7a8aa0"}, {"kind": "delay", "label": "delay-line read", "color": "#7a5a00"}, {"kind": "feedback", "label": "feedback \u21a9", "color": "#c0392b"}], "pass_legend": [{"tag": "channel_conv", "label": "channel conversion", "color": "#4a90e2"}, {"tag": "visualizer", "label": "visualizer injection", "color": "#c44dc4"}, {"tag": "resampler", "label": "resampler", "color": "#e2a04a"}, {"tag": "periodicity_fold", "label": "periodicity folding", "color": "#4ae2a0"}]}</script>
+      <script>cragInitSignalFlow("svg-flow-viewer-1");</script>
     </div>
   </div>
   <div class="analysis-panel" id="analysis-panel-spec">
@@ -941,17 +964,125 @@ button:hover { opacity: .85; }
         pnl.classList.toggle('active', active);
       });
     }
-    function svgTab(which) {
-      ['pre','post'].forEach(function(id) {
-        var btn = document.getElementById('tab-' + id);
-        var pnl = document.getElementById('panel-' + id);
-        if (!btn || !pnl) return;
-        var active = (id === which);
-        btn.classList.toggle('active', active);
-        pnl.classList.toggle('active', active);
-      });
-    }
   </script>
+<script>
+window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
+  var viewer = document.getElementById(viewerId);
+  if (!viewer) return;
+  var bundleEl = viewer.querySelector('script.svg-flow-bundle');
+  if (!bundleEl) return;
+  var bundle;
+  try { bundle = JSON.parse(bundleEl.textContent); }
+  catch (e) { return; }
+  var graphs = bundle.graphs || {};
+  var entry  = bundle.entry;
+  var wrap   = viewer.querySelector('.svg-flow-wrap');
+  var crumb  = viewer.querySelector('.svg-flow-breadcrumb');
+  var btnBack    = viewer.querySelector('button[data-action="back"]');
+  var btnPopOut  = viewer.querySelector('button[data-action="pop-out"]');
+  var btnPopIn   = viewer.querySelector('button[data-action="pop-in"]');
+  // Stack of graph keys representing the navigation history.
+  var stack = [entry];
+  var inlinedView = false;
+
+  function currentKey() { return stack[stack.length - 1]; }
+
+  function renderInlined() {
+    inlinedView = true;
+    wrap.innerHTML = bundle.fully_inlined || '';
+    crumb.innerHTML = '<b>fully inlined</b>';
+    if (btnBack)   btnBack.disabled   = false;
+    if (btnPopIn)  btnPopIn.disabled  = true;
+    if (btnPopOut) btnPopOut.disabled = false;
+    applyOverlayState();
+  }
+
+  function renderCurrent() {
+    inlinedView = false;
+    var key = currentKey();
+    var entry = graphs[key];
+    if (!entry) {
+      wrap.innerHTML = '<p style="color:#888;padding:.6rem">'
+        + 'Graph "' + key + '" is not available in this bundle.</p>';
+    } else {
+      wrap.innerHTML = entry.svg || '';
+    }
+    var parts = stack.map(function(k, i) {
+      var label = (graphs[k] && graphs[k].title) ? graphs[k].title : k;
+      return (i === stack.length - 1)
+        ? '<b>' + escapeHtml(label) + '</b>'
+        : escapeHtml(label);
+    });
+    crumb.innerHTML = parts.join(' &rsaquo; ');
+    if (btnBack)   btnBack.disabled   = (stack.length <= 1);
+    if (btnPopIn)  btnPopIn.disabled  = false;
+    if (btnPopOut) btnPopOut.disabled = (stack.length <= 1);
+    bindSubgraphClicks();
+    applyOverlayState();
+  }
+
+  function bindSubgraphClicks() {
+    var refs = wrap.querySelectorAll('[data-graph]');
+    refs.forEach(function(node) {
+      node.style.cursor = 'pointer';
+      node.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        var target = node.getAttribute('data-graph');
+        if (!target) return;
+        if (!graphs[target]) {
+          // No body for this subgraph in the bundle — nothing to do.
+          return;
+        }
+        // Avoid trivial cycles (clicking the same graph re-pushes a no-op).
+        if (target === currentKey()) return;
+        // Cap the navigation stack to keep cycles (A→B→A→B→…) from
+        // growing memory unbounded; the user can still pop back via
+        // ← back / pop out all.
+        if (stack.length >= 64) {
+          stack = [stack[0]];
+        }
+        stack.push(target);
+        renderCurrent();
+      });
+    });
+  }
+
+  function applyOverlayState() {
+    var w = viewer.querySelector('.svg-flow-wrap');
+    if (!w) return;
+    var disabled = [];
+    viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]').forEach(
+      function(cb) {
+        if (!cb.checked) disabled.push(cb.getAttribute('data-pass'));
+      });
+    w.setAttribute('data-pass-disabled', disabled.join(' '));
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  if (btnBack) btnBack.addEventListener('click', function() {
+    if (inlinedView) { renderCurrent(); return; }
+    if (stack.length > 1) { stack.pop(); renderCurrent(); }
+  });
+  if (btnPopOut) btnPopOut.addEventListener('click', function() {
+    stack = [entry];
+    renderCurrent();
+  });
+  if (btnPopIn) btnPopIn.addEventListener('click', function() {
+    renderInlined();
+  });
+  viewer.querySelectorAll('.svg-flow-toggles input[type="checkbox"]')
+    .forEach(function(cb) { cb.addEventListener('change', applyOverlayState); });
+
+  renderCurrent();
+};
+</script>
+
     <div class="side-panel-section">
       <h2>Algorithm Description</h2>
       <div class="description">HRTF Spatializer (SS2, fixed-position renderer)
