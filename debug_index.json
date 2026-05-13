@@ -392,6 +392,16 @@
       "short_desc": ""
     },
     {
+      "stem": "dual-stage-serial-compressor",
+      "subdir": "compressors",
+      "name": "dual_stage_serial_compressor",
+      "wasm": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm",
+      "meta": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm.cragmeta",
+      "debug": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm.cragdebug.json",
+      "source": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.crag.mlir",
+      "short_desc": "Dual-Stage Serial Compressor"
+    },
+    {
       "stem": "feed-forward-compressor",
       "subdir": "compressors",
       "name": "feed_forward_compressor",
@@ -402,6 +412,56 @@
       "short_desc": "Feed-Forward RMS Compressor"
     },
     {
+      "stem": "feedback-peak-compressor",
+      "subdir": "compressors",
+      "name": "feedback_peak_compressor",
+      "wasm": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm",
+      "meta": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm.cragmeta",
+      "debug": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm.cragdebug.json",
+      "source": "compressors/feedback-peak-compressor/feedback-peak-compressor.crag.mlir",
+      "short_desc": "Feedback Peak Compressor"
+    },
+    {
+      "stem": "feedback-rms-compressor",
+      "subdir": "compressors",
+      "name": "feedback_rms_compressor",
+      "wasm": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm",
+      "meta": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm.cragmeta",
+      "debug": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm.cragdebug.json",
+      "source": "compressors/feedback-rms-compressor/feedback-rms-compressor.crag.mlir",
+      "short_desc": "Feedback RMS Compressor"
+    },
+    {
+      "stem": "lookahead-limiter",
+      "subdir": "compressors",
+      "name": "lookahead_limiter",
+      "wasm": "compressors/lookahead-limiter/lookahead-limiter.wasm",
+      "meta": "compressors/lookahead-limiter/lookahead-limiter.wasm.cragmeta",
+      "debug": "compressors/lookahead-limiter/lookahead-limiter.wasm.cragdebug.json",
+      "source": "compressors/lookahead-limiter/lookahead-limiter.crag.mlir",
+      "short_desc": "Lookahead Limiter"
+    },
+    {
+      "stem": "opto-style-compressor",
+      "subdir": "compressors",
+      "name": "opto_style_compressor",
+      "wasm": "compressors/opto-style-compressor/opto-style-compressor.wasm",
+      "meta": "compressors/opto-style-compressor/opto-style-compressor.wasm.cragmeta",
+      "debug": "compressors/opto-style-compressor/opto-style-compressor.wasm.cragdebug.json",
+      "source": "compressors/opto-style-compressor/opto-style-compressor.crag.mlir",
+      "short_desc": "Opto-Style Compressor"
+    },
+    {
+      "stem": "parallel-compressor",
+      "subdir": "compressors",
+      "name": "parallel_compressor",
+      "wasm": "compressors/parallel-compressor/parallel-compressor.wasm",
+      "meta": "compressors/parallel-compressor/parallel-compressor.wasm.cragmeta",
+      "debug": "compressors/parallel-compressor/parallel-compressor.wasm.cragdebug.json",
+      "source": "compressors/parallel-compressor/parallel-compressor.crag.mlir",
+      "short_desc": "Parallel Compressor"
+    },
+    {
       "stem": "peak-limiter",
       "subdir": "compressors",
       "name": "peak_limiter",
@@ -410,6 +470,56 @@
       "debug": "compressors/peak-limiter/peak-limiter.wasm.cragdebug.json",
       "source": "compressors/peak-limiter/peak-limiter.crag.mlir",
       "short_desc": "Peak Limiter"
+    },
+    {
+      "stem": "program-dependent-release-compressor",
+      "subdir": "compressors",
+      "name": "program_dependent_release_compressor",
+      "wasm": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm",
+      "meta": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm.cragmeta",
+      "debug": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm.cragdebug.json",
+      "source": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.crag.mlir",
+      "short_desc": "Program-Dependent Release Compressor"
+    },
+    {
+      "stem": "sidechain-ducker",
+      "subdir": "compressors",
+      "name": "sidechain_ducker",
+      "wasm": "compressors/sidechain-ducker/sidechain-ducker.wasm",
+      "meta": "compressors/sidechain-ducker/sidechain-ducker.wasm.cragmeta",
+      "debug": "compressors/sidechain-ducker/sidechain-ducker.wasm.cragdebug.json",
+      "source": "compressors/sidechain-ducker/sidechain-ducker.crag.mlir",
+      "short_desc": "Sidechain Ducker"
+    },
+    {
+      "stem": "soft-knee-feed-forward-compressor",
+      "subdir": "compressors",
+      "name": "soft_knee_feed_forward_compressor",
+      "wasm": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm",
+      "meta": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm.cragmeta",
+      "debug": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm.cragdebug.json",
+      "source": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.crag.mlir",
+      "short_desc": "Soft-Knee Feed-Forward Compressor"
+    },
+    {
+      "stem": "two-band-compressor",
+      "subdir": "compressors",
+      "name": "two_band_compressor",
+      "wasm": "compressors/two-band-compressor/two-band-compressor.wasm",
+      "meta": "compressors/two-band-compressor/two-band-compressor.wasm.cragmeta",
+      "debug": "compressors/two-band-compressor/two-band-compressor.wasm.cragdebug.json",
+      "source": "compressors/two-band-compressor/two-band-compressor.crag.mlir",
+      "short_desc": "Two-Band Compressor"
+    },
+    {
+      "stem": "upward-compressor",
+      "subdir": "compressors",
+      "name": "upward_compressor",
+      "wasm": "compressors/upward-compressor/upward-compressor.wasm",
+      "meta": "compressors/upward-compressor/upward-compressor.wasm.cragmeta",
+      "debug": "compressors/upward-compressor/upward-compressor.wasm.cragdebug.json",
+      "source": "compressors/upward-compressor/upward-compressor.crag.mlir",
+      "short_desc": "Upward Compressor"
     },
     {
       "stem": "51-to-stereo",

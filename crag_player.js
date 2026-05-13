@@ -740,14 +740,27 @@ class CragProcessor extends AudioWorkletProcessor {
     idx = idx | 0;
     if (idx < 0 || idx >= this._numVisualizers) return;
     if (this._vizDisabled.has(idx)) return;
+    // Save the bump-allocator pointer before calling crag_visualize so that
+    // any heap allocations made inside the visualizer (e.g. the multiview
+    // canvas and sub-texture memrefs allocated via memref.alloc) are reclaimed
+    // after each frame.  Without this, 14+ MiB of textures would accumulate
+    // in the arena on every visualize call and exhaust WASM memory.
+    const heapBefore = this._heapState.ptr;
     try {
       this._vizFn(idx);
     } catch (_err) {
       // A buggy visualizer implementation should not kill audio playback.
       // Disable this index for the rest of this worklet lifetime.
+      // Restoring the heap pointer here is safe: heapBefore was captured
+      // before the call so it is always ≤ the current ptr (the bump
+      // allocator only moves forward).  Restoring it reclaims any partial
+      // allocations that happened before the trap, leaving the arena in the
+      // same state as before the call.
+      this._heapState.ptr = heapBefore;
       this._vizDisabled.add(idx);
       return;
     }
+    this._heapState.ptr = heapBefore;
     const w = this._vizWidthFn  ? (this._vizWidthFn(idx)  | 0) : 0;
     const h = this._vizHeightFn ? (this._vizHeightFn(idx) | 0) : 0;
     if (w === 0 || h === 0) return;
