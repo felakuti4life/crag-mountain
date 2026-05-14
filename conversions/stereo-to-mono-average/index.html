@@ -189,6 +189,11 @@ meter.crag-meter::-moz-meter-bar {
   height: 16px;
   cursor: pointer;
 }
+.param-row.param-link-active {
+  outline: 1.5px solid var(--hi);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 .param-meta {
   font-size: .6rem;
   color: var(--muted);
@@ -641,7 +646,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>stereo_to_mono_average</h1>
-      <p class="subtitle">2026-05-13 19:24 UTC &nbsp;·&nbsp; commit&nbsp;<code>2f5dc3f</code> &nbsp;·&nbsp; compiled with&nbsp;<code>56c5146</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-14 15:18 UTC &nbsp;·&nbsp; commit&nbsp;<code>023879b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>023879b</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../debugger.html?graph=stereo-to-mono-average"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -1014,6 +1019,46 @@ Usage via crag-inject-channel-mixers (preferred_channel_mixer = &quot;stereo_to_
         toggleBtn.focus();
       }
     }
+
+    function focusParamTarget(targetId) {
+      const row = document.getElementById(targetId);
+      if (!row) return false;
+      const panel = document.getElementById('side-panel');
+      if (panel && panel.classList.contains('open')) {
+        toggleSidePanel();
+      }
+      row.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      row.classList.remove('param-link-active');
+      if (row._paramLinkTimer) {
+        window.clearTimeout(row._paramLinkTimer);
+      }
+      window.requestAnimationFrame(() => {
+        row.classList.add('param-link-active');
+        row._paramLinkTimer = window.setTimeout(() => {
+          row.classList.remove('param-link-active');
+          row._paramLinkTimer = null;
+        }, 1500);
+      });
+      const slider = row.querySelector('input[type="range"]');
+      if (slider) {
+        try {
+          slider.focus({ preventScroll: true });
+        } catch (_err) {
+          slider.focus();
+        }
+      }
+      return true;
+    }
+
+    document.addEventListener('click', function(event) {
+      const link = event.target.closest ? event.target.closest('a.crag-param-link') : null;
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      if (focusParamTarget(href.slice(1))) {
+        event.preventDefault();
+      }
+    });
 
     // ---------------------------------------------------------------------------
     // Helpers
