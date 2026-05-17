@@ -114,7 +114,12 @@ module {
     %one         = arith.constant 1.0 : f32
     %two         = arith.constant 2.0 : f32
     %dist_floor  = arith.constant 0.1 : f32
-    %buf_f       = arith.constant 1024.0 : f32  // bufSize as f32
+    // Maximum valid peek_delay offset = bufSize - blockSize.  The strict
+    // bounds check requires `offset ∈ [0, bufSize - blockSize]` so the
+    // whole block read fits within one circular wrap.  With bufSize=1024
+    // and blockSize=512 this is 512.
+    %off_max_f   = arith.constant 512.0 : f32
+    %off_min_f   = arith.constant 0.0 : f32
 
     // -----------------------------------------------------------------------
     // Trig of position
@@ -154,11 +159,26 @@ module {
     %delay_r_a = arith.addf %base_delay,  %max_itd_half : f32
     %delay_r   = arith.subf %delay_r_a,   %itd_half     : f32
 
-    // peek_delay offset = bufSize - delay
-    %off_l_f = arith.subf %buf_f, %delay_l : f32
-    %off_r_f = arith.subf %buf_f, %delay_r : f32
-    %off_l   = arith.fptosi %off_l_f : f32 to i32
-    %off_r   = arith.fptosi %off_r_f : f32 to i32
+    // peek_delay offset semantics: with bufSize=1024 and blockSize=512,
+    // valid offsets are in [0, bufSize - blockSize] = [0, 512].  Offset 0
+    // reads the oldest available block (1024 samples back from "now");
+    // offset (bufSize - blockSize) reads the most-recently-pushed block
+    // (0 samples of delay relative to the current input).  Hence:
+    //
+    //   off = (bufSize - blockSize) - delay_samples
+    //       = off_max_f - delay_samples
+    //
+    // With delay_{l,r} ≈ 16 ± 6 samples, off ≈ 496 ± 6 — well within range.
+    // The clamp guards against extreme ITD values that could otherwise drive
+    // off below 0 (delay > 512) and trip the strict bounds check.
+    %off_l_raw = arith.subf %off_max_f, %delay_l : f32
+    %off_r_raw = arith.subf %off_max_f, %delay_r : f32
+    %off_l_lo  = arith.maximumf %off_l_raw, %off_min_f : f32
+    %off_r_lo  = arith.maximumf %off_r_raw, %off_min_f : f32
+    %off_l_f   = arith.minimumf %off_l_lo,  %off_max_f : f32
+    %off_r_f   = arith.minimumf %off_r_lo,  %off_max_f : f32
+    %off_l     = arith.fptosi %off_l_f : f32 to i32
+    %off_r     = arith.fptosi %off_r_f : f32 to i32
 
     // -----------------------------------------------------------------------
     // Push the dry mono input into a shared 1024-sample circular buffer

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "start_ms",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 3.600000e+06,
+      "default": 0.000000e+00,
+      "unit": "ms",
+      "float_index": 0
+    },
+    {
+      "name": "bpm",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 3.000000e+02,
+      "default": 1.200000e+02,
+      "unit": "bpm",
+      "float_index": 1
+    }
+  ],
+  "samplers": [],
+  "texture_samplers": [],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "beat_fired",
+      "type": "bool",
+      "int_index": 0
+    },
+    {
+      "name": "beat_sample_offset",
+      "type": "int",
+      "min": 0,
+      "max": 512,
+      "int_index": 1
+    },
+    {
+      "name": "beat_count",
+      "type": "int",
+      "min": 0,
+      "max": 1000000,
+      "int_index": 2
+    },
+    {
+      "name": "conductor",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "575f391"
+}

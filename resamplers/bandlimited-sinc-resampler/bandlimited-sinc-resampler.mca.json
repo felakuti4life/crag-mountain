@@ -8,11 +8,11 @@
       "march": "x86-64",
       "mcpu": "haswell",
       "arch": "x86-64",
-      "ipc": 1.3029,
-      "block_rthroughput": 127.5,
-      "cycles_per_sample": 0.249,
-      "insns_per_block": 343,
-      "uops_per_block": 510
+      "ipc": 1.2747,
+      "block_rthroughput": 129.25,
+      "cycles_per_sample": 0.2524,
+      "insns_per_block": 346,
+      "uops_per_block": 517
     },
     {
       "label": "Intel Skylake-AVX512 (x86-64-v4)",
@@ -20,11 +20,11 @@
       "march": "x86-64",
       "mcpu": "skylake-avx512",
       "arch": "x86-64",
-      "ipc": 1.4285,
-      "block_rthroughput": 84.83,
-      "cycles_per_sample": 0.1657,
-      "insns_per_block": 342,
-      "uops_per_block": 509
+      "ipc": 1.4359,
+      "block_rthroughput": 86.0,
+      "cycles_per_sample": 0.168,
+      "insns_per_block": 345,
+      "uops_per_block": 516
     },
     {
       "label": "AMD Zen 3 (znver3)",
@@ -32,11 +32,11 @@
       "march": "x86-64",
       "mcpu": "znver3",
       "arch": "x86-64",
-      "ipc": 2.3341,
-      "block_rthroughput": 57.33,
-      "cycles_per_sample": 0.112,
-      "insns_per_block": 343,
-      "uops_per_block": 344
+      "ipc": 2.3545,
+      "block_rthroughput": 57.83,
+      "cycles_per_sample": 0.113,
+      "insns_per_block": 346,
+      "uops_per_block": 347
     },
     {
       "label": "ARM Cortex-A57 (AArch64)",
@@ -44,11 +44,11 @@
       "march": "aarch64",
       "mcpu": "cortex-a57",
       "arch": "aarch64",
-      "ipc": 1.141,
-      "block_rthroughput": 121.0,
-      "cycles_per_sample": 0.2363,
-      "insns_per_block": 312,
-      "uops_per_block": 363
+      "ipc": 1.1457,
+      "block_rthroughput": 122.0,
+      "cycles_per_sample": 0.2383,
+      "insns_per_block": 315,
+      "uops_per_block": 366
     },
     {
       "label": "ARM Neoverse N1 (AArch64)",
@@ -56,11 +56,11 @@
       "march": "aarch64",
       "mcpu": "neoverse-n1",
       "arch": "aarch64",
-      "ipc": 1.0092,
-      "block_rthroughput": 57.0,
-      "cycles_per_sample": 0.1113,
-      "insns_per_block": 312,
-      "uops_per_block": 406
+      "ipc": 1.0156,
+      "block_rthroughput": 59.0,
+      "cycles_per_sample": 0.1152,
+      "insns_per_block": 315,
+      "uops_per_block": 409
     }
   ]
 }

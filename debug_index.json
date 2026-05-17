@@ -902,6 +902,26 @@
       "short_desc": "Schroeder Reverberator"
     },
     {
+      "stem": "conductor",
+      "subdir": "sequencing",
+      "name": "conductor",
+      "wasm": "sequencing/conductor/conductor.wasm",
+      "meta": "sequencing/conductor/conductor.wasm.cragmeta",
+      "debug": "sequencing/conductor/conductor.wasm.cragdebug.json",
+      "source": "sequencing/conductor/conductor.crag.mlir",
+      "short_desc": "Conductor graph \u2014 tempo clock with beat-count meters."
+    },
+    {
+      "stem": "simple_amp_sequencer",
+      "subdir": "sequencing",
+      "name": "simple_amp_sequencer",
+      "wasm": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm",
+      "meta": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm.cragmeta",
+      "debug": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm.cragdebug.json",
+      "source": "sequencing/simple_amp_sequencer/simple_amp_sequencer.crag.mlir",
+      "short_desc": "Simple amplitude sequencer \u2014 applies beat-indexed gain steps to audio."
+    },
+    {
       "stem": "hrtf_spatializer_cipic",
       "subdir": "spatial/cipic",
       "name": "hrtf_spatializer_cipic",

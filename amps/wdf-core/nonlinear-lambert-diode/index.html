@@ -646,7 +646,7 @@ button:hover { opacity: .85; }
     <a class="back" href="../../../index.html" aria-label="Back to all graphs">&#8592; All Graphs</a>
     <div class="header-title">
       <h1>wdf_nonlinear_lambert_diode</h1>
-      <p class="subtitle">2026-05-14 15:18 UTC &nbsp;·&nbsp; commit&nbsp;<code>023879b</code> &nbsp;·&nbsp; compiled with&nbsp;<code>023879b</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
+      <p class="subtitle">2026-05-17 23:52 UTC &nbsp;·&nbsp; commit&nbsp;<code>575f391</code> &nbsp;·&nbsp; compiled with&nbsp;<code>575f391</code> &nbsp;·&nbsp; crag standard-graph &nbsp;&#183;&nbsp; 48000&nbsp;Hz &nbsp;&#183;&nbsp; 1&nbsp;channel</p>
     </div>
     <a class="back" href="../../../debugger.html?graph=nonlinear-lambert-diode"
        title="Open this graph in the debugger" style="margin-right:.5rem">&#x1F52C;&nbsp;Debugger</a>
@@ -903,6 +903,7 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
     <h2>Analysis</h2>
     <div class="analysis-tabs">
     <button class="analysis-tab-btn active" id="analysis-tab-svg" onclick="analysisTab('svg')">Signal Flow</button>
+    <button class="analysis-tab-btn" id="analysis-tab-spec" onclick="analysisTab('spec')">Spectrograms</button>
     <button class="analysis-tab-btn" id="analysis-tab-perf" onclick="analysisTab('perf')">Performance</button>
     </div>
   <div class="analysis-panel active" id="analysis-panel-svg">
@@ -931,6 +932,11 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
       <script>cragInitSignalFlow("svg-flow-viewer-1");</script>
     </div>
   </div>
+  <div class="analysis-panel" id="analysis-panel-spec">
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">White Noise (5 s → decay)</p><img src="nonlinear-lambert-diode_white_noise_spectrogram.png" alt="wdf_nonlinear_lambert_diode — White Noise (5 s → decay) spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">Impulse Response</p><img src="nonlinear-lambert-diode_impulse_spectrogram.png" alt="wdf_nonlinear_lambert_diode — Impulse Response spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+    <div style="margin-bottom:1rem"><p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem">Chirp (0 Hz → Nyquist over 5 s → decay)</p><img src="nonlinear-lambert-diode_chirp_spectrogram.png" alt="wdf_nonlinear_lambert_diode — Chirp (0 Hz → Nyquist over 5 s → decay) spectrogram" style="width:100%;border-radius:4px;display:block;"></div>
+  </div>
   <div class="analysis-panel" id="analysis-panel-perf">
     <table class="perf-table">
       <tr>
@@ -944,10 +950,10 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
 
       <tr>
         <td>Intel Haswell (x86-64-v3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">0.900</td>
-        <td class="num">51.5</td>
-        <td class="num">0.1006</td>
-        <td class="num">120</td>
+        <td class="num">1.156</td>
+        <td class="num">73.5</td>
+        <td class="num">0.1436</td>
+        <td class="num">184</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:100%"></div>
@@ -957,10 +963,10 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
 
       <tr>
         <td>Intel Skylake-AVX512 (x86-64-v4)<span class="arch-badge">x86-64</span></td>
-        <td class="num">1.246</td>
-        <td class="num">34.2</td>
-        <td class="num">0.0667</td>
-        <td class="num">120</td>
+        <td class="num">1.236</td>
+        <td class="num">48.3</td>
+        <td class="num">0.0944</td>
+        <td class="num">182</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
             <div class="perf-bar" style="width:66%"></div>
@@ -970,39 +976,39 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
 
       <tr>
         <td>AMD Zen 3 (znver3)<span class="arch-badge">x86-64</span></td>
-        <td class="num">2.183</td>
-        <td class="num">24.7</td>
-        <td class="num">0.0482</td>
-        <td class="num">120</td>
+        <td class="num">2.395</td>
+        <td class="num">32.3</td>
+        <td class="num">0.0632</td>
+        <td class="num">184</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:48%"></div>
+            <div class="perf-bar" style="width:44%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>ARM Cortex-A57 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.064</td>
-        <td class="num">43.7</td>
-        <td class="num">0.0853</td>
-        <td class="num">110</td>
+        <td class="num">1.161</td>
+        <td class="num">69.3</td>
+        <td class="num">0.1354</td>
+        <td class="num">176</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:85%"></div>
+            <div class="perf-bar" style="width:94%"></div>
           </div>
         </td>
       </tr>
 
       <tr>
         <td>ARM Neoverse N1 (AArch64)<span class="arch-badge">aarch64</span></td>
-        <td class="num">1.026</td>
-        <td class="num">32.0</td>
-        <td class="num">0.0625</td>
-        <td class="num">110</td>
+        <td class="num">1.156</td>
+        <td class="num">47.0</td>
+        <td class="num">0.0918</td>
+        <td class="num">176</td>
         <td class="perf-bar-cell">
           <div class="perf-bar-wrap">
-            <div class="perf-bar" style="width:62%"></div>
+            <div class="perf-bar" style="width:64%"></div>
           </div>
         </td>
       </tr>
@@ -1012,7 +1018,7 @@ window.cragInitSignalFlow = window.cragInitSignalFlow || function(viewerId) {
   </div>
   <script>
     function analysisTab(which) {
-      ['svg', 'perf'].forEach(function(id) {
+      ['svg', 'spec', 'perf'].forEach(function(id) {
         var btn = document.getElementById('analysis-tab-' + id);
         var pnl = document.getElementById('analysis-panel-' + id);
         if (!btn || !pnl) return;

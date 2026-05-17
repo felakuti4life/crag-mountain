@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "023879b",
+  "compiled_with": "575f391",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 1,
