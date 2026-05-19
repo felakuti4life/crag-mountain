@@ -772,6 +772,36 @@
       "short_desc": "Soft Clipper (Tanh Saturation)"
     },
     {
+      "stem": "envelope-filter",
+      "subdir": "filtering",
+      "name": "envelope_filter",
+      "wasm": "filtering/envelope-filter/envelope-filter.wasm",
+      "meta": "filtering/envelope-filter/envelope-filter.wasm.cragmeta",
+      "debug": "filtering/envelope-filter/envelope-filter.wasm.cragdebug.json",
+      "source": "filtering/envelope-filter/envelope-filter.crag.mlir",
+      "short_desc": "Envelope-Driven Filter (Auto-Wah)"
+    },
+    {
+      "stem": "lfo-filter",
+      "subdir": "filtering",
+      "name": "lfo_filter",
+      "wasm": "filtering/lfo-filter/lfo-filter.wasm",
+      "meta": "filtering/lfo-filter/lfo-filter.wasm.cragmeta",
+      "debug": "filtering/lfo-filter/lfo-filter.wasm.cragdebug.json",
+      "source": "filtering/lfo-filter/lfo-filter.crag.mlir",
+      "short_desc": "LFO-Driven Filter"
+    },
+    {
+      "stem": "multiband-eq",
+      "subdir": "filtering",
+      "name": "multiband_eq",
+      "wasm": "filtering/multiband-eq/multiband-eq.wasm",
+      "meta": "filtering/multiband-eq/multiband-eq.wasm.cragmeta",
+      "debug": "filtering/multiband-eq/multiband-eq.wasm.cragdebug.json",
+      "source": "filtering/multiband-eq/multiband-eq.crag.mlir",
+      "short_desc": "Multiband EQ (3-Band)"
+    },
+    {
       "stem": "granulator",
       "subdir": "granulation",
       "name": "granulator",
@@ -820,6 +850,36 @@
       "debug": "modulation/vibrato/vibrato.wasm.cragdebug.json",
       "source": "modulation/vibrato/vibrato.crag.mlir",
       "short_desc": "Vibrato"
+    },
+    {
+      "stem": "ceramic_plate",
+      "subdir": "physical/ceramic_plate",
+      "name": "ceramic_plate",
+      "wasm": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm",
+      "meta": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm.cragmeta",
+      "debug": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm.cragdebug.json",
+      "source": "physical/ceramic_plate/ceramic_plate/ceramic_plate.crag.mlir",
+      "short_desc": "Modal synthesis graph for object 'ceramic_plate'."
+    },
+    {
+      "stem": "metal_plate",
+      "subdir": "physical/metal_plate",
+      "name": "metal_plate",
+      "wasm": "physical/metal_plate/metal_plate/metal_plate.wasm",
+      "meta": "physical/metal_plate/metal_plate/metal_plate.wasm.cragmeta",
+      "debug": "physical/metal_plate/metal_plate/metal_plate.wasm.cragdebug.json",
+      "source": "physical/metal_plate/metal_plate/metal_plate.crag.mlir",
+      "short_desc": "Modal synthesis graph for object 'metal_plate'."
+    },
+    {
+      "stem": "wooden_block",
+      "subdir": "physical/wooden_block",
+      "name": "wooden_block",
+      "wasm": "physical/wooden_block/wooden_block/wooden_block.wasm",
+      "meta": "physical/wooden_block/wooden_block/wooden_block.wasm.cragmeta",
+      "debug": "physical/wooden_block/wooden_block/wooden_block.wasm.cragdebug.json",
+      "source": "physical/wooden_block/wooden_block/wooden_block.crag.mlir",
+      "short_desc": "Modal synthesis graph for object 'wooden_block'."
     },
     {
       "stem": "random-wave",
