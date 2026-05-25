@@ -101,7 +101,9 @@ module {
     %sum_3 = crag.sum %sum_2, %mode_3_out : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
 
     // ── Output gain ──────────────────────────────────────────────────────
-    %scaled_mono = crag.scale %sum_3, %output_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
+    %mode_norm = arith.constant 0.25 : f32  // 1 / n_modes (4)
+    %output_gain_norm = arith.mulf %output_gain, %mode_norm : f32
+    %scaled_mono = crag.scale %sum_3, %output_gain_norm : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     crag.output %scaled_mono : !crag.audio<f32, 48000, 1>
   }
 }

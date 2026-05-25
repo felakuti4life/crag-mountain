@@ -149,7 +149,7 @@ module {
     %m9_raw = crag.filter %excitation, %m9_fb, %m9_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_9_out = crag.scale %m9_raw, %m9_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m10_cutoff = arith.constant 0.344346428 : f32
-    %m10_gain   = arith.constant 0.066381605 : f32
+    %m10_gain   = arith.constant 0.0663816049 : f32
     %m10_two_zeta_base = arith.constant 0.00781781984 : f32
     %m10_denom = arith.addf %m10_two_zeta_base, %dampen_x2dz : f32
     %m10_one = arith.constant 1.0 : f32
@@ -311,7 +311,7 @@ module {
     %m27_raw = crag.filter %excitation, %m27_fb, %m27_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_27_out = crag.scale %m27_raw, %m27_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m28_cutoff = arith.constant 0.759048079 : f32
-    %m28_gain   = arith.constant 0.306435624 : f32
+    %m28_gain   = arith.constant 0.306435623 : f32
     %m28_two_zeta_base = arith.constant 0.0171823679 : f32
     %m28_denom = arith.addf %m28_two_zeta_base, %dampen_x2dz : f32
     %m28_one = arith.constant 1.0 : f32
@@ -491,7 +491,9 @@ module {
     %sum_42 = crag.sum %sum_41, %mode_42_out : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
 
     // ── Output gain ──────────────────────────────────────────────────────
-    %scaled_mono = crag.scale %sum_42, %output_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
+    %mode_norm = arith.constant 0.023255814 : f32  // 1 / n_modes (43)
+    %output_gain_norm = arith.mulf %output_gain, %mode_norm : f32
+    %scaled_mono = crag.scale %sum_42, %output_gain_norm : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     crag.output %scaled_mono : !crag.audio<f32, 48000, 1>
   }
 }
