@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "start_ms",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 3.600000e+06,
+      "default": 0.000000e+00,
+      "unit": "ms",
+      "float_index": 0
+    },
+    {
+      "name": "bpm",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 3.000000e+02,
+      "default": 1.200000e+02,
+      "unit": "bpm",
+      "float_index": 1
+    },
+    {
+      "name": "beats_per_measure",
+      "type": "int",
+      "min": 1,
+      "max": 32,
+      "default": 4,
+      "int_index": 0
+    }
+  ],
+  "samplers": [],
+  "texture_samplers": [],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "beat_fired",
+      "type": "bool",
+      "int_index": 0
+    },
+    {
+      "name": "beat_sample_offset",
+      "type": "int",
+      "min": 0,
+      "max": 512,
+      "int_index": 1
+    },
+    {
+      "name": "beat_count",
+      "type": "int",
+      "min": 0,
+      "max": 1000000,
+      "int_index": 2
+    },
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "param_outputs": [
+    {
+      "name": "beat_count",
+      "type": "int",
+      "out_index": 0,
+      "min": 0,
+      "max": 1000000,
+      "default": 0
+    }
+  ],
+  "event_outputs": [
+    {
+      "name": "beat",
+      "type": "void",
+      "fired_index": 0,
+      "value_index": -1,
+      "subtype": "beat"
+    },
+    {
+      "name": "beat_in_measure",
+      "type": "int",
+      "fired_index": 1,
+      "value_index": 0,
+      "subtype": "beat_position"
+    },
+    {
+      "name": "measure",
+      "type": "int",
+      "fired_index": 2,
+      "value_index": 1,
+      "subtype": "measure_number"
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": false,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "650a608"
+}

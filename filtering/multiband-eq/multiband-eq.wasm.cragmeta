@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "loop",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "low_freq",
+      "type": "float",
+      "min": 2.000000e-03,
+      "max": 1.000000e-01,
+      "default": 8.300000e-03,
+      "float_index": 1
+    },
+    {
+      "name": "high_freq",
+      "type": "float",
+      "min": 5.000000e-02,
+      "max": 4.500000e-01,
+      "default": 1.670000e-01,
+      "float_index": 2
+    },
+    {
+      "name": "low_gain",
+      "type": "float",
+      "min": -2.400000e+01,
+      "max": 2.400000e+01,
+      "default": 0.000000e+00,
+      "unit": "dB",
+      "float_index": 3
+    },
+    {
+      "name": "mid_gain",
+      "type": "float",
+      "min": -2.400000e+01,
+      "max": 2.400000e+01,
+      "default": 0.000000e+00,
+      "unit": "dB",
+      "float_index": 4
+    },
+    {
+      "name": "high_gain",
+      "type": "float",
+      "min": -2.400000e+01,
+      "max": 2.400000e+01,
+      "default": 0.000000e+00,
+      "unit": "dB",
+      "float_index": 5
+    },
+    {
+      "name": "output_gain",
+      "type": "float",
+      "min": -2.400000e+01,
+      "max": 1.200000e+01,
+      "default": 0.000000e+00,
+      "unit": "dB",
+      "float_index": 6
+    }
+  ],
+  "samplers": ["audio"],
+  "texture_samplers": [],
+  "events": [
+    {
+      "name": "start",
+      "type": "void",
+      "void_index": 0
+    },
+    {
+      "name": "stop",
+      "type": "void",
+      "void_index": 1
+    }
+  ],
+  "meters": [
+    {
+      "name": "progress",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "650a608"
+}

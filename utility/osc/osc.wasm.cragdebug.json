@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "650a608",
+  "adaa": {
+    "mode": "first-order",
+    "tanh_count": 0,
+    "hard_clip_count": 0
+  },
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.param_enum",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/osc.crag.mlir",
+      "line": 26,
+      "col": 18,
+      "graph_stack": ["osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "crag.param",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/osc.crag.mlir",
+      "line": 29,
+      "col": 18,
+      "graph_stack": ["osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "crag.param",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/osc.crag.mlir",
+      "line": 30,
+      "col": 18,
+      "graph_stack": ["osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "arith.constant",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/osc.crag.mlir",
+      "line": 33,
+      "col": 13,
+      "graph_stack": ["osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 4,
+      "op": "crag.selector",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/osc.crag.mlir",
+      "line": 35,
+      "col": 12,
+      "graph_stack": ["osc"],
+      "is_audio": true,
+      "channels": 1,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}

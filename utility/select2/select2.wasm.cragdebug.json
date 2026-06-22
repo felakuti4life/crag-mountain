@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "650a608",
+  "adaa": {
+    "mode": "first-order",
+    "tanh_count": 0,
+    "hard_clip_count": 0
+  },
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.sampler",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 4,
+      "col": 14,
+      "graph_stack": [],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "crag.sampler",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 5,
+      "col": 14,
+      "graph_stack": [],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "crag.curframe",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 6,
+      "col": 14,
+      "graph_stack": [],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "arith.constant",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 7,
+      "col": 14,
+      "graph_stack": [],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 4,
+      "op": "arith.addi",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 8,
+      "col": 14,
+      "graph_stack": [],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 5,
+      "op": "crag.sample",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 9,
+      "col": 12,
+      "graph_stack": [],
+      "is_audio": true,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 6,
+      "op": "crag.sample",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\select2.wrapper.mlir",
+      "line": 10,
+      "col": 12,
+      "graph_stack": [],
+      "is_audio": true,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 7,
+      "op": "crag.param_enum",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/select2.crag.mlir",
+      "line": 23,
+      "col": 14,
+      "graph_stack": ["select2"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 8,
+      "op": "crag.selector",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\utility/select2.crag.mlir",
+      "line": 27,
+      "col": 12,
+      "graph_stack": ["select2"],
+      "is_audio": true,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}
