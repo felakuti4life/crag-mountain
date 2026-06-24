@@ -3,18 +3,26 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
+<<<<<<< HEAD
   "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
     "hard_clip_count": 0
   },
+=======
+  "compiled_with": "d8baeb2",
+>>>>>>> main
   "ops": [
     {
       "id": 0,
       "op": "crag.param",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 54,
       "col": 13,
       "graph_stack": ["wave_player"],
@@ -27,7 +35,11 @@
       "id": 1,
       "op": "crag.event_void",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 59,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -40,7 +52,11 @@
       "id": 2,
       "op": "crag.event_void",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 60,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -53,7 +69,11 @@
       "id": 3,
       "op": "crag.latch",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 64,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -66,7 +86,11 @@
       "id": 4,
       "op": "arith.uitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 65,
       "col": 20,
       "graph_stack": ["wave_player"],
@@ -79,7 +103,11 @@
       "id": 5,
       "op": "crag.sampler",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 70,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -92,7 +120,11 @@
       "id": 6,
       "op": "crag.sampler_length",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 74,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -105,7 +137,11 @@
       "id": 7,
       "op": "crag.curframe",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 79,
       "col": 14,
       "graph_stack": ["wave_player"],
@@ -118,7 +154,11 @@
       "id": 8,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 84,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -131,7 +171,11 @@
       "id": 9,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 85,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -144,7 +188,11 @@
       "id": 10,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 86,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -157,7 +205,11 @@
       "id": 11,
       "op": "arith.cmpi",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 87,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -170,7 +222,11 @@
       "id": 12,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 88,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -183,7 +239,11 @@
       "id": 13,
       "op": "arith.remsi",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 91,
       "col": 18,
       "graph_stack": ["wave_player"],
@@ -196,7 +256,11 @@
       "id": 14,
       "op": "arith.cmpf",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 94,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -209,7 +273,11 @@
       "id": 15,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 95,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -222,7 +290,11 @@
       "id": 16,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 105,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -235,12 +307,21 @@
       "id": 17,
       "op": "crag.sample",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 123,
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 107,
+      "col": 18,
+      "graph_stack": ["wave_player"],
+      "is_audio": true,
+      "channels": 0,
+>>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -248,12 +329,21 @@
       "id": 18,
       "op": "crag.scale",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 130,
       "col": 14,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 114,
+      "col": 14,
+      "graph_stack": ["wave_player"],
+      "is_audio": true,
+      "channels": 0,
+>>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -261,8 +351,13 @@
       "id": 19,
       "op": "arith.sitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 136,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 120,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -274,8 +369,13 @@
       "id": 20,
       "op": "arith.sitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 137,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 121,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -287,8 +387,13 @@
       "id": 21,
       "op": "arith.divf",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 138,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 122,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -300,8 +405,13 @@
       "id": 22,
       "op": "crag.meter",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 139,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 123,
+>>>>>>> main
       "col": 5,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -311,9 +421,41 @@
     },
     {
       "id": 23,
+<<<<<<< HEAD
       "op": "crag.channel_join",
       "name": "",
       "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpmy25pk9x\\stereo-to-mono-mid-side.wrapper.mlir",
+=======
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 125,
+      "col": 5,
+      "graph_stack": ["wave_player"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 24,
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 125,
+      "col": 5,
+      "graph_stack": ["wave_player"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 25,
+      "op": "crag.channel_join",
+      "name": "",
+      "file": "/tmp/tmp6qw7t49b/stereo-to-mono-mid-side.wrapper.mlir",
+>>>>>>> main
       "line": 8,
       "col": 14,
       "graph_stack": [],
@@ -323,10 +465,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 24,
       "op": "crag.channel_slice",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\conversions/stereo-to-mono-mid-side.crag.mlir",
+=======
+      "id": 26,
+      "op": "crag.channel_slice",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+>>>>>>> main
       "line": 30,
       "col": 14,
       "graph_stack": ["stereo_to_mono_mid_side"],
@@ -336,10 +485,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 25,
       "op": "crag.channel_slice",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\conversions/stereo-to-mono-mid-side.crag.mlir",
+=======
+      "id": 27,
+      "op": "crag.channel_slice",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+>>>>>>> main
       "line": 32,
       "col": 14,
       "graph_stack": ["stereo_to_mono_mid_side"],
@@ -349,10 +505,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 26,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\conversions/stereo-to-mono-mid-side.crag.mlir",
+=======
+      "id": 28,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+>>>>>>> main
       "line": 36,
       "col": 13,
       "graph_stack": ["stereo_to_mono_mid_side"],
@@ -362,10 +525,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 27,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\conversions/stereo-to-mono-mid-side.crag.mlir",
+=======
+      "id": 29,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+>>>>>>> main
       "line": 39,
       "col": 13,
       "graph_stack": ["stereo_to_mono_mid_side"],
@@ -375,10 +545,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 28,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\conversions/stereo-to-mono-mid-side.crag.mlir",
+=======
+      "id": 30,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+>>>>>>> main
       "line": 40,
       "col": 13,
       "graph_stack": ["stereo_to_mono_mid_side"],
@@ -386,6 +563,35 @@
       "channels": 1,
       "sample_rate": 0,
       "probe_index": null
+<<<<<<< HEAD
+=======
+    },
+    {
+      "id": 31,
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+      "line": 43,
+      "col": 5,
+      "graph_stack": ["stereo_to_mono_mid_side"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 32,
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/conversions/stereo-to-mono-mid-side.crag.mlir",
+      "line": 43,
+      "col": 5,
+      "graph_stack": ["stereo_to_mono_mid_side"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+>>>>>>> main
     }
   ]
 }

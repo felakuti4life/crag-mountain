@@ -31,7 +31,11 @@
 //   crag.include "standard-graphs/reverb/schroeder-reverb.crag.mlir" as "schroeder_reverb"
 
 module {
+<<<<<<< HEAD
   crag.graph name = "schroeder_reverb" sample_rate = 48000 channels = 1 preferred_channel_mixer = "parallel" default_visualizer = "spectrometer" {
+=======
+  crag.graph name = "schroeder_reverb" sample_rate = 48000 channels = 1 default_visualizer = "spectrometer" {
+>>>>>>> main
   ^bb0(%dry: !crag.audio<f32, 0, 0>):
 
     // -----------------------------------------------------------------------

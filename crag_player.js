@@ -63,6 +63,7 @@
   // WASM import object builder
   // ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
   // Default arena size for the bump allocator: 256 MiB.  Large enough to
   // hold multi-minute audio samples bound through `bindSamplerFromArrayBuffer`
   // without overflowing the WASM linear memory and triggering the wasm-side
@@ -113,6 +114,16 @@
    *                              allocCount  number of successful mallocs
    *                              lastError   string|null (most recent OOM msg)
    *                            Caller updates base/ptr/end after instantiation.
+=======
+  /**
+   * Build the WebAssembly import object for a crag WASM module.
+   * Math functions are supplied from JavaScript's Math object.
+   * A simple bump-allocator handles malloc.
+   *
+   * @param {object} heapState  Mutable object: { ptr: number }
+   *                            The caller updates ptr from __heap_base after
+   *                            instantiation.
+>>>>>>> main
    * @param {object} memState   Mutable object: { memory: WebAssembly.Memory|null }
    *                            The caller sets memory from instance.exports.memory
    *                            after instantiation so that memset/memcpy/memmove
@@ -122,11 +133,16 @@
     return {
       env: {
         // ----------------------------------------------------------------
+<<<<<<< HEAD
         // malloc — instrumented, bounded bump allocator.
+=======
+        // malloc — bump allocator; heapState.ptr is updated post-init.
+>>>>>>> main
         // The WASM ABI may pass i32 or i64 sizes; handle both.
         // ----------------------------------------------------------------
         malloc(size) {
           const sz = typeof size === "bigint" ? Number(size) : size;
+<<<<<<< HEAD
           if (!Number.isFinite(sz) || sz < 0) {
             const msg = "[crag] malloc: invalid size " + size;
             heapState.lastError = msg;
@@ -149,6 +165,11 @@
           heapState.ptr        = next;
           heapState.allocCount = (heapState.allocCount | 0) + 1;
           if (next > (heapState.peak | 0)) heapState.peak = next;
+=======
+          const aligned = (sz + 7) & ~7;
+          const ptr = heapState.ptr;
+          heapState.ptr += aligned;
+>>>>>>> main
           return ptr;
         },
         free(_ptr) { /* bump allocator: no-op */ },
@@ -216,10 +237,13 @@
         remainderf: (a, b) => a - Math.round(a / b) * b,
         fminf: Math.min.bind(Math),
         fmaxf: Math.max.bind(Math),
+<<<<<<< HEAD
         // Fused multiply-add (no native WASM op → emitted as a libcall by LLVM).
         // JS has no single-rounding FMA; x*y+z matches the host's other math
         // approximations (this is the preview host, not the bit-exact reference).
         fmaf: (x, y, z) => x * y + z,
+=======
+>>>>>>> main
         hypotf: Math.hypot.bind(Math),
         copysignf: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
         sinhf: Math.sinh.bind(Math),
@@ -256,7 +280,10 @@
         remainder: (a, b) => a - Math.round(a / b) * b,
         fmin: Math.min.bind(Math),
         fmax: Math.max.bind(Math),
+<<<<<<< HEAD
         fma: (x, y, z) => x * y + z,
+=======
+>>>>>>> main
         hypot: Math.hypot.bind(Math),
         copysign: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
         sinh: Math.sinh.bind(Math),
@@ -265,6 +292,7 @@
         asinh: Math.asinh.bind(Math),
         acosh: Math.acosh.bind(Math),
         atanh: Math.atanh.bind(Math),
+<<<<<<< HEAD
 
         // ----------------------------------------------------------------
         // Crag runtime helpers — emitted as external function imports by
@@ -292,6 +320,8 @@
           }
           return w;
         },
+=======
+>>>>>>> main
       },
     };
   }
@@ -382,6 +412,7 @@
 function _makeCragWorkletImports(heapState, memState) {
   return {
     env: {
+<<<<<<< HEAD
       // Bounded, instrumented bump allocator (mirror of makeCragImports on
       // the main thread).  Throws a JS error when the arena is exhausted
       // so the caller sees a clear "arena exhausted" message instead of a
@@ -410,6 +441,13 @@ function _makeCragWorkletImports(heapState, memState) {
         heapState.ptr        = next;
         heapState.allocCount = (heapState.allocCount | 0) + 1;
         if (next > (heapState.peak | 0)) heapState.peak = next;
+=======
+      malloc(size) {
+        const sz      = typeof size === "bigint" ? Number(size) : size;
+        const aligned = (sz + 7) & ~7;
+        const ptr     = heapState.ptr;
+        heapState.ptr += aligned;
+>>>>>>> main
         return ptr;
       },
       free(_ptr) {},
@@ -450,7 +488,10 @@ function _makeCragWorkletImports(heapState, memState) {
       fmodf:      (a, b) => a - Math.trunc(a / b) * b,
       remainderf: (a, b) => a - Math.round(a / b) * b,
       fminf: Math.min.bind(Math),  fmaxf: Math.max.bind(Math),
+<<<<<<< HEAD
       fmaf: (x, y, z) => x * y + z,
+=======
+>>>>>>> main
       hypotf: Math.hypot.bind(Math),
       copysignf: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
       sinhf: Math.sinh.bind(Math), coshf: Math.cosh.bind(Math),
@@ -470,12 +511,16 @@ function _makeCragWorkletImports(heapState, memState) {
       fmod:      (a, b) => a - Math.trunc(a / b) * b,
       remainder: (a, b) => a - Math.round(a / b) * b,
       fmin: Math.min.bind(Math),   fmax: Math.max.bind(Math),
+<<<<<<< HEAD
       fma: (x, y, z) => x * y + z,
+=======
+>>>>>>> main
       hypot: Math.hypot.bind(Math),
       copysign: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
       sinh: Math.sinh.bind(Math),  cosh: Math.cosh.bind(Math),
       tanh: Math.tanh.bind(Math),  asinh: Math.asinh.bind(Math),
       acosh: Math.acosh.bind(Math), atanh: Math.atanh.bind(Math),
+<<<<<<< HEAD
 
       // Crag runtime helper — see top of this file for full notes.
       crag_rt_lambert_w(x) {
@@ -494,6 +539,8 @@ function _makeCragWorkletImports(heapState, memState) {
         }
         return w;
       },
+=======
+>>>>>>> main
     },
   };
 }
@@ -516,7 +563,10 @@ class CragProcessor extends AudioWorkletProcessor {
     this._fireEventFn      = null;
     this._fireEventF32Fn   = null;
     this._fireEventI32Fn   = null;
+<<<<<<< HEAD
     this._fireEventStructFn = null;
+=======
+>>>>>>> main
     this._bindSamplerFn    = null;
     this._isStablePtr      = 0;
     this._unstableCheckIdxPtr = 0;
@@ -524,6 +574,7 @@ class CragProcessor extends AudioWorkletProcessor {
     this._vizOutputPtr     = 0;
     this._vizWidthFn       = null;
     this._vizHeightFn      = null;
+<<<<<<< HEAD
     this._numVisualizers   = 0;
     this._vizDisabled      = new Set();
     this.port.onmessage    = (ev) => { this._onMessage(ev.data); };
@@ -535,6 +586,9 @@ class CragProcessor extends AudioWorkletProcessor {
     // queues the early message correctly, but the handshake is harmless there.
     // See _startInternal().
     this.port.postMessage({ type: "hello" });
+=======
+    this.port.onmessage    = (ev) => { this._onMessage(ev.data); };
+>>>>>>> main
   }
 
   _onMessage(msg) {
@@ -565,9 +619,12 @@ class CragProcessor extends AudioWorkletProcessor {
         if (this._fireEventI32Fn)
           this._fireEventI32Fn(msg.idx, msg.sampleOffset | 0, msg.value | 0);
         break;
+<<<<<<< HEAD
       case "fireEventStruct":
         this._fireWorkletEventStruct(msg);
         break;
+=======
+>>>>>>> main
       case "visualize":
         this._handleVisualize(msg.idx);
         break;
@@ -575,6 +632,7 @@ class CragProcessor extends AudioWorkletProcessor {
   }
 
   async _handleInit(msg) {
+<<<<<<< HEAD
     const { wasmBytes, heapPtr, channels,
             outputPtr, paramsPtr, paramsI32Ptr,
             initialParams, initialParamsI32,
@@ -591,16 +649,28 @@ class CragProcessor extends AudioWorkletProcessor {
     this._heapState.peak       = heapPtr;
     this._heapState.allocCount = 0;
     this._heapState.lastError  = null;
+=======
+    const { wasmModule, heapPtr, channels,
+            outputPtr, paramsPtr, paramsI32Ptr,
+            initialParams, initialParamsI32 } = msg;
+
+    this._channels      = channels;
+    this._heapState.ptr = heapPtr;
+>>>>>>> main
 
     const heapState = this._heapState;
     const memState  = { memory: null };
     const imports   = _makeCragWorkletImports(heapState, memState);
 
+<<<<<<< HEAD
     // Compile + instantiate from the raw bytes inside the worklet.  Passing a
     // BufferSource (not a Module) returns { module, instance }; we only need
     // the instance.  This is the cross-engine-safe path (Chromium/Edge cannot
     // receive a WebAssembly.Module over the AudioWorklet port).
     const { instance: inst } = await WebAssembly.instantiate(wasmBytes, imports);
+=======
+    const inst = await WebAssembly.instantiate(wasmModule, imports);
+>>>>>>> main
     this._instance = inst;
     const e = inst.exports;
 
@@ -613,6 +683,7 @@ class CragProcessor extends AudioWorkletProcessor {
     // with WASM static data.
     if (e.__heap_base) heapState.ptr = e.__heap_base.value;
 
+<<<<<<< HEAD
     // Establish the arena bounds and pre-grow linear memory so the entire
     // arena is backed before any malloc happens.  This prevents the wasm
     // module from trapping with "RuntimeError: index out of bounds" when a
@@ -637,6 +708,8 @@ class CragProcessor extends AudioWorkletProcessor {
       }
     }
 
+=======
+>>>>>>> main
     this._outputPtr    = e.crag_output    ? e.crag_output.value    : outputPtr;
     this._paramsPtr    = e.crag_params    ? e.crag_params.value    : paramsPtr;
     this._paramsI32Ptr = e.crag_params_i32 ? e.crag_params_i32.value : paramsI32Ptr;
@@ -644,7 +717,10 @@ class CragProcessor extends AudioWorkletProcessor {
     this._fireEventFn    = e.crag_fire_event        || null;
     this._fireEventF32Fn = e.crag_fire_event_float  || null;
     this._fireEventI32Fn = e.crag_fire_event_int    || null;
+<<<<<<< HEAD
     this._fireEventStructFn = e.crag_fire_event_struct || null;
+=======
+>>>>>>> main
     this._bindSamplerFn  = e.crag_bind_audio_by_index || null;
 
     this._isStablePtr         = e.crag_is_stable          ? e.crag_is_stable.value          : 0;
@@ -654,8 +730,11 @@ class CragProcessor extends AudioWorkletProcessor {
     this._vizOutputPtr = e.crag_viz_output ? e.crag_viz_output.value : 0;
     this._vizWidthFn   = e.crag_viz_width  || null;
     this._vizHeightFn  = e.crag_viz_height || null;
+<<<<<<< HEAD
     this._numVisualizers = e.crag_num_visualizers ? e.crag_num_visualizers()
                          : (e.crag_has_visualizer && e.crag_has_visualizer() !== 0 ? 1 : 0);
+=======
+>>>>>>> main
 
     this._metersPtr    = e.crag_meters    ? e.crag_meters.value    : 0;
     this._metersI32Ptr = e.crag_meters_i32 ? e.crag_meters_i32.value : 0;
@@ -698,6 +777,7 @@ class CragProcessor extends AudioWorkletProcessor {
     if (!this._ready || !this._bindSamplerFn) return;
     const numSamples = samples.length;
     const byteLen    = numSamples * 4;
+<<<<<<< HEAD
     const aligned    = (byteLen + 7) & ~7;
     const mem        = this._memory;
     const heapState  = this._heapState;
@@ -726,10 +806,21 @@ class CragProcessor extends AudioWorkletProcessor {
     }
     heapState.ptr = next;
     if (next > (heapState.peak | 0)) heapState.peak = next;
+=======
+    const mem        = this._memory;
+    const needed     = this._heapState.ptr + byteLen;
+    if (needed > mem.buffer.byteLength) {
+      const pages = Math.ceil((needed - mem.buffer.byteLength) / 65536);
+      mem.grow(pages);
+    }
+    const ptr = this._heapState.ptr;
+    this._heapState.ptr += (byteLen + 7) & ~7;
+>>>>>>> main
     new Float32Array(mem.buffer, ptr, numSamples).set(samples);
     this._bindSamplerFn(idx, BigInt(ptr), numSamples);
   }
 
+<<<<<<< HEAD
   _fireWorkletEventStruct({ idx, sampleOffset, bytes }) {
     if (!this._ready || !this._fireEventStructFn) return;
     const byteLen = bytes.byteLength;
@@ -791,6 +882,17 @@ class CragProcessor extends AudioWorkletProcessor {
     const f32 = new Float32Array(this._memory.buffer, byteOffset, pixels);
     const u8  = new Uint8ClampedArray(pixels);
     for (let i = 0; i < pixels; i++)
+=======
+  _handleVisualize(idx) {
+    if (!this._vizFn || !this._vizOutputPtr) return;
+    this._vizFn(idx);
+    const w = this._vizWidthFn  ? this._vizWidthFn(idx)  : 0;
+    const h = this._vizHeightFn ? this._vizHeightFn(idx) : 0;
+    if (w === 0 || h === 0) return;
+    const f32 = new Float32Array(this._memory.buffer, this._vizOutputPtr, w * h * 4);
+    const u8  = new Uint8ClampedArray(w * h * 4);
+    for (let i = 0; i < w * h * 4; i++)
+>>>>>>> main
       u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
     // Transfer the backing ArrayBuffer to avoid a copy.
     this.port.postMessage(
@@ -900,18 +1002,25 @@ registerProcessor("crag-processor", CragProcessor);
      * @param {WebAssembly.Instance} instance    Instantiated WASM module.
      * @param {object}               meta         Parsed .cragmeta JSON.
      * @param {object}               heapState    Bump-allocator state { ptr }.
+<<<<<<< HEAD
      * @param {WebAssembly.Module}   [wasmModule] Compiled module (main-thread instance).
+=======
+     * @param {WebAssembly.Module}   [wasmModule] Compiled module for transfer to AudioWorklet.
+>>>>>>> main
      */
     constructor(instance, meta, heapState, wasmModule) {
       this._instance = instance;
       this.meta = meta;
       this._heapState = heapState;
       this._wasmModule = wasmModule || null;
+<<<<<<< HEAD
       // Raw WASM bytes, retained so start() can hand them to the AudioWorklet.
       // The worklet compiles its own instance from these because Chromium/Edge
       // cannot clone a WebAssembly.Module across the AudioWorklet message port
       // (an ArrayBuffer clones fine).  Set by CragPlayer.create().
       this._wasmBytes = null;
+=======
+>>>>>>> main
 
       const e = instance.exports;
       this._memory    = e.memory;
@@ -932,7 +1041,10 @@ registerProcessor("crag-processor", CragProcessor);
       this._fireEvent     = e.crag_fire_event      || null;
       this._fireEventF32  = e.crag_fire_event_float || null;
       this._fireEventI32  = e.crag_fire_event_int  || null;
+<<<<<<< HEAD
       this._fireEventStruct = e.crag_fire_event_struct || null;
+=======
+>>>>>>> main
 
       // Meter support (optional — only present when the graph uses meter ops).
       this._numMeters    = e.crag_num_meters    ? e.crag_num_meters()    : 0;
@@ -1124,6 +1236,7 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
+<<<<<<< HEAD
      * Fire a struct event at a specific sample within the next block.
      *
      * The *bytes* argument is a Uint8Array whose contents match the struct
@@ -1181,6 +1294,8 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
+=======
+>>>>>>> main
      * Create an HTML `<button>` element that fires the void event at index
      * *idx* when clicked.  The button is appended to *container* (if given)
      * and returned so the caller can style it.
@@ -1313,8 +1428,13 @@ registerProcessor("crag-processor", CragProcessor);
      */
     async start() {
       if (this._running || this._starting) return;
+<<<<<<< HEAD
       if (!this._wasmBytes)
         throw new Error("[crag] No WASM bytes available for AudioWorklet. " +
+=======
+      if (!this._wasmModule)
+        throw new Error("[crag] No WASM module available for AudioWorklet. " +
+>>>>>>> main
           "Ensure CragPlayer.create() was used to construct this player.");
 
       this._starting = true;
@@ -1401,6 +1521,7 @@ registerProcessor("crag-processor", CragProcessor);
         workletNode.port.onmessage = (ev) => {
           const msg = ev.data;
           switch (msg.type) {
+<<<<<<< HEAD
             case "hello":
               // The processor is constructed and its port is listening, so it
               // is now safe to send the init payload.  Posting it earlier (right
@@ -1419,6 +1540,8 @@ registerProcessor("crag-processor", CragProcessor);
                 initialParamsI32,
               });
               break;
+=======
+>>>>>>> main
             case "ready":
               clearTimeout(timeout);
               this._startAbort    = null;
@@ -1469,9 +1592,23 @@ registerProcessor("crag-processor", CragProcessor);
           }
         };
 
+<<<<<<< HEAD
         // The init payload is sent in response to the worklet's "hello"
         // handshake above (see the "hello" case) rather than here, so it is
         // never posted before the processor's port is listening.
+=======
+        workletNode.port.postMessage({
+          type:            "init",
+          wasmModule:      this._wasmModule,
+          heapPtr:         this._heapState.ptr,
+          channels,
+          outputPtr:       this._outputPtr,
+          paramsPtr:       this._paramsPtr,
+          paramsI32Ptr:    this._paramsI32Ptr,
+          initialParams,
+          initialParamsI32,
+        });
+>>>>>>> main
       });
 
       this._running = true;
@@ -1520,6 +1657,7 @@ registerProcessor("crag-processor", CragProcessor);
       this._running = false;
     }
 
+<<<<<<< HEAD
     /**
      * Return a snapshot of the bump-arena instrumentation for the
      * **main-thread** WASM instance.  Useful for diagnosing
@@ -1558,6 +1696,8 @@ registerProcessor("crag-processor", CragProcessor);
       };
     }
 
+=======
+>>>>>>> main
     // -------------------------------------------------------------------------
     // Factory
     // -------------------------------------------------------------------------
@@ -1568,6 +1708,7 @@ registerProcessor("crag-processor", CragProcessor);
      * @param {string|URL} wasmUrl   URL of the .wasm file.
      * @param {string|URL} metaUrl   URL of the .wasm.cragmeta file.
      *                               If omitted, "<wasmUrl>.cragmeta" is used.
+<<<<<<< HEAD
      * @param {object}     [options]
      * @param {number}     [options.arenaSize]  Size in bytes of the bump
      *                     allocator's arena.  Defaults to 256 MiB
@@ -1583,6 +1724,12 @@ registerProcessor("crag-processor", CragProcessor);
       const arenaSize = (typeof opts.arenaSize === "number" && opts.arenaSize > 0)
         ? opts.arenaSize
         : DEFAULT_ARENA_BYTES;
+=======
+     * @returns {Promise<CragPlayer>}
+     */
+    static async create(wasmUrl, metaUrl) {
+      if (!metaUrl) metaUrl = wasmUrl + ".cragmeta";
+>>>>>>> main
 
       // Fetch metadata.
       const meta = await fetch(metaUrl).then((r) => {
@@ -1590,6 +1737,7 @@ registerProcessor("crag-processor", CragProcessor);
         return r.json();
       });
 
+<<<<<<< HEAD
       // Instrumented bump-arena state shared between the import object and
       // the post-init fixup.  Bounds (base/end) and counters are populated
       // once __heap_base is known.
@@ -1601,12 +1749,17 @@ registerProcessor("crag-processor", CragProcessor);
         allocCount: 0,
         lastError:  null,
       };
+=======
+      // Heap state shared between import object and post-init fixup.
+      const heapState = { ptr: 8 * 1024 * 1024 }; // 8 MB default
+>>>>>>> main
       // Memory state: populated from instance.exports.memory after instantiation
       // so that memset/memcpy/memmove have access to WASM linear memory.
       const memState = { memory: null };
 
       const importObj = makeCragImports(heapState, memState);
 
+<<<<<<< HEAD
       // Fetch the WASM bytes once.  We instantiate the main-thread instance
       // from these bytes AND retain them to hand to the AudioWorklet at
       // start() (see CragPlayer._wasmBytes): Chromium/Edge silently drop an
@@ -1620,6 +1773,21 @@ registerProcessor("crag-processor", CragProcessor);
       });
       const { instance, module: wasmModule } =
         await WebAssembly.instantiate(wasmBytes, importObj);
+=======
+      // Instantiate — use instantiateStreaming when available.
+      let instance, wasmModule;
+      if (typeof WebAssembly.instantiateStreaming === "function") {
+        const resp = fetch(wasmUrl);
+        const result = await WebAssembly.instantiateStreaming(resp, importObj);
+        instance   = result.instance;
+        wasmModule = result.module;
+      } else {
+        const buf = await fetch(wasmUrl).then((r) => r.arrayBuffer());
+        const result = await WebAssembly.instantiate(buf, importObj);
+        instance   = result.instance;
+        wasmModule = result.module;
+      }
+>>>>>>> main
 
       // Fix up heap pointer from the exported __heap_base symbol.
       if (instance.exports.__heap_base) {
@@ -1630,6 +1798,7 @@ registerProcessor("crag-processor", CragProcessor);
         memState.memory = instance.exports.memory;
       }
 
+<<<<<<< HEAD
       // Establish the arena bounds and pre-grow WASM linear memory so the
       // entire arena (default 256 MiB) is backed up front.  This is what
       // prevents large sampler binds from pushing the bump pointer past the
@@ -1646,6 +1815,10 @@ registerProcessor("crag-processor", CragProcessor);
       const player = new CragPlayer(instance, meta, heapState, wasmModule);
       player._wasmBytes = wasmBytes;
       player._arenaSize = arenaSize;
+=======
+      // Apply default parameter values from metadata.
+      const player = new CragPlayer(instance, meta, heapState, wasmModule);
+>>>>>>> main
       let floatIdx = 0, intIdx = 0;
       (meta.parameters || []).forEach((p) => {
         const type = p.type || "float";

@@ -88,7 +88,10 @@
     }
   ],
   "samplers": ["audio", "hrir_ss2_interp_pack_L", "hrir_ss2_interp_pack_R"],
+<<<<<<< HEAD
   "texture_samplers": [],
+=======
+>>>>>>> main
   "events": [
     {
       "name": "start",
@@ -108,6 +111,7 @@
       "min": 0.000000e+00,
       "max": 1.000000e+00,
       "float_index": 0
+<<<<<<< HEAD
     }
   ],
   "visualizers": [
@@ -118,4 +122,26 @@
   "viz_width": 512,
   "viz_height": 256,
   "compiled_with": "9165bcc"
+=======
+    },
+    {
+      "name": "wave_player",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "hrtf_spatializer_ss2_interp",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 2
+    }
+  ],
+  "has_visualizer": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "d8baeb2"
+>>>>>>> main
 }

@@ -1,6 +1,10 @@
 // HRTF Spatializer (SS2, k=3 linear-interpolation renderer)
 //
+<<<<<<< HEAD
 // Graph-side linear-interpolation variant for SS2.  Mirror of
+=======
+// Plan §6.2 graph-side linear-interpolation variant for SS2.  Mirror of
+>>>>>>> main
 // `hrtf_spatializer_cipic_interp.crag.mlir`: the host computes three
 // (index, weight) tuples via `scripts.hrtf.lookup.linear_interp_positions(k=3)`
 // and binds them through the per-slot parameters declared below.  The
@@ -42,7 +46,11 @@
 // against a packed cache entry.
 
 module {
+<<<<<<< HEAD
   // Position visualizer — see naive reference template comment.
+=======
+  // §8 / §9 position visualizer — see naive reference template comment.
+>>>>>>> main
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
                           as "position_combined"
 
@@ -166,7 +174,11 @@ module {
                     : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>)
                       -> !crag.audio<f32, 48000, 2, subtype = "binaural">
 
+<<<<<<< HEAD
     // Position visualizer side-effect capture.
+=======
+    // §8 position visualizer side-effect capture.
+>>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

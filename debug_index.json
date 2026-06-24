@@ -1,5 +1,6 @@
 {
   "version": 1,
+<<<<<<< HEAD
   "gen_datetime": "2026-06-24 04:53 UTC",
   "git_commit": "3c20e7e",
   "targets": [
@@ -404,6 +405,10 @@
       "short_desc": "Dual-Stage Serial Compressor"
     },
     {
+=======
+  "targets": [
+    {
+>>>>>>> main
       "stem": "feed-forward-compressor",
       "subdir": "compressors",
       "name": "feed_forward_compressor",
@@ -414,6 +419,7 @@
       "short_desc": "Feed-Forward RMS Compressor"
     },
     {
+<<<<<<< HEAD
       "stem": "feedback-peak-compressor",
       "subdir": "compressors",
       "name": "feedback_peak_compressor",
@@ -464,6 +470,8 @@
       "short_desc": "Parallel Compressor"
     },
     {
+=======
+>>>>>>> main
       "stem": "peak-limiter",
       "subdir": "compressors",
       "name": "peak_limiter",
@@ -474,6 +482,7 @@
       "short_desc": "Peak Limiter"
     },
     {
+<<<<<<< HEAD
       "stem": "program-dependent-release-compressor",
       "subdir": "compressors",
       "name": "program_dependent_release_compressor",
@@ -524,6 +533,8 @@
       "short_desc": "Upward Compressor"
     },
     {
+=======
+>>>>>>> main
       "stem": "51-to-stereo",
       "subdir": "conversions",
       "name": "51_to_stereo",
@@ -774,6 +785,7 @@
       "short_desc": "Soft Clipper (Tanh Saturation)"
     },
     {
+<<<<<<< HEAD
       "stem": "envelope-filter",
       "subdir": "filtering",
       "name": "envelope_filter",
@@ -804,6 +816,8 @@
       "short_desc": "Multiband EQ (3-Band)"
     },
     {
+=======
+>>>>>>> main
       "stem": "granulator",
       "subdir": "granulation",
       "name": "granulator",
@@ -854,6 +868,7 @@
       "short_desc": "Vibrato"
     },
     {
+<<<<<<< HEAD
       "stem": "ceramic_plate",
       "subdir": "physical/ceramic_plate",
       "name": "ceramic_plate",
@@ -894,6 +909,8 @@
       "short_desc": "Image Reader"
     },
     {
+=======
+>>>>>>> main
       "stem": "random-wave",
       "subdir": "playback",
       "name": "random-wave",
@@ -904,6 +921,7 @@
       "short_desc": "Random Wave"
     },
     {
+<<<<<<< HEAD
       "stem": "wave_player_retrigger",
       "subdir": "playback",
       "name": "wave_player_retrigger",
@@ -914,6 +932,8 @@
       "short_desc": "Wave Player Retrigger"
     },
     {
+=======
+>>>>>>> main
       "stem": "bandlimited-sinc-resampler",
       "subdir": "resamplers",
       "name": "bandlimited_sinc_resampler",
@@ -984,6 +1004,7 @@
       "short_desc": "Schroeder Reverberator"
     },
     {
+<<<<<<< HEAD
       "stem": "conductor",
       "subdir": "sequencing",
       "name": "conductor",
@@ -1004,6 +1025,8 @@
       "short_desc": "Simple amplitude sequencer \u2014 applies beat-indexed gain steps to audio."
     },
     {
+=======
+>>>>>>> main
       "stem": "hrtf_spatializer_cipic",
       "subdir": "spatial/cipic",
       "name": "hrtf_spatializer_cipic",
@@ -1074,6 +1097,7 @@
       "short_desc": "HRTF Spatializer (SS2, runtime-position renderer)"
     },
     {
+<<<<<<< HEAD
       "stem": "fft_block_echo",
       "subdir": "spectral",
       "name": "fft_block_echo",
@@ -1134,6 +1158,8 @@
       "short_desc": "Monophonic synthesizer \u2014 music_note event \u2192 oscillator \u2192 filter \u2192 envelope"
     },
     {
+=======
+>>>>>>> main
       "stem": "adsr",
       "subdir": "utility",
       "name": "adsr",
@@ -1152,6 +1178,7 @@
       "debug": "utility/amplitude_envelope/amplitude_envelope.wasm.cragdebug.json",
       "source": "utility/amplitude_envelope/amplitude_envelope.crag.mlir",
       "short_desc": "Amplitude Envelope"
+<<<<<<< HEAD
     },
     {
       "stem": "delay",
@@ -1262,6 +1289,8 @@
       "debug": "utility/select2/select2.wasm.cragdebug.json",
       "source": "utility/select2/select2.crag.mlir",
       "short_desc": "Select2"
+=======
+>>>>>>> main
     }
   ]
 }

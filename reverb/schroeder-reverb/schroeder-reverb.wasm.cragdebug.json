@@ -3,18 +3,26 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
+<<<<<<< HEAD
   "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
     "hard_clip_count": 0
   },
+=======
+  "compiled_with": "d8baeb2",
+>>>>>>> main
   "ops": [
     {
       "id": 0,
       "op": "crag.param",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 54,
       "col": 13,
       "graph_stack": ["wave_player"],
@@ -27,7 +35,11 @@
       "id": 1,
       "op": "crag.event_void",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 59,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -40,7 +52,11 @@
       "id": 2,
       "op": "crag.event_void",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 60,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -53,7 +69,11 @@
       "id": 3,
       "op": "crag.latch",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 64,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -66,7 +86,11 @@
       "id": 4,
       "op": "arith.uitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 65,
       "col": 20,
       "graph_stack": ["wave_player"],
@@ -79,7 +103,11 @@
       "id": 5,
       "op": "crag.sampler",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 70,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -92,7 +120,11 @@
       "id": 6,
       "op": "crag.sampler_length",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 74,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -105,7 +137,11 @@
       "id": 7,
       "op": "crag.curframe",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 79,
       "col": 14,
       "graph_stack": ["wave_player"],
@@ -118,7 +154,11 @@
       "id": 8,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 84,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -131,7 +171,11 @@
       "id": 9,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 85,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -144,7 +188,11 @@
       "id": 10,
       "op": "arith.constant",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 86,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -157,7 +205,11 @@
       "id": 11,
       "op": "arith.cmpi",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 87,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -170,7 +222,11 @@
       "id": 12,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 88,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -183,7 +239,11 @@
       "id": 13,
       "op": "arith.remsi",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 91,
       "col": 18,
       "graph_stack": ["wave_player"],
@@ -196,7 +256,11 @@
       "id": 14,
       "op": "arith.cmpf",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 94,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -209,7 +273,11 @@
       "id": 15,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 95,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -222,7 +290,11 @@
       "id": 16,
       "op": "arith.select",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+>>>>>>> main
       "line": 105,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -235,12 +307,21 @@
       "id": 17,
       "op": "crag.sample",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 123,
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 107,
+      "col": 18,
+      "graph_stack": ["wave_player"],
+      "is_audio": true,
+      "channels": 0,
+>>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -248,12 +329,21 @@
       "id": 18,
       "op": "crag.scale",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 130,
       "col": 14,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 114,
+      "col": 14,
+      "graph_stack": ["wave_player"],
+      "is_audio": true,
+      "channels": 0,
+>>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -261,8 +351,13 @@
       "id": 19,
       "op": "arith.sitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 136,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 120,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -274,8 +369,13 @@
       "id": 20,
       "op": "arith.sitofp",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 137,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 121,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -287,8 +387,13 @@
       "id": 21,
       "op": "arith.divf",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 138,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 122,
+>>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -300,8 +405,13 @@
       "id": 22,
       "op": "crag.meter",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 139,
+=======
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 123,
+>>>>>>> main
       "col": 5,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -311,12 +421,21 @@
     },
     {
       "id": 23,
+<<<<<<< HEAD
       "op": "crag.param",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
       "line": 40,
       "col": 14,
       "graph_stack": ["schroeder_reverb"],
+=======
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 125,
+      "col": 5,
+      "graph_stack": ["wave_player"],
+>>>>>>> main
       "is_audio": false,
       "channels": 0,
       "sample_rate": 0,
@@ -324,12 +443,21 @@
     },
     {
       "id": 24,
+<<<<<<< HEAD
       "op": "crag.param",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
       "line": 41,
       "col": 14,
       "graph_stack": ["schroeder_reverb"],
+=======
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
+      "line": 125,
+      "col": 5,
+      "graph_stack": ["wave_player"],
+>>>>>>> main
       "is_audio": false,
       "channels": 0,
       "sample_rate": 0,
@@ -339,8 +467,13 @@
       "id": 25,
       "op": "crag.param",
       "name": "",
+<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
       "line": 42,
+=======
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+      "line": 40,
+>>>>>>> main
       "col": 14,
       "graph_stack": ["schroeder_reverb"],
       "is_audio": false,
@@ -350,9 +483,41 @@
     },
     {
       "id": 26,
+<<<<<<< HEAD
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+      "line": 41,
+      "col": 14,
+      "graph_stack": ["schroeder_reverb"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 27,
+      "op": "crag.param",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+      "line": 42,
+      "col": 14,
+      "graph_stack": ["schroeder_reverb"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 28,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 45,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -362,10 +527,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 27,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 29,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 46,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -375,10 +547,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 28,
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 30,
+      "op": "arith.mulf",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 47,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -388,10 +567,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 29,
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 31,
+      "op": "arith.addf",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 48,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -401,10 +587,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 30,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 32,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 51,
       "col": 13,
       "graph_stack": ["schroeder_reverb"],
@@ -414,10 +607,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 31,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 33,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 56,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -427,10 +627,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 32,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 34,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 57,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -440,10 +647,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 33,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 35,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 59,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -453,10 +667,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 34,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 36,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 61,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -466,10 +687,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 35,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 37,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 64,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -479,10 +707,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 36,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 38,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 70,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -492,10 +727,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 37,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 39,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 71,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -505,10 +747,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 38,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 40,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 73,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -518,10 +767,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 39,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 41,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 75,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -531,10 +787,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 40,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 42,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 78,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -544,10 +807,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 41,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 43,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 84,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -557,10 +827,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 42,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 44,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 85,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -570,10 +847,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 43,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 45,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 87,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -583,10 +867,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 44,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 46,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 89,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -596,10 +887,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 45,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 47,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 92,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -609,10 +907,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 46,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 48,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 98,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -622,10 +927,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 47,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 49,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 99,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -635,10 +947,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 48,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 50,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 101,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -648,10 +967,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 49,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 51,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 103,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -661,10 +987,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 50,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 52,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 106,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -674,10 +1007,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 51,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 53,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 112,
       "col": 17,
       "graph_stack": ["schroeder_reverb"],
@@ -687,10 +1027,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 52,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 54,
+      "op": "arith.constant",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 116,
       "col": 17,
       "graph_stack": ["schroeder_reverb"],
@@ -700,10 +1047,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 53,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 55,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 117,
       "col": 17,
       "graph_stack": ["schroeder_reverb"],
@@ -713,10 +1067,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 54,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 56,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 125,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -726,10 +1087,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 55,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 57,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 126,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -739,10 +1107,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 56,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 58,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 128,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -752,10 +1127,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 57,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 59,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 130,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -765,10 +1147,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 58,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 60,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 133,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -778,10 +1167,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 59,
       "op": "arith.negf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 61,
+      "op": "arith.negf",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 135,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -791,10 +1187,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 60,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 62,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 136,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -804,10 +1207,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 61,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 63,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 138,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -817,10 +1227,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 62,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 64,
+      "op": "crag.delay_line",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 150,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -830,10 +1247,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 63,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 65,
+      "op": "crag.pop_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 151,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -843,10 +1267,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 64,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 66,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 153,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -856,10 +1287,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 65,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 67,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 155,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -869,10 +1307,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 66,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 68,
+      "op": "crag.push_delay",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 158,
       "col": 5,
       "graph_stack": ["schroeder_reverb"],
@@ -882,10 +1327,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 67,
       "op": "arith.negf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 69,
+      "op": "arith.negf",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 160,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -895,10 +1347,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 68,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 70,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 161,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -908,10 +1367,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 69,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 71,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 163,
       "col": 20,
       "graph_stack": ["schroeder_reverb"],
@@ -921,10 +1387,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 70,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 72,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 170,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -934,10 +1407,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 71,
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 73,
+      "op": "crag.scale",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 172,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -947,10 +1427,17 @@
       "probe_index": null
     },
     {
+<<<<<<< HEAD
       "id": 72,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\reverb/schroeder-reverb.crag.mlir",
+=======
+      "id": 74,
+      "op": "crag.sum",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+>>>>>>> main
       "line": 174,
       "col": 16,
       "graph_stack": ["schroeder_reverb"],
@@ -958,6 +1445,35 @@
       "channels": 0,
       "sample_rate": 0,
       "probe_index": null
+<<<<<<< HEAD
+=======
+    },
+    {
+      "id": 75,
+      "op": "crag.audio_peak",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+      "line": 178,
+      "col": 5,
+      "graph_stack": ["schroeder_reverb"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 76,
+      "op": "crag.meter",
+      "name": "",
+      "file": "/__w/crag/crag/standard-graphs/reverb/schroeder-reverb.crag.mlir",
+      "line": 178,
+      "col": 5,
+      "graph_stack": ["schroeder_reverb"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+>>>>>>> main
     }
   ]
 }
