@@ -20,19 +20,12 @@
     }
   ],
   "samplers": [],
-<<<<<<< HEAD
   "texture_samplers": [],
-=======
->>>>>>> main
   "events": [
   ],
   "meters": [
     {
-<<<<<<< HEAD
       "name": "Output",
-=======
-      "name": "random-wave",
->>>>>>> main
       "type": "float",
       "min": 0.000000e+00,
       "max": 1.000000e+00,
@@ -40,14 +33,8 @@
     }
   ],
   "has_visualizer": true,
-<<<<<<< HEAD
   "has_audio_output": true,
   "viz_width": 512,
   "viz_height": 256,
   "compiled_with": "9165bcc"
-=======
-  "viz_width": 512,
-  "viz_height": 256,
-  "compiled_with": "d8baeb2"
->>>>>>> main
 }

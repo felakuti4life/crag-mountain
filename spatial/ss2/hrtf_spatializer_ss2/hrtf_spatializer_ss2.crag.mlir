@@ -1,21 +1,13 @@
 // HRTF Spatializer (SS2, fixed-position renderer)
 //
-<<<<<<< HEAD
 // Dataset-driven HRTF spatializer variant.  Same ABI as
-=======
-// Dataset-driven HRTF spatializer variant per the §4.2 plan.  Same ABI as
->>>>>>> main
 // `standard-graphs/spatial/hrtf_spatializer.crag.mlir` and the CIPIC
 // renderer (mono in, binaural-tagged stereo out, position exposed via
 // three `crag.param` ops); the only delta versus the CIPIC fixed-position
 // renderer is the per-ear sampler name (`hrir_ss2_L` / `hrir_ss2_R`) and
 // the citation block.  Both samplers are bound at compile time through
 // `--inline-sampler-data` against the per-ear single-IR WAVs that
-<<<<<<< HEAD
 // `scripts/hrtf/render.py` exports out of the normalized cache.
-=======
-// `scripts/hrtf/render.py` exports out of the §3.2 normalized cache.
->>>>>>> main
 //
 // As with CIPIC, this first-pass renderer is **fixed-position**: each
 // compiled binary corresponds to one HRIR pair.  Runtime per-position IR
@@ -30,11 +22,7 @@
 // no resample is needed in `scripts/hrtf/prep.py`).
 //
 // IR length budget:
-<<<<<<< HEAD
 //   The normalized cache pads SS2 IRs to 256 samples.  At
-=======
-//   The §3.2 normalized cache pads SS2 IRs to 256 samples.  At
->>>>>>> main
 //   blockSize=512, a single OLS partition covers the full IR without
 //   aliasing, so we set `num_partitions = 1` per ear.  If a future
 //   cache schema bumps `ir_length` above 512, increase this constant.
@@ -49,11 +37,7 @@
 // packed cache entry.
 
 module {
-<<<<<<< HEAD
   // Position visualizer — see naive reference template comment.
-=======
-  // §8 / §9 position visualizer — see naive reference template comment.
->>>>>>> main
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
                           as "position_combined"
 
@@ -94,11 +78,7 @@ module {
 
     // Residual constant-power lateral pan (sin(az)·cos(el)) so this
     // fixed-position renderer still tracks azimuth/elevation around
-<<<<<<< HEAD
     // the bound IR's anchor direction.  Once runtime IR selection
-=======
-    // the bound IR's anchor direction.  Once §6 runtime IR selection
->>>>>>> main
     // lands this whole block is replaced by an IR-index computation.
     %sin_az    = math.sin %azimuth   : f32
     %cos_el    = math.cos %elevation : f32
@@ -127,11 +107,7 @@ module {
                     : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>)
                       -> !crag.audio<f32, 48000, 2, subtype = "binaural">
 
-<<<<<<< HEAD
     // Position visualizer side-effect capture.
-=======
-    // §8 position visualizer side-effect capture.
->>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

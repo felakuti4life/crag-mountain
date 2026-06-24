@@ -3,26 +3,18 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-<<<<<<< HEAD
   "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
     "hard_clip_count": 0
   },
-=======
-  "compiled_with": "d8baeb2",
->>>>>>> main
   "ops": [
     {
       "id": 0,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 67,
       "col": 22,
       "graph_stack": ["granulator"],
@@ -35,11 +27,7 @@
       "id": 1,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 69,
       "col": 22,
       "graph_stack": ["granulator"],
@@ -52,11 +40,7 @@
       "id": 2,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 71,
       "col": 22,
       "graph_stack": ["granulator"],
@@ -69,11 +53,7 @@
       "id": 3,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 73,
       "col": 23,
       "graph_stack": ["granulator"],
@@ -86,11 +66,7 @@
       "id": 4,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 75,
       "col": 22,
       "graph_stack": ["granulator"],
@@ -103,11 +79,7 @@
       "id": 5,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 77,
       "col": 22,
       "graph_stack": ["granulator"],
@@ -120,11 +92,7 @@
       "id": 6,
       "op": "crag.sampler",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 83,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -137,11 +105,7 @@
       "id": 7,
       "op": "crag.sampler_length",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 84,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -154,11 +118,7 @@
       "id": 8,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 85,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -171,11 +131,7 @@
       "id": 9,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 86,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -188,11 +144,7 @@
       "id": 10,
       "op": "arith.cmpi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 87,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -205,11 +157,7 @@
       "id": 11,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 88,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -222,11 +170,7 @@
       "id": 12,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 89,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -239,11 +183,7 @@
       "id": 13,
       "op": "crag.curframe",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 94,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -256,11 +196,7 @@
       "id": 14,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 95,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -273,11 +209,7 @@
       "id": 15,
       "op": "crag.curtime",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 97,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -290,11 +222,7 @@
       "id": 16,
       "op": "arith.truncf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 98,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -307,11 +235,7 @@
       "id": 17,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 100,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -324,11 +248,7 @@
       "id": 18,
       "op": "arith.divf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 101,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -341,11 +261,7 @@
       "id": 19,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 106,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -358,11 +274,7 @@
       "id": 20,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 107,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -375,11 +287,7 @@
       "id": 21,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 108,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -392,11 +300,7 @@
       "id": 22,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 109,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -409,11 +313,7 @@
       "id": 23,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 110,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -426,11 +326,7 @@
       "id": 24,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 111,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -443,11 +339,7 @@
       "id": 25,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 112,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -460,11 +352,7 @@
       "id": 26,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 115,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -477,11 +365,7 @@
       "id": 27,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 116,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -494,11 +378,7 @@
       "id": 28,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 119,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -511,11 +391,7 @@
       "id": 29,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 120,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -528,11 +404,7 @@
       "id": 30,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 121,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -545,11 +417,7 @@
       "id": 31,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 122,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -562,11 +430,7 @@
       "id": 32,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 123,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -579,11 +443,7 @@
       "id": 33,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 124,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -596,11 +456,7 @@
       "id": 34,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 127,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -613,11 +469,7 @@
       "id": 35,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 130,
       "col": 21,
       "graph_stack": ["granulator"],
@@ -630,11 +482,7 @@
       "id": 36,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 135,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -647,11 +495,7 @@
       "id": 37,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 136,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -664,11 +508,7 @@
       "id": 38,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 137,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -681,11 +521,7 @@
       "id": 39,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 138,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -698,11 +534,7 @@
       "id": 40,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 139,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -715,11 +547,7 @@
       "id": 41,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 140,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -732,11 +560,7 @@
       "id": 42,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 141,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -749,11 +573,7 @@
       "id": 43,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 142,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -766,11 +586,7 @@
       "id": 44,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 143,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -783,11 +599,7 @@
       "id": 45,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 144,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -800,11 +612,7 @@
       "id": 46,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 145,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -817,11 +625,7 @@
       "id": 47,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 146,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -834,11 +638,7 @@
       "id": 48,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 147,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -851,11 +651,7 @@
       "id": 49,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 148,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -868,11 +664,7 @@
       "id": 50,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 149,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -885,11 +677,7 @@
       "id": 51,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 150,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -902,11 +690,7 @@
       "id": 52,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 151,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -919,11 +703,7 @@
       "id": 53,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 152,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -936,11 +716,7 @@
       "id": 54,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 153,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -953,11 +729,7 @@
       "id": 55,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 154,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -970,11 +742,7 @@
       "id": 56,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 155,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -987,11 +755,7 @@
       "id": 57,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 156,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1004,11 +768,7 @@
       "id": 58,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 159,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1021,11 +781,7 @@
       "id": 59,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 162,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1038,11 +794,7 @@
       "id": 60,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 163,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1055,11 +807,7 @@
       "id": 61,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 164,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1072,11 +820,7 @@
       "id": 62,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 165,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1089,11 +833,7 @@
       "id": 63,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 170,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1106,11 +846,7 @@
       "id": 64,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 171,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1123,11 +859,7 @@
       "id": 65,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 172,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1140,11 +872,7 @@
       "id": 66,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 173,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1157,11 +885,7 @@
       "id": 67,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 174,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1174,11 +898,7 @@
       "id": 68,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 175,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1191,11 +911,7 @@
       "id": 69,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 176,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1208,11 +924,7 @@
       "id": 70,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 177,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1225,11 +937,7 @@
       "id": 71,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 178,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1242,11 +950,7 @@
       "id": 72,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 179,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1259,11 +963,7 @@
       "id": 73,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 180,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1276,11 +976,7 @@
       "id": 74,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 181,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1293,11 +989,7 @@
       "id": 75,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 182,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1310,11 +1002,7 @@
       "id": 76,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 183,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1327,11 +1015,7 @@
       "id": 77,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 184,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1344,11 +1028,7 @@
       "id": 78,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 185,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1361,11 +1041,7 @@
       "id": 79,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 186,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1378,11 +1054,7 @@
       "id": 80,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 187,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1395,11 +1067,7 @@
       "id": 81,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 188,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1412,11 +1080,7 @@
       "id": 82,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 189,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1429,11 +1093,7 @@
       "id": 83,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 190,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1446,11 +1106,7 @@
       "id": 84,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 191,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1463,11 +1119,7 @@
       "id": 85,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 194,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1480,11 +1132,7 @@
       "id": 86,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 197,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1497,11 +1145,7 @@
       "id": 87,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 198,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1514,11 +1158,7 @@
       "id": 88,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 199,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1531,11 +1171,7 @@
       "id": 89,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 200,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1548,11 +1184,7 @@
       "id": 90,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 205,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1565,11 +1197,7 @@
       "id": 91,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 206,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1582,11 +1210,7 @@
       "id": 92,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 207,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1599,11 +1223,7 @@
       "id": 93,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 208,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1616,11 +1236,7 @@
       "id": 94,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 209,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1633,11 +1249,7 @@
       "id": 95,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 210,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1650,11 +1262,7 @@
       "id": 96,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 211,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1667,11 +1275,7 @@
       "id": 97,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 212,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1684,11 +1288,7 @@
       "id": 98,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 213,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1701,11 +1301,7 @@
       "id": 99,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 214,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1718,11 +1314,7 @@
       "id": 100,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 215,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1735,11 +1327,7 @@
       "id": 101,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 216,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1752,11 +1340,7 @@
       "id": 102,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 217,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1769,11 +1353,7 @@
       "id": 103,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 218,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1786,11 +1366,7 @@
       "id": 104,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 219,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1803,11 +1379,7 @@
       "id": 105,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 220,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1820,11 +1392,7 @@
       "id": 106,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 221,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1837,11 +1405,7 @@
       "id": 107,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 222,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1854,11 +1418,7 @@
       "id": 108,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 223,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1871,11 +1431,7 @@
       "id": 109,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 224,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1888,11 +1444,7 @@
       "id": 110,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 225,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1905,11 +1457,7 @@
       "id": 111,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 226,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1922,11 +1470,7 @@
       "id": 112,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 229,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1939,11 +1483,7 @@
       "id": 113,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 232,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1956,11 +1496,7 @@
       "id": 114,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 233,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1973,11 +1509,7 @@
       "id": 115,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 234,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -1990,11 +1522,7 @@
       "id": 116,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 235,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2007,11 +1535,7 @@
       "id": 117,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 240,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2024,11 +1548,7 @@
       "id": 118,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 241,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2041,11 +1561,7 @@
       "id": 119,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 242,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2058,11 +1574,7 @@
       "id": 120,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 243,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2075,11 +1587,7 @@
       "id": 121,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 244,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2092,11 +1600,7 @@
       "id": 122,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 245,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2109,11 +1613,7 @@
       "id": 123,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 246,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2126,11 +1626,7 @@
       "id": 124,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 247,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2143,11 +1639,7 @@
       "id": 125,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 248,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2160,11 +1652,7 @@
       "id": 126,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 249,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2177,11 +1665,7 @@
       "id": 127,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 250,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2194,11 +1678,7 @@
       "id": 128,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 251,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2211,11 +1691,7 @@
       "id": 129,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 252,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2228,11 +1704,7 @@
       "id": 130,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 253,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2245,11 +1717,7 @@
       "id": 131,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 254,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2262,11 +1730,7 @@
       "id": 132,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 255,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2279,11 +1743,7 @@
       "id": 133,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 256,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2296,11 +1756,7 @@
       "id": 134,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 257,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2313,11 +1769,7 @@
       "id": 135,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 258,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2330,11 +1782,7 @@
       "id": 136,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 259,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2347,11 +1795,7 @@
       "id": 137,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 260,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2364,11 +1808,7 @@
       "id": 138,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 261,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2381,11 +1821,7 @@
       "id": 139,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 264,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2398,11 +1834,7 @@
       "id": 140,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 267,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2415,11 +1847,7 @@
       "id": 141,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 268,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2432,11 +1860,7 @@
       "id": 142,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 269,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2449,11 +1873,7 @@
       "id": 143,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 270,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2466,11 +1886,7 @@
       "id": 144,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 275,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2483,11 +1899,7 @@
       "id": 145,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 276,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2500,11 +1912,7 @@
       "id": 146,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 277,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2517,11 +1925,7 @@
       "id": 147,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 278,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2534,11 +1938,7 @@
       "id": 148,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 279,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2551,11 +1951,7 @@
       "id": 149,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 280,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2568,11 +1964,7 @@
       "id": 150,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 281,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2585,11 +1977,7 @@
       "id": 151,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 282,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2602,11 +1990,7 @@
       "id": 152,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 283,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2619,11 +2003,7 @@
       "id": 153,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 284,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2636,11 +2016,7 @@
       "id": 154,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 285,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2653,11 +2029,7 @@
       "id": 155,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 286,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2670,11 +2042,7 @@
       "id": 156,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 287,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2687,11 +2055,7 @@
       "id": 157,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 288,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2704,11 +2068,7 @@
       "id": 158,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 289,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2721,11 +2081,7 @@
       "id": 159,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 290,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2738,11 +2094,7 @@
       "id": 160,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 291,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2755,11 +2107,7 @@
       "id": 161,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 292,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2772,11 +2120,7 @@
       "id": 162,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 293,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2789,11 +2133,7 @@
       "id": 163,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 294,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2806,11 +2146,7 @@
       "id": 164,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 295,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2823,11 +2159,7 @@
       "id": 165,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 296,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2840,11 +2172,7 @@
       "id": 166,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 299,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2857,11 +2185,7 @@
       "id": 167,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 302,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2874,11 +2198,7 @@
       "id": 168,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 303,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2891,11 +2211,7 @@
       "id": 169,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 304,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2908,11 +2224,7 @@
       "id": 170,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 305,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2925,11 +2237,7 @@
       "id": 171,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 310,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2942,11 +2250,7 @@
       "id": 172,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 311,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2959,11 +2263,7 @@
       "id": 173,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 312,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2976,11 +2276,7 @@
       "id": 174,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 313,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -2993,11 +2289,7 @@
       "id": 175,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 314,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3010,11 +2302,7 @@
       "id": 176,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 315,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3027,11 +2315,7 @@
       "id": 177,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 316,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3044,11 +2328,7 @@
       "id": 178,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 317,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3061,11 +2341,7 @@
       "id": 179,
       "op": "math.cos",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 318,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3078,11 +2354,7 @@
       "id": 180,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 319,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3095,11 +2367,7 @@
       "id": 181,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 320,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3112,11 +2380,7 @@
       "id": 182,
       "op": "arith.maximumf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 321,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3129,11 +2393,7 @@
       "id": 183,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 322,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3146,11 +2406,7 @@
       "id": 184,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 323,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3163,11 +2419,7 @@
       "id": 185,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 324,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3180,11 +2432,7 @@
       "id": 186,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 325,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3197,11 +2445,7 @@
       "id": 187,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 326,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3214,11 +2458,7 @@
       "id": 188,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 327,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3231,11 +2471,7 @@
       "id": 189,
       "op": "arith.remf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 328,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3248,11 +2484,7 @@
       "id": 190,
       "op": "arith.fptosi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 329,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3265,11 +2497,7 @@
       "id": 191,
       "op": "arith.addi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 330,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3282,11 +2510,7 @@
       "id": 192,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 331,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3299,11 +2523,7 @@
       "id": 193,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 334,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3316,11 +2536,7 @@
       "id": 194,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 337,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3333,11 +2549,7 @@
       "id": 195,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 338,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3350,11 +2562,7 @@
       "id": 196,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 339,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3367,11 +2575,7 @@
       "id": 197,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 340,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3384,11 +2588,7 @@
       "id": 198,
       "op": "crag.sum",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 345,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3401,11 +2601,7 @@
       "id": 199,
       "op": "crag.sum",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 350,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3418,11 +2614,7 @@
       "id": 200,
       "op": "crag.channel_join",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\granulation/granulator.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
->>>>>>> main
       "line": 356,
       "col": 19,
       "graph_stack": ["granulator"],
@@ -3430,35 +2622,6 @@
       "channels": 2,
       "sample_rate": 48000,
       "probe_index": null
-<<<<<<< HEAD
-=======
-    },
-    {
-      "id": 201,
-      "op": "crag.audio_peak",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
-      "line": 360,
-      "col": 5,
-      "graph_stack": ["granulator"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 202,
-      "op": "crag.meter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/granulation/granulator.crag.mlir",
-      "line": 360,
-      "col": 5,
-      "graph_stack": ["granulator"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
->>>>>>> main
     }
   ]
 }

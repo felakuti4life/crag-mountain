@@ -1,10 +1,6 @@
 // HRTF Spatializer (CIPIC, k=3 linear-interpolation renderer)
 //
-<<<<<<< HEAD
 // Graph-side linear-interpolation variant.  This is the
-=======
-// Plan §6.2 graph-side linear-interpolation variant.  This is the
->>>>>>> main
 // runtime-position counterpart to `hrtf_spatializer_cipic_runtime.crag.mlir`
 // extended with k=3 inverse-distance weighted blending of three
 // concurrently-active HRIR rows, so the host can move the source between
@@ -14,11 +10,7 @@
 // The host computes the three (index, weight) tuples once per parameter
 // update via `scripts.hrtf.lookup.linear_interp_positions(k=3)` and binds
 // them through the per-slot parameters declared below.  The graph itself
-<<<<<<< HEAD
 // is dataset-agnostic: weights can come from any IR lookup strategy.
-=======
-// is dataset-agnostic: weights can come from any §6 lookup strategy.
->>>>>>> main
 // k=3 is the canonical HRTF interpolation arity (a spherical triangle);
 // extending the template to higher k is a copy-and-paste exercise but is
 // usually unnecessary in practice.
@@ -63,11 +55,7 @@
 // this against a packed cache entry.
 
 module {
-<<<<<<< HEAD
   // Position visualizer — see naive reference template comment.
-=======
-  // §8 / §9 position visualizer — see naive reference template comment.
->>>>>>> main
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
                           as "position_combined"
 
@@ -108,11 +96,7 @@ module {
     // Per-ear concatenated-IR samplers.  Bound via:
     //   --inline-sampler-data hrir_cipic_interp_pack_L:<subject>_L.wav
     //   --inline-sampler-data hrir_cipic_interp_pack_R:<subject>_R.wav
-<<<<<<< HEAD
     // each holding all per-position IRs end-to-end in the cache's lex order.
-=======
-    // each holding all per-position IRs end-to-end in the §3.2 lex order.
->>>>>>> main
     // These names are deliberately distinct from the runtime renderer's
     // `hrir_cipic_pack_{L,R}` so the test_render.py "no sampler-name
     // collision across modes" sanity check stays a true cross-mode
@@ -218,11 +202,7 @@ module {
                     : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>)
                       -> !crag.audio<f32, 48000, 2, subtype = "binaural">
 
-<<<<<<< HEAD
     // Position visualizer side-effect capture.
-=======
-    // §8 position visualizer side-effect capture.
->>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

@@ -21,10 +21,7 @@
     }
   ],
   "samplers": ["audio"],
-<<<<<<< HEAD
   "texture_samplers": [],
-=======
->>>>>>> main
   "events": [
     {
       "name": "start",
@@ -46,16 +43,11 @@
       "float_index": 0
     },
     {
-<<<<<<< HEAD
       "name": "Output",
-=======
-      "name": "wave_player",
->>>>>>> main
       "type": "float",
       "min": 0.000000e+00,
       "max": 1.000000e+00,
       "float_index": 1
-<<<<<<< HEAD
     }
   ],
   "has_visualizer": true,
@@ -63,19 +55,4 @@
   "viz_width": 512,
   "viz_height": 256,
   "compiled_with": "9165bcc"
-=======
-    },
-    {
-      "name": "lagrangian_resampler",
-      "type": "float",
-      "min": 0.000000e+00,
-      "max": 1.000000e+00,
-      "float_index": 2
-    }
-  ],
-  "has_visualizer": true,
-  "viz_width": 512,
-  "viz_height": 256,
-  "compiled_with": "d8baeb2"
->>>>>>> main
 }

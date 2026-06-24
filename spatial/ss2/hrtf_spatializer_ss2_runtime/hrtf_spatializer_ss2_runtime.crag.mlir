@@ -1,10 +1,6 @@
 // HRTF Spatializer (SS2, runtime-position renderer)
 //
-<<<<<<< HEAD
 // Dataset-driven HRTF spatializer variant.
-=======
-// Dataset-driven HRTF spatializer variant per the §4.2 / §6.1 plan.
->>>>>>> main
 // Runtime-selectable counterpart to `hrtf_spatializer_ss2.crag.mlir`:
 // instead of baking one position's IR pair into the binary at compile
 // time, this template binds a single pair of concatenated-IR samplers
@@ -20,15 +16,9 @@
 // integer parameter:
 //
 //   - `position_index` (i32, default 0) — selects the active IR row in
-<<<<<<< HEAD
 //     the concatenated pack.  The lex-ordered cache layout means
 //     index ↔ `(elevation, azimuth)` is deterministic and dataset-
 //     independent; the host (or a downstream nearest-neighbour pass)
-=======
-//     the concatenated pack.  The §3.2 lex-ordered cache layout means
-//     index ↔ `(elevation, azimuth)` is deterministic and dataset-
-//     independent; the host (or a downstream §6 nearest-neighbour pass)
->>>>>>> main
 //     resolves az/el/dist → index.
 //
 // `azimuth_rad` / `elevation_rad` / `distance_m` are still declared so
@@ -45,11 +35,7 @@
 // Sample rate: fixed at 48 kHz (matches the SS2 dataset's native rate).
 //
 // IR length budget:
-<<<<<<< HEAD
 //   The normalized cache pads SS2 IRs to 256 samples.  At
-=======
-//   The §3.2 normalized cache pads SS2 IRs to 256 samples.  At
->>>>>>> main
 //   blockSize=512, a single OLS partition covers the full IR without
 //   aliasing, so we set `num_partitions = 1` per ear.
 //
@@ -69,11 +55,7 @@
 // this against a packed cache entry.
 
 module {
-<<<<<<< HEAD
   // Position visualizer — see naive reference template comment.
-=======
-  // §8 / §9 position visualizer — see naive reference template comment.
->>>>>>> main
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
                           as "position_combined"
 
@@ -98,11 +80,7 @@ module {
     // Per-ear concatenated-IR samplers.  Bind via:
     //   --inline-sampler-data hrir_ss2_pack_L:<subject>_L.wav
     //   --inline-sampler-data hrir_ss2_pack_R:<subject>_R.wav
-<<<<<<< HEAD
     // each holding all per-position IRs end-to-end in the cache's lex order.
-=======
-    // each holding all per-position IRs end-to-end in the §3.2 lex order.
->>>>>>> main
     %ir_l = crag.sampler "hrir_ss2_pack_L" : !crag.sampler<"hrir_ss2_pack_L">
     %ir_r = crag.sampler "hrir_ss2_pack_R" : !crag.sampler<"hrir_ss2_pack_R">
 
@@ -110,11 +88,7 @@ module {
     %dist_floor = arith.constant 0.1 : f32
 
     // ir_offset = position_index * ir_length (in samples).
-<<<<<<< HEAD
     //   ir_length is the cache constant (256 samples per IR).
-=======
-    //   ir_length is the §3.2 cache constant (256 samples per IR).
->>>>>>> main
     //   position_index is i32 (range checked by crag_set_param_int);
     //   widen to i64 to match the overlap_save_conv_slice operand type.
     %ir_len     = arith.constant 256 : i64
@@ -148,11 +122,7 @@ module {
                     : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>)
                       -> !crag.audio<f32, 48000, 2, subtype = "binaural">
 
-<<<<<<< HEAD
     // Position visualizer side-effect capture.
-=======
-    // §8 position visualizer side-effect capture.
->>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

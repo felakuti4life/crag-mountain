@@ -1,30 +1,18 @@
 // HRTF Spatializer (CIPIC, fixed-position renderer)
 //
-<<<<<<< HEAD
 // Dataset-driven HRTF spatializer variant.  Same ABI as
-=======
-// Dataset-driven HRTF spatializer variant per the §4.2 plan.  Same ABI as
->>>>>>> main
 // `standard-graphs/spatial/hrtf_spatializer.crag.mlir` (mono in, binaural-
 // tagged stereo out, position exposed via three `crag.param` ops) but the
 // "tap + per-ear gain" middle of the naive reference is replaced with a
 // pair of `crag.overlap_save_conv` ops convolving the dry input with the
 // CIPIC-derived left/right HRIRs bound through the `--inline-sampler-data`
-<<<<<<< HEAD
 // flow.
-=======
-// flow (see plan §4.3).
->>>>>>> main
 //
 // This first-pass renderer is **fixed-position**: each compiled binary
 // corresponds to the HRIRs bound to `hrir_cipic_L` / `hrir_cipic_R` at
 // compile time, which the `scripts/hrtf/render.py` driver picks from the
 // normalized cache by index (default = front, az=0°, el=0°).  Runtime
-<<<<<<< HEAD
 // per-position IR selection / interpolation is now supported at
-=======
-// per-position IR selection / interpolation (plan §6) is now supported at
->>>>>>> main
 // the dialect level via the `crag.overlap_save_conv_slice` (runtime-
 // offset/length partitioned-FFT variant) and `crag.tap_loop_conv`
 // (direct-form FIR over a runtime IR window) ops; a follow-up renderer
@@ -46,17 +34,10 @@
 //   pp. 99-102, New Paltz, NY, Oct. 2001.
 //
 // Sample rate: fixed at 48 kHz (CIPIC IRs are resampled from 44.1 kHz to
-<<<<<<< HEAD
 // 48 kHz by `scripts/hrtf/prep.py` before binding).
 //
 // IR length budget:
 //   The normalized cache pads CIPIC IRs to 256 samples.  At
-=======
-// 48 kHz by `scripts/hrtf/prep.py` before binding — see plan §4.1.2).
-//
-// IR length budget:
-//   The §3.2 normalized cache pads CIPIC IRs to 256 samples.  At
->>>>>>> main
 //   blockSize=512, a single OLS partition is enough to cover the full IR
 //   without aliasing, so we set `num_partitions = 1` per ear.  If a
 //   future cache schema bumps `ir_length` above 512, increase this
@@ -71,11 +52,7 @@
 // `scripts/hrtf/render.py` automates this against a packed cache entry.
 
 module {
-<<<<<<< HEAD
   // Position visualizer — see naive reference template comment.
-=======
-  // §8 / §9 position visualizer — see naive reference template comment.
->>>>>>> main
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
                           as "position_combined"
 
@@ -114,11 +91,7 @@ module {
     // -----------------------------------------------------------------------
     // Convolve the dry mono input with each ear's HRIR.
     //
-<<<<<<< HEAD
     // num_partitions = 1: the cache caps `ir_length` at 256, well under the
-=======
-    // num_partitions = 1: §3.2 caps `ir_length` at 256, well under the
->>>>>>> main
     // default blockSize of 512, so one partition covers the IR without
     // aliasing.  Bumping the cache schema's IR length above blockSize
     // requires bumping this constant in tandem.
@@ -135,11 +108,7 @@ module {
     // -----------------------------------------------------------------------
     // Residual constant-power lateral pan (sin(az)·cos(el)) so this
     // fixed-position renderer still tracks azimuth/elevation around the
-<<<<<<< HEAD
     // bound IR's anchor direction.  Once runtime IR selection lands
-=======
-    // bound IR's anchor direction.  Once §6 runtime IR selection lands
->>>>>>> main
     // this whole block is replaced by an IR-index computation.
     // -----------------------------------------------------------------------
     %sin_az    = math.sin %azimuth   : f32
@@ -169,11 +138,7 @@ module {
                     : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>)
                       -> !crag.audio<f32, 48000, 2, subtype = "binaural">
 
-<<<<<<< HEAD
     // Position visualizer side-effect capture.
-=======
-    // §8 position visualizer side-effect capture.
->>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

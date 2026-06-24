@@ -3,26 +3,18 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-<<<<<<< HEAD
   "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
     "hard_clip_count": 0
   },
-=======
-  "compiled_with": "d8baeb2",
->>>>>>> main
   "ops": [
     {
       "id": 0,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 54,
       "col": 13,
       "graph_stack": ["wave_player"],
@@ -35,11 +27,7 @@
       "id": 1,
       "op": "crag.event_void",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 59,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -52,11 +40,7 @@
       "id": 2,
       "op": "crag.event_void",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 60,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -69,11 +53,7 @@
       "id": 3,
       "op": "crag.latch",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 64,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -86,11 +66,7 @@
       "id": 4,
       "op": "arith.uitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 65,
       "col": 20,
       "graph_stack": ["wave_player"],
@@ -103,11 +79,7 @@
       "id": 5,
       "op": "crag.sampler",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 70,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -120,11 +92,7 @@
       "id": 6,
       "op": "crag.sampler_length",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 74,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -137,11 +105,7 @@
       "id": 7,
       "op": "crag.curframe",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 79,
       "col": 14,
       "graph_stack": ["wave_player"],
@@ -154,11 +118,7 @@
       "id": 8,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 84,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -171,11 +131,7 @@
       "id": 9,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 85,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -188,11 +144,7 @@
       "id": 10,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 86,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -205,11 +157,7 @@
       "id": 11,
       "op": "arith.cmpi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 87,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -222,11 +170,7 @@
       "id": 12,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 88,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -239,11 +183,7 @@
       "id": 13,
       "op": "arith.remsi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 91,
       "col": 18,
       "graph_stack": ["wave_player"],
@@ -256,11 +196,7 @@
       "id": 14,
       "op": "arith.cmpf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 94,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -273,11 +209,7 @@
       "id": 15,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 95,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -290,11 +222,7 @@
       "id": 16,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 105,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -307,21 +235,12 @@
       "id": 17,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 123,
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 107,
-      "col": 18,
-      "graph_stack": ["wave_player"],
-      "is_audio": true,
-      "channels": 0,
->>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -329,21 +248,12 @@
       "id": 18,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 130,
       "col": 14,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 114,
-      "col": 14,
-      "graph_stack": ["wave_player"],
-      "is_audio": true,
-      "channels": 0,
->>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -351,13 +261,8 @@
       "id": 19,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 136,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 120,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -369,13 +274,8 @@
       "id": 20,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 137,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 121,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -387,13 +287,8 @@
       "id": 21,
       "op": "arith.divf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 138,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 122,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -405,13 +300,8 @@
       "id": 22,
       "op": "crag.meter",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 139,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 123,
->>>>>>> main
       "col": 5,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -421,21 +311,12 @@
     },
     {
       "id": 23,
-<<<<<<< HEAD
       "op": "crag.param",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 63,
       "col": 18,
       "graph_stack": ["chorus"],
-=======
-      "op": "crag.audio_peak",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 125,
-      "col": 5,
-      "graph_stack": ["wave_player"],
->>>>>>> main
       "is_audio": false,
       "channels": 0,
       "sample_rate": 0,
@@ -443,21 +324,12 @@
     },
     {
       "id": 24,
-<<<<<<< HEAD
       "op": "crag.param",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 64,
       "col": 18,
       "graph_stack": ["chorus"],
-=======
-      "op": "crag.meter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 125,
-      "col": 5,
-      "graph_stack": ["wave_player"],
->>>>>>> main
       "is_audio": false,
       "channels": 0,
       "sample_rate": 0,
@@ -467,13 +339,8 @@
       "id": 25,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 65,
-=======
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 63,
->>>>>>> main
       "col": 18,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -485,13 +352,8 @@
       "id": 26,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 66,
-=======
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 64,
->>>>>>> main
       "col": 18,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -503,13 +365,8 @@
       "id": 27,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 67,
-=======
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 65,
->>>>>>> main
       "col": 18,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -519,41 +376,9 @@
     },
     {
       "id": 28,
-<<<<<<< HEAD
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "op": "crag.param",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 66,
-      "col": 18,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 29,
-      "op": "crag.param",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 67,
-      "col": 18,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 30,
-      "op": "crag.delay_line",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 75,
       "col": 11,
       "graph_stack": ["chorus"],
@@ -563,17 +388,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 29,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 31,
-      "op": "crag.push_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 76,
       "col": 5,
       "graph_stack": ["chorus"],
@@ -583,7 +401,6 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 30,
       "op": "arith.constant",
       "name": "",
@@ -615,13 +432,6 @@
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 84,
-=======
-      "id": 32,
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 82,
->>>>>>> main
       "col": 17,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -633,13 +443,8 @@
       "id": 33,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 85,
-=======
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 83,
->>>>>>> main
       "col": 17,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -649,41 +454,9 @@
     },
     {
       "id": 34,
-<<<<<<< HEAD
       "op": "crag.block_size",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 84,
-      "col": 17,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 35,
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 85,
-      "col": 17,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 36,
-      "op": "crag.block_size",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 90,
       "col": 15,
       "graph_stack": ["chorus"],
@@ -693,17 +466,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 35,
       "op": "arith.trunci",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 37,
-      "op": "arith.trunci",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 91,
       "col": 15,
       "graph_stack": ["chorus"],
@@ -713,17 +479,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 36,
       "op": "arith.sitofp",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 38,
-      "op": "arith.sitofp",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 92,
       "col": 15,
       "graph_stack": ["chorus"],
@@ -733,17 +492,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 37,
       "op": "crag.curtime",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 39,
-      "op": "crag.curtime",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 95,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -753,17 +505,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 38,
       "op": "arith.truncf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 40,
-      "op": "arith.truncf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 96,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -773,17 +518,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 39,
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 41,
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 99,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -793,17 +531,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 40,
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 42,
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 104,
       "col": 16,
       "graph_stack": ["chorus"],
@@ -813,17 +544,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 41,
       "op": "math.sin",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 43,
-      "op": "math.sin",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 105,
       "col": 16,
       "graph_stack": ["chorus"],
@@ -833,17 +557,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 42,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 44,
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 110,
       "col": 16,
       "graph_stack": ["chorus"],
@@ -853,17 +570,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 43,
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 45,
-      "op": "arith.addf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 111,
       "col": 16,
       "graph_stack": ["chorus"],
@@ -873,17 +583,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 44,
       "op": "math.sin",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 46,
-      "op": "math.sin",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 112,
       "col": 16,
       "graph_stack": ["chorus"],
@@ -893,7 +596,6 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 45,
       "op": "arith.mulf",
       "name": "",
@@ -926,14 +628,6 @@
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 132,
       "col": 20,
-=======
-      "id": 47,
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 129,
-      "col": 14,
->>>>>>> main
       "graph_stack": ["chorus"],
       "is_audio": false,
       "channels": 0,
@@ -944,13 +638,8 @@
       "id": 48,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 135,
-=======
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 131,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -960,17 +649,10 @@
     },
     {
       "id": 49,
-<<<<<<< HEAD
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 136,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 132,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -980,17 +662,10 @@
     },
     {
       "id": 50,
-<<<<<<< HEAD
       "op": "arith.maximumf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 137,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 135,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1000,17 +675,10 @@
     },
     {
       "id": 51,
-<<<<<<< HEAD
       "op": "arith.minimumf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 138,
-=======
-      "op": "arith.addf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 136,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1020,17 +688,10 @@
     },
     {
       "id": 52,
-<<<<<<< HEAD
       "op": "arith.subf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 139,
-=======
-      "op": "arith.maximumf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 137,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1040,17 +701,10 @@
     },
     {
       "id": 53,
-<<<<<<< HEAD
       "op": "arith.fptosi",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 140,
-=======
-      "op": "arith.minimumf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 138,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1060,17 +714,10 @@
     },
     {
       "id": 54,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 143,
-=======
-      "op": "arith.subf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 139,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1080,17 +727,10 @@
     },
     {
       "id": 55,
-<<<<<<< HEAD
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 144,
-=======
-      "op": "arith.fptosi",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 140,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1100,17 +740,10 @@
     },
     {
       "id": 56,
-<<<<<<< HEAD
       "op": "arith.maximumf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 145,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 143,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1120,17 +753,10 @@
     },
     {
       "id": 57,
-<<<<<<< HEAD
       "op": "arith.minimumf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 146,
-=======
-      "op": "arith.addf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 144,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1140,17 +766,10 @@
     },
     {
       "id": 58,
-<<<<<<< HEAD
       "op": "arith.subf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 147,
-=======
-      "op": "arith.maximumf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 145,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1160,17 +779,10 @@
     },
     {
       "id": 59,
-<<<<<<< HEAD
       "op": "arith.fptosi",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
       "line": 148,
-=======
-      "op": "arith.minimumf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 146,
->>>>>>> main
       "col": 20,
       "graph_stack": ["chorus"],
       "is_audio": false,
@@ -1180,41 +792,9 @@
     },
     {
       "id": 60,
-<<<<<<< HEAD
       "op": "crag.peek_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "op": "arith.subf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 147,
-      "col": 20,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 61,
-      "op": "arith.fptosi",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 148,
-      "col": 20,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 62,
-      "op": "crag.peek_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 153,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -1224,17 +804,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 61,
       "op": "crag.peek_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 63,
-      "op": "crag.peek_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 155,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -1244,7 +817,6 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 62,
       "op": "crag.scale",
       "name": "",
@@ -1275,38 +847,6 @@
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 64,
-      "op": "crag.scale",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 161,
-      "col": 15,
-      "graph_stack": ["chorus"],
-      "is_audio": true,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 65,
-      "op": "crag.scale",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 164,
-      "col": 17,
-      "graph_stack": ["chorus"],
-      "is_audio": true,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 66,
-      "op": "crag.scale",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 166,
       "col": 17,
       "graph_stack": ["chorus"],
@@ -1316,17 +856,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 65,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 67,
-      "op": "crag.sum",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 169,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -1336,17 +869,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 66,
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 68,
-      "op": "crag.sum",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 172,
       "col": 14,
       "graph_stack": ["chorus"],
@@ -1356,17 +882,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 67,
       "op": "crag.channel_join",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\modulation/chorus.crag.mlir",
-=======
-      "id": 69,
-      "op": "crag.channel_join",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
->>>>>>> main
       "line": 179,
       "col": 15,
       "graph_stack": ["chorus"],
@@ -1374,35 +893,6 @@
       "channels": 2,
       "sample_rate": 48000,
       "probe_index": null
-<<<<<<< HEAD
-=======
-    },
-    {
-      "id": 70,
-      "op": "crag.audio_peak",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 183,
-      "col": 5,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 71,
-      "op": "crag.meter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/modulation/chorus.crag.mlir",
-      "line": 183,
-      "col": 5,
-      "graph_stack": ["chorus"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
->>>>>>> main
     }
   ]
 }

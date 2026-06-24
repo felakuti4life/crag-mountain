@@ -73,17 +73,10 @@
 //                     -> !crag.audio<f32, 0, 2, subtype = "binaural">
 
 module {
-<<<<<<< HEAD
   // Position visualizer: every HRTF spatializer renderer ships
   // the combined top/side/rear position view alongside its audio output
   // so docs pages and host UIs can inspect the source position without
   // any additional wiring.  See the four standalone
-=======
-  // §8 / §9 position visualizer: every HRTF spatializer renderer ships
-  // the combined top/side/rear position view alongside its audio output
-  // so docs pages and host UIs can inspect the source position without
-  // any additional wiring.  See plan §8 and the four standalone
->>>>>>> main
   // standard-graphs/visualizers/spatial/position-{top,side,rear,combined}
   // visualizers for the projection rules.
   crag.include_visualizer "visualizers/spatial/position-combined.crag.mlir"
@@ -121,16 +114,12 @@ module {
     %one         = arith.constant 1.0 : f32
     %two         = arith.constant 2.0 : f32
     %dist_floor  = arith.constant 0.1 : f32
-<<<<<<< HEAD
     // Maximum valid peek_delay offset = bufSize - blockSize.  The strict
     // bounds check requires `offset ∈ [0, bufSize - blockSize]` so the
     // whole block read fits within one circular wrap.  With bufSize=1024
     // and blockSize=512 this is 512.
     %off_max_f   = arith.constant 512.0 : f32
     %off_min_f   = arith.constant 0.0 : f32
-=======
-    %buf_f       = arith.constant 1024.0 : f32  // bufSize as f32
->>>>>>> main
 
     // -----------------------------------------------------------------------
     // Trig of position
@@ -170,7 +159,6 @@ module {
     %delay_r_a = arith.addf %base_delay,  %max_itd_half : f32
     %delay_r   = arith.subf %delay_r_a,   %itd_half     : f32
 
-<<<<<<< HEAD
     // peek_delay offset semantics: with bufSize=1024 and blockSize=512,
     // valid offsets are in [0, bufSize - blockSize] = [0, 512].  Offset 0
     // reads the oldest available block (1024 samples back from "now");
@@ -191,13 +179,6 @@ module {
     %off_r_f   = arith.minimumf %off_r_lo,  %off_max_f : f32
     %off_l     = arith.fptosi %off_l_f : f32 to i32
     %off_r     = arith.fptosi %off_r_f : f32 to i32
-=======
-    // peek_delay offset = bufSize - delay
-    %off_l_f = arith.subf %buf_f, %delay_l : f32
-    %off_r_f = arith.subf %buf_f, %delay_r : f32
-    %off_l   = arith.fptosi %off_l_f : f32 to i32
-    %off_r   = arith.fptosi %off_r_f : f32 to i32
->>>>>>> main
 
     // -----------------------------------------------------------------------
     // Push the dry mono input into a shared 1024-sample circular buffer
@@ -251,11 +232,7 @@ module {
                       -> !crag.audio<f32, 0, 2, subtype = "binaural">
 
     // Side-effect op: capture (azimuth, elevation, distance) into the
-<<<<<<< HEAD
     // position_combined visualizer's per-instance buffer.
-=======
-    // position_combined visualizer's per-instance buffer (see §8).
->>>>>>> main
     crag.visualizer_ref "position_combined"(%in, %azimuth, %elevation, %distance)
         : (!crag.audio<f32, 48000, 1>, f32, f32, f32)
 

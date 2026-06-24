@@ -3,26 +3,18 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-<<<<<<< HEAD
   "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
     "hard_clip_count": 0
   },
-=======
-  "compiled_with": "d8baeb2",
->>>>>>> main
   "ops": [
     {
       "id": 0,
       "op": "crag.param",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 54,
       "col": 13,
       "graph_stack": ["wave_player"],
@@ -35,11 +27,7 @@
       "id": 1,
       "op": "crag.event_void",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 59,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -52,11 +40,7 @@
       "id": 2,
       "op": "crag.event_void",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 60,
       "col": 31,
       "graph_stack": ["wave_player"],
@@ -69,11 +53,7 @@
       "id": 3,
       "op": "crag.latch",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 64,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -86,11 +66,7 @@
       "id": 4,
       "op": "arith.uitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 65,
       "col": 20,
       "graph_stack": ["wave_player"],
@@ -103,11 +79,7 @@
       "id": 5,
       "op": "crag.sampler",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 70,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -120,11 +92,7 @@
       "id": 6,
       "op": "crag.sampler_length",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 74,
       "col": 12,
       "graph_stack": ["wave_player"],
@@ -137,11 +105,7 @@
       "id": 7,
       "op": "crag.curframe",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 79,
       "col": 14,
       "graph_stack": ["wave_player"],
@@ -154,11 +118,7 @@
       "id": 8,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 84,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -171,11 +131,7 @@
       "id": 9,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 85,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -188,11 +144,7 @@
       "id": 10,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 86,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -205,11 +157,7 @@
       "id": 11,
       "op": "arith.cmpi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 87,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -222,11 +170,7 @@
       "id": 12,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 88,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -239,11 +183,7 @@
       "id": 13,
       "op": "arith.remsi",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 91,
       "col": 18,
       "graph_stack": ["wave_player"],
@@ -256,11 +196,7 @@
       "id": 14,
       "op": "arith.cmpf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 94,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -273,11 +209,7 @@
       "id": 15,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 95,
       "col": 16,
       "graph_stack": ["wave_player"],
@@ -290,11 +222,7 @@
       "id": 16,
       "op": "arith.select",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
->>>>>>> main
       "line": 105,
       "col": 17,
       "graph_stack": ["wave_player"],
@@ -307,21 +235,12 @@
       "id": 17,
       "op": "crag.sample",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 123,
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 107,
-      "col": 18,
-      "graph_stack": ["wave_player"],
-      "is_audio": true,
-      "channels": 0,
->>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -329,21 +248,12 @@
       "id": 18,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 130,
       "col": 14,
       "graph_stack": ["wave_player"],
       "is_audio": true,
       "channels": 1,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 114,
-      "col": 14,
-      "graph_stack": ["wave_player"],
-      "is_audio": true,
-      "channels": 0,
->>>>>>> main
       "sample_rate": 0,
       "probe_index": null
     },
@@ -351,13 +261,8 @@
       "id": 19,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 136,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 120,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -369,13 +274,8 @@
       "id": 20,
       "op": "arith.sitofp",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 137,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 121,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -387,13 +287,8 @@
       "id": 21,
       "op": "arith.divf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 138,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 122,
->>>>>>> main
       "col": 18,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -405,13 +300,8 @@
       "id": 22,
       "op": "crag.meter",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/wave_player.crag.mlir",
       "line": 139,
-=======
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 123,
->>>>>>> main
       "col": 5,
       "graph_stack": ["wave_player"],
       "is_audio": false,
@@ -421,41 +311,9 @@
     },
     {
       "id": 23,
-<<<<<<< HEAD
       "op": "crag.param",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "op": "crag.audio_peak",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 125,
-      "col": 5,
-      "graph_stack": ["wave_player"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 24,
-      "op": "crag.meter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/playback/wave_player.crag.mlir",
-      "line": 125,
-      "col": 5,
-      "graph_stack": ["wave_player"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 25,
-      "op": "crag.param",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 45,
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
@@ -465,17 +323,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 24,
       "op": "arith.constant",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 26,
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 52,
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
@@ -485,17 +336,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 25,
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 27,
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 53,
       "col": 18,
       "graph_stack": ["lagrangian_resampler"],
@@ -505,17 +349,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 26,
       "op": "crag.get_filter_coeffs",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 28,
-      "op": "crag.get_filter_coeffs",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 54,
       "col": 22,
       "graph_stack": ["lagrangian_resampler"],
@@ -525,17 +362,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 27,
       "op": "crag.filter",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 29,
-      "op": "crag.filter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 56,
       "col": 10,
       "graph_stack": ["lagrangian_resampler"],
@@ -545,17 +375,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 28,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 30,
-      "op": "crag.delay_line",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 64,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -565,17 +388,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 29,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 31,
-      "op": "crag.pop_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 65,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -585,17 +401,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 30,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 32,
-      "op": "crag.push_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 67,
       "col": 5,
       "graph_stack": ["lagrangian_resampler"],
@@ -605,17 +414,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 31,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 33,
-      "op": "crag.delay_line",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 71,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -625,17 +427,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 32,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 34,
-      "op": "crag.pop_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 72,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -645,17 +440,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 33,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 35,
-      "op": "crag.push_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 74,
       "col": 5,
       "graph_stack": ["lagrangian_resampler"],
@@ -665,17 +453,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 34,
       "op": "crag.delay_line",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 36,
-      "op": "crag.delay_line",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 78,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -685,17 +466,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 35,
       "op": "crag.pop_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 37,
-      "op": "crag.pop_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 79,
       "col": 16,
       "graph_stack": ["lagrangian_resampler"],
@@ -705,17 +479,10 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 36,
       "op": "crag.push_delay",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "id": 38,
-      "op": "crag.push_delay",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 81,
       "col": 5,
       "graph_stack": ["lagrangian_resampler"],
@@ -725,7 +492,6 @@
       "probe_index": null
     },
     {
-<<<<<<< HEAD
       "id": 37,
       "op": "arith.constant",
       "name": "",
@@ -757,13 +523,6 @@
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 90,
-=======
-      "id": 39,
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 88,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -775,13 +534,8 @@
       "id": 40,
       "op": "arith.constant",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 91,
-=======
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 89,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -791,17 +545,10 @@
     },
     {
       "id": 41,
-<<<<<<< HEAD
       "op": "arith.subf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 93,
-=======
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 90,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -811,17 +558,10 @@
     },
     {
       "id": 42,
-<<<<<<< HEAD
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 95,
-=======
-      "op": "arith.constant",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 91,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -831,17 +571,10 @@
     },
     {
       "id": 43,
-<<<<<<< HEAD
       "op": "arith.addf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 96,
-=======
-      "op": "arith.subf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 93,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -853,13 +586,8 @@
       "id": 44,
       "op": "arith.addf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 97,
-=======
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 95,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -869,17 +597,10 @@
     },
     {
       "id": 45,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 100,
-=======
-      "op": "arith.addf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 96,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -889,17 +610,10 @@
     },
     {
       "id": 46,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 101,
-=======
-      "op": "arith.addf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 97,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -909,17 +623,10 @@
     },
     {
       "id": 47,
-<<<<<<< HEAD
       "op": "arith.divf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 102,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 100,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -929,17 +636,10 @@
     },
     {
       "id": 48,
-<<<<<<< HEAD
       "op": "arith.negf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 103,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 101,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -949,17 +649,10 @@
     },
     {
       "id": 49,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 106,
-=======
-      "op": "arith.divf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 102,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -969,17 +662,10 @@
     },
     {
       "id": 50,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 107,
-=======
-      "op": "arith.negf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 103,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -989,17 +675,10 @@
     },
     {
       "id": 51,
-<<<<<<< HEAD
       "op": "arith.divf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 108,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 106,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1011,13 +690,8 @@
       "id": 52,
       "op": "arith.mulf",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 111,
-=======
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 107,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1027,17 +701,10 @@
     },
     {
       "id": 53,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 112,
-=======
-      "op": "arith.divf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 108,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1047,17 +714,10 @@
     },
     {
       "id": 54,
-<<<<<<< HEAD
       "op": "arith.divf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 113,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 111,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1067,17 +727,10 @@
     },
     {
       "id": 55,
-<<<<<<< HEAD
       "op": "arith.negf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 114,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 112,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1087,17 +740,10 @@
     },
     {
       "id": 56,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 117,
-=======
-      "op": "arith.divf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 113,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1107,17 +753,10 @@
     },
     {
       "id": 57,
-<<<<<<< HEAD
       "op": "arith.mulf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 118,
-=======
-      "op": "arith.negf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 114,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1127,17 +766,10 @@
     },
     {
       "id": 58,
-<<<<<<< HEAD
       "op": "arith.divf",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 119,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 117,
->>>>>>> main
       "col": 14,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": false,
@@ -1147,7 +779,6 @@
     },
     {
       "id": 59,
-<<<<<<< HEAD
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
@@ -1155,22 +786,12 @@
       "col": 11,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": true,
-=======
-      "op": "arith.mulf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 118,
-      "col": 14,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": false,
->>>>>>> main
       "channels": 0,
       "sample_rate": 0,
       "probe_index": null
     },
     {
       "id": 60,
-<<<<<<< HEAD
       "op": "crag.scale",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
@@ -1178,15 +799,6 @@
       "col": 11,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": true,
-=======
-      "op": "arith.divf",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 119,
-      "col": 14,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": false,
->>>>>>> main
       "channels": 0,
       "sample_rate": 0,
       "probe_index": null
@@ -1195,13 +807,8 @@
       "id": 61,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 126,
-=======
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 124,
->>>>>>> main
       "col": 11,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": true,
@@ -1213,13 +820,8 @@
       "id": 62,
       "op": "crag.scale",
       "name": "",
-<<<<<<< HEAD
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
       "line": 127,
-=======
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 125,
->>>>>>> main
       "col": 11,
       "graph_stack": ["lagrangian_resampler"],
       "is_audio": true,
@@ -1229,41 +831,9 @@
     },
     {
       "id": 63,
-<<<<<<< HEAD
       "op": "crag.sum",
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\resamplers/lagrangian-resampler.crag.mlir",
-=======
-      "op": "crag.scale",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 126,
-      "col": 11,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": true,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 64,
-      "op": "crag.scale",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 127,
-      "col": 11,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": true,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 65,
-      "op": "crag.sum",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
->>>>>>> main
       "line": 129,
       "col": 15,
       "graph_stack": ["lagrangian_resampler"],
@@ -1271,35 +841,6 @@
       "channels": 0,
       "sample_rate": 0,
       "probe_index": null
-<<<<<<< HEAD
-=======
-    },
-    {
-      "id": 66,
-      "op": "crag.audio_peak",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 134,
-      "col": 5,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
-    },
-    {
-      "id": 67,
-      "op": "crag.meter",
-      "name": "",
-      "file": "/__w/crag/crag/standard-graphs/resamplers/lagrangian-resampler.crag.mlir",
-      "line": 134,
-      "col": 5,
-      "graph_stack": ["lagrangian_resampler"],
-      "is_audio": false,
-      "channels": 0,
-      "sample_rate": 0,
-      "probe_index": null
->>>>>>> main
     }
   ]
 }

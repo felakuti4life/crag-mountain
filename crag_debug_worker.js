@@ -85,10 +85,7 @@ function _makeImports(heapState, memState) {
       fmodf: (a, b) => a - M.trunc(a / b) * b,
       remainderf: (a, b) => a - M.round(a / b) * b,
       fminf: M.min.bind(M), fmaxf: M.max.bind(M), hypotf: M.hypot.bind(M),
-<<<<<<< HEAD
       fmaf: (x, y, z) => x * y + z,
-=======
->>>>>>> main
       copysignf: (a, b) => M.abs(a) * (b < 0 || (b === 0 && (1/b) === -Infinity) ? -1 : 1),
       sinhf: M.sinh.bind(M), coshf: M.cosh.bind(M), tanhf: M.tanh.bind(M),
       asinhf: M.asinh.bind(M), acoshf: M.acosh.bind(M), atanhf: M.atanh.bind(M),
@@ -104,7 +101,6 @@ function _makeImports(heapState, memState) {
       fmod: (a, b) => a - M.trunc(a / b) * b,
       remainder: (a, b) => a - M.round(a / b) * b,
       fmin: M.min.bind(M), fmax: M.max.bind(M), hypot: M.hypot.bind(M),
-<<<<<<< HEAD
       fma: (x, y, z) => x * y + z,
       copysign: (a, b) => M.abs(a) * (b < 0 || (b === 0 && (1/b) === -Infinity) ? -1 : 1),
       sinh: M.sinh.bind(M), cosh: M.cosh.bind(M), tanh: M.tanh.bind(M),
@@ -130,11 +126,6 @@ function _makeImports(heapState, memState) {
         }
         return w;
       },
-=======
-      copysign: (a, b) => M.abs(a) * (b < 0 || (b === 0 && (1/b) === -Infinity) ? -1 : 1),
-      sinh: M.sinh.bind(M), cosh: M.cosh.bind(M), tanh: M.tanh.bind(M),
-      asinh: M.asinh.bind(M), acosh: M.acosh.bind(M), atanh: M.atanh.bind(M),
->>>>>>> main
     },
   };
 }
@@ -355,7 +346,6 @@ function _runOneBlock() {
   _hit       = hit;
   _hitReason = reason;
 
-<<<<<<< HEAD
   // Halt immediately on breakpoint hit so execution stops even if anything in
   // the reporting path below (texture snapshotting / postMessage) fails.
   if (hit) {
@@ -363,8 +353,6 @@ function _runOneBlock() {
     _stopRunLoop();
   }
 
-=======
->>>>>>> main
   // Texture snapshots (one per visualizer).
   const textures = [];
   for (let i = 0; i < _numVisualizers; i++) {
@@ -384,13 +372,6 @@ function _runOneBlock() {
     stable:     _readStable(),
   });
 
-<<<<<<< HEAD
-=======
-  if (hit) {
-    _runMode = "stopped";
-    _stopRunLoop();
-  }
->>>>>>> main
 }
 
 function _startRunLoop() {
