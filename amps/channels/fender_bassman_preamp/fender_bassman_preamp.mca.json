@@ -1,0 +1,42 @@
+{
+  "graph": "fender_bassman_preamp",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 1.1845,
+      "block_rthroughput": 155.75,
+      "cycles_per_sample": 0.3042,
+      "insns_per_block": 415,
+      "uops_per_block": 623
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.4485,
+      "block_rthroughput": 103.67,
+      "cycles_per_sample": 0.2025,
+      "insns_per_block": 415,
+      "uops_per_block": 622
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.3873,
+      "block_rthroughput": 69.33,
+      "cycles_per_sample": 0.1354,
+      "insns_per_block": 415,
+      "uops_per_block": 416
+    }
+  ]
+}

@@ -216,6 +216,10 @@
         remainderf: (a, b) => a - Math.round(a / b) * b,
         fminf: Math.min.bind(Math),
         fmaxf: Math.max.bind(Math),
+        // Fused multiply-add (no native WASM op → emitted as a libcall by LLVM).
+        // JS has no single-rounding FMA; x*y+z matches the host's other math
+        // approximations (this is the preview host, not the bit-exact reference).
+        fmaf: (x, y, z) => x * y + z,
         hypotf: Math.hypot.bind(Math),
         copysignf: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
         sinhf: Math.sinh.bind(Math),
@@ -252,6 +256,7 @@
         remainder: (a, b) => a - Math.round(a / b) * b,
         fmin: Math.min.bind(Math),
         fmax: Math.max.bind(Math),
+        fma: (x, y, z) => x * y + z,
         hypot: Math.hypot.bind(Math),
         copysign: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
         sinh: Math.sinh.bind(Math),
@@ -445,6 +450,7 @@ function _makeCragWorkletImports(heapState, memState) {
       fmodf:      (a, b) => a - Math.trunc(a / b) * b,
       remainderf: (a, b) => a - Math.round(a / b) * b,
       fminf: Math.min.bind(Math),  fmaxf: Math.max.bind(Math),
+      fmaf: (x, y, z) => x * y + z,
       hypotf: Math.hypot.bind(Math),
       copysignf: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
       sinhf: Math.sinh.bind(Math), coshf: Math.cosh.bind(Math),
@@ -464,6 +470,7 @@ function _makeCragWorkletImports(heapState, memState) {
       fmod:      (a, b) => a - Math.trunc(a / b) * b,
       remainder: (a, b) => a - Math.round(a / b) * b,
       fmin: Math.min.bind(Math),   fmax: Math.max.bind(Math),
+      fma: (x, y, z) => x * y + z,
       hypot: Math.hypot.bind(Math),
       copysign: (mag, sgn) => Math.abs(mag) * (sgn < 0 || (sgn === 0 && (1/sgn) === -Infinity) ? -1 : 1),
       sinh: Math.sinh.bind(Math),  cosh: Math.cosh.bind(Math),
@@ -520,6 +527,14 @@ class CragProcessor extends AudioWorkletProcessor {
     this._numVisualizers   = 0;
     this._vizDisabled      = new Set();
     this.port.onmessage    = (ev) => { this._onMessage(ev.data); };
+    // Announce that the processor is constructed and its port is listening.
+    // Chromium/Edge do NOT reliably deliver a message posted to the node's
+    // port before the processor exists on the render thread — such a message
+    // is silently dropped — so the main thread waits for this "hello" before
+    // posting the heavy "init" payload (WASM module + seed params).  Firefox
+    // queues the early message correctly, but the handshake is harmless there.
+    // See _startInternal().
+    this.port.postMessage({ type: "hello" });
   }
 
   _onMessage(msg) {
@@ -560,7 +575,7 @@ class CragProcessor extends AudioWorkletProcessor {
   }
 
   async _handleInit(msg) {
-    const { wasmModule, heapPtr, channels,
+    const { wasmBytes, heapPtr, channels,
             outputPtr, paramsPtr, paramsI32Ptr,
             initialParams, initialParamsI32,
             arenaSize } = msg;
@@ -581,7 +596,11 @@ class CragProcessor extends AudioWorkletProcessor {
     const memState  = { memory: null };
     const imports   = _makeCragWorkletImports(heapState, memState);
 
-    const inst = await WebAssembly.instantiate(wasmModule, imports);
+    // Compile + instantiate from the raw bytes inside the worklet.  Passing a
+    // BufferSource (not a Module) returns { module, instance }; we only need
+    // the instance.  This is the cross-engine-safe path (Chromium/Edge cannot
+    // receive a WebAssembly.Module over the AudioWorklet port).
+    const { instance: inst } = await WebAssembly.instantiate(wasmBytes, imports);
     this._instance = inst;
     const e = inst.exports;
 
@@ -881,13 +900,18 @@ registerProcessor("crag-processor", CragProcessor);
      * @param {WebAssembly.Instance} instance    Instantiated WASM module.
      * @param {object}               meta         Parsed .cragmeta JSON.
      * @param {object}               heapState    Bump-allocator state { ptr }.
-     * @param {WebAssembly.Module}   [wasmModule] Compiled module for transfer to AudioWorklet.
+     * @param {WebAssembly.Module}   [wasmModule] Compiled module (main-thread instance).
      */
     constructor(instance, meta, heapState, wasmModule) {
       this._instance = instance;
       this.meta = meta;
       this._heapState = heapState;
       this._wasmModule = wasmModule || null;
+      // Raw WASM bytes, retained so start() can hand them to the AudioWorklet.
+      // The worklet compiles its own instance from these because Chromium/Edge
+      // cannot clone a WebAssembly.Module across the AudioWorklet message port
+      // (an ArrayBuffer clones fine).  Set by CragPlayer.create().
+      this._wasmBytes = null;
 
       const e = instance.exports;
       this._memory    = e.memory;
@@ -1289,8 +1313,8 @@ registerProcessor("crag-processor", CragProcessor);
      */
     async start() {
       if (this._running || this._starting) return;
-      if (!this._wasmModule)
-        throw new Error("[crag] No WASM module available for AudioWorklet. " +
+      if (!this._wasmBytes)
+        throw new Error("[crag] No WASM bytes available for AudioWorklet. " +
           "Ensure CragPlayer.create() was used to construct this player.");
 
       this._starting = true;
@@ -1377,6 +1401,24 @@ registerProcessor("crag-processor", CragProcessor);
         workletNode.port.onmessage = (ev) => {
           const msg = ev.data;
           switch (msg.type) {
+            case "hello":
+              // The processor is constructed and its port is listening, so it
+              // is now safe to send the init payload.  Posting it earlier (right
+              // after `new AudioWorkletNode`) races processor construction and
+              // is dropped by Chromium/Edge — only Firefox queues it.
+              workletNode.port.postMessage({
+                type:            "init",
+                wasmBytes:       this._wasmBytes,
+                heapPtr:         this._heapState.ptr,
+                arenaSize:       this._arenaSize || DEFAULT_ARENA_BYTES,
+                channels,
+                outputPtr:       this._outputPtr,
+                paramsPtr:       this._paramsPtr,
+                paramsI32Ptr:    this._paramsI32Ptr,
+                initialParams,
+                initialParamsI32,
+              });
+              break;
             case "ready":
               clearTimeout(timeout);
               this._startAbort    = null;
@@ -1427,18 +1469,9 @@ registerProcessor("crag-processor", CragProcessor);
           }
         };
 
-        workletNode.port.postMessage({
-          type:            "init",
-          wasmModule:      this._wasmModule,
-          heapPtr:         this._heapState.ptr,
-          arenaSize:       this._arenaSize || DEFAULT_ARENA_BYTES,
-          channels,
-          outputPtr:       this._outputPtr,
-          paramsPtr:       this._paramsPtr,
-          paramsI32Ptr:    this._paramsI32Ptr,
-          initialParams,
-          initialParamsI32,
-        });
+        // The init payload is sent in response to the worklet's "hello"
+        // handshake above (see the "hello" case) rather than here, so it is
+        // never posted before the processor's port is listening.
       });
 
       this._running = true;
@@ -1574,19 +1607,19 @@ registerProcessor("crag-processor", CragProcessor);
 
       const importObj = makeCragImports(heapState, memState);
 
-      // Instantiate — use instantiateStreaming when available.
-      let instance, wasmModule;
-      if (typeof WebAssembly.instantiateStreaming === "function") {
-        const resp = fetch(wasmUrl);
-        const result = await WebAssembly.instantiateStreaming(resp, importObj);
-        instance   = result.instance;
-        wasmModule = result.module;
-      } else {
-        const buf = await fetch(wasmUrl).then((r) => r.arrayBuffer());
-        const result = await WebAssembly.instantiate(buf, importObj);
-        instance   = result.instance;
-        wasmModule = result.module;
-      }
+      // Fetch the WASM bytes once.  We instantiate the main-thread instance
+      // from these bytes AND retain them to hand to the AudioWorklet at
+      // start() (see CragPlayer._wasmBytes): Chromium/Edge silently drop an
+      // AudioWorklet-port message carrying a WebAssembly.Module, but an
+      // ArrayBuffer clones fine, so the worklet compiles its own instance.
+      // (instantiateStreaming is skipped here because we need the bytes in
+      // hand; the module is small and this runs once at load.)
+      const wasmBytes = await fetch(wasmUrl).then((r) => {
+        if (!r.ok) throw new Error(`Failed to fetch ${wasmUrl}: ${r.status}`);
+        return r.arrayBuffer();
+      });
+      const { instance, module: wasmModule } =
+        await WebAssembly.instantiate(wasmBytes, importObj);
 
       // Fix up heap pointer from the exported __heap_base symbol.
       if (instance.exports.__heap_base) {
@@ -1611,6 +1644,7 @@ registerProcessor("crag-processor", CragProcessor);
 
       // Apply default parameter values from metadata.
       const player = new CragPlayer(instance, meta, heapState, wasmModule);
+      player._wasmBytes = wasmBytes;
       player._arenaSize = arenaSize;
       let floatIdx = 0, intIdx = 0;
       (meta.parameters || []).forEach((p) => {

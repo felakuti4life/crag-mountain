@@ -1,0 +1,42 @@
+{
+  "graph": "feedback-peak-compressor",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 1.2178,
+      "block_rthroughput": 90.25,
+      "cycles_per_sample": 0.1763,
+      "insns_per_block": 227,
+      "uops_per_block": 361
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.5454,
+      "block_rthroughput": 60.17,
+      "cycles_per_sample": 0.1175,
+      "insns_per_block": 229,
+      "uops_per_block": 361
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.3641,
+      "block_rthroughput": 39.33,
+      "cycles_per_sample": 0.0768,
+      "insns_per_block": 227,
+      "uops_per_block": 228
+    }
+  ]
+}

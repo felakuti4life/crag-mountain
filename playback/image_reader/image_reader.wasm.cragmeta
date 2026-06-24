@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+  ],
+  "samplers": [],
+  "texture_samplers": ["texture"],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "visualizers": [
+    {"name": "image_reader_viz", "width": 256, "height": 256, "audio_capture": "pcm", "audio_buf_elems": 512}
+  ],
+  "has_visualizer": true,
+  "has_audio_output": false,
+  "viz_width": 256,
+  "viz_height": 256,
+  "compiled_with": "9165bcc"
+}

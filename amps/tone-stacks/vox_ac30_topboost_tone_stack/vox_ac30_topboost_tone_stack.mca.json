@@ -1,0 +1,42 @@
+{
+  "graph": "vox_ac30_topboost_tone_stack",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 1.1821,
+      "block_rthroughput": 115.5,
+      "cycles_per_sample": 0.2256,
+      "insns_per_block": 297,
+      "uops_per_block": 462
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.431,
+      "block_rthroughput": 76.83,
+      "cycles_per_sample": 0.1501,
+      "insns_per_block": 297,
+      "uops_per_block": 461
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.2098,
+      "block_rthroughput": 49.67,
+      "cycles_per_sample": 0.097,
+      "insns_per_block": 297,
+      "uops_per_block": 298
+    }
+  ]
+}

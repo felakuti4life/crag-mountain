@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "650a608",
+  "compiled_with": "9165bcc",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
@@ -313,7 +313,7 @@
       "id": 23,
       "op": "crag.channel_join",
       "name": "",
-      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpe9tjeqxc\\amplitude_envelope.wrapper.mlir",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpmy25pk9x\\amplitude_envelope.wrapper.mlir",
       "line": 8,
       "col": 14,
       "graph_stack": [],

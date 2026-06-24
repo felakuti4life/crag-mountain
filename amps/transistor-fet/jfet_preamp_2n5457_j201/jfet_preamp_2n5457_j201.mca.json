@@ -1,0 +1,42 @@
+{
+  "graph": "jfet_preamp_2n5457_j201",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 1.1407,
+      "block_rthroughput": 55.75,
+      "cycles_per_sample": 0.1089,
+      "insns_per_block": 136,
+      "uops_per_block": 223
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.328,
+      "block_rthroughput": 37.0,
+      "cycles_per_sample": 0.0723,
+      "insns_per_block": 136,
+      "uops_per_block": 222
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.3464,
+      "block_rthroughput": 24.0,
+      "cycles_per_sample": 0.0469,
+      "insns_per_block": 136,
+      "uops_per_block": 137
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "9165bcc",
+  "adaa": {
+    "mode": "first-order",
+    "tanh_count": 0,
+    "hard_clip_count": 0
+  },
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.white_noise",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/image_reader.crag.mlir",
+      "line": 40,
+      "col": 16,
+      "graph_stack": ["image_reader"],
+      "is_audio": true,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "arith.constant",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/image_reader.crag.mlir",
+      "line": 41,
+      "col": 16,
+      "graph_stack": ["image_reader"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "crag.scale",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/image_reader.crag.mlir",
+      "line": 42,
+      "col": 16,
+      "graph_stack": ["image_reader"],
+      "is_audio": true,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "crag.visualizer_ref",
+      "name": "",
+      "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\playback/image_reader.crag.mlir",
+      "line": 45,
+      "col": 5,
+      "graph_stack": ["image_reader"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}
