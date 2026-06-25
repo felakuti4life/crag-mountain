@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 8 84 84" width="128" height="128" role="img" aria-label="CRAG">
+  <title>CRAG — C mark</title>
+
+  <g fill="none" stroke-linecap="round" stroke-width="5.5">
+    <path d="M73.4 20.1 A38 38 0 1 0 73.4 79.9" stroke="#5a8f6e"></path>
+    <path d="M66.6 28.7 A27 27 0 1 0 66.6 71.3" stroke="#c45c82"></path>
+    <path d="M59.85 37.4 A16 16 0 1 0 59.85 62.6" stroke="#c45c82"></path>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 8 252 102" width="504" height="204" role="img" aria-label="CRAG">
+  <title>CRAG — Emit logo (uppercase)</title>
+
+  <g fill="none" stroke-linecap="round" stroke-width="5.5">
+    <path d="M73.4 20.1 A38 38 0 1 0 73.4 79.9" stroke="#5a8f6e"></path>
+    <path d="M66.6 28.7 A27 27 0 1 0 66.6 71.3" stroke="#c45c82"></path>
+    <path d="M59.85 37.4 A16 16 0 1 0 59.85 62.6" stroke="#c45c82"></path>
+  </g>
+
+  <g fill="none" stroke="#2a1f1a" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M90 12 L90 88"></path>
+    <path d="M90 12 H113 Q128 12 128 31 Q128 50 113 50 H90"></path>
+    <path d="M104 50 L130 88"></path>
+    <path d="M146 88 L169 12 L192 88"></path>
+    <path d="M153 64 H185"></path>
+    <path d="M253.9 25.6 A26 38 0 1 0 253.9 74.4"></path>
+    <path d="M253.9 74.4 L253.9 50 L236 50"></path>
+  </g>
+</svg>
