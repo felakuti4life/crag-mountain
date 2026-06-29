@@ -58,8 +58,9 @@ module {
     %start_fired, %start_at = crag.event_void "start" : i1, i32
     %stop_fired,  %stop_at  = crag.event_void "stop"  : i1, i32
 
-    // seek: fires with the desired playback time in seconds.
-    %seek_fired, %seek_at, %seek_val = crag.event_float "seek" : i1, i32, f32
+    // seek: fires with the desired playback time in seconds.  Range hint spans
+    // a typical clip length so the host knob lands in seconds, not 0..1.
+    %seek_fired, %seek_at, %seek_val = crag.event_float "seek" min = 0.0 max = 30.0 : i1, i32, f32
 
     // SR latch: set by "start", reset by "stop".
     // Initialised to 1 so playback begins immediately.

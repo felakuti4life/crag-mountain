@@ -28,7 +28,9 @@
     {
       "name": "seek",
       "type": "float",
-      "float_index": 0
+      "float_index": 0,
+      "min": 0.000000e+00,
+      "max": 3.000000e+01
     }
   ],
   "meters": [
