@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "4c2822d",
+  "compiled_with": "4fd4e4a",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
@@ -341,7 +341,7 @@
       "name": "",
       "file": "C:\\Users\\ethan\\crag\\crag\\standard-graphs\\physical/wooden_block/wooden_block.crag.mlir",
       "line": 48,
-      "col": 22,
+      "col": 21,
       "graph_stack": ["wooden_block"],
       "is_audio": true,
       "channels": 1,

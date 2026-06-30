@@ -41,7 +41,7 @@
 // Output: !crag.audio<f32, 48000, 2> – stereo
 //
 // Visualizer:
-//   "granulator_viz" – animated grain-envelope display (6 colour-coded bars).
+//   "granulator_viz" – animated grain-envelope display (6 color-coded bars).
 //   The visualizer file must be co-included alongside this graph; the
 //   generate_graph_docs.py script handles this automatically for documentation.
 //
