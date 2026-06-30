@@ -370,7 +370,7 @@ function _snapshotOutput() {
 /// The visualizer writes its canvas to `crag_viz_output` as **float** RGBA in
 /// the 0..1 range (w*h*4 floats), exactly like the AudioWorklet path in
 /// crag_player.js — so we read Float32 and clamp to bytes here (the previous
-/// code read the float bytes directly as Uint8, producing garbage colours).
+/// code read the float bytes directly as Uint8, producing garbage colors).
 /// The bump pointer is snapshotted before the call and restored afterwards
 /// (on success *and* trap) so the multi-MiB scratch buffers the kernel
 /// allocates are reclaimed every frame instead of leaking the arena away.

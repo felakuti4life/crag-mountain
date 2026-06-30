@@ -29,7 +29,7 @@
 // the spectral pipeline acting as a transparent transport for time-domain
 // echo taps; downstream variants of this graph can replace the ifft-and-sum
 // with frequency-domain processing (e.g. per-tap `crag.freq_mul` with a
-// filter spectrum) to build "spectrally coloured" echoes.
+// filter spectrum) to build "spectrally colored" echoes.
 //
 // Parameters:
 //   feedback   [0, 0.99]  – per-tap decay coefficient (geometric)  (default 0.6)

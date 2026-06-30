@@ -23,7 +23,7 @@
 //
 // Parameters:
 //   fuzz_gain    [5, 100]   – saturation drive      (default 30.0)
-//   tone         [0, 1]     – post-fuzz tonal colour
+//   tone         [0, 1]     – post-fuzz tonal color
 //                              0 = dark (~3 kHz cutoff)
 //                              1 = full bandwidth (~24 kHz)
 //                              (default 0.5)

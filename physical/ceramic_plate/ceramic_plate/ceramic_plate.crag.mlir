@@ -39,16 +39,16 @@ module {
     %imp_env = crag.adsr %imp_attack_ms, %imp_decay_ms, %imp_sustain, %imp_release, %impulse_fired, %impulse_at : f32, f32, f32, f32, i1, i32 -> !crag.audio<f32, 48000, 1>
     %impulse_exc = crag.scale %imp_env, %impulse_velocity : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
 
-    // ── Drag excitation: gated coloured noise ────────────────────────────
+    // ── Drag excitation: gated colored noise ────────────────────────────
     %drag_gate_i1 = crag.latch %drag_start_fired, %drag_stop_fired : i1, i1 -> i1
     %drag_gate_f32 = arith.uitofp %drag_gate_i1 : i1 to f32
     %drag_noise = crag.white_noise : !crag.audio<f32, 48000, 1>
     %drag_cutoff = arith.constant 0.125 : f32
     %drag_fb, %drag_ff = crag.get_filter_coeffs %drag_cutoff order = 2 q = 0.9 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
-    %drag_coloured = crag.filter %drag_noise, %drag_fb, %drag_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
+    %drag_colored = crag.filter %drag_noise, %drag_fb, %drag_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %drag_vel_force = arith.mulf %drag_velocity, %drag_normal_force : f32
     %drag_gain = arith.mulf %drag_vel_force, %drag_gate_f32 : f32
-    %drag_exc = crag.scale %drag_coloured, %drag_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
+    %drag_exc = crag.scale %drag_colored, %drag_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
 
     // ── Excitation mix: impulse + drag → resonator bank input ────────────
     %excitation = crag.sum %impulse_exc, %drag_exc : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>

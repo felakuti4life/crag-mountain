@@ -21,7 +21,7 @@
 //   *circular* self-convolution within one block.  For full linear
 //   self-convolution of a continuous stream, wrap this in an overlap-add
 //   scheme.  The effect is still musically useful here as a per-block
-//   spectral colouration.
+//   spectral coloration.
 //
 // Parameters:
 //   wet_level  [0, 1]  – self-convolved signal amplitude  (default 0.5)
