@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "gen_datetime": "2026-06-29 23:23 UTC",
-  "git_commit": "13f076d",
+  "gen_datetime": "2026-06-30 01:36 UTC",
+  "git_commit": "163b714",
   "targets": [
     {
       "stem": "big_muff_full",
@@ -11,6 +11,7 @@
       "meta": "amps/channels/big_muff_full/big_muff_full.wasm.cragmeta",
       "debug": "amps/channels/big_muff_full/big_muff_full.wasm.cragdebug.json",
       "source": "amps/channels/big_muff_full/big_muff_full.crag.mlir",
+      "sources": "amps/channels/big_muff_full/big_muff_full.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -21,6 +22,7 @@
       "meta": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm.cragmeta",
       "debug": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm.cragdebug.json",
       "source": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.crag.mlir",
+      "sources": "amps/channels/fender_bassman_preamp/fender_bassman_preamp.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -31,6 +33,7 @@
       "meta": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm.cragmeta",
       "debug": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm.cragdebug.json",
       "source": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.crag.mlir",
+      "sources": "amps/channels/marshall_jcm800_preamp/marshall_jcm800_preamp.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -41,6 +44,7 @@
       "meta": "amps/channels/tubescreamer_full/tubescreamer_full.wasm.cragmeta",
       "debug": "amps/channels/tubescreamer_full/tubescreamer_full.wasm.cragdebug.json",
       "source": "amps/channels/tubescreamer_full/tubescreamer_full.crag.mlir",
+      "sources": "amps/channels/tubescreamer_full/tubescreamer_full.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -51,6 +55,7 @@
       "meta": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm.cragmeta",
       "debug": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm.cragdebug.json",
       "source": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.crag.mlir",
+      "sources": "amps/channels/vox_ac30_topboost_preamp/vox_ac30_topboost_preamp.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -61,6 +66,7 @@
       "meta": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm.cragmeta",
       "debug": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm.cragdebug.json",
       "source": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.crag.mlir",
+      "sources": "amps/clippers/big_muff_clip_stages/big_muff_clip_stages.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -71,6 +77,7 @@
       "meta": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm.cragmeta",
       "debug": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm.cragdebug.json",
       "source": "amps/clippers/boss_ds1_clip/boss_ds1_clip.crag.mlir",
+      "sources": "amps/clippers/boss_ds1_clip/boss_ds1_clip.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -81,6 +88,7 @@
       "meta": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm.cragmeta",
       "debug": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm.cragdebug.json",
       "source": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.crag.mlir",
+      "sources": "amps/clippers/dod250_mxr_distortion_plus_clip/dod250_mxr_distortion_plus_clip.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -91,6 +99,7 @@
       "meta": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm.cragmeta",
       "debug": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm.cragdebug.json",
       "source": "amps/clippers/proco_rat_clip/proco_rat_clip.crag.mlir",
+      "sources": "amps/clippers/proco_rat_clip/proco_rat_clip.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -101,6 +110,7 @@
       "meta": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragmeta",
       "debug": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragdebug.json",
       "source": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.crag.mlir",
+      "sources": "amps/clippers/tubescreamer_ts808_clip/tubescreamer_ts808_clip.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -111,6 +121,7 @@
       "meta": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm.cragmeta",
       "debug": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm.cragdebug.json",
       "source": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.crag.mlir",
+      "sources": "amps/opamp/boss_ce2_filter_section/boss_ce2_filter_section.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -121,6 +132,7 @@
       "meta": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm.cragmeta",
       "debug": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm.cragdebug.json",
       "source": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.crag.mlir",
+      "sources": "amps/opamp/ehx_small_clone_filter/ehx_small_clone_filter.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -131,6 +143,7 @@
       "meta": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm.cragmeta",
       "debug": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm.cragdebug.json",
       "source": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.crag.mlir",
+      "sources": "amps/opamp/mxr_phase90_allpass_stage/mxr_phase90_allpass_stage.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -141,6 +154,7 @@
       "meta": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm.cragmeta",
       "debug": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm.cragdebug.json",
       "source": "amps/power-amp/6l6_push_pull/6l6_push_pull.crag.mlir",
+      "sources": "amps/power-amp/6l6_push_pull/6l6_push_pull.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -151,6 +165,7 @@
       "meta": "amps/power-amp/el34_push_pull/el34_push_pull.wasm.cragmeta",
       "debug": "amps/power-amp/el34_push_pull/el34_push_pull.wasm.cragdebug.json",
       "source": "amps/power-amp/el34_push_pull/el34_push_pull.crag.mlir",
+      "sources": "amps/power-amp/el34_push_pull/el34_push_pull.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -161,6 +176,7 @@
       "meta": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm.cragmeta",
       "debug": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm.cragdebug.json",
       "source": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.crag.mlir",
+      "sources": "amps/tone-stacks/baxandall_tone_control/baxandall_tone_control.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -171,6 +187,7 @@
       "meta": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm.cragmeta",
       "debug": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm.cragdebug.json",
       "source": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.crag.mlir",
+      "sources": "amps/tone-stacks/fender_bassman_tone_stack/fender_bassman_tone_stack.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -181,6 +198,7 @@
       "meta": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm.cragmeta",
       "debug": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm.cragdebug.json",
       "source": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.crag.mlir",
+      "sources": "amps/tone-stacks/marshall_jtm45_jcm800_tone_stack/marshall_jtm45_jcm800_tone_stack.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -191,6 +209,7 @@
       "meta": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm.cragmeta",
       "debug": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm.cragdebug.json",
       "source": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.crag.mlir",
+      "sources": "amps/tone-stacks/mesa_boogie_5band_graphic_eq/mesa_boogie_5band_graphic_eq.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -201,6 +220,7 @@
       "meta": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm.cragmeta",
       "debug": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm.cragdebug.json",
       "source": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.crag.mlir",
+      "sources": "amps/tone-stacks/vox_ac30_topboost_tone_stack/vox_ac30_topboost_tone_stack.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -211,6 +231,7 @@
       "meta": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm.cragmeta",
       "debug": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm.cragdebug.json",
       "source": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.crag.mlir",
+      "sources": "amps/transistor-fet/boss_sd1_transistor_buffer/boss_sd1_transistor_buffer.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -221,6 +242,7 @@
       "meta": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm.cragmeta",
       "debug": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm.cragdebug.json",
       "source": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.crag.mlir",
+      "sources": "amps/transistor-fet/dallas_rangemaster_oc44/dallas_rangemaster_oc44.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -231,6 +253,7 @@
       "meta": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm.cragmeta",
       "debug": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm.cragdebug.json",
       "source": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.crag.mlir",
+      "sources": "amps/transistor-fet/fuzz_face_bc108c/fuzz_face_bc108c.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -241,6 +264,7 @@
       "meta": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm.cragmeta",
       "debug": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm.cragdebug.json",
       "source": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.crag.mlir",
+      "sources": "amps/transistor-fet/jfet_preamp_2n5457_j201/jfet_preamp_2n5457_j201.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -251,6 +275,7 @@
       "meta": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm.cragmeta",
       "debug": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm.cragdebug.json",
       "source": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.crag.mlir",
+      "sources": "amps/tube/fender_bassman_5f6a_input_12ay7/fender_bassman_5f6a_input_12ay7.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -261,6 +286,7 @@
       "meta": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm.cragmeta",
       "debug": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm.cragdebug.json",
       "source": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.crag.mlir",
+      "sources": "amps/tube/fender_deluxe_5e3_preamp_12ax7/fender_deluxe_5e3_preamp_12ax7.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -271,6 +297,7 @@
       "meta": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm.cragmeta",
       "debug": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm.cragdebug.json",
       "source": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.crag.mlir",
+      "sources": "amps/tube/marshall_jcm800_v1_12ax7/marshall_jcm800_v1_12ax7.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -281,6 +308,7 @@
       "meta": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm.cragmeta",
       "debug": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm.cragdebug.json",
       "source": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.crag.mlir",
+      "sources": "amps/tube/mesa_mark1_preamp_12ax7_cascade/mesa_mark1_preamp_12ax7_cascade.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -291,6 +319,7 @@
       "meta": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm.cragmeta",
       "debug": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm.cragdebug.json",
       "source": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.crag.mlir",
+      "sources": "amps/tube/peavey_5150_6505_preamp_12ax7_stack/peavey_5150_6505_preamp_12ax7_stack.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -301,6 +330,7 @@
       "meta": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm.cragmeta",
       "debug": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm.cragdebug.json",
       "source": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.crag.mlir",
+      "sources": "amps/tube/vox_ac30_topboost_ecc83/vox_ac30_topboost_ecc83.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -311,6 +341,7 @@
       "meta": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm.cragmeta",
       "debug": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm.cragdebug.json",
       "source": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.crag.mlir",
+      "sources": "amps/wdf-core/nonlinear-lambert-diode/nonlinear-lambert-diode.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -321,6 +352,7 @@
       "meta": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm.cragmeta",
       "debug": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm.cragdebug.json",
       "source": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.crag.mlir",
+      "sources": "amps/wdf-core/nonlinear-polynomial-tube/nonlinear-polynomial-tube.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -331,6 +363,7 @@
       "meta": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm.cragmeta",
       "debug": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm.cragdebug.json",
       "source": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.crag.mlir",
+      "sources": "amps/wdf-core/nonlinear-tanh-diode/nonlinear-tanh-diode.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -341,6 +374,7 @@
       "meta": "amps/wdf-core/parallel-junction/parallel-junction.wasm.cragmeta",
       "debug": "amps/wdf-core/parallel-junction/parallel-junction.wasm.cragdebug.json",
       "source": "amps/wdf-core/parallel-junction/parallel-junction.crag.mlir",
+      "sources": "amps/wdf-core/parallel-junction/parallel-junction.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -351,6 +385,7 @@
       "meta": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm.cragmeta",
       "debug": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm.cragdebug.json",
       "source": "amps/wdf-core/rc-adaptor/rc-adaptor.crag.mlir",
+      "sources": "amps/wdf-core/rc-adaptor/rc-adaptor.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -361,6 +396,7 @@
       "meta": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm.cragmeta",
       "debug": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm.cragdebug.json",
       "source": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.crag.mlir",
+      "sources": "amps/wdf-core/resistor-load-wrapper/resistor-load-wrapper.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -371,6 +407,7 @@
       "meta": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragmeta",
       "debug": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragdebug.json",
       "source": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.crag.mlir",
+      "sources": "amps/wdf-core/resistor-source-wrapper/resistor-source-wrapper.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -381,6 +418,7 @@
       "meta": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm.cragmeta",
       "debug": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm.cragdebug.json",
       "source": "amps/wdf-core/rl-adaptor/rl-adaptor.crag.mlir",
+      "sources": "amps/wdf-core/rl-adaptor/rl-adaptor.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -391,6 +429,7 @@
       "meta": "amps/wdf-core/series-junction/series-junction.wasm.cragmeta",
       "debug": "amps/wdf-core/series-junction/series-junction.wasm.cragdebug.json",
       "source": "amps/wdf-core/series-junction/series-junction.crag.mlir",
+      "sources": "amps/wdf-core/series-junction/series-junction.wasm.cragsrc.json",
       "short_desc": ""
     },
     {
@@ -401,6 +440,7 @@
       "meta": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm.cragmeta",
       "debug": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm.cragdebug.json",
       "source": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.crag.mlir",
+      "sources": "compressors/dual-stage-serial-compressor/dual-stage-serial-compressor.wasm.cragsrc.json",
       "short_desc": "Dual-Stage Serial Compressor"
     },
     {
@@ -411,6 +451,7 @@
       "meta": "compressors/feed-forward-compressor/feed-forward-compressor.wasm.cragmeta",
       "debug": "compressors/feed-forward-compressor/feed-forward-compressor.wasm.cragdebug.json",
       "source": "compressors/feed-forward-compressor/feed-forward-compressor.crag.mlir",
+      "sources": "compressors/feed-forward-compressor/feed-forward-compressor.wasm.cragsrc.json",
       "short_desc": "Feed-Forward RMS Compressor"
     },
     {
@@ -421,6 +462,7 @@
       "meta": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm.cragmeta",
       "debug": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm.cragdebug.json",
       "source": "compressors/feedback-peak-compressor/feedback-peak-compressor.crag.mlir",
+      "sources": "compressors/feedback-peak-compressor/feedback-peak-compressor.wasm.cragsrc.json",
       "short_desc": "Feedback Peak Compressor"
     },
     {
@@ -431,6 +473,7 @@
       "meta": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm.cragmeta",
       "debug": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm.cragdebug.json",
       "source": "compressors/feedback-rms-compressor/feedback-rms-compressor.crag.mlir",
+      "sources": "compressors/feedback-rms-compressor/feedback-rms-compressor.wasm.cragsrc.json",
       "short_desc": "Feedback RMS Compressor"
     },
     {
@@ -441,6 +484,7 @@
       "meta": "compressors/lookahead-limiter/lookahead-limiter.wasm.cragmeta",
       "debug": "compressors/lookahead-limiter/lookahead-limiter.wasm.cragdebug.json",
       "source": "compressors/lookahead-limiter/lookahead-limiter.crag.mlir",
+      "sources": "compressors/lookahead-limiter/lookahead-limiter.wasm.cragsrc.json",
       "short_desc": "Lookahead Limiter"
     },
     {
@@ -451,6 +495,7 @@
       "meta": "compressors/opto-style-compressor/opto-style-compressor.wasm.cragmeta",
       "debug": "compressors/opto-style-compressor/opto-style-compressor.wasm.cragdebug.json",
       "source": "compressors/opto-style-compressor/opto-style-compressor.crag.mlir",
+      "sources": "compressors/opto-style-compressor/opto-style-compressor.wasm.cragsrc.json",
       "short_desc": "Opto-Style Compressor"
     },
     {
@@ -461,6 +506,7 @@
       "meta": "compressors/parallel-compressor/parallel-compressor.wasm.cragmeta",
       "debug": "compressors/parallel-compressor/parallel-compressor.wasm.cragdebug.json",
       "source": "compressors/parallel-compressor/parallel-compressor.crag.mlir",
+      "sources": "compressors/parallel-compressor/parallel-compressor.wasm.cragsrc.json",
       "short_desc": "Parallel Compressor"
     },
     {
@@ -471,6 +517,7 @@
       "meta": "compressors/peak-limiter/peak-limiter.wasm.cragmeta",
       "debug": "compressors/peak-limiter/peak-limiter.wasm.cragdebug.json",
       "source": "compressors/peak-limiter/peak-limiter.crag.mlir",
+      "sources": "compressors/peak-limiter/peak-limiter.wasm.cragsrc.json",
       "short_desc": "Peak Limiter"
     },
     {
@@ -481,6 +528,7 @@
       "meta": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm.cragmeta",
       "debug": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm.cragdebug.json",
       "source": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.crag.mlir",
+      "sources": "compressors/program-dependent-release-compressor/program-dependent-release-compressor.wasm.cragsrc.json",
       "short_desc": "Program-Dependent Release Compressor"
     },
     {
@@ -491,6 +539,7 @@
       "meta": "compressors/sidechain-ducker/sidechain-ducker.wasm.cragmeta",
       "debug": "compressors/sidechain-ducker/sidechain-ducker.wasm.cragdebug.json",
       "source": "compressors/sidechain-ducker/sidechain-ducker.crag.mlir",
+      "sources": "compressors/sidechain-ducker/sidechain-ducker.wasm.cragsrc.json",
       "short_desc": "Sidechain Ducker"
     },
     {
@@ -501,6 +550,7 @@
       "meta": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm.cragmeta",
       "debug": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm.cragdebug.json",
       "source": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.crag.mlir",
+      "sources": "compressors/soft-knee-feed-forward-compressor/soft-knee-feed-forward-compressor.wasm.cragsrc.json",
       "short_desc": "Soft-Knee Feed-Forward Compressor"
     },
     {
@@ -511,6 +561,7 @@
       "meta": "compressors/two-band-compressor/two-band-compressor.wasm.cragmeta",
       "debug": "compressors/two-band-compressor/two-band-compressor.wasm.cragdebug.json",
       "source": "compressors/two-band-compressor/two-band-compressor.crag.mlir",
+      "sources": "compressors/two-band-compressor/two-band-compressor.wasm.cragsrc.json",
       "short_desc": "Two-Band Compressor"
     },
     {
@@ -521,6 +572,7 @@
       "meta": "compressors/upward-compressor/upward-compressor.wasm.cragmeta",
       "debug": "compressors/upward-compressor/upward-compressor.wasm.cragdebug.json",
       "source": "compressors/upward-compressor/upward-compressor.crag.mlir",
+      "sources": "compressors/upward-compressor/upward-compressor.wasm.cragsrc.json",
       "short_desc": "Upward Compressor"
     },
     {
@@ -531,6 +583,7 @@
       "meta": "conversions/51-to-stereo/51-to-stereo.wasm.cragmeta",
       "debug": "conversions/51-to-stereo/51-to-stereo.wasm.cragdebug.json",
       "source": "conversions/51-to-stereo/51-to-stereo.crag.mlir",
+      "sources": "conversions/51-to-stereo/51-to-stereo.wasm.cragsrc.json",
       "short_desc": "5.1-to-Stereo Downmix (ITU-R BS.775)"
     },
     {
@@ -541,6 +594,7 @@
       "meta": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm.cragmeta",
       "debug": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm.cragdebug.json",
       "source": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.crag.mlir",
+      "sources": "conversions/ambisonics/decode-foa-mono/decode-foa-mono.wasm.cragsrc.json",
       "short_desc": "First-Order Ambisonics Decoder \u2014 FOA \u2192 Mono"
     },
     {
@@ -551,6 +605,7 @@
       "meta": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm.cragmeta",
       "debug": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm.cragdebug.json",
       "source": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.crag.mlir",
+      "sources": "conversions/ambisonics/decode-foa-stereo/decode-foa-stereo.wasm.cragsrc.json",
       "short_desc": "First-Order Ambisonics Decoder \u2014 FOA \u2192 Stereo"
     },
     {
@@ -561,6 +616,7 @@
       "meta": "conversions/ambisonics/encode-foa/encode-foa.wasm.cragmeta",
       "debug": "conversions/ambisonics/encode-foa/encode-foa.wasm.cragdebug.json",
       "source": "conversions/ambisonics/encode-foa/encode-foa.crag.mlir",
+      "sources": "conversions/ambisonics/encode-foa/encode-foa.wasm.cragsrc.json",
       "short_desc": "First-Order Ambisonics Encoder (Mono \u2192 FOA)"
     },
     {
@@ -571,6 +627,7 @@
       "meta": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm.cragmeta",
       "debug": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm.cragdebug.json",
       "source": "conversions/ambisonics/encode-hoa2/encode-hoa2.crag.mlir",
+      "sources": "conversions/ambisonics/encode-hoa2/encode-hoa2.wasm.cragsrc.json",
       "short_desc": "Second-Order Ambisonics Encoder (Mono \u2192 HOA2)"
     },
     {
@@ -581,6 +638,7 @@
       "meta": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.crag.mlir",
+      "sources": "conversions/ambisonics/foa-mirror-frontback/foa-mirror-frontback.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Mirror Front/Back"
     },
     {
@@ -591,6 +649,7 @@
       "meta": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.crag.mlir",
+      "sources": "conversions/ambisonics/foa-mirror-leftright/foa-mirror-leftright.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Mirror Left/Right"
     },
     {
@@ -601,6 +660,7 @@
       "meta": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.crag.mlir",
+      "sources": "conversions/ambisonics/foa-mirror-updown/foa-mirror-updown.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Mirror Up/Down"
     },
     {
@@ -611,6 +671,7 @@
       "meta": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.crag.mlir",
+      "sources": "conversions/ambisonics/foa-rotate-yaw/foa-rotate-yaw.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Rotate (Yaw) \u2014 Rotate the Soundfield Around the Z Axis"
     },
     {
@@ -621,6 +682,7 @@
       "meta": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.crag.mlir",
+      "sources": "conversions/ambisonics/foa-tilt-roll/foa-tilt-roll.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Tilt (Roll) \u2014 Rotate the Soundfield Around the X Axis"
     },
     {
@@ -631,6 +693,7 @@
       "meta": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.crag.mlir",
+      "sources": "conversions/ambisonics/foa-to-hoa2/foa-to-hoa2.wasm.cragsrc.json",
       "short_desc": "Order Conversion: First-Order \u2192 Second-Order Ambisonics (FOA \u2192 HOA2)"
     },
     {
@@ -641,6 +704,7 @@
       "meta": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm.cragmeta",
       "debug": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm.cragdebug.json",
       "source": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.crag.mlir",
+      "sources": "conversions/ambisonics/foa-tumble-pitch/foa-tumble-pitch.wasm.cragsrc.json",
       "short_desc": "FOA Transform: Tumble (Pitch) \u2014 Rotate the Soundfield Around the Y Axis"
     },
     {
@@ -651,6 +715,7 @@
       "meta": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm.cragmeta",
       "debug": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm.cragdebug.json",
       "source": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.crag.mlir",
+      "sources": "conversions/ambisonics/hoa2-to-foa/hoa2-to-foa.wasm.cragsrc.json",
       "short_desc": "Order Conversion: Second-Order \u2192 First-Order Ambisonics (HOA2 \u2192 FOA)"
     },
     {
@@ -661,6 +726,7 @@
       "meta": "conversions/midside-to-stereo/midside-to-stereo.wasm.cragmeta",
       "debug": "conversions/midside-to-stereo/midside-to-stereo.wasm.cragdebug.json",
       "source": "conversions/midside-to-stereo/midside-to-stereo.crag.mlir",
+      "sources": "conversions/midside-to-stereo/midside-to-stereo.wasm.cragsrc.json",
       "short_desc": "Mid/Side to Stereo Decoder (Mid-Side \u2192 Stereo)"
     },
     {
@@ -671,6 +737,7 @@
       "meta": "conversions/mono-to-stereo/mono-to-stereo.wasm.cragmeta",
       "debug": "conversions/mono-to-stereo/mono-to-stereo.wasm.cragdebug.json",
       "source": "conversions/mono-to-stereo/mono-to-stereo.crag.mlir",
+      "sources": "conversions/mono-to-stereo/mono-to-stereo.wasm.cragsrc.json",
       "short_desc": "Mono-to-Stereo Channel Mixer"
     },
     {
@@ -681,6 +748,7 @@
       "meta": "conversions/stereo-to-51/stereo-to-51.wasm.cragmeta",
       "debug": "conversions/stereo-to-51/stereo-to-51.wasm.cragdebug.json",
       "source": "conversions/stereo-to-51/stereo-to-51.crag.mlir",
+      "sources": "conversions/stereo-to-51/stereo-to-51.wasm.cragsrc.json",
       "short_desc": "Stereo-to-5.1 Upmix (Phantom Centre)"
     },
     {
@@ -691,6 +759,7 @@
       "meta": "conversions/stereo-to-midside/stereo-to-midside.wasm.cragmeta",
       "debug": "conversions/stereo-to-midside/stereo-to-midside.wasm.cragdebug.json",
       "source": "conversions/stereo-to-midside/stereo-to-midside.crag.mlir",
+      "sources": "conversions/stereo-to-midside/stereo-to-midside.wasm.cragsrc.json",
       "short_desc": "Stereo to Mid/Side Encoder (Stereo \u2192 Mid-Side)"
     },
     {
@@ -701,6 +770,7 @@
       "meta": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm.cragmeta",
       "debug": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm.cragdebug.json",
       "source": "conversions/stereo-to-mono-average/stereo-to-mono-average.crag.mlir",
+      "sources": "conversions/stereo-to-mono-average/stereo-to-mono-average.wasm.cragsrc.json",
       "short_desc": "Stereo-to-Mono Average Downmix"
     },
     {
@@ -711,6 +781,7 @@
       "meta": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm.cragmeta",
       "debug": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm.cragdebug.json",
       "source": "conversions/stereo-to-mono-left/stereo-to-mono-left.crag.mlir",
+      "sources": "conversions/stereo-to-mono-left/stereo-to-mono-left.wasm.cragsrc.json",
       "short_desc": "Stereo-to-Mono Left-Channel Downmix"
     },
     {
@@ -721,6 +792,7 @@
       "meta": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm.cragmeta",
       "debug": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm.cragdebug.json",
       "source": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.crag.mlir",
+      "sources": "conversions/stereo-to-mono-mid-side/stereo-to-mono-mid-side.wasm.cragsrc.json",
       "short_desc": "Stereo-to-Mono Mid/Side (M/S) Downmix \u2014 Mid extraction"
     },
     {
@@ -731,6 +803,7 @@
       "meta": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm.cragmeta",
       "debug": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm.cragdebug.json",
       "source": "conversions/stereo-to-mono-right/stereo-to-mono-right.crag.mlir",
+      "sources": "conversions/stereo-to-mono-right/stereo-to-mono-right.wasm.cragsrc.json",
       "short_desc": "Stereo-to-Mono Right-Channel Downmix"
     },
     {
@@ -741,6 +814,7 @@
       "meta": "distortion/cubic-distortion/cubic-distortion.wasm.cragmeta",
       "debug": "distortion/cubic-distortion/cubic-distortion.wasm.cragdebug.json",
       "source": "distortion/cubic-distortion/cubic-distortion.crag.mlir",
+      "sources": "distortion/cubic-distortion/cubic-distortion.wasm.cragsrc.json",
       "short_desc": "Cubic Soft Clipper"
     },
     {
@@ -751,6 +825,7 @@
       "meta": "distortion/fuzz/fuzz.wasm.cragmeta",
       "debug": "distortion/fuzz/fuzz.wasm.cragdebug.json",
       "source": "distortion/fuzz/fuzz.crag.mlir",
+      "sources": "distortion/fuzz/fuzz.wasm.cragsrc.json",
       "short_desc": "Fuzz Distortion"
     },
     {
@@ -761,6 +836,7 @@
       "meta": "distortion/hard-clipper/hard-clipper.wasm.cragmeta",
       "debug": "distortion/hard-clipper/hard-clipper.wasm.cragdebug.json",
       "source": "distortion/hard-clipper/hard-clipper.crag.mlir",
+      "sources": "distortion/hard-clipper/hard-clipper.wasm.cragsrc.json",
       "short_desc": "Hard Clipper"
     },
     {
@@ -771,6 +847,7 @@
       "meta": "distortion/soft-clipper/soft-clipper.wasm.cragmeta",
       "debug": "distortion/soft-clipper/soft-clipper.wasm.cragdebug.json",
       "source": "distortion/soft-clipper/soft-clipper.crag.mlir",
+      "sources": "distortion/soft-clipper/soft-clipper.wasm.cragsrc.json",
       "short_desc": "Soft Clipper (Tanh Saturation)"
     },
     {
@@ -781,6 +858,7 @@
       "meta": "filtering/envelope-filter/envelope-filter.wasm.cragmeta",
       "debug": "filtering/envelope-filter/envelope-filter.wasm.cragdebug.json",
       "source": "filtering/envelope-filter/envelope-filter.crag.mlir",
+      "sources": "filtering/envelope-filter/envelope-filter.wasm.cragsrc.json",
       "short_desc": "Envelope-Driven Filter (Auto-Wah)"
     },
     {
@@ -791,6 +869,7 @@
       "meta": "filtering/lfo-filter/lfo-filter.wasm.cragmeta",
       "debug": "filtering/lfo-filter/lfo-filter.wasm.cragdebug.json",
       "source": "filtering/lfo-filter/lfo-filter.crag.mlir",
+      "sources": "filtering/lfo-filter/lfo-filter.wasm.cragsrc.json",
       "short_desc": "LFO-Driven Filter"
     },
     {
@@ -801,6 +880,7 @@
       "meta": "filtering/multiband-eq/multiband-eq.wasm.cragmeta",
       "debug": "filtering/multiband-eq/multiband-eq.wasm.cragdebug.json",
       "source": "filtering/multiband-eq/multiband-eq.crag.mlir",
+      "sources": "filtering/multiband-eq/multiband-eq.wasm.cragsrc.json",
       "short_desc": "Multiband EQ (3-Band)"
     },
     {
@@ -811,7 +891,19 @@
       "meta": "granulation/granulator/granulator.wasm.cragmeta",
       "debug": "granulation/granulator/granulator.wasm.cragdebug.json",
       "source": "granulation/granulator/granulator.crag.mlir",
+      "sources": "granulation/granulator/granulator.wasm.cragsrc.json",
       "short_desc": "Granulator"
+    },
+    {
+      "stem": "granulator2",
+      "subdir": "granulation",
+      "name": "granulator2",
+      "wasm": "granulation/granulator2/granulator2.wasm",
+      "meta": "granulation/granulator2/granulator2.wasm.cragmeta",
+      "debug": "granulation/granulator2/granulator2.wasm.cragdebug.json",
+      "source": "granulation/granulator2/granulator2.crag.mlir",
+      "sources": "granulation/granulator2/granulator2.wasm.cragsrc.json",
+      "short_desc": "Granulator 2"
     },
     {
       "stem": "chorus",
@@ -821,6 +913,7 @@
       "meta": "modulation/chorus/chorus.wasm.cragmeta",
       "debug": "modulation/chorus/chorus.wasm.cragdebug.json",
       "source": "modulation/chorus/chorus.crag.mlir",
+      "sources": "modulation/chorus/chorus.wasm.cragsrc.json",
       "short_desc": "Stereo Chorus"
     },
     {
@@ -831,6 +924,7 @@
       "meta": "modulation/flanger/flanger.wasm.cragmeta",
       "debug": "modulation/flanger/flanger.wasm.cragdebug.json",
       "source": "modulation/flanger/flanger.crag.mlir",
+      "sources": "modulation/flanger/flanger.wasm.cragsrc.json",
       "short_desc": "Flanger"
     },
     {
@@ -841,6 +935,7 @@
       "meta": "modulation/phaser/phaser.wasm.cragmeta",
       "debug": "modulation/phaser/phaser.wasm.cragdebug.json",
       "source": "modulation/phaser/phaser.crag.mlir",
+      "sources": "modulation/phaser/phaser.wasm.cragsrc.json",
       "short_desc": "Phaser"
     },
     {
@@ -851,6 +946,7 @@
       "meta": "modulation/vibrato/vibrato.wasm.cragmeta",
       "debug": "modulation/vibrato/vibrato.wasm.cragdebug.json",
       "source": "modulation/vibrato/vibrato.crag.mlir",
+      "sources": "modulation/vibrato/vibrato.wasm.cragsrc.json",
       "short_desc": "Vibrato"
     },
     {
@@ -861,6 +957,7 @@
       "meta": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm.cragmeta",
       "debug": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm.cragdebug.json",
       "source": "physical/ceramic_plate/ceramic_plate/ceramic_plate.crag.mlir",
+      "sources": "physical/ceramic_plate/ceramic_plate/ceramic_plate.wasm.cragsrc.json",
       "short_desc": "Modal synthesis graph for object 'ceramic_plate'."
     },
     {
@@ -871,6 +968,7 @@
       "meta": "physical/metal_plate/metal_plate/metal_plate.wasm.cragmeta",
       "debug": "physical/metal_plate/metal_plate/metal_plate.wasm.cragdebug.json",
       "source": "physical/metal_plate/metal_plate/metal_plate.crag.mlir",
+      "sources": "physical/metal_plate/metal_plate/metal_plate.wasm.cragsrc.json",
       "short_desc": "Modal synthesis graph for object 'metal_plate'."
     },
     {
@@ -881,6 +979,7 @@
       "meta": "physical/wooden_block/wooden_block/wooden_block.wasm.cragmeta",
       "debug": "physical/wooden_block/wooden_block/wooden_block.wasm.cragdebug.json",
       "source": "physical/wooden_block/wooden_block/wooden_block.crag.mlir",
+      "sources": "physical/wooden_block/wooden_block/wooden_block.wasm.cragsrc.json",
       "short_desc": "Modal synthesis graph for object 'wooden_block'."
     },
     {
@@ -891,6 +990,7 @@
       "meta": "playback/image_reader/image_reader.wasm.cragmeta",
       "debug": "playback/image_reader/image_reader.wasm.cragdebug.json",
       "source": "playback/image_reader/image_reader.crag.mlir",
+      "sources": "playback/image_reader/image_reader.wasm.cragsrc.json",
       "short_desc": "Image Reader"
     },
     {
@@ -901,6 +1001,7 @@
       "meta": "playback/random-wave/random-wave.wasm.cragmeta",
       "debug": "playback/random-wave/random-wave.wasm.cragdebug.json",
       "source": "playback/random-wave/random-wave.crag.mlir",
+      "sources": "playback/random-wave/random-wave.wasm.cragsrc.json",
       "short_desc": "Random Wave"
     },
     {
@@ -911,6 +1012,7 @@
       "meta": "playback/wave_player_retrigger/wave_player_retrigger.wasm.cragmeta",
       "debug": "playback/wave_player_retrigger/wave_player_retrigger.wasm.cragdebug.json",
       "source": "playback/wave_player_retrigger/wave_player_retrigger.crag.mlir",
+      "sources": "playback/wave_player_retrigger/wave_player_retrigger.wasm.cragsrc.json",
       "short_desc": "Wave Player Retrigger"
     },
     {
@@ -921,6 +1023,7 @@
       "meta": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm.cragmeta",
       "debug": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm.cragdebug.json",
       "source": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.crag.mlir",
+      "sources": "resamplers/bandlimited-sinc-resampler/bandlimited-sinc-resampler.wasm.cragsrc.json",
       "short_desc": "Band-Limited Sinc Resampler"
     },
     {
@@ -931,6 +1034,7 @@
       "meta": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm.cragmeta",
       "debug": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm.cragdebug.json",
       "source": "resamplers/lagrangian-resampler/lagrangian-resampler.crag.mlir",
+      "sources": "resamplers/lagrangian-resampler/lagrangian-resampler.wasm.cragsrc.json",
       "short_desc": "Lagrangian Resampler (4-point Cubic Polynomial Interpolation)"
     },
     {
@@ -941,6 +1045,7 @@
       "meta": "resamplers/thiran-resampler/thiran-resampler.wasm.cragmeta",
       "debug": "resamplers/thiran-resampler/thiran-resampler.wasm.cragdebug.json",
       "source": "resamplers/thiran-resampler/thiran-resampler.crag.mlir",
+      "sources": "resamplers/thiran-resampler/thiran-resampler.wasm.cragsrc.json",
       "short_desc": "Thiran Resampler (Allpass-Chain Fractional Delay)"
     },
     {
@@ -951,6 +1056,7 @@
       "meta": "reverb/convolution-reverb/convolution-reverb.wasm.cragmeta",
       "debug": "reverb/convolution-reverb/convolution-reverb.wasm.cragdebug.json",
       "source": "reverb/convolution-reverb/convolution-reverb.crag.mlir",
+      "sources": "reverb/convolution-reverb/convolution-reverb.wasm.cragsrc.json",
       "short_desc": "Convolution Reverb"
     },
     {
@@ -961,6 +1067,7 @@
       "meta": "reverb/fft-convolution/fft-convolution.wasm.cragmeta",
       "debug": "reverb/fft-convolution/fft-convolution.wasm.cragdebug.json",
       "source": "reverb/fft-convolution/fft-convolution.crag.mlir",
+      "sources": "reverb/fft-convolution/fft-convolution.wasm.cragsrc.json",
       "short_desc": "FFT Convolution"
     },
     {
@@ -971,6 +1078,7 @@
       "meta": "reverb/freeverb/freeverb.wasm.cragmeta",
       "debug": "reverb/freeverb/freeverb.wasm.cragdebug.json",
       "source": "reverb/freeverb/freeverb.crag.mlir",
+      "sources": "reverb/freeverb/freeverb.wasm.cragsrc.json",
       "short_desc": "Freeverb-Inspired Reverb"
     },
     {
@@ -981,6 +1089,7 @@
       "meta": "reverb/schroeder-reverb/schroeder-reverb.wasm.cragmeta",
       "debug": "reverb/schroeder-reverb/schroeder-reverb.wasm.cragdebug.json",
       "source": "reverb/schroeder-reverb/schroeder-reverb.crag.mlir",
+      "sources": "reverb/schroeder-reverb/schroeder-reverb.wasm.cragsrc.json",
       "short_desc": "Schroeder Reverberator"
     },
     {
@@ -991,6 +1100,7 @@
       "meta": "sequencing/conductor/conductor.wasm.cragmeta",
       "debug": "sequencing/conductor/conductor.wasm.cragdebug.json",
       "source": "sequencing/conductor/conductor.crag.mlir",
+      "sources": "sequencing/conductor/conductor.wasm.cragsrc.json",
       "short_desc": "Conductor graph \u2014 tempo clock with public beat/measure control outputs."
     },
     {
@@ -1001,6 +1111,7 @@
       "meta": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm.cragmeta",
       "debug": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm.cragdebug.json",
       "source": "sequencing/simple_amp_sequencer/simple_amp_sequencer.crag.mlir",
+      "sources": "sequencing/simple_amp_sequencer/simple_amp_sequencer.wasm.cragsrc.json",
       "short_desc": "Simple amplitude sequencer \u2014 applies beat-indexed gain steps to audio."
     },
     {
@@ -1011,6 +1122,7 @@
       "meta": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm.cragmeta",
       "debug": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm.cragdebug.json",
       "source": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.crag.mlir",
+      "sources": "spatial/cipic/hrtf_spatializer_cipic/hrtf_spatializer_cipic.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (CIPIC, fixed-position renderer)"
     },
     {
@@ -1021,6 +1133,7 @@
       "meta": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm.cragmeta",
       "debug": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm.cragdebug.json",
       "source": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.crag.mlir",
+      "sources": "spatial/cipic/hrtf_spatializer_cipic_interp/hrtf_spatializer_cipic_interp.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (CIPIC, k=3 linear-interpolation renderer)"
     },
     {
@@ -1031,6 +1144,7 @@
       "meta": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm.cragmeta",
       "debug": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm.cragdebug.json",
       "source": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.crag.mlir",
+      "sources": "spatial/cipic/hrtf_spatializer_cipic_runtime/hrtf_spatializer_cipic_runtime.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (CIPIC, runtime-position renderer)"
     },
     {
@@ -1041,6 +1155,7 @@
       "meta": "spatial/hrtf_spatializer/hrtf_spatializer.wasm.cragmeta",
       "debug": "spatial/hrtf_spatializer/hrtf_spatializer.wasm.cragdebug.json",
       "source": "spatial/hrtf_spatializer/hrtf_spatializer.crag.mlir",
+      "sources": "spatial/hrtf_spatializer/hrtf_spatializer.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (Naive ITD/ILD Reference)"
     },
     {
@@ -1051,6 +1166,7 @@
       "meta": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm.cragmeta",
       "debug": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm.cragdebug.json",
       "source": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.crag.mlir",
+      "sources": "spatial/ss2/hrtf_spatializer_ss2/hrtf_spatializer_ss2.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (SS2, fixed-position renderer)"
     },
     {
@@ -1061,6 +1177,7 @@
       "meta": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm.cragmeta",
       "debug": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm.cragdebug.json",
       "source": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.crag.mlir",
+      "sources": "spatial/ss2/hrtf_spatializer_ss2_interp/hrtf_spatializer_ss2_interp.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (SS2, k=3 linear-interpolation renderer)"
     },
     {
@@ -1071,6 +1188,7 @@
       "meta": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragmeta",
       "debug": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragdebug.json",
       "source": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.crag.mlir",
+      "sources": "spatial/ss2/hrtf_spatializer_ss2_runtime/hrtf_spatializer_ss2_runtime.wasm.cragsrc.json",
       "short_desc": "HRTF Spatializer (SS2, runtime-position renderer)"
     },
     {
@@ -1081,6 +1199,7 @@
       "meta": "spectral/fft_block_echo/fft_block_echo.wasm.cragmeta",
       "debug": "spectral/fft_block_echo/fft_block_echo.wasm.cragdebug.json",
       "source": "spectral/fft_block_echo/fft_block_echo.crag.mlir",
+      "sources": "spectral/fft_block_echo/fft_block_echo.wasm.cragsrc.json",
       "short_desc": "FFT Block Echo"
     },
     {
@@ -1091,6 +1210,7 @@
       "meta": "spectral/fft_round_trip/fft_round_trip.wasm.cragmeta",
       "debug": "spectral/fft_round_trip/fft_round_trip.wasm.cragdebug.json",
       "source": "spectral/fft_round_trip/fft_round_trip.crag.mlir",
+      "sources": "spectral/fft_round_trip/fft_round_trip.wasm.cragsrc.json",
       "short_desc": "FFT Round-Trip"
     },
     {
@@ -1101,6 +1221,7 @@
       "meta": "spectral/spectral_block_delay/spectral_block_delay.wasm.cragmeta",
       "debug": "spectral/spectral_block_delay/spectral_block_delay.wasm.cragdebug.json",
       "source": "spectral/spectral_block_delay/spectral_block_delay.crag.mlir",
+      "sources": "spectral/spectral_block_delay/spectral_block_delay.wasm.cragsrc.json",
       "short_desc": "Spectral Block Delay"
     },
     {
@@ -1111,6 +1232,7 @@
       "meta": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm.cragmeta",
       "debug": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm.cragdebug.json",
       "source": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.crag.mlir",
+      "sources": "spectral/spectral_cross_synthesis/spectral_cross_synthesis.wasm.cragsrc.json",
       "short_desc": "Spectral Cross-Synthesis"
     },
     {
@@ -1121,6 +1243,7 @@
       "meta": "spectral/spectral_self_convolution/spectral_self_convolution.wasm.cragmeta",
       "debug": "spectral/spectral_self_convolution/spectral_self_convolution.wasm.cragdebug.json",
       "source": "spectral/spectral_self_convolution/spectral_self_convolution.crag.mlir",
+      "sources": "spectral/spectral_self_convolution/spectral_self_convolution.wasm.cragsrc.json",
       "short_desc": "Spectral Self-Convolution"
     },
     {
@@ -1131,6 +1254,7 @@
       "meta": "synth/mono_synth/mono_synth.wasm.cragmeta",
       "debug": "synth/mono_synth/mono_synth.wasm.cragdebug.json",
       "source": "synth/mono_synth/mono_synth.crag.mlir",
+      "sources": "synth/mono_synth/mono_synth.wasm.cragsrc.json",
       "short_desc": "Monophonic synthesizer \u2014 music_note event \u2192 oscillator \u2192 filter \u2192 envelope"
     },
     {
@@ -1141,6 +1265,7 @@
       "meta": "utility/adsr/adsr.wasm.cragmeta",
       "debug": "utility/adsr/adsr.wasm.cragdebug.json",
       "source": "utility/adsr/adsr.crag.mlir",
+      "sources": "utility/adsr/adsr.wasm.cragsrc.json",
       "short_desc": "ADSR Envelope Generator"
     },
     {
@@ -1151,6 +1276,7 @@
       "meta": "utility/amplitude_envelope/amplitude_envelope.wasm.cragmeta",
       "debug": "utility/amplitude_envelope/amplitude_envelope.wasm.cragdebug.json",
       "source": "utility/amplitude_envelope/amplitude_envelope.crag.mlir",
+      "sources": "utility/amplitude_envelope/amplitude_envelope.wasm.cragsrc.json",
       "short_desc": "Amplitude Envelope"
     },
     {
@@ -1161,6 +1287,7 @@
       "meta": "utility/delay/delay.wasm.cragmeta",
       "debug": "utility/delay/delay.wasm.cragdebug.json",
       "source": "utility/delay/delay.crag.mlir",
+      "sources": "utility/delay/delay.wasm.cragsrc.json",
       "short_desc": "Delay"
     },
     {
@@ -1171,6 +1298,7 @@
       "meta": "utility/filter/filter.wasm.cragmeta",
       "debug": "utility/filter/filter.wasm.cragdebug.json",
       "source": "utility/filter/filter.crag.mlir",
+      "sources": "utility/filter/filter.wasm.cragsrc.json",
       "short_desc": "Filter"
     },
     {
@@ -1181,6 +1309,7 @@
       "meta": "utility/gain/gain.wasm.cragmeta",
       "debug": "utility/gain/gain.wasm.cragdebug.json",
       "source": "utility/gain/gain.crag.mlir",
+      "sources": "utility/gain/gain.wasm.cragsrc.json",
       "short_desc": "Gain"
     },
     {
@@ -1191,6 +1320,7 @@
       "meta": "utility/logic/bang_note/bang_note.wasm.cragmeta",
       "debug": "utility/logic/bang_note/bang_note.wasm.cragdebug.json",
       "source": "utility/logic/bang_note/bang_note.crag.mlir",
+      "sources": "utility/logic/bang_note/bang_note.wasm.cragsrc.json",
       "short_desc": "Bang Note \u2014 fire a music_note struct event on demand."
     },
     {
@@ -1201,6 +1331,7 @@
       "meta": "utility/logic/block_lfo/block_lfo.wasm.cragmeta",
       "debug": "utility/logic/block_lfo/block_lfo.wasm.cragdebug.json",
       "source": "utility/logic/block_lfo/block_lfo.crag.mlir",
+      "sources": "utility/logic/block_lfo/block_lfo.wasm.cragsrc.json",
       "short_desc": "Block LFO \u2014 block-rate low-frequency oscillator with sample-accurate retrigger."
     },
     {
@@ -1211,6 +1342,7 @@
       "meta": "utility/logic/float_peak/float_peak.wasm.cragmeta",
       "debug": "utility/logic/float_peak/float_peak.wasm.cragdebug.json",
       "source": "utility/logic/float_peak/float_peak.crag.mlir",
+      "sources": "utility/logic/float_peak/float_peak.wasm.cragsrc.json",
       "short_desc": "Float Peak \u2014 track the running maximum of a float parameter."
     },
     {
@@ -1221,6 +1353,7 @@
       "meta": "utility/logic/observe_float/observe_float.wasm.cragmeta",
       "debug": "utility/logic/observe_float/observe_float.wasm.cragdebug.json",
       "source": "utility/logic/observe_float/observe_float.crag.mlir",
+      "sources": "utility/logic/observe_float/observe_float.wasm.cragsrc.json",
       "short_desc": "Observe Float \u2014 emit an event when a float parameter changes."
     },
     {
@@ -1231,6 +1364,7 @@
       "meta": "utility/noise/noise.wasm.cragmeta",
       "debug": "utility/noise/noise.wasm.cragdebug.json",
       "source": "utility/noise/noise.crag.mlir",
+      "sources": "utility/noise/noise.wasm.cragsrc.json",
       "short_desc": "White Noise"
     },
     {
@@ -1241,6 +1375,7 @@
       "meta": "utility/osc/osc.wasm.cragmeta",
       "debug": "utility/osc/osc.wasm.cragdebug.json",
       "source": "utility/osc/osc.crag.mlir",
+      "sources": "utility/osc/osc.wasm.cragsrc.json",
       "short_desc": "Osc"
     },
     {
@@ -1251,6 +1386,7 @@
       "meta": "utility/saw/saw.wasm.cragmeta",
       "debug": "utility/saw/saw.wasm.cragdebug.json",
       "source": "utility/saw/saw.crag.mlir",
+      "sources": "utility/saw/saw.wasm.cragsrc.json",
       "short_desc": "Saw Tone"
     },
     {
@@ -1261,6 +1397,7 @@
       "meta": "utility/select2/select2.wasm.cragmeta",
       "debug": "utility/select2/select2.wasm.cragdebug.json",
       "source": "utility/select2/select2.crag.mlir",
+      "sources": "utility/select2/select2.wasm.cragsrc.json",
       "short_desc": "Select2"
     }
   ]

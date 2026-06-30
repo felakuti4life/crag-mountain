@@ -60,7 +60,22 @@ function _makeImports(heapState, memState) {
         const sz = typeof size === "bigint" ? Number(size) : size;
         const aligned = (sz + 7) & ~7;
         const ptr = heapState.ptr;
-        heapState.ptr += aligned;
+        const next = ptr + aligned;
+        // Grow the WASM linear memory if the bump pointer would run past the
+        // current buffer.  Crucial for visualizers, whose kernels allocate
+        // multi-MiB scratch textures via memref.alloc: the default 16 MiB
+        // module memory is not enough for a 1024×512 RGBA-float canvas, so
+        // without growing here crag_visualize() traps with "memory access out
+        // of bounds" — which previously broke both the texture view and (once
+        // the leaked viz allocations pushed crag_process past the limit) block
+        // stepping itself.  Mirrors crag_player.js's AudioWorklet malloc.
+        if (memState.memory && next > memState.memory.buffer.byteLength) {
+          const pages = Math.ceil(
+            (next - memState.memory.buffer.byteLength) / 65536,
+          );
+          if (memState.memory.grow(pages) < 0) return 0;
+        }
+        heapState.ptr = next;
         return ptr;
       },
       free() {},
@@ -156,6 +171,12 @@ let _numVisualizers = 0;
 let _isStablePtr    = 0;
 let _samplePos      = 0;
 let _blockCount     = 0;
+let _numSamplers    = 0;
+let _bindSamplerFn  = null;
+let _fireEventFn    = null;
+let _fireEventF32Fn = null;
+let _fireEventI32Fn = null;
+let _fireEventStructFn = null;
 
 // Debug-mode hit/break state (implemented in JS, not WASM).
 let _hit            = 0;     // 0 = no hit; otherwise a probe id (1-based)
@@ -202,6 +223,16 @@ async function _doInit(wasmBuffer, meta, debugInfo) {
   _vizWidthFn   = _exports.crag_viz_width  || null;
   _vizHeightFn  = _exports.crag_viz_height || null;
 
+  // Sampler binding + event firing (so input-driven graphs — wave_player
+  // wrappers, synths — can be driven with a test signal / note from the UI
+  // instead of sitting silent).  Mirrors crag_player.js's export probing.
+  _numSamplers       = _exports.crag_num_audio ? _exports.crag_num_audio() : 0;
+  _bindSamplerFn     = _exports.crag_bind_audio_by_index || null;
+  _fireEventFn       = _exports.crag_fire_event        || null;
+  _fireEventF32Fn    = _exports.crag_fire_event_float  || null;
+  _fireEventI32Fn    = _exports.crag_fire_event_int    || null;
+  _fireEventStructFn = _exports.crag_fire_event_struct || null;
+
   // Apply parameter defaults from meta so the first runBlock matches the UI.
   if (_paramsPtr && _meta.parameters) {
     const f32 = new Float32Array(_memory.buffer);
@@ -231,8 +262,95 @@ async function _doInit(wasmBuffer, meta, debugInfo) {
     channels:     _channels,
     numProbes:    1,                // synthesized probe 0 = crag_output
     numTexProbes: _numVisualizers,
+    numSamplers:  _numSamplers,
     hasInstability: _isStablePtr !== 0,
   });
+}
+
+// ---------------------------------------------------------------------------
+// Input driving (samplers + events)
+// ---------------------------------------------------------------------------
+
+/// Copy `samples` (a Float32Array) into a *persistent* heap region and bind it
+/// to sampler slot `idx`.  Must be called while stopped, before stepping, so
+/// the allocation sits below the per-block heap snapshot and is never reclaimed
+/// by _runOneBlock's bump-pointer restore.
+function _bindSamplerData(idx, samples) {
+  if (!_bindSamplerFn || !_memory || !samples || !samples.length) return;
+  const numSamples = samples.length;
+  const byteLen = numSamples * 4;
+  const aligned = (byteLen + 7) & ~7;
+  const ptr = _heapState.ptr;
+  const next = ptr + aligned;
+  if (next > _memory.buffer.byteLength) {
+    const pages = Math.ceil((next - _memory.buffer.byteLength) / 65536);
+    if (_memory.grow(pages) < 0) return;
+  }
+  _heapState.ptr = next;
+  new Float32Array(_memory.buffer, ptr, numSamples).set(samples);
+  _bindSamplerFn(idx | 0, BigInt(ptr), numSamples);
+}
+
+/// Synthesize a short, sampler-conforming test signal and bind it to every
+/// sampler slot, so wave_player-wrapped graphs (samplers + start/stop events)
+/// produce a non-silent waveform in the debugger instead of reading an unbound
+/// (zero) sample buffer.  The signal is generated at each sampler's own target
+/// sample-rate / channel-count (read from the crag_sampler_<i>_target_* globals
+/// the compiler emits) so it matches the flat read loop with no resampling.
+function _driveTestInput(waveform, seconds) {
+  if (!_bindSamplerFn || !_numSamplers) return 0;
+  let bound = 0;
+  for (let i = 0; i < _numSamplers; i++) {
+    const srG = _exports["crag_sampler_" + i + "_target_sample_rate"];
+    const chG = _exports["crag_sampler_" + i + "_target_channels"];
+    const sr = srG && srG.value ? (srG.value | 0) : (_sampleRate || 48000);
+    const ch = chG && chG.value ? (chG.value | 0) : 1;
+    const frames = Math.max(1, Math.floor(sr * (seconds || 2)));
+    const data = new Float32Array(frames * ch);
+    const twoPiF = (2 * Math.PI * 220) / sr; // 220 Hz reference tone
+    let phase = 0;
+    for (let f = 0; f < frames; f++) {
+      let s;
+      if (waveform === "noise") {
+        s = Math.random() * 2 - 1;
+      } else {
+        // 220 Hz sine with a slow tremolo so the waveform is visibly dynamic.
+        const env = 0.6 * (0.6 + 0.4 * Math.sin((2 * Math.PI * 2 * f) / sr));
+        s = env * Math.sin(phase);
+        phase += twoPiF;
+      }
+      for (let c = 0; c < ch; c++) data[f * ch + c] = s;
+    }
+    _bindSamplerData(i, data);
+    bound++;
+  }
+  return bound;
+}
+
+/// Fire a void / float / int / struct event by index at `sampleOffset`.
+function _fireEvent(idx, sampleOffset, value, subtype, structBytes) {
+  const off = sampleOffset | 0;
+  if (subtype === "struct" && _fireEventStructFn && structBytes &&
+      structBytes.byteLength > 0) {
+    const bytes = new Uint8Array(structBytes);
+    const aligned = (bytes.byteLength + 7) & ~7;
+    const ptr = _heapState.ptr;
+    const next = ptr + aligned;
+    if (next > _memory.buffer.byteLength) {
+      const pages = Math.ceil((next - _memory.buffer.byteLength) / 65536);
+      if (_memory.grow(pages) < 0) return;
+    }
+    _heapState.ptr = next;
+    new Uint8Array(_memory.buffer, ptr, bytes.byteLength).set(bytes);
+    _fireEventStructFn(idx | 0, off, BigInt(ptr), bytes.byteLength);
+  } else if (subtype === "float" && _fireEventF32Fn) {
+    _fireEventF32Fn(idx | 0, off, Number(value));
+  } else if ((subtype === "int" || subtype === "bool" || subtype === "enum") &&
+             _fireEventI32Fn) {
+    _fireEventI32Fn(idx | 0, off, Number(value) | 0);
+  } else if (_fireEventFn) {
+    _fireEventFn(idx | 0, off);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -247,20 +365,36 @@ function _snapshotOutput() {
   return new Float32Array(src);  // copy detaches from WASM memory
 }
 
-/// Snapshot one visualizer texture as RGBA Uint8ClampedArray.
+/// Snapshot one visualizer texture as an RGBA Uint8ClampedArray.
+///
+/// The visualizer writes its canvas to `crag_viz_output` as **float** RGBA in
+/// the 0..1 range (w*h*4 floats), exactly like the AudioWorklet path in
+/// crag_player.js — so we read Float32 and clamp to bytes here (the previous
+/// code read the float bytes directly as Uint8, producing garbage colours).
+/// The bump pointer is snapshotted before the call and restored afterwards
+/// (on success *and* trap) so the multi-MiB scratch buffers the kernel
+/// allocates are reclaimed every frame instead of leaking the arena away.
 function _snapshotTexture(idx) {
   if (!_vizFn || !_vizOutputPtr || !_vizWidthFn || !_vizHeightFn) return null;
+  const heapBefore = _heapState.ptr;
   try {
     _vizFn(idx);
   } catch (e) {
+    _heapState.ptr = heapBefore;
     return null;
   }
+  _heapState.ptr = heapBefore;
   const w = _vizWidthFn(idx)  | 0;
   const h = _vizHeightFn(idx) | 0;
   if (w <= 0 || h <= 0) return null;
-  const byteLen = w * h * 4;
-  const src = new Uint8ClampedArray(_memory.buffer, _vizOutputPtr, byteLen);
-  return { idx, width: w, height: h, rgba: new Uint8ClampedArray(src) };
+  const pixels = w * h * 4;                    // RGBA components
+  const byteOffset = _vizOutputPtr | 0;
+  if (byteOffset + pixels * 4 > _memory.buffer.byteLength) return null;
+  const f32 = new Float32Array(_memory.buffer, byteOffset, pixels);
+  const rgba = new Uint8ClampedArray(pixels);
+  for (let i = 0; i < pixels; i++)
+    rgba[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
+  return { idx, width: w, height: h, rgba };
 }
 
 /// Compute simple stats over the output buffer (NaN/Inf/peak).
@@ -423,6 +557,18 @@ self.onmessage = async (ev) => {
         break;
       case "setSpeed":
         _delayMs = Math.max(0, Number(m.delayMs) || 0);
+        break;
+      case "bindSampler":
+        _bindSamplerData(m.idx | 0, m.samples);
+        break;
+      case "driveTestInput": {
+        const n = _driveTestInput(m.waveform || "tone", Number(m.seconds) || 2);
+        postMessage({ type: "drivenInput", numSamplers: n });
+        break;
+      }
+      case "fireEvent":
+        _fireEvent(m.idx | 0, m.sampleOffset | 0, m.value,
+                   m.subtype || "void", m.structBytes || null);
         break;
       case "setParam":
         if (_paramsPtr && _memory)
