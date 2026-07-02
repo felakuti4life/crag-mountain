@@ -3,7 +3,7 @@
   "block_size": 512,
   "sample_rate": 48000,
   "channels":    1,
-  "compiled_with": "4fd4e4a",
+  "compiled_with": "a469bb9",
   "adaa": {
     "mode": "first-order",
     "tanh_count": 0,
@@ -313,7 +313,7 @@
       "id": 23,
       "op": "crag.channel_join",
       "name": "",
-      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpw9o8jsuz\\simple_amp_sequencer.wrapper.mlir",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpb8c3mb5w\\simple_amp_sequencer.wrapper.mlir",
       "line": 8,
       "col": 14,
       "graph_stack": [],

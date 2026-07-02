@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "gen_datetime": "2026-06-30 06:43 UTC",
-  "git_commit": "3b94262",
+  "gen_datetime": "2026-07-02 08:29 UTC",
+  "git_commit": "c24426e",
   "targets": [
     {
       "stem": "big_muff_full",
