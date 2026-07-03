@@ -56,217 +56,389 @@ module {
     // ── Resonator bank (one IIR per surviving mode) ──────────────────────
     %m0_cutoff = arith.constant 0.0517170119 : f32
     %m0_gain   = arith.constant 0.913819931 : f32
-    %m0_fb, %m0_ff = crag.get_filter_coeffs %m0_cutoff order = 2 q = 734.133555 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m0_q_base = arith.constant 734.133555 : f32
+    %m0_q_slope = arith.constant -733.633555 : f32
+    %m0_q_delta = arith.mulf %dampen, %m0_q_slope : f32
+    %m0_q_eff = arith.addf %m0_q_base, %m0_q_delta : f32
+    %m0_fb, %m0_ff = crag.get_filter_coeffs %m0_cutoff order = 2 q_runtime = %m0_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m0_raw = crag.filter %excitation, %m0_fb, %m0_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_0_out = crag.scale %m0_raw, %m0_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m1_cutoff = arith.constant 0.0785333521 : f32
     %m1_gain   = arith.constant 0.453546942 : f32
-    %m1_fb, %m1_ff = crag.get_filter_coeffs %m1_cutoff order = 2 q = 525.473793 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m1_q_base = arith.constant 525.473793 : f32
+    %m1_q_slope = arith.constant -524.973793 : f32
+    %m1_q_delta = arith.mulf %dampen, %m1_q_slope : f32
+    %m1_q_eff = arith.addf %m1_q_base, %m1_q_delta : f32
+    %m1_fb, %m1_ff = crag.get_filter_coeffs %m1_cutoff order = 2 q_runtime = %m1_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m1_raw = crag.filter %excitation, %m1_fb, %m1_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_1_out = crag.scale %m1_raw, %m1_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m2_cutoff = arith.constant 0.125230253 : f32
     %m2_gain   = arith.constant 0.0670371924 : f32
-    %m2_fb, %m2_ff = crag.get_filter_coeffs %m2_cutoff order = 2 q = 343.398015 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m2_q_base = arith.constant 343.398015 : f32
+    %m2_q_slope = arith.constant -342.898015 : f32
+    %m2_q_delta = arith.mulf %dampen, %m2_q_slope : f32
+    %m2_q_eff = arith.addf %m2_q_base, %m2_q_delta : f32
+    %m2_fb, %m2_ff = crag.get_filter_coeffs %m2_cutoff order = 2 q_runtime = %m2_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m2_raw = crag.filter %excitation, %m2_fb, %m2_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_2_out = crag.scale %m2_raw, %m2_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m3_cutoff = arith.constant 0.146679203 : f32
     %m3_gain   = arith.constant 0.925735052 : f32
-    %m3_fb, %m3_ff = crag.get_filter_coeffs %m3_cutoff order = 2 q = 295.36676 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m3_q_base = arith.constant 295.36676 : f32
+    %m3_q_slope = arith.constant -294.86676 : f32
+    %m3_q_delta = arith.mulf %dampen, %m3_q_slope : f32
+    %m3_q_eff = arith.addf %m3_q_base, %m3_q_delta : f32
+    %m3_fb, %m3_ff = crag.get_filter_coeffs %m3_cutoff order = 2 q_runtime = %m3_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m3_raw = crag.filter %excitation, %m3_fb, %m3_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_3_out = crag.scale %m3_raw, %m3_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m4_cutoff = arith.constant 0.180717533 : f32
     %m4_gain   = arith.constant 0.129164368 : f32
-    %m4_fb, %m4_ff = crag.get_filter_coeffs %m4_cutoff order = 2 q = 241.383979 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m4_q_base = arith.constant 241.383979 : f32
+    %m4_q_slope = arith.constant -240.883979 : f32
+    %m4_q_delta = arith.mulf %dampen, %m4_q_slope : f32
+    %m4_q_eff = arith.addf %m4_q_base, %m4_q_delta : f32
+    %m4_fb, %m4_ff = crag.get_filter_coeffs %m4_cutoff order = 2 q_runtime = %m4_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m4_raw = crag.filter %excitation, %m4_fb, %m4_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_4_out = crag.scale %m4_raw, %m4_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m5_cutoff = arith.constant 0.216245851 : f32
     %m5_gain   = arith.constant 0.130387542 : f32
-    %m5_fb, %m5_ff = crag.get_filter_coeffs %m5_cutoff order = 2 q = 202.53717 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m5_q_base = arith.constant 202.53717 : f32
+    %m5_q_slope = arith.constant -202.03717 : f32
+    %m5_q_delta = arith.mulf %dampen, %m5_q_slope : f32
+    %m5_q_eff = arith.addf %m5_q_base, %m5_q_delta : f32
+    %m5_fb, %m5_ff = crag.get_filter_coeffs %m5_cutoff order = 2 q_runtime = %m5_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m5_raw = crag.filter %excitation, %m5_fb, %m5_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_5_out = crag.scale %m5_raw, %m5_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m6_cutoff = arith.constant 0.226883997 : f32
     %m6_gain   = arith.constant 1.23677123 : f32
-    %m6_fb, %m6_ff = crag.get_filter_coeffs %m6_cutoff order = 2 q = 193.20544 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m6_q_base = arith.constant 193.20544 : f32
+    %m6_q_slope = arith.constant -192.70544 : f32
+    %m6_q_delta = arith.mulf %dampen, %m6_q_slope : f32
+    %m6_q_eff = arith.addf %m6_q_base, %m6_q_delta : f32
+    %m6_fb, %m6_ff = crag.get_filter_coeffs %m6_cutoff order = 2 q_runtime = %m6_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m6_raw = crag.filter %excitation, %m6_fb, %m6_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_6_out = crag.scale %m6_raw, %m6_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m7_cutoff = arith.constant 0.266917588 : f32
     %m7_gain   = arith.constant 0.877883471 : f32
-    %m7_fb, %m7_ff = crag.get_filter_coeffs %m7_cutoff order = 2 q = 164.61446 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m7_q_base = arith.constant 164.61446 : f32
+    %m7_q_slope = arith.constant -164.11446 : f32
+    %m7_q_delta = arith.mulf %dampen, %m7_q_slope : f32
+    %m7_q_eff = arith.addf %m7_q_base, %m7_q_delta : f32
+    %m7_fb, %m7_ff = crag.get_filter_coeffs %m7_cutoff order = 2 q_runtime = %m7_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m7_raw = crag.filter %excitation, %m7_fb, %m7_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_7_out = crag.scale %m7_raw, %m7_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m8_cutoff = arith.constant 0.313464533 : f32
     %m8_gain   = arith.constant 0.455274544 : f32
-    %m8_fb, %m8_ff = crag.get_filter_coeffs %m8_cutoff order = 2 q = 140.407361 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m8_q_base = arith.constant 140.407361 : f32
+    %m8_q_slope = arith.constant -139.907361 : f32
+    %m8_q_delta = arith.mulf %dampen, %m8_q_slope : f32
+    %m8_q_eff = arith.addf %m8_q_base, %m8_q_delta : f32
+    %m8_fb, %m8_ff = crag.get_filter_coeffs %m8_cutoff order = 2 q_runtime = %m8_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m8_raw = crag.filter %excitation, %m8_fb, %m8_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_8_out = crag.scale %m8_raw, %m8_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m9_cutoff = arith.constant 0.342296279 : f32
     %m9_gain   = arith.constant 0.0827614657 : f32
-    %m9_fb, %m9_ff = crag.get_filter_coeffs %m9_cutoff order = 2 q = 128.673308 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m9_q_base = arith.constant 128.673308 : f32
+    %m9_q_slope = arith.constant -128.173308 : f32
+    %m9_q_delta = arith.mulf %dampen, %m9_q_slope : f32
+    %m9_q_eff = arith.addf %m9_q_base, %m9_q_delta : f32
+    %m9_fb, %m9_ff = crag.get_filter_coeffs %m9_cutoff order = 2 q_runtime = %m9_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m9_raw = crag.filter %excitation, %m9_fb, %m9_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_9_out = crag.scale %m9_raw, %m9_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m10_cutoff = arith.constant 0.344346428 : f32
     %m10_gain   = arith.constant 0.0663816049 : f32
-    %m10_fb, %m10_ff = crag.get_filter_coeffs %m10_cutoff order = 2 q = 127.912899 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m10_q_base = arith.constant 127.912899 : f32
+    %m10_q_slope = arith.constant -127.412899 : f32
+    %m10_q_delta = arith.mulf %dampen, %m10_q_slope : f32
+    %m10_q_eff = arith.addf %m10_q_base, %m10_q_delta : f32
+    %m10_fb, %m10_ff = crag.get_filter_coeffs %m10_cutoff order = 2 q_runtime = %m10_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m10_raw = crag.filter %excitation, %m10_fb, %m10_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_10_out = crag.scale %m10_raw, %m10_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m11_cutoff = arith.constant 0.354005062 : f32
     %m11_gain   = arith.constant 0.173046472 : f32
-    %m11_fb, %m11_ff = crag.get_filter_coeffs %m11_cutoff order = 2 q = 124.447688 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m11_q_base = arith.constant 124.447688 : f32
+    %m11_q_slope = arith.constant -123.947688 : f32
+    %m11_q_delta = arith.mulf %dampen, %m11_q_slope : f32
+    %m11_q_eff = arith.addf %m11_q_base, %m11_q_delta : f32
+    %m11_fb, %m11_ff = crag.get_filter_coeffs %m11_cutoff order = 2 q_runtime = %m11_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m11_raw = crag.filter %excitation, %m11_fb, %m11_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_11_out = crag.scale %m11_raw, %m11_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m12_cutoff = arith.constant 0.362333062 : f32
     %m12_gain   = arith.constant 1.18629636 : f32
-    %m12_fb, %m12_ff = crag.get_filter_coeffs %m12_cutoff order = 2 q = 121.606659 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m12_q_base = arith.constant 121.606659 : f32
+    %m12_q_slope = arith.constant -121.106659 : f32
+    %m12_q_delta = arith.mulf %dampen, %m12_q_slope : f32
+    %m12_q_eff = arith.addf %m12_q_base, %m12_q_delta : f32
+    %m12_fb, %m12_ff = crag.get_filter_coeffs %m12_cutoff order = 2 q_runtime = %m12_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m12_raw = crag.filter %excitation, %m12_fb, %m12_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_12_out = crag.scale %m12_raw, %m12_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m13_cutoff = arith.constant 0.400164057 : f32
     %m13_gain   = arith.constant 0.178196401 : f32
-    %m13_fb, %m13_ff = crag.get_filter_coeffs %m13_cutoff order = 2 q = 110.176381 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m13_q_base = arith.constant 110.176381 : f32
+    %m13_q_slope = arith.constant -109.676381 : f32
+    %m13_q_delta = arith.mulf %dampen, %m13_q_slope : f32
+    %m13_q_eff = arith.addf %m13_q_base, %m13_q_delta : f32
+    %m13_fb, %m13_ff = crag.get_filter_coeffs %m13_cutoff order = 2 q_runtime = %m13_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m13_raw = crag.filter %excitation, %m13_fb, %m13_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_13_out = crag.scale %m13_raw, %m13_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m14_cutoff = arith.constant 0.454094499 : f32
     %m14_gain   = arith.constant 0.930928477 : f32
-    %m14_fb, %m14_ff = crag.get_filter_coeffs %m14_cutoff order = 2 q = 97.1507518 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m14_q_base = arith.constant 97.1507518 : f32
+    %m14_q_slope = arith.constant -96.6507518 : f32
+    %m14_q_delta = arith.mulf %dampen, %m14_q_slope : f32
+    %m14_q_eff = arith.addf %m14_q_base, %m14_q_delta : f32
+    %m14_fb, %m14_ff = crag.get_filter_coeffs %m14_cutoff order = 2 q_runtime = %m14_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m14_raw = crag.filter %excitation, %m14_fb, %m14_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_14_out = crag.scale %m14_raw, %m14_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m15_cutoff = arith.constant 0.473423864 : f32
     %m15_gain   = arith.constant 0.149062505 : f32
-    %m15_fb, %m15_ff = crag.get_filter_coeffs %m15_cutoff order = 2 q = 93.2000614 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m15_q_base = arith.constant 93.2000614 : f32
+    %m15_q_slope = arith.constant -92.7000614 : f32
+    %m15_q_delta = arith.mulf %dampen, %m15_q_slope : f32
+    %m15_q_eff = arith.addf %m15_q_base, %m15_q_delta : f32
+    %m15_fb, %m15_ff = crag.get_filter_coeffs %m15_cutoff order = 2 q_runtime = %m15_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m15_raw = crag.filter %excitation, %m15_fb, %m15_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_15_out = crag.scale %m15_raw, %m15_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m16_cutoff = arith.constant 0.479901843 : f32
     %m16_gain   = arith.constant 0.826629636 : f32
-    %m16_fb, %m16_ff = crag.get_filter_coeffs %m16_cutoff order = 2 q = 91.9468237 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m16_q_base = arith.constant 91.9468237 : f32
+    %m16_q_slope = arith.constant -91.4468237 : f32
+    %m16_q_delta = arith.mulf %dampen, %m16_q_slope : f32
+    %m16_q_eff = arith.addf %m16_q_base, %m16_q_delta : f32
+    %m16_fb, %m16_ff = crag.get_filter_coeffs %m16_cutoff order = 2 q_runtime = %m16_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m16_raw = crag.filter %excitation, %m16_fb, %m16_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_16_out = crag.scale %m16_raw, %m16_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m17_cutoff = arith.constant 0.498780292 : f32
     %m17_gain   = arith.constant 0.0722401134 : f32
-    %m17_fb, %m17_ff = crag.get_filter_coeffs %m17_cutoff order = 2 q = 88.4792307 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m17_q_base = arith.constant 88.4792307 : f32
+    %m17_q_slope = arith.constant -87.9792307 : f32
+    %m17_q_delta = arith.mulf %dampen, %m17_q_slope : f32
+    %m17_q_eff = arith.addf %m17_q_base, %m17_q_delta : f32
+    %m17_fb, %m17_ff = crag.get_filter_coeffs %m17_cutoff order = 2 q_runtime = %m17_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m17_raw = crag.filter %excitation, %m17_fb, %m17_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_17_out = crag.scale %m17_raw, %m17_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m18_cutoff = arith.constant 0.527873485 : f32
     %m18_gain   = arith.constant 1.32713 : f32
-    %m18_fb, %m18_ff = crag.get_filter_coeffs %m18_cutoff order = 2 q = 83.6186065 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m18_q_base = arith.constant 83.6186065 : f32
+    %m18_q_slope = arith.constant -83.1186065 : f32
+    %m18_q_delta = arith.mulf %dampen, %m18_q_slope : f32
+    %m18_q_eff = arith.addf %m18_q_base, %m18_q_delta : f32
+    %m18_fb, %m18_ff = crag.get_filter_coeffs %m18_cutoff order = 2 q_runtime = %m18_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m18_raw = crag.filter %excitation, %m18_fb, %m18_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_18_out = crag.scale %m18_raw, %m18_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m19_cutoff = arith.constant 0.530532928 : f32
     %m19_gain   = arith.constant 0.712969819 : f32
-    %m19_fb, %m19_ff = crag.get_filter_coeffs %m19_cutoff order = 2 q = 83.2007562 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m19_q_base = arith.constant 83.2007562 : f32
+    %m19_q_slope = arith.constant -82.7007562 : f32
+    %m19_q_delta = arith.mulf %dampen, %m19_q_slope : f32
+    %m19_q_eff = arith.addf %m19_q_base, %m19_q_delta : f32
+    %m19_fb, %m19_ff = crag.get_filter_coeffs %m19_cutoff order = 2 q_runtime = %m19_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m19_raw = crag.filter %excitation, %m19_fb, %m19_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_19_out = crag.scale %m19_raw, %m19_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m20_cutoff = arith.constant 0.556878695 : f32
     %m20_gain   = arith.constant 0.0639645832 : f32
-    %m20_fb, %m20_ff = crag.get_filter_coeffs %m20_cutoff order = 2 q = 79.2759776 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m20_q_base = arith.constant 79.2759776 : f32
+    %m20_q_slope = arith.constant -78.7759776 : f32
+    %m20_q_delta = arith.mulf %dampen, %m20_q_slope : f32
+    %m20_q_eff = arith.addf %m20_q_base, %m20_q_delta : f32
+    %m20_fb, %m20_ff = crag.get_filter_coeffs %m20_cutoff order = 2 q_runtime = %m20_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m20_raw = crag.filter %excitation, %m20_fb, %m20_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_20_out = crag.scale %m20_raw, %m20_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m21_cutoff = arith.constant 0.560593893 : f32
     %m21_gain   = arith.constant 0.0792287548 : f32
-    %m21_fb, %m21_ff = crag.get_filter_coeffs %m21_cutoff order = 2 q = 78.7520686 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m21_q_base = arith.constant 78.7520686 : f32
+    %m21_q_slope = arith.constant -78.2520686 : f32
+    %m21_q_delta = arith.mulf %dampen, %m21_q_slope : f32
+    %m21_q_eff = arith.addf %m21_q_base, %m21_q_delta : f32
+    %m21_fb, %m21_ff = crag.get_filter_coeffs %m21_cutoff order = 2 q_runtime = %m21_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m21_raw = crag.filter %excitation, %m21_fb, %m21_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_21_out = crag.scale %m21_raw, %m21_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m22_cutoff = arith.constant 0.569565516 : f32
     %m22_gain   = arith.constant 0.139559007 : f32
-    %m22_fb, %m22_ff = crag.get_filter_coeffs %m22_cutoff order = 2 q = 77.5149755 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m22_q_base = arith.constant 77.5149755 : f32
+    %m22_q_slope = arith.constant -77.0149755 : f32
+    %m22_q_delta = arith.mulf %dampen, %m22_q_slope : f32
+    %m22_q_eff = arith.addf %m22_q_base, %m22_q_delta : f32
+    %m22_fb, %m22_ff = crag.get_filter_coeffs %m22_cutoff order = 2 q_runtime = %m22_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m22_raw = crag.filter %excitation, %m22_fb, %m22_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_22_out = crag.scale %m22_raw, %m22_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m23_cutoff = arith.constant 0.58354487 : f32
     %m23_gain   = arith.constant 0.405211597 : f32
-    %m23_fb, %m23_ff = crag.get_filter_coeffs %m23_cutoff order = 2 q = 75.6628819 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m23_q_base = arith.constant 75.6628819 : f32
+    %m23_q_slope = arith.constant -75.1628819 : f32
+    %m23_q_delta = arith.mulf %dampen, %m23_q_slope : f32
+    %m23_q_eff = arith.addf %m23_q_base, %m23_q_delta : f32
+    %m23_fb, %m23_ff = crag.get_filter_coeffs %m23_cutoff order = 2 q_runtime = %m23_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m23_raw = crag.filter %excitation, %m23_fb, %m23_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_23_out = crag.scale %m23_raw, %m23_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m24_cutoff = arith.constant 0.613213584 : f32
     %m24_gain   = arith.constant 0.375470863 : f32
-    %m24_fb, %m24_ff = crag.get_filter_coeffs %m24_cutoff order = 2 q = 72.0109036 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m24_q_base = arith.constant 72.0109036 : f32
+    %m24_q_slope = arith.constant -71.5109036 : f32
+    %m24_q_delta = arith.mulf %dampen, %m24_q_slope : f32
+    %m24_q_eff = arith.addf %m24_q_base, %m24_q_delta : f32
+    %m24_fb, %m24_ff = crag.get_filter_coeffs %m24_cutoff order = 2 q_runtime = %m24_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m24_raw = crag.filter %excitation, %m24_fb, %m24_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_24_out = crag.scale %m24_raw, %m24_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m25_cutoff = arith.constant 0.653684487 : f32
     %m25_gain   = arith.constant 0.297732933 : f32
-    %m25_fb, %m25_ff = crag.get_filter_coeffs %m25_cutoff order = 2 q = 67.5620354 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m25_q_base = arith.constant 67.5620354 : f32
+    %m25_q_slope = arith.constant -67.0620354 : f32
+    %m25_q_delta = arith.mulf %dampen, %m25_q_slope : f32
+    %m25_q_eff = arith.addf %m25_q_base, %m25_q_delta : f32
+    %m25_fb, %m25_ff = crag.get_filter_coeffs %m25_cutoff order = 2 q_runtime = %m25_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m25_raw = crag.filter %excitation, %m25_fb, %m25_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_25_out = crag.scale %m25_raw, %m25_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m26_cutoff = arith.constant 0.719094229 : f32
     %m26_gain   = arith.constant 0.231485814 : f32
-    %m26_fb, %m26_ff = crag.get_filter_coeffs %m26_cutoff order = 2 q = 61.4274718 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m26_q_base = arith.constant 61.4274718 : f32
+    %m26_q_slope = arith.constant -60.9274718 : f32
+    %m26_q_delta = arith.mulf %dampen, %m26_q_slope : f32
+    %m26_q_eff = arith.addf %m26_q_base, %m26_q_delta : f32
+    %m26_fb, %m26_ff = crag.get_filter_coeffs %m26_cutoff order = 2 q_runtime = %m26_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m26_raw = crag.filter %excitation, %m26_fb, %m26_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_26_out = crag.scale %m26_raw, %m26_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m27_cutoff = arith.constant 0.735475675 : f32
     %m27_gain   = arith.constant 0.866848105 : f32
-    %m27_fb, %m27_ff = crag.get_filter_coeffs %m27_cutoff order = 2 q = 60.0615294 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m27_q_base = arith.constant 60.0615294 : f32
+    %m27_q_slope = arith.constant -59.5615294 : f32
+    %m27_q_delta = arith.mulf %dampen, %m27_q_slope : f32
+    %m27_q_eff = arith.addf %m27_q_base, %m27_q_delta : f32
+    %m27_fb, %m27_ff = crag.get_filter_coeffs %m27_cutoff order = 2 q_runtime = %m27_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m27_raw = crag.filter %excitation, %m27_fb, %m27_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_27_out = crag.scale %m27_raw, %m27_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m28_cutoff = arith.constant 0.759048079 : f32
     %m28_gain   = arith.constant 0.306435623 : f32
-    %m28_fb, %m28_ff = crag.get_filter_coeffs %m28_cutoff order = 2 q = 58.1991962 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m28_q_base = arith.constant 58.1991962 : f32
+    %m28_q_slope = arith.constant -57.6991962 : f32
+    %m28_q_delta = arith.mulf %dampen, %m28_q_slope : f32
+    %m28_q_eff = arith.addf %m28_q_base, %m28_q_delta : f32
+    %m28_fb, %m28_ff = crag.get_filter_coeffs %m28_cutoff order = 2 q_runtime = %m28_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m28_raw = crag.filter %excitation, %m28_fb, %m28_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_28_out = crag.scale %m28_raw, %m28_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m29_cutoff = arith.constant 0.760888002 : f32
     %m29_gain   = arith.constant 0.078352604 : f32
-    %m29_fb, %m29_ff = crag.get_filter_coeffs %m29_cutoff order = 2 q = 58.0586772 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m29_q_base = arith.constant 58.0586772 : f32
+    %m29_q_slope = arith.constant -57.5586772 : f32
+    %m29_q_delta = arith.mulf %dampen, %m29_q_slope : f32
+    %m29_q_eff = arith.addf %m29_q_base, %m29_q_delta : f32
+    %m29_fb, %m29_ff = crag.get_filter_coeffs %m29_cutoff order = 2 q_runtime = %m29_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m29_raw = crag.filter %excitation, %m29_fb, %m29_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_29_out = crag.scale %m29_raw, %m29_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m30_cutoff = arith.constant 0.77283668 : f32
     %m30_gain   = arith.constant 1.66191406 : f32
-    %m30_fb, %m30_ff = crag.get_filter_coeffs %m30_cutoff order = 2 q = 57.1623745 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m30_q_base = arith.constant 57.1623745 : f32
+    %m30_q_slope = arith.constant -56.6623745 : f32
+    %m30_q_delta = arith.mulf %dampen, %m30_q_slope : f32
+    %m30_q_eff = arith.addf %m30_q_base, %m30_q_delta : f32
+    %m30_fb, %m30_ff = crag.get_filter_coeffs %m30_cutoff order = 2 q_runtime = %m30_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m30_raw = crag.filter %excitation, %m30_fb, %m30_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_30_out = crag.scale %m30_raw, %m30_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m31_cutoff = arith.constant 0.791361033 : f32
     %m31_gain   = arith.constant 0.0952678216 : f32
-    %m31_fb, %m31_ff = crag.get_filter_coeffs %m31_cutoff order = 2 q = 55.8262054 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m31_q_base = arith.constant 55.8262054 : f32
+    %m31_q_slope = arith.constant -55.3262054 : f32
+    %m31_q_delta = arith.mulf %dampen, %m31_q_slope : f32
+    %m31_q_eff = arith.addf %m31_q_base, %m31_q_delta : f32
+    %m31_fb, %m31_ff = crag.get_filter_coeffs %m31_cutoff order = 2 q_runtime = %m31_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m31_raw = crag.filter %excitation, %m31_fb, %m31_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_31_out = crag.scale %m31_raw, %m31_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m32_cutoff = arith.constant 0.803304996 : f32
     %m32_gain   = arith.constant 1.3520109 : f32
-    %m32_fb, %m32_ff = crag.get_filter_coeffs %m32_cutoff order = 2 q = 54.997291 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m32_q_base = arith.constant 54.997291 : f32
+    %m32_q_slope = arith.constant -54.497291 : f32
+    %m32_q_delta = arith.mulf %dampen, %m32_q_slope : f32
+    %m32_q_eff = arith.addf %m32_q_base, %m32_q_delta : f32
+    %m32_fb, %m32_ff = crag.get_filter_coeffs %m32_cutoff order = 2 q_runtime = %m32_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m32_raw = crag.filter %excitation, %m32_fb, %m32_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_32_out = crag.scale %m32_raw, %m32_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m33_cutoff = arith.constant 0.808533915 : f32
     %m33_gain   = arith.constant 1.17610111 : f32
-    %m33_fb, %m33_ff = crag.get_filter_coeffs %m33_cutoff order = 2 q = 54.6420944 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m33_q_base = arith.constant 54.6420944 : f32
+    %m33_q_slope = arith.constant -54.1420944 : f32
+    %m33_q_delta = arith.mulf %dampen, %m33_q_slope : f32
+    %m33_q_eff = arith.addf %m33_q_base, %m33_q_delta : f32
+    %m33_fb, %m33_ff = crag.get_filter_coeffs %m33_cutoff order = 2 q_runtime = %m33_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m33_raw = crag.filter %excitation, %m33_fb, %m33_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_33_out = crag.scale %m33_raw, %m33_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m34_cutoff = arith.constant 0.808840686 : f32
     %m34_gain   = arith.constant 0.223667439 : f32
-    %m34_fb, %m34_ff = crag.get_filter_coeffs %m34_cutoff order = 2 q = 54.621398 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m34_q_base = arith.constant 54.621398 : f32
+    %m34_q_slope = arith.constant -54.121398 : f32
+    %m34_q_delta = arith.mulf %dampen, %m34_q_slope : f32
+    %m34_q_eff = arith.addf %m34_q_base, %m34_q_delta : f32
+    %m34_fb, %m34_ff = crag.get_filter_coeffs %m34_cutoff order = 2 q_runtime = %m34_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m34_raw = crag.filter %excitation, %m34_fb, %m34_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_34_out = crag.scale %m34_raw, %m34_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m35_cutoff = arith.constant 0.860995945 : f32
     %m35_gain   = arith.constant 0.451823939 : f32
-    %m35_fb, %m35_ff = crag.get_filter_coeffs %m35_cutoff order = 2 q = 51.3167294 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m35_q_base = arith.constant 51.3167294 : f32
+    %m35_q_slope = arith.constant -50.8167294 : f32
+    %m35_q_delta = arith.mulf %dampen, %m35_q_slope : f32
+    %m35_q_eff = arith.addf %m35_q_base, %m35_q_delta : f32
+    %m35_fb, %m35_ff = crag.get_filter_coeffs %m35_cutoff order = 2 q_runtime = %m35_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m35_raw = crag.filter %excitation, %m35_fb, %m35_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_35_out = crag.scale %m35_raw, %m35_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m36_cutoff = arith.constant 0.888528239 : f32
     %m36_gain   = arith.constant 0.14834511 : f32
-    %m36_fb, %m36_ff = crag.get_filter_coeffs %m36_cutoff order = 2 q = 49.7284073 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m36_q_base = arith.constant 49.7284073 : f32
+    %m36_q_slope = arith.constant -49.2284073 : f32
+    %m36_q_delta = arith.mulf %dampen, %m36_q_slope : f32
+    %m36_q_eff = arith.addf %m36_q_base, %m36_q_delta : f32
+    %m36_fb, %m36_ff = crag.get_filter_coeffs %m36_cutoff order = 2 q_runtime = %m36_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m36_raw = crag.filter %excitation, %m36_fb, %m36_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_36_out = crag.scale %m36_raw, %m36_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m37_cutoff = arith.constant 0.930900067 : f32
     %m37_gain   = arith.constant 0.489666999 : f32
-    %m37_fb, %m37_ff = crag.get_filter_coeffs %m37_cutoff order = 2 q = 47.4672676 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m37_q_base = arith.constant 47.4672676 : f32
+    %m37_q_slope = arith.constant -46.9672676 : f32
+    %m37_q_delta = arith.mulf %dampen, %m37_q_slope : f32
+    %m37_q_eff = arith.addf %m37_q_base, %m37_q_delta : f32
+    %m37_fb, %m37_ff = crag.get_filter_coeffs %m37_cutoff order = 2 q_runtime = %m37_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m37_raw = crag.filter %excitation, %m37_fb, %m37_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_37_out = crag.scale %m37_raw, %m37_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m38_cutoff = arith.constant 0.931880655 : f32
     %m38_gain   = arith.constant 0.156278594 : f32
-    %m38_fb, %m38_ff = crag.get_filter_coeffs %m38_cutoff order = 2 q = 47.4173699 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m38_q_base = arith.constant 47.4173699 : f32
+    %m38_q_slope = arith.constant -46.9173699 : f32
+    %m38_q_delta = arith.mulf %dampen, %m38_q_slope : f32
+    %m38_q_eff = arith.addf %m38_q_base, %m38_q_delta : f32
+    %m38_fb, %m38_ff = crag.get_filter_coeffs %m38_cutoff order = 2 q_runtime = %m38_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m38_raw = crag.filter %excitation, %m38_fb, %m38_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_38_out = crag.scale %m38_raw, %m38_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m39_cutoff = arith.constant 0.972614649 : f32
     %m39_gain   = arith.constant 0.0724255407 : f32
-    %m39_fb, %m39_ff = crag.get_filter_coeffs %m39_cutoff order = 2 q = 45.4333728 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m39_q_base = arith.constant 45.4333728 : f32
+    %m39_q_slope = arith.constant -44.9333728 : f32
+    %m39_q_delta = arith.mulf %dampen, %m39_q_slope : f32
+    %m39_q_eff = arith.addf %m39_q_base, %m39_q_delta : f32
+    %m39_fb, %m39_ff = crag.get_filter_coeffs %m39_cutoff order = 2 q_runtime = %m39_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m39_raw = crag.filter %excitation, %m39_fb, %m39_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_39_out = crag.scale %m39_raw, %m39_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m40_cutoff = arith.constant 0.973141698 : f32
     %m40_gain   = arith.constant 0.669069813 : f32
-    %m40_fb, %m40_ff = crag.get_filter_coeffs %m40_cutoff order = 2 q = 45.4087892 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m40_q_base = arith.constant 45.4087892 : f32
+    %m40_q_slope = arith.constant -44.9087892 : f32
+    %m40_q_delta = arith.mulf %dampen, %m40_q_slope : f32
+    %m40_q_eff = arith.addf %m40_q_base, %m40_q_delta : f32
+    %m40_fb, %m40_ff = crag.get_filter_coeffs %m40_cutoff order = 2 q_runtime = %m40_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m40_raw = crag.filter %excitation, %m40_fb, %m40_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_40_out = crag.scale %m40_raw, %m40_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m41_cutoff = arith.constant 0.978872171 : f32
     %m41_gain   = arith.constant 2.55329027 : f32
-    %m41_fb, %m41_ff = crag.get_filter_coeffs %m41_cutoff order = 2 q = 45.1432035 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m41_q_base = arith.constant 45.1432035 : f32
+    %m41_q_slope = arith.constant -44.6432035 : f32
+    %m41_q_delta = arith.mulf %dampen, %m41_q_slope : f32
+    %m41_q_eff = arith.addf %m41_q_base, %m41_q_delta : f32
+    %m41_fb, %m41_ff = crag.get_filter_coeffs %m41_cutoff order = 2 q_runtime = %m41_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m41_raw = crag.filter %excitation, %m41_fb, %m41_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_41_out = crag.scale %m41_raw, %m41_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
     %m42_cutoff = arith.constant 0.99206011 : f32
     %m42_gain   = arith.constant 0.0932069749 : f32
-    %m42_fb, %m42_ff = crag.get_filter_coeffs %m42_cutoff order = 2 q = 44.5436326 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
+    %m42_q_base = arith.constant 44.5436326 : f32
+    %m42_q_slope = arith.constant -44.0436326 : f32
+    %m42_q_delta = arith.mulf %dampen, %m42_q_slope : f32
+    %m42_q_eff = arith.addf %m42_q_base, %m42_q_delta : f32
+    %m42_fb, %m42_ff = crag.get_filter_coeffs %m42_cutoff order = 2 q_runtime = %m42_q_eff : f32 type = "two_pole_resonator" : f32, !crag.coeff_vec, !crag.coeff_vec
     %m42_raw = crag.filter %excitation, %m42_fb, %m42_ff : (!crag.audio<f32, 48000, 1>, !crag.coeff_vec, !crag.coeff_vec) -> !crag.audio<f32, 48000, 1>
     %mode_42_out = crag.scale %m42_raw, %m42_gain : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
 
