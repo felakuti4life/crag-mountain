@@ -11,6 +11,32 @@
 // crag-unroll-parallel expands the constant line count into 8 independent
 // inlined grains at compile time.
 //
+// Each grain is a genuine *per-sample* resampling reader: inside a
+// crag.per_sample region the read cursor advances by the grain's `speed`
+// every output sample (with linear interpolation between neighbouring
+// source samples) and the grain envelope is evaluated per sample.  This is
+// what makes playback speed actually re-pitch the grain — a plain block
+// read (crag.sample) can only advance the head one native sample per output
+// sample, so it neither re-pitches nor stays continuous when the block
+// start jumps.
+//
+// The read cursor is *derived from the envelope phase* rather than run as an
+// independent free-running head:
+//
+//     read = base + speed * phase * grain_len_samples
+//
+// so each grain reads `grain_len_samples * speed` contiguous source samples
+// starting at `base`, and the cursor snaps back to `base` exactly when the
+// envelope phase wraps 0 — i.e. precisely where the envelope is ≈ 0.  The
+// only read-position discontinuity therefore always coincides with an
+// envelope zero, which makes every grain seam inaudible.  `base` places the
+// grain within the scrub window (window_pos / window_size) with a per-grain
+// scatter offset.
+//
+// The single per-sample state (envelope phase) is *seeded* each block from
+// the absolute time, so it needs no cross-block storage and is continuous by
+// construction: block N+1's seed equals block N's end-of-block phase.
+//
 // Controls
 // --------
 //   grains        [1, 8]      number of grains audible at once (runtime int)
@@ -71,6 +97,7 @@ module {
     %frame_f = arith.sitofp %frame : i64 to f32
     %curtime   = crag.curtime : f64
     %curtime_f = arith.truncf %curtime : f64 to f32
+    %sr        = crag.sample_rate : f32
 
     // ---------------------------------------------------------------------
     // Shared constants
@@ -78,7 +105,6 @@ module {
     %c0f       = arith.constant 0.0 : f32
     %c1f       = arith.constant 1.0 : f32
     %c1000f    = arith.constant 1000.0 : f32
-    %large_i64 = arith.constant 65536 : i64
     %skew_lo   = arith.constant 0.02 : f32
     %skew_hi   = arith.constant 0.98 : f32
     %norm      = arith.constant 0.125 : f32   // 1 / N
@@ -88,14 +114,16 @@ module {
     // Window geometry (shared by every grain)
     //   window_len   = clamp(window_size,0,1) * len
     //   window_start = clamp(window_pos,0,1) * (len - window_len)
+    // Grains are scattered across [window_start, window_start + window_len);
+    // each grain then reads *forward* from its base at the grain's speed.
     // ---------------------------------------------------------------------
     %ws_c0     = arith.maximumf %window_size, %c0f : f32
     %ws_c      = arith.minimumf %ws_c0, %c1f : f32
     %win_len   = arith.mulf %ws_c, %len_f : f32
-    %win_len_ok = arith.maximumf %win_len, %c1f : f32   // avoid 0-width window
+    %win_len_f = arith.maximumf %win_len, %c1f : f32   // avoid 0-width window
     %wp_c0     = arith.maximumf %window_pos, %c0f : f32
     %wp_c      = arith.minimumf %wp_c0, %c1f : f32
-    %max_start = arith.subf %len_f, %win_len_ok : f32
+    %max_start = arith.subf %len_f, %win_len_f : f32
     %max_start_ok = arith.maximumf %max_start, %c0f : f32
     %win_start = arith.mulf %wp_c, %max_start_ok : f32
 
@@ -132,41 +160,84 @@ module {
         %sz_d  = arith.mulf %usz, %gms_rng : f32
         %gms   = arith.addf %gms_min, %sz_d : f32
         %fhz   = arith.divf %c1000f, %gms : f32
+        %dph   = arith.divf %fhz, %sr : f32           // env phase step / sample
+        %glen  = arith.divf %sr, %fhz : f32           // grain length in samples
         %sk_d  = arith.mulf %usk, %skew_rng : f32
         %skewr = arith.addf %skew_min, %sk_d : f32
         %skewc = arith.maximumf %skewr, %skew_lo : f32
         %skew  = arith.minimumf %skewc, %skew_hi : f32
-        // envelope: env = (max(0, min(ph/skew, (1-ph)/(1-skew))))^2
+
+        // Envelope phase seed for this block: ph0 = frac(fhz*curtime + uph)
         %praw  = arith.mulf %fhz, %curtime_f : f32
         %pph   = arith.addf %praw, %uph : f32
         %pfl   = math.floor %pph : f32
-        %ph    = arith.subf %pph, %pfl : f32
-        %rise  = arith.divf %ph, %skew : f32
-        %omph  = arith.subf %c1f, %ph : f32
-        %omsk  = arith.subf %c1f, %skew : f32
-        %fall  = arith.divf %omph, %omsk : f32
-        %trim  = arith.minimumf %rise, %fall : f32
-        %tri   = arith.maximumf %trim, %c0f : f32
-        %env   = arith.mulf %tri, %tri : f32
-        // read position within the window
-        %woff  = arith.mulf %uwin, %win_len_ok : f32
-        %adv   = arith.mulf %frame_f, %speed : f32
-        %lraw  = arith.addf %woff, %adv : f32
-        %lm    = arith.remf %lraw, %win_len_ok : f32
-        %lp    = arith.addf %lm, %win_len_ok : f32
-        %local = arith.remf %lp, %win_len_ok : f32
-        %pos   = arith.addf %win_start, %local : f32
-        %st    = arith.fptosi %pos : f32 to i64
-        %end   = arith.addi %st, %large_i64 : i64
-        %raw   = crag.sample %s, %st, %end
-                     : !crag.sampler<"audio">, i64, i64 -> !crag.audio<f32, 48000, 1>
-        // active gate: grain i is silent when i >= grains
+        %ph0   = arith.subf %pph, %pfl : f32
+
+        // Grain read base (float source index): scrub window start + this
+        // grain's fixed scatter offset within the window.
+        %woff  = arith.mulf %uwin, %win_len_f : f32
+        %base  = arith.addf %win_start, %woff : f32
+        // per-sample read step = speed * grain_len, folded into the phase.
+        %step  = arith.mulf %speed, %glen : f32
+
+        // Active gate: grain i is silent when i >= grains.
         %ii    = arith.index_cast %i : index to i32
         %on    = arith.cmpi slt, %ii, %grains : i32
         %gate  = arith.select %on, %c1f, %c0f : f32
-        %ev    = arith.mulf %env, %gate : f32
-        %vol   = arith.mulf %ev, %norm_gain : f32
-        %g     = crag.scale %raw, %vol : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
+        %vol   = arith.mulf %gate, %norm_gain : f32
+
+        // Per-sample grain: interpolated read + per-sample envelope.  The
+        // read cursor is derived from the phase, so it snaps back to `base`
+        // exactly at the envelope zero.
+        %dummy = crag.impulse : !crag.audio<f32, 48000, 1>
+        %grain, %ph_end =
+            crag.per_sample (%dummy) states (%ph0) {
+          ^bb1(%d: f32, %ph: f32):
+            %one_f  = arith.constant 1.0 : f32
+            %zero_f = arith.constant 0.0 : f32
+            %one_i  = arith.constant 1 : i64
+
+            // Read cursor within the grain: rp = base + step*ph, wrapped into
+            // the whole asset [0, len) so it is always in bounds.
+            %off   = arith.mulf %step, %ph : f32
+            %rp    = arith.addf %base, %off : f32
+            %rm    = arith.remf %rp, %len_f : f32
+            %rpl   = arith.addf %rm, %len_f : f32
+            %rpw   = arith.remf %rpl, %len_f : f32
+            %i0f   = math.floor %rpw : f32
+            %frac  = arith.subf %rpw, %i0f : f32
+            %i0    = arith.fptosi %i0f : f32 to i64
+            %i1raw = arith.addi %i0, %one_i : i64
+            %wrapn = arith.cmpi sge, %i1raw, %safe_len : i64
+            %i1sub = arith.subi %i1raw, %safe_len : i64
+            %i1    = arith.select %wrapn, %i1sub, %i1raw : i64
+            %s0    = crag.sampler_read %s, %i0 : !crag.sampler<"audio">, i64 -> f32
+            %s1    = crag.sampler_read %s, %i1 : !crag.sampler<"audio">, i64 -> f32
+            %sdif  = arith.subf %s1, %s0 : f32
+            %sint  = arith.mulf %frac, %sdif : f32
+            %samp  = arith.addf %s0, %sint : f32
+
+            // Skewed-triangle envelope, squared: env = max(0, min(ph/skew,
+            // (1-ph)/(1-skew)))^2
+            %rise  = arith.divf %ph, %skew : f32
+            %omph  = arith.subf %one_f, %ph : f32
+            %omsk  = arith.subf %one_f, %skew : f32
+            %fall  = arith.divf %omph, %omsk : f32
+            %trim  = arith.minimumf %rise, %fall : f32
+            %tri   = arith.maximumf %trim, %zero_f : f32
+            %env   = arith.mulf %tri, %tri : f32
+            %outv  = arith.mulf %samp, %env : f32
+
+            // Advance envelope phase (wrap [0, 1)) by dph.
+            %phadv = arith.addf %ph, %dph : f32
+            %phfl  = math.floor %phadv : f32
+            %phnext = arith.subf %phadv, %phfl : f32
+
+            crag.per_sample_yield %outv, %phnext : f32, f32
+        } : (!crag.audio<f32, 48000, 1>, f32)
+              -> (!crag.audio<f32, 48000, 1>, f32)
+
+        %g     = crag.scale %grain, %vol : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
         %l     = crag.scale %g, %panl : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
         %r     = crag.scale %g, %panr : !crag.audio<f32, 48000, 1>, f32 -> !crag.audio<f32, 48000, 1>
         %stereo = crag.channel_join %l, %r
