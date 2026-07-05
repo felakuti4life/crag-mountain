@@ -40,7 +40,7 @@ module {
     // -------------------------------------------------------------------------
     %fired, %at, %pitch, %vel =
         crag.event_struct "note_on" type = @music_note subtype = "music_note"
-            : i1, i32, f32, f32
+            infrequent : i1, i32, f32, f32
 
     // -------------------------------------------------------------------------
     // MIDI pitch → frequency: freq = 440 * 2^((pitch - 69) / 12)
@@ -62,7 +62,7 @@ module {
     // -------------------------------------------------------------------------
     // Resonant low-pass filter
     // -------------------------------------------------------------------------
-    %cutoff_hz  = crag.param "cutoff_hz"  min = 200.0  max = 8000.0  default = 2000.0  unit = "hz" : f32
+    %cutoff_hz  = crag.param "cutoff_hz"  min = 200.0  max = 8000.0  default = 2000.0  unit = "hz" infrequent : f32
 
     // Normalize cutoff: cutoff_norm = cutoff_hz / (sample_rate / 2)
     %sr         = crag.sample_rate : f32
@@ -79,10 +79,10 @@ module {
     // -------------------------------------------------------------------------
     // ADSR amplitude envelope
     // -------------------------------------------------------------------------
-    %attack_ms  = crag.param "attack_ms"  min = 1.0  max = 2000.0  default = 10.0   unit = "ms" : f32
-    %decay_ms   = crag.param "decay_ms"   min = 1.0  max = 2000.0  default = 200.0  unit = "ms" : f32
-    %sustain    = crag.param "sustain"    min = 0.0  max = 1.0     default = 0.8 : f32
-    %release_ms = crag.param "release_ms" min = 1.0  max = 5000.0  default = 300.0  unit = "ms" : f32
+    %attack_ms  = crag.param "attack_ms"  min = 1.0  max = 2000.0  default = 10.0   unit = "ms" infrequent : f32
+    %decay_ms   = crag.param "decay_ms"   min = 1.0  max = 2000.0  default = 200.0  unit = "ms" infrequent : f32
+    %sustain    = crag.param "sustain"    min = 0.0  max = 1.0     default = 0.8 infrequent : f32
+    %release_ms = crag.param "release_ms" min = 1.0  max = 5000.0  default = 300.0  unit = "ms" infrequent : f32
 
     %env = crag.adsr %attack_ms, %decay_ms, %sustain, %release_ms, %fired, %at
                : f32, f32, f32, f32, i1, i32 -> !crag.audio<f32, 0, 1>
