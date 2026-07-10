@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "gen_datetime": "2026-07-05 21:16 UTC",
-  "git_commit": "81d0e2d",
+  "gen_datetime": "2026-07-10 18:42 UTC",
+  "git_commit": "f113469",
   "targets": [
     {
       "stem": "big_muff_full",
@@ -950,6 +950,17 @@
       "short_desc": "Vibrato"
     },
     {
+      "stem": "brass_bell",
+      "subdir": "physical/Bell",
+      "name": "brass_bell",
+      "wasm": "physical/Bell/brass_bell/brass_bell.wasm",
+      "meta": "physical/Bell/brass_bell/brass_bell.wasm.cragmeta",
+      "debug": "physical/Bell/brass_bell/brass_bell.wasm.cragdebug.json",
+      "source": "physical/Bell/brass_bell/brass_bell.crag.mlir",
+      "sources": "physical/Bell/brass_bell/brass_bell.wasm.cragsrc.json",
+      "short_desc": "Spatial modal graph for object 'bell_spatial'."
+    },
+    {
       "stem": "ceramic_plate",
       "subdir": "physical/ceramic_plate",
       "name": "ceramic_plate",
@@ -1300,6 +1311,17 @@
       "source": "utility/filter/filter.crag.mlir",
       "sources": "utility/filter/filter.wasm.cragsrc.json",
       "short_desc": "Filter"
+    },
+    {
+      "stem": "fire_note",
+      "subdir": "utility",
+      "name": "fire_note",
+      "wasm": "utility/fire_note/fire_note.wasm",
+      "meta": "utility/fire_note/fire_note.wasm.cragmeta",
+      "debug": "utility/fire_note/fire_note.wasm.cragdebug.json",
+      "source": "utility/fire_note/fire_note.crag.mlir",
+      "sources": "utility/fire_note/fire_note.wasm.cragsrc.json",
+      "short_desc": "Fire Note \u2014 convert a bare trigger into a music_note note_on event."
     },
     {
       "stem": "gain",

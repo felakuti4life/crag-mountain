@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "output_gain",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 4.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "dampen",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "drag_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 2
+    },
+    {
+      "name": "drag_roughness",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 3
+    },
+    {
+      "name": "drag_normal_force",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 4
+    },
+    {
+      "name": "contact_u",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 5
+    },
+    {
+      "name": "contact_v",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 6
+    },
+    {
+      "name": "damping_override",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 7
+    },
+    {
+      "name": "pitch_shift",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 2.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 8
+    },
+    {
+      "name": "azimuth_rad",
+      "type": "float",
+      "min": -3.141593e+00,
+      "max": 3.141593e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 9
+    },
+    {
+      "name": "elevation_rad",
+      "type": "float",
+      "min": -1.570796e+00,
+      "max": 1.570796e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 10
+    },
+    {
+      "name": "distance_m",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 1.000000e+01,
+      "default": 1.000000e+00,
+      "unit": "m",
+      "float_index": 11
+    },
+    {
+      "name": "directivity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 12
+    },
+    {
+      "name": "object_yaw",
+      "type": "float",
+      "min": -3.141593e+00,
+      "max": 3.141593e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 13
+    },
+    {
+      "name": "object_pitch",
+      "type": "float",
+      "min": -3.141593e+00,
+      "max": 3.141593e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 14
+    },
+    {
+      "name": "object_roll",
+      "type": "float",
+      "min": -3.141593e+00,
+      "max": 3.141593e+00,
+      "default": 0.000000e+00,
+      "unit": "rad",
+      "float_index": 15
+    }
+  ],
+  "samplers": ["hrir_cipic_pack_L", "hrir_cipic_pack_R"],
+  "texture_samplers": [],
+  "expected_duration_secs": 6.666667e+00,
+  "events": [
+    {
+      "name": "impulse_at",
+      "type": "struct",
+      "int_index": 0,
+      "struct_payload_bytes": 20,
+      "struct_fields": [
+        {"name": "x", "type": "f32", "offset": 0, "min": -1.000000e+00, "max": 1.000000e+00},
+        {"name": "y", "type": "f32", "offset": 4, "min": -1.000000e+00, "max": 1.000000e+00},
+        {"name": "z", "type": "f32", "offset": 8, "min": -1.000000e+00, "max": 1.000000e+00},
+        {"name": "angle", "type": "f32", "offset": 12, "min": 0.000000e+00, "max": 1.570796e+00},
+        {"name": "velocity", "type": "f32", "offset": 16, "min": 0.000000e+00, "max": 1.000000e+00}
+      ]
+    },
+    {
+      "name": "drag_start",
+      "type": "void",
+      "void_index": 0
+    },
+    {
+      "name": "drag_stop",
+      "type": "void",
+      "void_index": 1
+    }
+  ],
+  "meters": [
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "f113469"
+}
