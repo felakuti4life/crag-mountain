@@ -107,5 +107,5 @@
   "has_audio_output": true,
   "viz_width": 512,
   "viz_height": 256,
-  "compiled_with": "f113469"
+  "compiled_with": "40ceab4"
 }
