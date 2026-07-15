@@ -865,8 +865,15 @@ class CragProcessor extends AudioWorkletProcessor {
         return false;
       }
 
+      // crag_block_size() (this._blockSize) already returns the TOTAL
+      // interleaved sample count of crag_output (frames * channels), so the
+      // view length is this._blockSize — NOT this._blockSize * channels.
+      // Multiplying by channels again reads twice the real buffer and splices
+      // the uninitialised back half into the output every block: for stereo
+      // (channels = 2) graphs that is audible block-rate zippering. (Mono
+      // graphs were unaffected because * 1 is a no-op.)
       const view = new Float32Array(
-        this._memory.buffer, this._outputPtr, this._blockSize * this._channels
+        this._memory.buffer, this._outputPtr, this._blockSize
       );
       const needed = Math.min(view.length, this._accumulator.length - this._accumFill);
       this._accumulator.set(view.subarray(0, needed), this._accumFill);

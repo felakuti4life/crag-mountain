@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "gen_datetime": "2026-07-10 22:51 UTC",
-  "git_commit": "5be89a0",
+  "gen_datetime": "2026-07-15 04:07 UTC",
+  "git_commit": "ad6f5fa",
   "targets": [
     {
       "stem": "big_muff_full",
@@ -1421,6 +1421,17 @@
       "source": "utility/select2/select2.crag.mlir",
       "sources": "utility/select2/select2.wasm.cragsrc.json",
       "short_desc": "Select2"
+    },
+    {
+      "stem": "grainbrain",
+      "subdir": "webaudio-ports",
+      "name": "grainbrain",
+      "wasm": "webaudio-ports/grainbrain/grainbrain.wasm",
+      "meta": "webaudio-ports/grainbrain/grainbrain.wasm.cragmeta",
+      "debug": "webaudio-ports/grainbrain/grainbrain.wasm.cragdebug.json",
+      "source": "webaudio-ports/grainbrain/grainbrain.crag.mlir",
+      "sources": "webaudio-ports/grainbrain/grainbrain.wasm.cragsrc.json",
+      "short_desc": "grainBrain (Crag port)"
     }
   ]
 }

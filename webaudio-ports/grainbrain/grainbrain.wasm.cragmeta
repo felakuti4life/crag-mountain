@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "grains",
+      "type": "int",
+      "min": 1,
+      "max": 16,
+      "default": 16,
+      "int_index": 0
+    },
+    {
+      "name": "grain_ms",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 2.000000e+03,
+      "default": 1.250000e+03,
+      "unit": "ms",
+      "float_index": 0
+    },
+    {
+      "name": "pitch",
+      "type": "float",
+      "min": -2.400000e+01,
+      "max": 2.400000e+01,
+      "default": 0.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "spread",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-02,
+      "float_index": 2
+    },
+    {
+      "name": "window_pos",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 2.500000e-01,
+      "float_index": 3
+    },
+    {
+      "name": "window_size",
+      "type": "float",
+      "min": 1.000000e-02,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 4
+    },
+    {
+      "name": "src_gain",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 2.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 5
+    },
+    {
+      "name": "hp_cutoff",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 2.000000e+03,
+      "default": 2.000000e+01,
+      "unit": "hz",
+      "float_index": 6
+    },
+    {
+      "name": "lp_cutoff",
+      "type": "float",
+      "min": 2.000000e+02,
+      "max": 2.000000e+04,
+      "default": 2.000000e+04,
+      "unit": "hz",
+      "float_index": 7
+    },
+    {
+      "name": "dop_bypass",
+      "type": "int",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "int_index": 1
+    },
+    {
+      "name": "dop_speed",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 8.000000e+01,
+      "default": 5.500000e+00,
+      "unit": "m/s",
+      "float_index": 8
+    },
+    {
+      "name": "dop_distance",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 8.000000e+01,
+      "default": 2.000000e+00,
+      "unit": "m",
+      "float_index": 9
+    },
+    {
+      "name": "dop_sym",
+      "type": "float",
+      "min": -2.000000e+00,
+      "max": 2.000000e+00,
+      "default": -3.000000e-01,
+      "float_index": 10
+    },
+    {
+      "name": "dop_shape",
+      "type": "float",
+      "min": 3.000000e-01,
+      "max": 4.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 11
+    },
+    {
+      "name": "dop_amount",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 12
+    },
+    {
+      "name": "dop_brk",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 5.000000e+03,
+      "default": 8.000000e+02,
+      "unit": "ms",
+      "float_index": 13
+    },
+    {
+      "name": "dop_filt_floor",
+      "type": "float",
+      "min": 6.000000e+01,
+      "max": 2.000000e+04,
+      "default": 2.000000e+04,
+      "unit": "hz",
+      "float_index": 14
+    },
+    {
+      "name": "dop_filt_ceil",
+      "type": "float",
+      "min": 6.000000e+01,
+      "max": 2.000000e+04,
+      "default": 2.000000e+04,
+      "unit": "hz",
+      "float_index": 15
+    },
+    {
+      "name": "delay_ms",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.900000e+03,
+      "default": 1.200000e+02,
+      "unit": "ms",
+      "float_index": 16
+    },
+    {
+      "name": "delay_fb",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.500000e-01,
+      "default": 1.000000e-01,
+      "float_index": 17
+    },
+    {
+      "name": "delay_mix",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e-01,
+      "float_index": 18
+    },
+    {
+      "name": "conv_mix",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 6.000000e-02,
+      "float_index": 19
+    },
+    {
+      "name": "ws_active",
+      "type": "int",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "int_index": 2
+    },
+    {
+      "name": "ws_drive",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 20
+    },
+    {
+      "name": "ws_tone",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 21
+    },
+    {
+      "name": "ws_apex",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 22
+    },
+    {
+      "name": "ws_mix",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 23
+    },
+    {
+      "name": "lim_thresh",
+      "type": "float",
+      "min": -3.000000e+01,
+      "max": 0.000000e+00,
+      "default": -3.000000e+00,
+      "unit": "dB",
+      "float_index": 24
+    },
+    {
+      "name": "output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 2.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 25
+    }
+  ],
+  "samplers": ["audio", "ir"],
+  "texture_samplers": [],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 512,
+  "viz_height": 256,
+  "compiled_with": "9d34a62"
+}
