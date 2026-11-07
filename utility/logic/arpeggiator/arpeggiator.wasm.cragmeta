@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "root",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.270000e+02,
+      "default": 6.000000e+01,
+      "float_index": 0
+    },
+    {
+      "name": "velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "chord",
+      "type": "enum",
+      "values": ["major", "minor", "diminished", "augmented", "maj7", "min7", "dom7", "minMaj7", "sus2", "sus4"],
+      "default": 0,
+      "int_index": 0
+    },
+    {
+      "name": "octaves",
+      "type": "int",
+      "min": 1,
+      "max": 8,
+      "default": 1,
+      "int_index": 1
+    },
+    {
+      "name": "direction",
+      "type": "enum",
+      "values": ["up", "down", "up_down", "random"],
+      "default": 0,
+      "int_index": 2
+    }
+  ],
+  "samplers": [],
+  "texture_samplers": [],
+  "events": [
+    {
+      "name": "bang",
+      "type": "void",
+      "void_index": 0
+    }
+  ],
+  "meters": [
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "event_outputs": [
+    {
+      "name": "note_on",
+      "type": "struct",
+      "fired_index": 0,
+      "value_index": -1,
+      "subtype": "music_note",
+      "struct_type": "music_note",
+      "struct_payload_bytes": 8,
+      "struct_out_byte_offset": 0,
+      "struct_fields": [
+        {"name": "pitch", "type": "f32", "offset": 0},
+        {"name": "velocity", "type": "f32", "offset": 4}
+      ]
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": false,
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "7b2e9269"
+}

@@ -100,11 +100,11 @@
     }
   ],
   "visualizers": [
-    {"name": "granulator2_viz", "width": 512, "height": 256, "audio_capture": "pcm", "audio_buf_elems": 512}
+    {"name": "granulator2_viz", "width": 1024, "height": 512, "audio_capture": "pcm", "audio_buf_elems": 512}
   ],
   "has_visualizer": true,
   "has_audio_output": true,
-  "viz_width": 512,
-  "viz_height": 256,
-  "compiled_with": "9d34a62"
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "7b2e9269"
 }

@@ -4,20 +4,26 @@
   "channels": 1,
   "parameters": [
     {
-      "name": "pitch",
+      "name": "voice.pitch",
       "type": "float",
       "min": 0.000000e+00,
       "max": 1.270000e+02,
       "default": 6.000000e+01,
-      "float_index": 0
+      "float_index": 0,
+      "struct": "voice",
+      "struct_type": "music_note",
+      "field": "pitch"
     },
     {
-      "name": "velocity",
+      "name": "voice.velocity",
       "type": "float",
       "min": 0.000000e+00,
       "max": 1.000000e+00,
       "default": 1.000000e+00,
-      "float_index": 1
+      "float_index": 1,
+      "struct": "voice",
+      "struct_type": "music_note",
+      "field": "velocity"
     }
   ],
   "samplers": [],
@@ -56,7 +62,7 @@
   ],
   "has_visualizer": true,
   "has_audio_output": false,
-  "viz_width": 512,
-  "viz_height": 256,
-  "compiled_with": "9d34a62"
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "7b2e9269"
 }

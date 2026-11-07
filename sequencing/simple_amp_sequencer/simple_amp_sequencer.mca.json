@@ -32,7 +32,7 @@
       "march": "x86-64",
       "mcpu": "znver3",
       "arch": "x86-64",
-      "ipc": 2.4401,
+      "ipc": 2.4522,
       "block_rthroughput": 43.0,
       "cycles_per_sample": 0.084,
       "insns_per_block": 173,

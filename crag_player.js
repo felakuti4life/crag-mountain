@@ -1293,6 +1293,25 @@ registerProcessor("crag-processor", CragProcessor);
         throw new Error("crag_bind_audio_by_index not exported by this WASM module");
 
       const samples = decodeWavToFloat32(arrayBuffer);
+      this.bindSamplerFromFloat32(idx, samples);
+    }
+
+    /**
+     * Bind raw Float32 samples (already at the graph's sample rate, mono
+     * unless the graph expects otherwise) to sampler slot *idx*.  Use this
+     * for host-generated data (e.g. a synthesized impulse response) or audio
+     * decoded via decodeAudioData rather than a WAV file.
+     *
+     * @param {number}       idx      Sampler index (0-based).
+     * @param {Float32Array} samples  Sample data (copied).
+     */
+    bindSamplerFromFloat32(idx, samples) {
+      if (idx < 0 || idx >= this._numSamplers)
+        throw new RangeError(
+          `Sampler index ${idx} out of range (0–${this._numSamplers - 1})`
+        );
+      if (!this._bindSamplerByIndex)
+        throw new Error("crag_bind_audio_by_index not exported by this WASM module");
 
       // Keep a copy so samplers bound before start() can be replayed to the
       // worklet during initialisation, and those bound after start() can be

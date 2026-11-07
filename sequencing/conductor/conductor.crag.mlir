@@ -15,7 +15,8 @@
 //   beat              (event_output_void)  — beat trigger (fired, sample_offset)
 //   beat_in_measure   (event_output_int)   — 0-based beat position in measure
 //   measure           (event_output_int)   — 0-based measure number
-//   beat_count        (param_output_int)   — total beats elapsed (0-indexed)
+//   beat_count        (param_output_int)   — index of the latest beat at or
+//                                            before the end of this block
 //
 // Meters (host observation only; retained for backward compatibility):
 //   beat_fired, beat_sample_offset, beat_count
@@ -59,10 +60,18 @@ module {
     %fired, %at = crag.func_ref "metronome"(%start_samp_i32, %period_i32)
                       : (i32, i32) -> (i1, i32)
 
-    // Compute beat count = max(0, (curframe - start_samp) / period)
+    // beat_count = index of the latest beat at or before the end of this
+    // block: the beat firing in this block when there is one (so the
+    // event-derived beat_in_measure/measure see their own beat, not the
+    // previous one), else the last beat already passed.  max(0, …) before
+    // beat 0.
     %cur_frame  = crag.curframe : i64
+    %block_size = crag.block_size : i64
+    %one_i64    = arith.constant 1 : i64
     %zero_i64   = arith.constant 0 : i64
-    %elapsed    = arith.subi %cur_frame, %start_samp : i64
+    %block_last = arith.addi %cur_frame, %block_size : i64
+    %block_end  = arith.subi %block_last, %one_i64 : i64
+    %elapsed    = arith.subi %block_end, %start_samp : i64
     %before     = arith.cmpi slt, %elapsed, %zero_i64 : i64
     %safe_el    = arith.select %before, %zero_i64, %elapsed : i64
     %count_i64  = arith.divsi %safe_el, %period_i64 : i64

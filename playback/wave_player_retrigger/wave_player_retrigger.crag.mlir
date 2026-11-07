@@ -101,10 +101,18 @@ module {
     // State 1 (%s0_pos / %pos_end_f): f32 frame count, advanced by 1 each
     //   sample and reset to (target+1) at the seek event's sample offset so
     //   that the read position at seek_at equals floor(seek_val * sr).
+    //   crag.per_sample states are loop-carried WITHIN a block and re-seeded
+    //   from their operands on every block, so the frame count lives in a
+    //   persistent line cell (zero-initialised, hence frame 0 on the first
+    //   block) and is written back below.  Seeding it from a constant instead
+    //   restarts the asset at frame 0 every block.
     // State 2 (%s0_idx / %idx_hold): i32 within-block sample counter used to
-    //   identify the exact sample at which the seek event fires.
-    %dummy  = crag.impulse : !crag.audio<f32, 0, 1>
-    %s0_pos = arith.constant 0.0 : f32
+    //   identify the exact sample at which the seek event fires.  This one is
+    //   block-local by definition, so a constant 0 seed is correct.
+    %dummy   = crag.impulse : !crag.audio<f32, 0, 1>
+    %line0   = arith.constant 0 : index
+    %s0_pos  = crag.line_load %line0 group = "wave_player_retrigger_pos"
+                   slot = 0 lines = 1 : index -> f32
     %s0_idx = arith.constant 0   : i32
 
     %dummy_out, %pos_end_f, %idx_hold =
@@ -129,6 +137,10 @@ module {
 
       crag.per_sample_yield %x, %new_pos, %next_idx : f32, f32, i32
     } : (!crag.audio<f32, 0, 1>, f32, i32) -> (!crag.audio<f32, 0, 1>, f32, i32)
+
+    // Carry the frame count into the next block.
+    crag.line_store %line0, %pos_end_f group = "wave_player_retrigger_pos"
+        slot = 0 lines = 1 : index, f32
 
     // -------------------------------------------------------------------------
     // Derive the block start position

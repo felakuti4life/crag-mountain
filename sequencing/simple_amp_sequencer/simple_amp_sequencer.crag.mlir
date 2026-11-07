@@ -62,9 +62,15 @@ module {
     %period_f   = arith.divf %sr_x60, %bpm : f32
     %period_i64 = arith.fptosi %period_f : f32 to i64
 
-    // Compute beat count = curframe / period (samples elapsed / period)
+    // beat_count = index of the latest beat at or before the END of this
+    // block, so a beat routed in mid-block (offset > 0) selects its own
+    // step rather than the previous one.
     %cur_frame  = crag.curframe : i64
-    %count_i64  = arith.divsi %cur_frame, %period_i64 : i64
+    %block_size = crag.block_size : i64
+    %one_i64    = arith.constant 1 : i64
+    %block_last = arith.addi %cur_frame, %block_size : i64
+    %block_end  = arith.subi %block_last, %one_i64 : i64
+    %count_i64  = arith.divsi %block_end, %period_i64 : i64
     %beat_count = arith.trunci %count_i64 : i64 to i32
 
     // Get beat position within the measure (0-indexed), driven by the routed

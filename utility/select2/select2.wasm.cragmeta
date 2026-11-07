@@ -26,7 +26,7 @@
   ],
   "has_visualizer": true,
   "has_audio_output": true,
-  "viz_width": 512,
-  "viz_height": 256,
-  "compiled_with": "9d34a62"
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "7b2e9269"
 }

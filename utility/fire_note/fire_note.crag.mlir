@@ -11,13 +11,14 @@
 //   plays a note on every beat, at the pitch/velocity dialed in here.
 //
 // Parameters:
-//   pitch      [0, 127]  — MIDI note number (default 60 = middle C)
-//   velocity   [0, 1]    — note-on velocity / amplitude scale (default 1.0)
+//   voice (struct music_note) — the note to fire, as one block of fields:
+//     voice.pitch    [0, 127]  — MIDI note number (default 60 = middle C)
+//     voice.velocity [0, 1]    — note-on velocity / amplitude (default 1.0)
 //
 // Events:
 //   trigger (void)               — fires the note output
 //   note_on (struct music_note)  — emitted each time `trigger` fires, carrying
-//                                  the current pitch and velocity values
+//                                  the current voice
 
 module {
   crag.include "utility/music_note.crag.mlir" as "music_note_defs"
@@ -26,8 +27,8 @@ module {
 
     %trig_fired, %trig_at = crag.event_void "trigger" : i1, i32
 
-    %pitch    = crag.param "pitch"    min = 0.0  max = 127.0  default = 60.0 : f32
-    %velocity = crag.param "velocity" min = 0.0  max = 1.0    default = 1.0  : f32
+    %pitch, %velocity = crag.param_struct "voice" type = @music_note
+        default = [60.0, 1.0] : f32, f32
 
     crag.event_output_struct "note_on" %trig_fired, %trig_at, %pitch, %velocity
         type = @music_note subtype = "music_note" : i1, i32, f32, f32
