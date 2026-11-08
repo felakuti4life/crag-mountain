@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "sample_rate": 48000,
-  "channels": 1,
+  "channels": 4,
   "parameters": [
     {
       "name": "loop",

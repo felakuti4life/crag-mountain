@@ -2,7 +2,7 @@
   "version": 1,
   "block_size": 512,
   "sample_rate": 48000,
-  "channels":    1,
+  "channels":    4,
   "compiled_with": "7b2e9269",
   "adaa": {
     "mode": "first-order",
@@ -313,7 +313,7 @@
       "id": 23,
       "op": "crag.channel_join",
       "name": "",
-      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpfy5_c5mt\\mono-to-quad-linear.wrapper.mlir",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpbei7qd8y\\mono-to-quad-linear.wrapper.mlir",
       "line": 8,
       "col": 14,
       "graph_stack": [],

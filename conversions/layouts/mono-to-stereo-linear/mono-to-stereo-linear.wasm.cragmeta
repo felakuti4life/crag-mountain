@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "sample_rate": 48000,
-  "channels": 1,
+  "channels": 2,
   "parameters": [
     {
       "name": "loop",
@@ -35,11 +35,18 @@
       "float_index": 0
     },
     {
-      "name": "Output",
+      "name": "Output left",
       "type": "float",
       "min": 0.000000e+00,
       "max": 1.000000e+00,
       "float_index": 1
+    },
+    {
+      "name": "Output right",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 2
     }
   ],
   "has_visualizer": true,
