@@ -13,13 +13,13 @@
 // 5.1 channel layout (ITU-R BS.775 / SMPTE convention):
 //   ch 0: Front Left   (FL)
 //   ch 1: Front Right  (FR)
-//   ch 2: Front Centre (FC)
+//   ch 2: Front Center (FC)
 //   ch 3: LFE / Subwoofer       (ignored in this downmix)
 //   ch 4: Back/Surround Left  (BL / SL)
 //   ch 5: Back/Surround Right (BR / SR)
 //
 // Coefficients:
-//   k_c  = 1/√2 ≈ 0.707  (centre and surround attenuation, −3 dB)
+//   k_c  = 1/√2 ≈ 0.707  (center and surround attenuation, −3 dB)
 //
 // Conversion: channels 6 → 2
 //

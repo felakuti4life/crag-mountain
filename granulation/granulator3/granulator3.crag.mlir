@@ -731,28 +731,176 @@ module {
     }
 
     // ---------------------------------------------------------------------
-    // Soft limiter: linear to the knee, then an asymptote at 1.  Dense clouds
-    // have large momentary peaks that this rounds off.
+    // Linked soft limiter: linear to the knee, then an asymptote at 1, on
+    // the loudest channel of any host fold.  One gain for all speakers keeps
+    // the image in place.
     // ---------------------------------------------------------------------
-    %out = crag.per_sample (%mix) states () {
-      ^bbl(%y: f32):
+    %sp0 = crag.channel_slice %mix, 0 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp1 = crag.channel_slice %mix, 1 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp2 = crag.channel_slice %mix, 2 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp3 = crag.channel_slice %mix, 3 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp4 = crag.channel_slice %mix, 4 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp5 = crag.channel_slice %mix, 5 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp6 = crag.channel_slice %mix, 6 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %sp7 = crag.channel_slice %mix, 7 : !crag.audio<f32, 48000, 8> -> !crag.audio<f32, 48000, 1>
+    %lgain = crag.per_sample (%sp0, %sp1, %sp2, %sp3, %sp4, %sp5, %sp6, %sp7) states () {
+      ^bbl(%y0: f32, %y1: f32, %y2: f32, %y3: f32, %y4: f32, %y5: f32, %y6: f32, %y7: f32):
         %knee  = arith.constant 0.8 : f32
         %room  = arith.constant 0.2 : f32
         %lim1  = arith.constant 1.0 : f32
-        %lim0  = arith.constant 0.0 : f32
-        %ya    = math.absf %y : f32
-        %over  = arith.subf %ya, %knee : f32
+        %a0 = math.absf %y0 : f32
+        %a1 = math.absf %y1 : f32
+        %a2 = math.absf %y2 : f32
+        %a3 = math.absf %y3 : f32
+        %a4 = math.absf %y4 : f32
+        %a5 = math.absf %y5 : f32
+        %a6 = math.absf %y6 : f32
+        %a7 = math.absf %y7 : f32
+        %d1 = arith.maximumf %a7, %a6 : f32
+        %w2_5 = arith.constant 0.7071068 : f32
+        %t2_5 = arith.mulf %a5, %w2_5 : f32
+        %w2_7 = arith.constant 0.7071068 : f32
+        %t2_7 = arith.mulf %a7, %w2_7 : f32
+        %r2_7 = arith.addf %t2_5, %t2_7 : f32
+        %d2 = arith.maximumf %d1, %r2_7 : f32
+        %d3 = arith.maximumf %d2, %a5 : f32
+        %w4_4 = arith.constant 0.7071068 : f32
+        %t4_4 = arith.mulf %a4, %w4_4 : f32
+        %w4_6 = arith.constant 0.7071068 : f32
+        %t4_6 = arith.mulf %a6, %w4_6 : f32
+        %r4_6 = arith.addf %t4_4, %t4_6 : f32
+        %d4 = arith.maximumf %d3, %r4_6 : f32
+        %d5 = arith.maximumf %d4, %a4 : f32
+        %d6 = arith.maximumf %d5, %a3 : f32
+        %d7 = arith.maximumf %d6, %a2 : f32
+        %w8_1 = arith.constant 0.5000000 : f32
+        %t8_1 = arith.mulf %a1, %w8_1 : f32
+        %w8_2 = arith.constant 0.5000000 : f32
+        %t8_2 = arith.mulf %a2, %w8_2 : f32
+        %r8_2 = arith.addf %t8_1, %t8_2 : f32
+        %w8_5 = arith.constant 0.5000000 : f32
+        %t8_5 = arith.mulf %a5, %w8_5 : f32
+        %r8_5 = arith.addf %r8_2, %t8_5 : f32
+        %w8_7 = arith.constant 0.5000000 : f32
+        %t8_7 = arith.mulf %a7, %w8_7 : f32
+        %r8_7 = arith.addf %r8_5, %t8_7 : f32
+        %d8 = arith.maximumf %d7, %r8_7 : f32
+        %w9_1 = arith.constant 0.5773503 : f32
+        %t9_1 = arith.mulf %a1, %w9_1 : f32
+        %w9_2 = arith.constant 0.5773503 : f32
+        %t9_2 = arith.mulf %a2, %w9_2 : f32
+        %r9_2 = arith.addf %t9_1, %t9_2 : f32
+        %w9_7 = arith.constant 0.5773503 : f32
+        %t9_7 = arith.mulf %a7, %w9_7 : f32
+        %r9_7 = arith.addf %r9_2, %t9_7 : f32
+        %d9 = arith.maximumf %d8, %r9_7 : f32
+        %w10_1 = arith.constant 0.7071068 : f32
+        %t10_1 = arith.mulf %a1, %w10_1 : f32
+        %w10_7 = arith.constant 0.7071068 : f32
+        %t10_7 = arith.mulf %a7, %w10_7 : f32
+        %r10_7 = arith.addf %t10_1, %t10_7 : f32
+        %d10 = arith.maximumf %d9, %r10_7 : f32
+        %d11 = arith.maximumf %d10, %a1 : f32
+        %w12_0 = arith.constant 0.3779645 : f32
+        %t12_0 = arith.mulf %a0, %w12_0 : f32
+        %w12_1 = arith.constant 0.3779645 : f32
+        %t12_1 = arith.mulf %a1, %w12_1 : f32
+        %r12_1 = arith.addf %t12_0, %t12_1 : f32
+        %w12_2 = arith.constant 0.3779645 : f32
+        %t12_2 = arith.mulf %a2, %w12_2 : f32
+        %r12_2 = arith.addf %r12_1, %t12_2 : f32
+        %w12_4 = arith.constant 0.3779645 : f32
+        %t12_4 = arith.mulf %a4, %w12_4 : f32
+        %r12_4 = arith.addf %r12_2, %t12_4 : f32
+        %w12_5 = arith.constant 0.3779645 : f32
+        %t12_5 = arith.mulf %a5, %w12_5 : f32
+        %r12_5 = arith.addf %r12_4, %t12_5 : f32
+        %w12_6 = arith.constant 0.3779645 : f32
+        %t12_6 = arith.mulf %a6, %w12_6 : f32
+        %r12_6 = arith.addf %r12_5, %t12_6 : f32
+        %w12_7 = arith.constant 0.3779645 : f32
+        %t12_7 = arith.mulf %a7, %w12_7 : f32
+        %r12_7 = arith.addf %r12_6, %t12_7 : f32
+        %d12 = arith.maximumf %d11, %r12_7 : f32
+        %w13_0 = arith.constant 0.5000000 : f32
+        %t13_0 = arith.mulf %a0, %w13_0 : f32
+        %w13_2 = arith.constant 0.5000000 : f32
+        %t13_2 = arith.mulf %a2, %w13_2 : f32
+        %r13_2 = arith.addf %t13_0, %t13_2 : f32
+        %w13_4 = arith.constant 0.5000000 : f32
+        %t13_4 = arith.mulf %a4, %w13_4 : f32
+        %r13_4 = arith.addf %r13_2, %t13_4 : f32
+        %w13_6 = arith.constant 0.5000000 : f32
+        %t13_6 = arith.mulf %a6, %w13_6 : f32
+        %r13_6 = arith.addf %r13_4, %t13_6 : f32
+        %d13 = arith.maximumf %d12, %r13_6 : f32
+        %w14_0 = arith.constant 0.5773503 : f32
+        %t14_0 = arith.mulf %a0, %w14_0 : f32
+        %w14_2 = arith.constant 0.5773503 : f32
+        %t14_2 = arith.mulf %a2, %w14_2 : f32
+        %r14_2 = arith.addf %t14_0, %t14_2 : f32
+        %w14_6 = arith.constant 0.5773503 : f32
+        %t14_6 = arith.mulf %a6, %w14_6 : f32
+        %r14_6 = arith.addf %r14_2, %t14_6 : f32
+        %d14 = arith.maximumf %d13, %r14_6 : f32
+        %w15_0 = arith.constant 0.7071068 : f32
+        %t15_0 = arith.mulf %a0, %w15_0 : f32
+        %w15_6 = arith.constant 0.7071068 : f32
+        %t15_6 = arith.mulf %a6, %w15_6 : f32
+        %r15_6 = arith.addf %t15_0, %t15_6 : f32
+        %d15 = arith.maximumf %d14, %r15_6 : f32
+        %d16 = arith.maximumf %d15, %a0 : f32
+        %over  = arith.subf %d16, %knee : f32
         %ratio = arith.divf %over, %room : f32
         %den   = arith.addf %lim1, %ratio : f32
         %sq    = arith.divf %over, %den : f32
         %yl    = arith.addf %knee, %sq : f32
-        %isov  = arith.cmpf ogt, %ya, %knee : f32
-        %ym    = arith.select %isov, %yl, %ya : f32
-        %yn    = arith.negf %ym : f32
-        %isneg = arith.cmpf olt, %y, %lim0 : f32
-        %yo    = arith.select %isneg, %yn, %ym : f32
-        crag.per_sample_yield %yo : f32
-    } : (!crag.audio<f32, 48000, 8>) -> !crag.audio<f32, 48000, 8>
+        %gl    = arith.divf %yl, %d16 : f32
+        %isov  = arith.cmpf ogt, %d16, %knee : f32
+        %g     = arith.select %isov, %gl, %lim1 : f32
+        crag.per_sample_yield %g : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo0 = crag.per_sample (%sp0, %lgain) states () {
+      ^bbg0(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo1 = crag.per_sample (%sp1, %lgain) states () {
+      ^bbg1(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo2 = crag.per_sample (%sp2, %lgain) states () {
+      ^bbg2(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo3 = crag.per_sample (%sp3, %lgain) states () {
+      ^bbg3(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo4 = crag.per_sample (%sp4, %lgain) states () {
+      ^bbg4(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo5 = crag.per_sample (%sp5, %lgain) states () {
+      ^bbg5(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo6 = crag.per_sample (%sp6, %lgain) states () {
+      ^bbg6(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %lo7 = crag.per_sample (%sp7, %lgain) states () {
+      ^bbg7(%x: f32, %g: f32):
+        %y = arith.mulf %x, %g : f32
+        crag.per_sample_yield %y : f32
+    } : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 1>
+    %out = crag.channel_join %lo0, %lo1, %lo2, %lo3, %lo4, %lo5, %lo6, %lo7 : (!crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>, !crag.audio<f32, 48000, 1>) -> !crag.audio<f32, 48000, 8>
 
     crag.output %out : !crag.audio<f32, 48000, 8>
   }

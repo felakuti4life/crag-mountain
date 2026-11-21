@@ -1,7 +1,7 @@
 // First-Order Ambisonics Encoder (Mono → FOA)
 //
 // Encodes a mono audio source into First-Order Ambisonics (FOA) using the
-// ACN channel ordering and SN3D normalisation, which together form the
+// ACN channel ordering and SN3D normalization, which together form the
 // AmbiX format (the current industry standard).
 //
 // Output channel layout (ACN/SN3D):
@@ -20,7 +20,7 @@
 //
 // References:
 //   Daniel, J. (2001). Représentation de champs acoustiques. PhD thesis,
-//     Université Paris VI. (Defines ACN/SN3D normalisation.)
+//     Université Paris VI. (Defines ACN/SN3D normalization.)
 //   IEM Plugin Suite documentation, https://plugins.iem.at/
 //   Malham, D. (2003). Space in Music. PhD thesis, University of York.
 //     (Practical AmbiX conventions.)

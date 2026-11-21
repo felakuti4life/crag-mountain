@@ -24,8 +24,8 @@
  *   player.bindSamplerFromArrayBuffer(idx, arrayBuffer) -> void
  *     Decode an ArrayBuffer containing a WAV file and bind.
  *
- *   Supported WAV formats: 16-bit signed PCM or 32-bit IEEE-float PCM, mono
- *   or multi-channel.  Only channel 0 (left) is used.
+ *   Supported WAV formats: 16-bit signed PCM or 32-bit IEEE-float PCM.  The
+ *   samples are bound as stored (interleaved for multi-channel files).
  *
  * WASM math imports:
  *   The compiled crag WASM binary imports math functions (sinf, cosf, tanf,
@@ -38,7 +38,7 @@
  *
  * malloc:
  *   crag graphs that use filters require a small heap for coefficient arrays.
- *   A simple bump allocator is provided; it initialises its pointer from the
+ *   A simple bump allocator is provided; it initializes its pointer from the
  *   exported __heap_base symbol after instantiation.
  *
  * AudioWorklet:
@@ -303,7 +303,7 @@
   /**
    * Decode an ArrayBuffer containing a WAV file (PCM-16 or IEEE-float-32,
    * mono or multi-channel) and return a Float32Array of all interleaved
-   * samples normalised to [-1, 1].
+   * samples normalized to [-1, 1].
    *
    * Throws an Error if the buffer is not a valid/supported WAV.
    *
@@ -336,35 +336,36 @@
         // numChannels at pos + 2 — not needed; all channels are decoded
         // sampleRate  at pos + 4 — not needed for decode
         bitsPerSample = dv.getUint16(pos + 14, true);
-        pos += chunkSz;
       } else if (chunkId === 0x64617461) {    // "data"
         dataOffset = pos;
-        dataSize   = chunkSz;
+        // Tolerate a data chunk that claims more bytes than the file holds.
+        dataSize   = Math.min(chunkSz, buf.byteLength - pos);
         break;
-      } else {
-        pos += chunkSz;
       }
+      // RIFF chunks are word-aligned: an odd-sized chunk has one pad byte.
+      pos += chunkSz + (chunkSz & 1);
     }
 
     if (!dataOffset)
       throw new Error("No data chunk found in WAV");
+    if (!((audioFormat === 3 && bitsPerSample === 32) ||
+          (audioFormat === 1 && bitsPerSample === 16)))
+      throw new Error(
+        `Unsupported WAV format: audioFormat=${audioFormat}, bits=${bitsPerSample}`
+      );
 
     const bytesPerSample = bitsPerSample >>> 3;
     const totalSamples   = Math.floor(dataSize / bytesPerSample);
     const out            = new Float32Array(totalSamples);
 
-    if (audioFormat === 3 && bitsPerSample === 32) {
+    if (audioFormat === 3) {
       // IEEE 32-bit float — read via DataView to handle any byte alignment.
       for (let i = 0; i < totalSamples; i++)
         out[i] = dv.getFloat32(dataOffset + i * 4, true);
-    } else if (audioFormat === 1 && bitsPerSample === 16) {
-      // Signed 16-bit PCM — normalise to [-1, 1].
+    } else {
+      // Signed 16-bit PCM — normalize to [-1, 1].
       for (let i = 0; i < totalSamples; i++)
         out[i] = dv.getInt16(dataOffset + i * 2, true) / 32767.0;
-    } else {
-      throw new Error(
-        `Unsupported WAV format: audioFormat=${audioFormat}, bits=${bitsPerSample}`
-      );
     }
 
     return out;
@@ -571,6 +572,11 @@ class CragProcessor extends AudioWorkletProcessor {
       case "visualize":
         this._handleVisualize(msg.idx);
         break;
+      case "vizOnAudioThread":
+        // The main thread could not render from a snapshot; go back to
+        // rendering here.
+        this._vizOffThread = false;
+        break;
     }
   }
 
@@ -581,10 +587,8 @@ class CragProcessor extends AudioWorkletProcessor {
             arenaSize } = msg;
 
     this._channels      = channels;
-    // Re-initialise the arena state.  Bounds are populated below once
-    // __heap_base is known, but seed ptr from the value the main thread
-    // computed so that allocations made before instantiation completes
-    // (none today, but defensive) start at a sane offset.
+    // Re-initialize the arena state.  Bounds are populated below once
+    // __heap_base is known; until then seed ptr from the main thread's value.
     this._heapState.ptr        = heapPtr;
     this._heapState.base       = heapPtr;
     this._heapState.end        = 0; // disabled until base + arenaSize is fixed
@@ -609,7 +613,7 @@ class CragProcessor extends AudioWorkletProcessor {
     this._process      = e.crag_process;
     this._blockSize    = e.crag_block_size();
 
-    // Honour the compiled __heap_base so the bump allocator doesn't collide
+    // Honor the compiled __heap_base so the bump allocator doesn't collide
     // with WASM static data.
     if (e.__heap_base) heapState.ptr = e.__heap_base.value;
 
@@ -652,10 +656,23 @@ class CragProcessor extends AudioWorkletProcessor {
 
     this._vizFn        = e.crag_visualize  || null;
     this._vizOutputPtr = e.crag_viz_output ? e.crag_viz_output.value : 0;
+    // crag_visualize_rgba8 renders and converts to 8-bit RGBA inside the
+    // module; absent from binaries built before it existed.
+    this._vizRgba8Fn   = e.crag_visualize_rgba8  || null;
+    this._vizRgba8Ptr  = e.crag_viz_output_rgba8 ? e.crag_viz_output_rgba8.value : 0;
     this._vizWidthFn   = e.crag_viz_width  || null;
     this._vizHeightFn  = e.crag_viz_height || null;
     this._numVisualizers = e.crag_num_visualizers ? e.crag_num_visualizers()
                          : (e.crag_has_visualizer && e.crag_has_visualizer() !== 0 ? 1 : 0);
+    // Snapshot of what the visualizers read (see crag-generate-viz-snapshot).
+    // When the module has it and the main thread asked for it, a "visualize"
+    // request copies these few kilobytes out and the main thread renders;
+    // rendering here would hold the audio thread for a whole frame.
+    this._vizSnapSave  = e.crag_viz_snapshot_save || null;
+    this._vizSnapPtr   = e.crag_viz_snapshot ? e.crag_viz_snapshot.value : 0;
+    this._vizSnapSize  = e.crag_viz_snapshot_size ? e.crag_viz_snapshot_size() : 0;
+    this._vizOffThread = !!(msg.vizOffThread && this._vizSnapSave &&
+                            this._vizSnapPtr && this._vizSnapSize > 0);
 
     this._metersPtr    = e.crag_meters    ? e.crag_meters.value    : 0;
     this._metersI32Ptr = e.crag_meters_i32 ? e.crag_meters_i32.value : 0;
@@ -674,10 +691,12 @@ class CragProcessor extends AudioWorkletProcessor {
         i32[(this._paramsI32Ptr >> 2) + i] = initialParamsI32[i];
     }
 
-    this._accumulator = new Float32Array(this._channels * this._blockSize * 4);
-    // × 4 gives headroom so the ring buffer can hold multiple crag blocks,
-    // which is needed when crag's block size is smaller than the Web Audio
-    // quantum (128 samples).
+    // process() tops the accumulator up one crag block at a time until it
+    // holds a full render quantum (128 frames), so it must fit a quantum plus
+    // one block; a smaller buffer can never reach the quantum and the fill
+    // loop would not terminate.  (_blockSize is interleaved samples.)
+    this._accumulator = new Float32Array(
+      Math.max(this._blockSize * 4, 128 * this._channels + this._blockSize));
     this._accumFill   = 0;
     this._ready       = true;
 
@@ -759,14 +778,24 @@ class CragProcessor extends AudioWorkletProcessor {
     idx = idx | 0;
     if (idx < 0 || idx >= this._numVisualizers) return;
     if (this._vizDisabled.has(idx)) return;
+    if (this._vizOffThread) {
+      this._vizSnapSave();
+      const state = new Uint8Array(this._memory.buffer, this._vizSnapPtr,
+                                   this._vizSnapSize).slice();
+      this.port.postMessage({ type: "vizState", idx, data: state.buffer },
+                            [state.buffer]);
+      return;
+    }
     // Save the bump-allocator pointer before calling crag_visualize so that
     // any heap allocations made inside the visualizer (e.g. the multiview
     // canvas and sub-texture memrefs allocated via memref.alloc) are reclaimed
     // after each frame.  Without this, 14+ MiB of textures would accumulate
     // in the arena on every visualize call and exhaust WASM memory.
     const heapBefore = this._heapState.ptr;
+    const useRgba8 = !!(this._vizRgba8Fn && this._vizRgba8Ptr);
     try {
-      this._vizFn(idx);
+      if (useRgba8) this._vizRgba8Fn(idx);
+      else this._vizFn(idx);
     } catch (_err) {
       // A buggy visualizer implementation should not kill audio playback.
       // Disable this index for the rest of this worklet lifetime.
@@ -786,12 +815,21 @@ class CragProcessor extends AudioWorkletProcessor {
     const pixels = w * h * 4;
     const bytesNeeded = pixels * 4;
     if (pixels <= 0 || bytesNeeded <= 0) return;
-    const byteOffset = this._vizOutputPtr | 0;
-    if ((byteOffset + bytesNeeded) > this._memory.buffer.byteLength) return;
-    const f32 = new Float32Array(this._memory.buffer, byteOffset, pixels);
-    const u8  = new Uint8ClampedArray(pixels);
-    for (let i = 0; i < pixels; i++)
-      u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
+    let u8;
+    if (useRgba8) {
+      // Already 8-bit: copy the bytes out of WASM memory (the copy is what
+      // gets transferred below).
+      const byteOffset = this._vizRgba8Ptr | 0;
+      if ((byteOffset + pixels) > this._memory.buffer.byteLength) return;
+      u8 = new Uint8ClampedArray(this._memory.buffer, byteOffset, pixels).slice();
+    } else {
+      const byteOffset = this._vizOutputPtr | 0;
+      if ((byteOffset + bytesNeeded) > this._memory.buffer.byteLength) return;
+      const f32 = new Float32Array(this._memory.buffer, byteOffset, pixels);
+      u8 = new Uint8ClampedArray(pixels);
+      for (let i = 0; i < pixels; i++)
+        u8[i] = Math.round(Math.min(Math.max(f32[i], 0), 1) * 255);
+    }
     // Transfer the backing ArrayBuffer to avoid a copy.
     this.port.postMessage(
       { type: "vizData", idx, data: u8.buffer, width: w, height: h },
@@ -865,17 +903,14 @@ class CragProcessor extends AudioWorkletProcessor {
         return false;
       }
 
-      // crag_block_size() (this._blockSize) already returns the TOTAL
-      // interleaved sample count of crag_output (frames * channels), so the
-      // view length is this._blockSize — NOT this._blockSize * channels.
-      // Multiplying by channels again reads twice the real buffer and splices
-      // the uninitialised back half into the output every block: for stereo
-      // (channels = 2) graphs that is audible block-rate zippering. (Mono
-      // graphs were unaffected because * 1 is a no-op.)
+      // crag_block_size() (this._blockSize) is the TOTAL interleaved sample
+      // count of crag_output (frames * channels), so the view length is
+      // this._blockSize — NOT this._blockSize * channels.
       const view = new Float32Array(
         this._memory.buffer, this._outputPtr, this._blockSize
       );
       const needed = Math.min(view.length, this._accumulator.length - this._accumFill);
+      if (needed <= 0) break;   // accumulator full (or empty block): never spin
       this._accumulator.set(view.subarray(0, needed), this._accumFill);
       this._accumFill += needed;
     }
@@ -968,13 +1003,24 @@ registerProcessor("crag-processor", CragProcessor);
       this._numVisualizers = e.crag_num_visualizers ? e.crag_num_visualizers()
                            : (e.crag_has_visualizer && e.crag_has_visualizer() !== 0 ? 1 : 0);
       this._hasVisualizer  = this._numVisualizers > 0;
-      // crag_viz_width / crag_viz_height now take an index.
+      // crag_viz_width / crag_viz_height take a visualizer index.
       this._vizW = this._hasVisualizer && e.crag_viz_width  ? e.crag_viz_width(0)  : 0;
       this._vizH = this._hasVisualizer && e.crag_viz_height ? e.crag_viz_height(0) : 0;
       this._vizOutputPtr = e.crag_viz_output ? e.crag_viz_output.value : 0;
       this._crag_visualize = e.crag_visualize || null;
       this._crag_viz_width_fn  = e.crag_viz_width  || null;
       this._crag_viz_height_fn = e.crag_viz_height || null;
+      // Rendering on this thread from a snapshot of the worklet's state (see
+      // _renderVizFromSnapshot).  Needs the snapshot API and the 8-bit
+      // output, both absent from modules built by older compilers.
+      this._vizRgba8Fn   = e.crag_visualize_rgba8 || null;
+      this._vizRgba8Ptr  = e.crag_viz_output_rgba8 ? e.crag_viz_output_rgba8.value : 0;
+      this._vizSnapLoad  = e.crag_viz_snapshot_load || null;
+      this._vizSnapPtr   = e.crag_viz_snapshot ? e.crag_viz_snapshot.value : 0;
+      this._vizSnapSize  = e.crag_viz_snapshot_size ? e.crag_viz_snapshot_size() : 0;
+      this._vizOffThread = !!(this._vizRgba8Fn && this._vizRgba8Ptr &&
+                              this._vizSnapLoad && this._vizSnapPtr &&
+                              this._vizSnapSize > 0);
 
       this._audioCtx    = null;
       this._workletNode = null;
@@ -984,7 +1030,7 @@ registerProcessor("crag-processor", CragProcessor);
       // idx -> ImageData; populated by vizData messages from the worklet.
       this._vizCache    = new Map();
       // idx -> Float32Array; kept so samplers bound before start() can be
-      // replayed to the worklet after it initialises.
+      // replayed to the worklet after it initializes.
       this._samplerData = new Map();
       this._running     = false;
     }
@@ -1213,7 +1259,7 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
-     * Check whether the compiled graph has signalled instability.
+     * Check whether the compiled graph has signaled instability.
      * Returns null if the graph is stable, or an info object if unstable:
      *   { checkIdx: number, graphName: string, params: number[] }
      * Only meaningful when the graph was compiled with
@@ -1258,8 +1304,8 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
-     * Fetch a WAV file from a URL, decode it, copy into WASM linear memory,
-     * and bind it to sampler slot *idx* via crag_bind_audio_by_index.
+     * Fetch a WAV file from a URL, decode it and bind it to sampler slot
+     * *idx* (see bindSamplerFromFloat32).
      *
      * The WAV must be 16-bit signed PCM or 32-bit IEEE-float PCM.
      *
@@ -1276,8 +1322,8 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
-     * Decode a WAV ArrayBuffer, copy samples into WASM linear memory, and
-     * bind to sampler slot *idx* via crag_bind_audio_by_index.
+     * Decode a WAV ArrayBuffer and bind it to sampler slot *idx* (see
+     * bindSamplerFromFloat32).
      *
      * The WAV must be 16-bit signed PCM or 32-bit IEEE-float PCM.
      *
@@ -1302,6 +1348,10 @@ registerProcessor("crag-processor", CragProcessor);
      * for host-generated data (e.g. a synthesized impulse response) or audio
      * decoded via decodeAudioData rather than a WAV file.
      *
+     * The samples are bound in the AudioWorklet's WASM instance (the one that
+     * renders audio), now if it is running and again on every start(); the
+     * main-thread instance is not touched.
+     *
      * @param {number}       idx      Sampler index (0-based).
      * @param {Float32Array} samples  Sample data (copied).
      */
@@ -1314,7 +1364,7 @@ registerProcessor("crag-processor", CragProcessor);
         throw new Error("crag_bind_audio_by_index not exported by this WASM module");
 
       // Keep a copy so samplers bound before start() can be replayed to the
-      // worklet during initialisation, and those bound after start() can be
+      // worklet during initialization, and those bound after start() can be
       // forwarded immediately.
       this._samplerData.set(idx, samples);
 
@@ -1339,6 +1389,7 @@ registerProcessor("crag-processor", CragProcessor);
      */
     async start() {
       if (this._running || this._starting) return;
+      this._stopRequested = false;
       if (!this._wasmBytes)
         throw new Error("[crag] No WASM bytes available for AudioWorklet. " +
           "Ensure CragPlayer.create() was used to construct this player.");
@@ -1347,7 +1398,7 @@ registerProcessor("crag-processor", CragProcessor);
       try {
         await this._startInternal();
       } catch (e) {
-        // Clean up any partially-initialised state so that a subsequent
+        // Clean up any partially-initialized state so that a subsequent
         // start() call can try again from a clean slate.
         this._startAbort = null;
         if (this._workletNode) {
@@ -1374,9 +1425,18 @@ registerProcessor("crag-processor", CragProcessor);
         { sampleRate }
       );
 
+      // stop() during the awaits below (before the "ready" wait installs
+      // _startAbort) only sets _stopRequested; honor it at each step so
+      // playback does not begin after the caller asked to stop.
+      const checkAborted = () => {
+        if (this._stopRequested)
+          throw new Error("[crag] start() aborted by stop()");
+      };
+
       // Resume the context if it was created while suspended (e.g. before a
       // user gesture in some browsers).  This is a no-op when already running.
       await this._audioCtx.resume();
+      checkAborted();
 
       // Load the inline worklet processor via a temporary Blob URL so that
       // no separate .js file is required.
@@ -1387,6 +1447,7 @@ registerProcessor("crag-processor", CragProcessor);
       } finally {
         URL.revokeObjectURL(blobUrl);
       }
+      checkAborted();
 
       const workletNode = new AudioWorkletNode(this._audioCtx, "crag-processor", {
         numberOfInputs:     0,
@@ -1414,7 +1475,7 @@ registerProcessor("crag-processor", CragProcessor);
       // 10 s is generous; WASM instantiation typically completes in < 100 ms.
       await new Promise((resolve, reject) => {
         const timeout = setTimeout(
-          () => reject(new Error("[crag] AudioWorklet initialisation timed out")),
+          () => reject(new Error("[crag] AudioWorklet initialization timed out")),
           10000
         );
 
@@ -1443,6 +1504,7 @@ registerProcessor("crag-processor", CragProcessor);
                 paramsI32Ptr:    this._paramsI32Ptr,
                 initialParams,
                 initialParamsI32,
+                vizOffThread:    this._vizOffThread,
               });
               break;
             case "ready":
@@ -1461,6 +1523,12 @@ registerProcessor("crag-processor", CragProcessor);
               resolve();
               break;
             case "error":
+              if (this._workletReady) {
+                // Post-init failure (e.g. a sampler bind that exhausted the
+                // arena): there is no pending promise to reject.
+                console.error("[crag] AudioWorklet error: " + msg.message);
+                break;
+              }
               clearTimeout(timeout);
               this._startAbort = null;
               reject(new Error("[crag] AudioWorklet init failed: " + msg.message));
@@ -1477,6 +1545,9 @@ registerProcessor("crag-processor", CragProcessor);
               this._vizCache.set(msg.idx, new ImageData(u8, msg.width, msg.height));
               break;
             }
+            case "vizState":
+              this._renderVizFromSnapshot(msg.idx, msg.data);
+              break;
             case "meterData": {
               if (msg.f32 && msg.f32.byteLength > 0 && this._metersPtr) {
                 const f32 = new Float32Array(msg.f32);
@@ -1504,14 +1575,16 @@ registerProcessor("crag-processor", CragProcessor);
     }
 
     /**
-     * Request a visualizer frame from the AudioWorklet and return the most
-     * recently received ImageData for visualizer index *idx*.
+     * Request a visualizer frame and return the most recently completed
+     * ImageData for visualizer index *idx*.
      *
-     * The call is non-blocking: it asks the worklet to render the current
-     * frame and post back pixel data, then returns whatever was cached from
-     * the previous request (null on the very first call before any data has
-     * arrived).  In a requestAnimationFrame loop this produces smooth output
-     * with at most one frame of latency.
+     * The call is non-blocking: it asks the worklet for the state the
+     * visualizer draws from, which this thread renders when it arrives, and
+     * returns whatever was cached from the previous request (null on the very
+     * first call before any data has arrived).  Modules built without the
+     * snapshot API render inside the worklet and post pixels back.  In a
+     * requestAnimationFrame loop this produces smooth output with at most one
+     * frame of latency.
      *
      * Returns null if no visualizer is present or idx is out of range.
      * @param {number} [idx=0]  Visualizer index (0-based).
@@ -1525,8 +1598,52 @@ registerProcessor("crag-processor", CragProcessor);
       return this._vizCache.get(idx) || null;
     }
 
+    /**
+     * Render visualizer *idx* on this thread from a snapshot of the state the
+     * AudioWorklet's instance captured, and cache the frame for visualize().
+     *
+     * The worklet only copies the snapshot out (a few kilobytes); the pixel
+     * work, which takes milliseconds, happens here instead of between two
+     * audio callbacks.  If rendering throws, the worklet is told to render on
+     * its own thread instead.
+     *
+     * @param {number}      idx   Visualizer index.
+     * @param {ArrayBuffer} data  Bytes of the worklet's crag_viz_snapshot.
+     */
+    _renderVizFromSnapshot(idx, data) {
+      if (!this._vizOffThread || data.byteLength !== this._vizSnapSize) return;
+      const heapBefore = this._heapState.ptr;
+      try {
+        new Uint8Array(this._memory.buffer, this._vizSnapPtr, this._vizSnapSize)
+          .set(new Uint8Array(data));
+        this._vizSnapLoad();
+        this._vizRgba8Fn(idx);
+      } catch (_err) {
+        this._heapState.ptr = heapBefore;
+        this._vizOffThread = false;
+        if (this._workletNode)
+          this._workletNode.port.postMessage({ type: "vizOnAudioThread" });
+        return;
+      }
+      // Scratch the visualizer allocated is dead once the frame is drawn.
+      this._heapState.ptr = heapBefore;
+      const w = this._crag_viz_width_fn  ? (this._crag_viz_width_fn(idx)  | 0) : 0;
+      const h = this._crag_viz_height_fn ? (this._crag_viz_height_fn(idx) | 0) : 0;
+      const bytes = w * h * 4;
+      if (bytes <= 0 || this._vizRgba8Ptr + bytes > this._memory.buffer.byteLength)
+        return;
+      const u8 = new Uint8ClampedArray(this._memory.buffer, this._vizRgba8Ptr,
+                                       bytes).slice();
+      this._vizCache.set(idx, new ImageData(u8, w, h));
+    }
+
     /** Stop real-time audio output. */
     stop() {
+      // start() is still in its early awaits: flag it (see _startInternal).
+      if (this._starting && !this._startAbort) {
+        this._stopRequested = true;
+        return;
+      }
       if (!this._running && !this._startAbort) return;
       // If stop() is called while awaiting start(), abort the pending Promise.
       if (this._startAbort) {
@@ -1622,7 +1739,7 @@ registerProcessor("crag-processor", CragProcessor);
       const heapState = {
         ptr:        8 * 1024 * 1024, // provisional until __heap_base fixup
         base:       0,
-        end:        0,               // disabled until base is finalised
+        end:        0,               // disabled until base is finalized
         peak:       0,
         allocCount: 0,
         lastError:  null,

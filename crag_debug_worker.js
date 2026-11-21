@@ -31,6 +31,12 @@
  *   { type: "pause" }                  // stop the loop
  *   { type: "step", count }            // run N blocks then stop
  *   { type: "reset" }                  // re-instantiate the WASM (zero state)
+ *   { type: "bindSampler", idx, samples }        // Float32Array, while stopped
+ *   { type: "driveTestInput", waveform, seconds } // bind a test signal to every
+ *                                      // sampler; replies { type: "drivenInput" }
+ *   { type: "fireEvent", idx, sampleOffset, subtype, value, structBytes }
+ *
+ * Failures are reported as { type: "error", error, stack }.
  *
  * The debug-mode "hardware" breakpoints (NaN, Inf, instability) are
  * implemented entirely in JS by scanning the output buffer and reading
@@ -62,13 +68,10 @@ function _makeImports(heapState, memState) {
         const ptr = heapState.ptr;
         const next = ptr + aligned;
         // Grow the WASM linear memory if the bump pointer would run past the
-        // current buffer.  Crucial for visualizers, whose kernels allocate
-        // multi-MiB scratch textures via memref.alloc: the default 16 MiB
-        // module memory is not enough for a 1024×512 RGBA-float canvas, so
-        // without growing here crag_visualize() traps with "memory access out
-        // of bounds" — which previously broke both the texture view and (once
-        // the leaked viz allocations pushed crag_process past the limit) block
-        // stepping itself.  Mirrors crag_player.js's AudioWorklet malloc.
+        // current buffer.  Visualizer kernels allocate multi-MiB scratch
+        // textures via memref.alloc, more than the module's initial memory
+        // holds; without growing, crag_visualize() traps with "memory access
+        // out of bounds".
         if (memState.memory && next > memState.memory.buffer.byteLength) {
           const pages = Math.ceil(
             (next - memState.memory.buffer.byteLength) / 65536,
@@ -208,8 +211,11 @@ async function _doInit(wasmBuffer, meta, debugInfo) {
   if (_exports.__heap_base) _heapState.ptr = _exports.__heap_base.value;
 
   _blockSize  = _exports.crag_block_size  ? _exports.crag_block_size()  : 512;
-  _sampleRate = _exports.crag_sample_rate ? _exports.crag_sample_rate() : 48000;
-  _channels   = _exports.crag_num_channels ? _exports.crag_num_channels() : 1;
+  // The module exports neither rate nor channel count; the metadata does.
+  _sampleRate = _exports.crag_sample_rate ? _exports.crag_sample_rate()
+                                          : (_meta.sample_rate || 48000);
+  _channels   = _exports.crag_num_channels ? _exports.crag_num_channels()
+                                           : (_meta.channels || 1);
   _outputPtr  = _exports.crag_output  ? _exports.crag_output.value  : 0;
   _paramsPtr  = _exports.crag_params  ? _exports.crag_params.value  : 0;
   _paramsI32Ptr = _exports.crag_params_i32 ? _exports.crag_params_i32.value : 0;
@@ -360,8 +366,9 @@ function _fireEvent(idx, sampleOffset, value, subtype, structBytes) {
 /// Snapshot the output buffer as a Float32Array for transfer to main thread.
 function _snapshotOutput() {
   if (!_outputPtr) return new Float32Array(0);
-  const len = _blockSize * _channels;
-  const src = new Float32Array(_memory.buffer, _outputPtr, len);
+  // crag_block_size() is the TOTAL interleaved length of crag_output
+  // (frames * channels): do not multiply by the channel count.
+  const src = new Float32Array(_memory.buffer, _outputPtr, _blockSize);
   return new Float32Array(src);  // copy detaches from WASM memory
 }
 
@@ -369,9 +376,8 @@ function _snapshotOutput() {
 ///
 /// The visualizer writes its canvas to `crag_viz_output` as **float** RGBA in
 /// the 0..1 range (w*h*4 floats), exactly like the AudioWorklet path in
-/// crag_player.js — so we read Float32 and clamp to bytes here (the previous
-/// code read the float bytes directly as Uint8, producing garbage colors).
-/// The bump pointer is snapshotted before the call and restored afterwards
+/// crag_player.js — so we read Float32 and clamp to bytes here.
+/// The bump pointer is snapshotted before the call and restored afterward
 /// (on success *and* trap) so the multi-MiB scratch buffers the kernel
 /// allocates are reclaimed every frame instead of leaking the arena away.
 function _snapshotTexture(idx) {
@@ -446,9 +452,7 @@ function _runOneBlock() {
   // The bump allocator's free() is a no-op (see _makeImports above), so every
   // malloc made by crag_process() — typically the transient per-block buffers
   // that One-Shot Bufferize inserts (memref.alloc / memref.dealloc pairs) —
-  // would otherwise leak.  With the default 16 MiB WASM linear memory the
-  // accumulated leak crosses the memory boundary after ~1.1 k blocks and the
-  // next memref store traps with `RuntimeError: index out of bounds`.
+  // would otherwise leak until a memref store traps out of bounds.
   // Snapshot/restore the heap pointer around the call to give the no-op free
   // proper LIFO-stack semantics for intra-block allocations, while leaving
   // persistent state (sampler bindings, parameter buffers) — which lives in
@@ -457,7 +461,7 @@ function _runOneBlock() {
   _exports.crag_process();
   _heapState.ptr = heapBefore;
   _blockCount += 1;
-  _samplePos  += _blockSize;
+  _samplePos  += Math.floor(_blockSize / Math.max(1, _channels)); // frames
 
   const out   = _snapshotOutput();
   const stats = _statsOver(out);

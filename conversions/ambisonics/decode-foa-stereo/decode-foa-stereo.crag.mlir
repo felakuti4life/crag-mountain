@@ -14,13 +14,13 @@
 //   L = 0.5 * (W + cos(45°)·X + sin(45°)·Y)  = 0.5 * (W + 0.7071·X + 0.7071·Y)
 //   R = 0.5 * (W + cos(-45°)·X + sin(-45°)·Y) = 0.5 * (W + 0.7071·X − 0.7071·Y)
 //
-// The 0.5 factor maintains the same loudness for a centred mono source as
+// The 0.5 factor maintains the same loudness for a centered mono source as
 // the original W component (W + X·cos(0°)·1.0 ≈ 2W, so 0.5 → W).
 //
 // Channel count: 4 (subtype="ambisonics") → 2 (plain stereo)
 //
 // References:
-//   Gerzon, M. (1992). General metatheory of auditory localisation. AES 92nd
+//   Gerzon, M. (1992). General metatheory of auditory localization. AES 92nd
 //     Convention, preprint 3306.
 //   Malham, D. (2003). Space in Music. PhD thesis, University of York.
 //   IEM Plugin Suite documentation, https://plugins.iem.at/
@@ -40,7 +40,7 @@ module {
 
     // Shared gain: 0.7071 ≈ 1/√2 = cos(45°) = sin(45°)
     %k = arith.constant 7.07106781e-01 : f32
-    // Overall 0.5 scale to keep centred mono at unity gain.
+    // Overall 0.5 scale to keep centered mono at unity gain.
     %half = arith.constant 5.0e-01 : f32
 
     // L = 0.5 * (W + 0.7071*X + 0.7071*Y)

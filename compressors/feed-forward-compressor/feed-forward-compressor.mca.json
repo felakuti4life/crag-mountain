@@ -8,11 +8,11 @@
       "march": "x86-64",
       "mcpu": "haswell",
       "arch": "x86-64",
-      "ipc": 1.2876,
-      "block_rthroughput": 91.75,
-      "cycles_per_sample": 0.1792,
-      "insns_per_block": 232,
-      "uops_per_block": 367
+      "ipc": 1.3644,
+      "block_rthroughput": 79.5,
+      "cycles_per_sample": 0.1553,
+      "insns_per_block": 194,
+      "uops_per_block": 318
     },
     {
       "label": "Intel Skylake-AVX512 (x86-64-v4)",
@@ -20,11 +20,11 @@
       "march": "x86-64",
       "mcpu": "skylake-avx512",
       "arch": "x86-64",
-      "ipc": 1.4368,
-      "block_rthroughput": 60.83,
-      "cycles_per_sample": 0.1188,
-      "insns_per_block": 233,
-      "uops_per_block": 365
+      "ipc": 1.5212,
+      "block_rthroughput": 52.67,
+      "cycles_per_sample": 0.1029,
+      "insns_per_block": 195,
+      "uops_per_block": 316
     },
     {
       "label": "AMD Zen 3 (znver3)",
@@ -32,11 +32,11 @@
       "march": "x86-64",
       "mcpu": "znver3",
       "arch": "x86-64",
-      "ipc": 2.5344,
-      "block_rthroughput": 41.0,
-      "cycles_per_sample": 0.0801,
-      "insns_per_block": 232,
-      "uops_per_block": 233
+      "ipc": 2.4663,
+      "block_rthroughput": 37.33,
+      "cycles_per_sample": 0.0729,
+      "insns_per_block": 194,
+      "uops_per_block": 196
     }
   ]
 }
