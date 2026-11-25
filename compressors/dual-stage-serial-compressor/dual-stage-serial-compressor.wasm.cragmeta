@@ -92,6 +92,7 @@
     }
   ],
   "samplers": ["audio"],
+  "inlined_samplers": [],
   "texture_samplers": [],
   "events": [
     {
@@ -125,5 +126,5 @@
   "has_audio_output": true,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "0f1e6b41"
+  "compiled_with": "a9eb77f2"
 }
