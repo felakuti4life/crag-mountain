@@ -1,0 +1,13 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param delay_blocks: int = 4 [0..15];
+param wet_level    = 0.7 [0..1];
+param dry_level    = 0.5 [0..1];
+
+past = delay(in.fft, delay_blocks, max = 16blk);
+
+out = dry_level * in + wet_level * past.ifft;

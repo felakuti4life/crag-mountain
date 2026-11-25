@@ -1,0 +1,22 @@
+// two-buses.tap: `as` gives each import its own set of global params, and
+// `::` sets a global from the file.
+use ducker from "dynamics" as music_duck with { ratio = 12 };
+use ducker from "dynamics" as fx_duck;
+
+meta { rate = 48000; }
+
+in music: stereo;
+in fx:    stereo;
+in voice;
+
+param depth = 0.5 [0..1];
+
+fx_duck::threshold = lerp(-6db, -40db, depth);   // driven by a value
+fx_duck::ratio     = 20;                         // fixed
+
+ml = music_duck(music.l, voice);
+mr = music_duck(music.r, voice);
+fl = fx_duck(fx.l, voice);
+fr = fx_duck(fx.r, voice);
+
+out = stereo { l = ml + fl, r = mr + fr };

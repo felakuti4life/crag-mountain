@@ -4,7 +4,7 @@
 // domain this is equivalent to convolving the signal block with a flipped
 // copy of itself (auto-convolution, related to but distinct from
 // auto-correlation).  The audible result is a darker, smeared, "energy-
-// emphasised" version of the input: tonal content with strong fundamentals
+// emphasized" version of the input: tonal content with strong fundamentals
 // is reinforced, transients are softened, and the output spectrum is the
 // magnitude-squared of the input spectrum (with doubled phase).
 //

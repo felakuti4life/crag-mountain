@@ -21,7 +21,7 @@
 // input, produced by three serial delay lines each of block_size samples.
 //
 // An anti-aliasing Butterworth lowpass filter is applied before the
-// interpolation step.  The cutoff is set to ratio (normalised, where 1.0 =
+// interpolation step.  The cutoff is set to ratio (normalized, where 1.0 =
 // Nyquist) to suppress frequencies above the lower Nyquist limit.
 //
 // Parameters:
@@ -45,7 +45,7 @@ module {
     %ratio = crag.param "ratio" min = 0.01 max = 1.0 default = 0.91875 : f32
 
     // -----------------------------------------------------------------------
-    // Anti-aliasing lowpass at normalised cutoff = ratio / 2
+    // Anti-aliasing lowpass at normalized cutoff = ratio / 2
     // crag.get_filter_coeffs uses K = tan(pi * cutoff) with cutoff in [0, 0.5]
     // where 0.5 = Nyquist.  ratio is in [0, 1] (1 = Nyquist), so divide by 2.
     // -----------------------------------------------------------------------

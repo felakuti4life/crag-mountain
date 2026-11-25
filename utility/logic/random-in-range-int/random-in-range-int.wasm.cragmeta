@@ -6,7 +6,7 @@
     {
       "name": "min",
       "type": "int",
-      "min": -9223372036854775808,
+      "min": -1000000,
       "max": 1000000,
       "default": 0,
       "int_index": 0
@@ -14,13 +14,14 @@
     {
       "name": "max",
       "type": "int",
-      "min": -9223372036854775808,
+      "min": -1000000,
       "max": 1000000,
       "default": 100,
       "int_index": 1
     }
   ],
   "samplers": [],
+  "inlined_samplers": [],
   "texture_samplers": [],
   "events": [
     {
@@ -50,5 +51,5 @@
   "has_audio_output": false,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "7b2e9269"
+  "compiled_with": "dd2606e7"
 }

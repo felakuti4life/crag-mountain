@@ -1,0 +1,139 @@
+// jupiter-8.tap: an eight-voice synth after the Roland Jupiter-8.
+//
+// Each voice follows the Jupiter's panel from left to right: two VCOs with
+// cross modulation and sync, a source mix, a non-resonant high-pass, the
+// IR3109 low-pass (12 or 24 dB/oct), and a VCA.  ENV-1 sweeps pitch, pulse
+// width and the filter; ENV-2 is the loudness contour and can take over the
+// filter.  One LFO, with the Jupiter's delayed onset, reaches pitch, pulse
+// width, filter and VCA.
+//
+// The IR3109 is four OTA integrators with feedback, the same structure as
+// the Curtis chips, so it uses `ota_lowpass` from kit.tap, driven gently (the
+// Jupiter's filter stays clean) and with the resonance stopping just short
+// of self-oscillation, as the original does.
+//
+// Play it with `note_on` and `note_off` (a music_note; pitch is a MIDI note
+// number, velocity 0..1).  One note-on and one note-off per block.
+//
+// Not modelled: the arpeggiator, split and dual modes, unison and solo
+// assignment, envelope key follow, and VCO-2's low-frequency mode.
+
+use "kit";
+
+meta { channels = 2; }
+
+event note_on:  music_note;
+event note_off: music_note;
+
+// ---- LFO and VCO modulation ----------------------------------------------------
+param lfo_rate    = 5hz [0.05hz..40hz];
+param lfo_delay   = 0s  [0s..5s];           // time for the LFO to fade in after a key
+param lfo_shape   = sine | saw | square | random;
+param vco_lfo     = 0   [0..12];            // LFO to pitch, semitones
+param vco_env     = 0   [0..48];            // ENV-1 to pitch, semitones
+param vco_mod_to  = both | vco1 | vco2;
+param pulse_width = 0.5 [0.05..0.95];
+param pwm_lfo     = 0   [0..0.45];
+param pwm_env     = 0   [0..0.45];          // ENV-1 to pulse width
+
+// ---- VCO-1 ---------------------------------------------------------------------
+param vco1_octave: int = 0 [-2..2];         // range: 16' 8' 4' 2' around 8'
+param vco1_shape  = saw | tri | pulse | square;
+param cross_mod   = 0 [0..1];               // VCO-2 modulates VCO-1's frequency
+param sync        = off;                    // VCO-1 restarts with VCO-2
+
+// ---- VCO-2 ---------------------------------------------------------------------
+param vco2_octave: int = 0 [-2..2];
+param vco2_tune   = 0.08 [-7..7];           // semitones
+param vco2_shape  = saw | sine | pulse | noise;
+param vco_mix     = 0.5 [0..1];             // 0 is VCO-1 only, 1 is VCO-2 only
+
+// ---- filters -------------------------------------------------------------------
+param hpf_cutoff  = 20hz  [20hz..6khz];
+param cutoff      = 900hz [20hz..20khz];
+param resonance   = 0.2   [0..1];
+param slope_24db  = on;                     // off is 12 dB/oct
+param vcf_env     = 3.5   [0..8];           // octaves
+param vcf_env_source = env1 | env2;
+param vcf_lfo     = 0     [0..4];           // octaves
+param key_follow  = 0.6   [0..1.2];
+
+// ---- VCA and envelopes ---------------------------------------------------------
+param vca_lfo     = 0 [0..1];
+param env1_attack  = 300ms [1ms..5s];
+param env1_decay   = 1.5s  [1ms..10s];
+param env1_sustain = 0.5   [0..1];
+param env1_release = 1s    [1ms..10s];
+param env2_attack  = 80ms  [1ms..5s];
+param env2_decay   = 1s    [1ms..10s];
+param env2_sustain = 0.85  [0..1];
+param env2_release = 900ms [1ms..10s];
+param velocity_amount = 0.4 [0..1];         // the Jupiter-8 had none; 0 is authentic
+param pan_spread  = 0.7  [0..1];
+param volume      = -9db [-60db..6db];
+
+lfo_p = ramp(audio(lfo_rate) / sr);
+lfo   = match lfo_shape {
+  sine   => sine_shape(lfo_p),
+  saw    => 1 - 2 * lfo_p,
+  square => if lfo_p < 0.5 then 1 else -1,
+  random => sample_hold(noise(), lfo_p)
+};
+
+// 0 when the voice is given a note, rising to 1 over `time`.
+def fade_in(v, time) {
+  n = audio(v.id);
+  y = if n != n' then 0 else min(y' + 1 / (max(time, 0.001) * sr), 1);
+  return y;
+}
+
+def voice(v) {
+  env1 = env_adsr(v, env1_attack, env1_decay, env1_sustain, env1_release);
+  env2 = env_adsr(v, env2_attack, env2_decay, env2_sustain, env2_release);
+  wob  = lfo * fade_in(v, lfo_delay);
+
+  bend  = vco_lfo * wob + vco_env * env1;
+  bend1 = match vco_mod_to { both => bend, vco1 => bend, vco2 => 0 };
+  bend2 = match vco_mod_to { both => bend, vco1 => 0, vco2 => bend };
+  width = clamp(pulse_width + pwm_lfo * wob + pwm_env * env1, 0.05, 0.95);
+
+  // VCO-2 first: it is the source of cross modulation and the sync master
+  dt2 = mtof(v.pitch + 12 * vco2_octave + vco2_tune + bend2 + drift(2)) / sr;
+  p2  = ramp(dt2);
+  o2  = match vco2_shape {
+    saw   => saw_shape(p2, dt2),
+    sine  => sine_shape(p2),
+    pulse => pulse_shape(p2, dt2, width),
+    noise => noise()
+  };
+
+  f1  = mtof(v.pitch + 12 * vco1_octave + bend1 + drift(2));
+  dt1 = clamp(f1 * (1 + 3 * cross_mod * o2), 0, 0.45 * sr) / sr;
+  p1  = synced_ramp(dt1, p2, dt2, sync);
+  o1  = match vco1_shape {
+    saw    => saw_shape(p1, dt1),
+    tri    => tri_shape(p1),
+    pulse  => pulse_shape(p1, dt1, width),
+    square => pulse_shape(p1, dt1, 0.5)
+  };
+
+  mix  = (1 - vco_mix) * o1 + vco_mix * o2;
+  hp   = highpass1(mix, hpf_cutoff);
+  fenv = match vcf_env_source { env1 => env1, env2 => env2 };
+  oct  = vcf_env * fenv + vcf_lfo * wob + key_follow * (v.pitch - 60) / 12;
+  two  = if slope_24db then 0 else 1;
+  y    = ota_lowpass(hp, cutoff * 2 ^ oct, 3.8 * resonance, two, drive = 0.35);
+
+  amp = env2 * (1 + vca_lfo * 0.5 * (wob - 1)) * (1 - velocity_amount + velocity_amount * v.velocity);
+  return y * amp;
+}
+
+// `best` is written before `v`: a cycle between bindings has to be entered
+// through a signal, not through the array.
+def slot(i) = voice_ctl(i, best, note_on, note_off);
+best = max(i < 8) v[i].cand;
+v    = [slot(0), slot(1), slot(2), slot(3), slot(4), slot(5), slot(6), slot(7)];
+
+def place(i) = 0.5 + pan_spread * (if i % 2 < 1 then 1 else -1) * (floor(i / 2) + 1) / 8;
+
+out = sum(i < 8) pan(voice(v[i]), place(i)) * volume;

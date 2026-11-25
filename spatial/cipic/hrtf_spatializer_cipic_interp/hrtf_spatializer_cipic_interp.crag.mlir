@@ -4,8 +4,8 @@
 // runtime-position counterpart to `hrtf_spatializer_cipic_runtime.crag.mlir`
 // extended with k=3 inverse-distance weighted blending of three
 // concurrently-active HRIR rows, so the host can move the source between
-// measurement points without the audible "switching" artefact a single
-// nearest-neighbour `position_index` produces.
+// measurement points without the audible "switching" artifact a single
+// nearest-neighbor `position_index` produces.
 //
 // The host computes the three (index, weight) tuples once per parameter
 // update via `scripts.hrtf.lookup.linear_interp_positions(k=3)` and binds
@@ -18,14 +18,15 @@
 // External ABI is a strict superset of the runtime renderer:
 //
 //   * `azimuth_rad`, `elevation_rad`, `distance_m`  — same as before
-//   * `position_index_0/1/2` (i32, default 0)  — IR rows in the pack
+//   * `position_index_0/1/2` (i32, default 212) — IR rows in the pack
 //   * `weight_0/1/2` (f32, default 1/3)       — inverse-distance weights
 //
-// Defaulting all three weights to 1/3 means a freshly-loaded binary that
-// has not yet had its parameters driven still produces a coherent
-// (mean-of-three-IRs) output instead of triple-convolving with the same
-// row-0 IR; combined with the index defaults of 0/0/0 the bring-up cost
-// is also predictable (no unbounded-output edge case).
+// All three index defaults are the straight-ahead row (CIPIC row 212 =
+// lateral 0°, polar 0°) and the weights default to 1/3 each, so a
+// freshly-loaded binary that has not yet had its parameters driven renders
+// exactly the front HRIR at unity weight — matching the
+// `azimuth_rad = elevation_rad = 0` defaults — instead of row 0 (lateral
+// -80°, polar -45°: hard left and below).
 //
 // `azimuth_rad` / `elevation_rad` are kept declared for ABI parity with
 // the fixed and runtime variants; only `distance_m` is applied here as
@@ -39,7 +40,8 @@
 //   pp. 99-102, New Paltz, NY, Oct. 2001.
 //
 // Sample rate / IR length / partition budget all match the runtime
-// renderer (48 kHz; ir_length = 256 ≤ block size 512 ⇒ num_partitions = 1).
+// renderer (48 kHz; ir_length = 256; num_partitions = 8 caps the partition
+// count so the full IR is covered down to 32-frame host blocks).
 //
 // position_index range:
 //   `max = 4095` matches the runtime renderer (covers CIPIC's 1250
@@ -76,16 +78,16 @@ module {
 
     // k=3 IR-row indices.
     %pos_idx_0 = crag.param_int "position_index_0"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 212 : i32
     %pos_idx_1 = crag.param_int "position_index_1"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 212 : i32
     %pos_idx_2 = crag.param_int "position_index_2"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 212 : i32
 
-    // k=3 blend weights (host normalises to sum to 1.0 ‒ see
+    // k=3 blend weights (host normalizes to sum to 1.0 ‒ see
     // scripts/hrtf/lookup.linear_interp_positions).  Defaults to 1/3
-    // each so an unparameterised binary still produces a coherent
-    // mean-of-three-IRs output.
+    // each so an unparameterized binary (all three slots on the front
+    // row) renders that row at unity weight.
     %w_0 = crag.param "weight_0"
                min = 0.0 max = 1.0 default = 0.33333333 unit = "" : f32
     %w_1 = crag.param "weight_1"
@@ -119,43 +121,42 @@ module {
     %off_2    = arith.muli %p2_i64, %ir_len : i64
 
     // Three independent OLS-slice convolutions per ear, then blended by
-    // the host-supplied weights.  num_partitions = 1 because ir_length
-    // (256) is ≤ block size (512); see runtime template for the
-    // rationale.  Bumping prep.TARGET_IR_LENGTH above blockSize requires
-    // bumping num_partitions here in tandem.
+    // the host-supplied weights.  num_partitions = 8 is the partition
+    // cap (one partition runs at the default 512-frame block); see the
+    // runtime template for the rationale.
     %wet_l_0 = crag.overlap_save_conv_slice %in, %ir_l, %off_0, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_l_1 = crag.overlap_save_conv_slice %in, %ir_l, %off_1, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_l_2 = crag.overlap_save_conv_slice %in, %ir_l, %off_2, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
 
     %wet_r_0 = crag.overlap_save_conv_slice %in, %ir_r, %off_0, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_R">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_r_1 = crag.overlap_save_conv_slice %in, %ir_r, %off_1, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_R">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_r_2 = crag.overlap_save_conv_slice %in, %ir_r, %off_2, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_cipic_interp_pack_R">,
                      i64, i64

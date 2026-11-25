@@ -1,0 +1,42 @@
+{
+  "graph": "jupiter-8",
+  "block_size": 512,
+  "results": [
+    {
+      "label": "Intel Haswell (x86-64-v3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "haswell",
+      "arch": "x86-64",
+      "ipc": 1.5064,
+      "block_rthroughput": 14272.25,
+      "cycles_per_sample": 27.8755,
+      "insns_per_block": 40499,
+      "uops_per_block": 57089
+    },
+    {
+      "label": "Intel Skylake-AVX512 (x86-64-v4)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "skylake-avx512",
+      "arch": "x86-64",
+      "ipc": 1.7941,
+      "block_rthroughput": 9452.0,
+      "cycles_per_sample": 18.4609,
+      "insns_per_block": 40369,
+      "uops_per_block": 56712
+    },
+    {
+      "label": "AMD Zen 3 (znver3)",
+      "triple": "x86_64-linux-gnu",
+      "march": "x86-64",
+      "mcpu": "znver3",
+      "arch": "x86-64",
+      "ipc": 2.2822,
+      "block_rthroughput": 9155.0,
+      "cycles_per_sample": 17.8809,
+      "insns_per_block": 40551,
+      "uops_per_block": 41347
+    }
+  ]
+}

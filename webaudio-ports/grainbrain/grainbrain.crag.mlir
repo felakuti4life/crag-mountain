@@ -118,7 +118,7 @@ module {
     // Shared constants + density makeup gain.  grainBrain compensates
     // polyphony with 1/sqrt(overlap) per grain (triggerGrain's
     // polyphonyCompensation); our overlap count is the `grains` param itself.
-    // The makeup constant re-centres the default level to the WebAudio
+    // The makeup constant re-centers the default level to the WebAudio
     // reference; src_gain trims around it.
     // =====================================================================
     %c0f    = arith.constant 0.0 : f32

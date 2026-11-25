@@ -10,20 +10,20 @@
 // Algorithm (per block):
 //   1. Detect the input level with `crag.rms` and smooth it through an
 //      asymmetric attack/release one-pole follower (`crag.smooth`).
-//   2. Normalise the smoothed envelope by `sensitivity` so that increasing
+//   2. Normalize the smoothed envelope by `sensitivity` so that increasing
 //      sensitivity opens the filter on quieter input:
 //        env_norm = clamp(env · sensitivity, 0, 1)
-//   3. Map the normalised envelope into the cutoff range and add a fixed
+//   3. Map the normalized envelope into the cutoff range and add a fixed
 //      base cutoff so that the filter never fully closes:
 //        cutoff = base_cutoff + env_norm · sweep_range
-//      The result is then clamped into the (0, 1) Nyquist-normalised
+//      The result is then clamped into the (0, 1) Nyquist-normalized
 //      range required by `crag.get_filter_coeffs`.
 //   4. Compute 2nd-order lowpass coefficients for that cutoff and pass the
 //      audio through two cascaded filter stages (independent state) for a
 //      steeper, more vocal-sounding response.
 //   5. Mix: out = dry_level · in + wet_level · filtered
 //
-// Cutoff range (normalised to Nyquist = 1.0):
+// Cutoff range (normalized to Nyquist = 1.0):
 //   base_cutoff ≈ 0.02     (~480 Hz @ 48 kHz, closed-filter floor)
 //   sweep_range ≈ 0.40     (~9.6 kHz @ 48 kHz, full envelope opens to ~10 kHz)
 //

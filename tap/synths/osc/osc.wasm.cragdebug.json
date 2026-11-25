@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "block_size": 512,
+  "sample_rate": 48000,
+  "channels":    1,
+  "compiled_with": "dd2606e7",
+  "adaa": {
+    "mode": "first-order",
+    "tanh_count": 0,
+    "hard_clip_count": 0
+  },
+  "ops": [
+    {
+      "id": 0,
+      "op": "crag.param_enum",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 4,
+      "col": 11,
+      "graph_stack": ["tap_osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 1,
+      "op": "crag.param",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 5,
+      "col": 11,
+      "graph_stack": ["tap_osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 2,
+      "op": "crag.param",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 6,
+      "col": 11,
+      "graph_stack": ["tap_osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 3,
+      "op": "arith.constant",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 7,
+      "col": 11,
+      "graph_stack": ["tap_osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 4,
+      "op": "arith.constant",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 8,
+      "col": 11,
+      "graph_stack": ["tap_osc"],
+      "is_audio": false,
+      "channels": 0,
+      "sample_rate": 0,
+      "probe_index": null
+    },
+    {
+      "id": 5,
+      "op": "crag.selector",
+      "name": "",
+      "file": "C:\\Users\\ethan\\AppData\\Local\\Temp\\tmpsgdebjgt\\tap-stage\\tap/synths/osc.crag.mlir",
+      "line": 9,
+      "col": 13,
+      "graph_stack": ["tap_osc"],
+      "is_audio": true,
+      "channels": 1,
+      "sample_rate": 0,
+      "probe_index": null
+    }
+  ]
+}

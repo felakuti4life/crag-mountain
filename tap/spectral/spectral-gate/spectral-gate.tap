@@ -1,0 +1,25 @@
+// A noise gate in every bin.
+//
+// Each bin opens when its own level passes the threshold and closes when it
+// falls back, so hiss between the partials of a note is removed while the
+// partials pass.  The gain of each bin is smoothed over time (bin_smooth),
+// which is what keeps a gate like this from chirping.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param threshold = -50db [-90db..0db] "Threshold";
+param floor     = -60db [-90db..0db] "Floor";       // gain of a closed bin
+param attack    = 5ms   [0ms..100ms] "Attack";
+param release   = 150ms [5ms..2s] "Release";
+
+spec = in.stft(overlap = 4);
+
+open = if spec.level > threshold then 1 else floor;
+gain = bin_smooth(open, attack, release);
+
+out = (spec * gain).ifft;
+
+meter opened = gain.rms [0..1] as "Open";

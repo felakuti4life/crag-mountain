@@ -2,7 +2,7 @@
 //
 // A standalone `crag.graph` that drives the metronome function and publishes
 // tempo state both as meters (host observation) and as patchable control
-// outputs (Phase 5: routable to downstream sequencer nodes via the engine
+// outputs (routable to downstream sequencer nodes via the engine
 // control patchbay).  The audio output is intentionally silent; the useful
 // surface is the control outputs and meters.
 //

@@ -13,6 +13,7 @@
     }
   ],
   "samplers": [],
+  "inlined_samplers": [],
   "texture_samplers": [],
   "events": [
   ],
@@ -38,5 +39,5 @@
   "has_audio_output": false,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "7b2e9269"
+  "compiled_with": "dd2606e7"
 }

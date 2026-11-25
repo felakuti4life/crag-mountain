@@ -1,0 +1,36 @@
+// A delay with a different time for the lows, the mids and the highs.
+//
+// The echoes are made in the spectrum: each bin is delayed by a whole number
+// of blocks, and the feedback goes round inside the bin, so a band repeats
+// without ever leaking into the others.  A spectrum cannot be defined in
+// terms of itself, but its real and imaginary parts are bin signals, and
+// those can.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+  maxblock   = 1024;     // delays of up to 32 blocks, for blocks of up to 1024 samples
+}
+
+param low_time:  int = 12 [1..32] "Low";      // blocks
+param mid_time:  int = 8  [1..32] "Mid";
+param high_time: int = 3  [1..32] "High";
+param low_split  = 300hz [40hz..2khz] "Low/Mid";
+param high_split = 3khz  [1khz..12khz] "Mid/High";
+param feedback   = 0.6 [0..0.95] "Feedback";
+param wet_level  = 0.7 [0..1] "Wet";
+param dry_level  = 0.7 [0..1] "Dry";
+
+spec = in.stft;
+
+// one part of the spectrum, with the three bands each read from further back
+def echoes(x) =
+    band(0hz, low_split)         * delay(x, low_time  * 1blk, max = 32blk)
+  + band(low_split, high_split)  * delay(x, mid_time  * 1blk, max = 32blk)
+  + band(high_split, 24khz)      * delay(x, high_time * 1blk, max = 32blk);
+
+re = spec.re + feedback * echoes(re);
+im = spec.im + feedback * echoes(im);
+
+wet = spectrum(echoes(re), echoes(im)).ifft;
+out = dry_level * in.align(spec) + wet_level * wet;

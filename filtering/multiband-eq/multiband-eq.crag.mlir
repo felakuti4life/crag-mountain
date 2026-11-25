@@ -24,7 +24,7 @@
 //   gain_lin = exp(gain_db · ln(10) / 20)
 //            = exp(gain_db · 0.115129254...)
 //
-// Crossover frequencies (normalised to Nyquist = 1.0, clamped into (0, 1)):
+// Crossover frequencies (normalized to Nyquist = 1.0, clamped into (0, 1)):
 //   f_lo defaults to 0.0083  (~200 Hz   @ 48 kHz)
 //   f_hi defaults to 0.167   (~4 kHz    @ 48 kHz)
 // The crag.get_filter_coeffs op requires 0 < cutoff < 1, so each crossover
@@ -64,7 +64,7 @@ module {
     %out_gain_db  = crag.param "output_gain" min = -24.0 max = 12.0 default = 0.0 unit = "dB" : f32
 
     // -----------------------------------------------------------------------
-    // Clamp crossovers into the legal (0, 1) Nyquist-normalised range that
+    // Clamp crossovers into the legal (0, 1) Nyquist-normalized range that
     // `crag.get_filter_coeffs` requires.  The static parameter bounds keep
     // them well within (0, 1), but a defensive runtime clamp guards against
     // any host-side overrides.

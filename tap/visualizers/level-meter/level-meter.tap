@@ -1,0 +1,39 @@
+// level-meter.tap: a peak / RMS meter with a peak-hold line, and a small
+// scope.  `tap out -> name;` sends a signal to a visualizer.
+meta { rate = 48000; channels = 1; }
+
+viz meter 128x256 {
+  state hold = 0;
+
+  pk  = max(i < n) abs(in[i]);
+  rms = sqrt(mean(i < n) in[i] * in[i]);
+
+  y(v)      = H * clamp(-v.db / 60, 0, 1);                 // 0 dB at the top, -60 dB at the bottom
+  shade(v)  = if v > 0.5 then #ff4030 else (if v > 0.25 then #ffd040 else #30d060);
+
+  fill(#050508);
+  for g in [12, 24, 36, 48] { hline(H * g / 60, #242a2a); }
+
+  rect(8..60,   y(pk)..H,  shade(pk));
+  rect(68..120, y(rms)..H, shade(rms) * 0.55);
+
+  hold = max(pk, hold * 0.97);
+  hline(y(hold), #f2f2f2);
+  text(4, 4, "PK  RMS");
+}
+
+viz scope 256x128 {
+  fill(#06080c);
+  hline(H / 2, #1c2430);
+  for x in 0..W {
+    s = in[x * n / W];
+    px(x, H / 2 - s * (H / 2 - 2), #6ad0ff);
+  }
+}
+
+lfo = 0.5 + 0.5 * sine(0.5hz);
+sig = saw(110hz).lpf(1200hz) * lfo * 0.6;
+
+tap sig -> meter;
+tap sig -> scope;
+out = sig;

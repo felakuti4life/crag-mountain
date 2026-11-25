@@ -1,0 +1,48 @@
+use "granulation/granulator2-viz" as granulator2_viz;
+
+meta {
+  rate       = 48000;
+  channels   = 2;
+  visualizer = "granulator2_viz";
+}
+
+sampler audio;
+
+param grains: int = 6     [1..8];
+param window_pos  = 0.1   [0..1];
+param window_size = 0.25  [0.01..1];
+param speed_min   = 1     [-2..2];
+param speed_max   = 1     [-2..2];
+param grain_min   = 80ms  [20ms..500ms];
+param grain_max   = 140ms [20ms..500ms];
+param skew_min    = 0.5   [0.05..0.95];
+param skew_max    = 0.5   [0.05..0.95];
+param output_gain = 0.7   [0..2];
+
+// Where each of the 8 grains sits inside the ranges above.
+const u_win = [0.0, 0.63, 0.27, 0.85, 0.12, 0.74, 0.42, 0.95];
+const u_spd = [0.5, 0.18, 0.83, 0.35, 0.66, 0.05, 0.95, 0.42];
+const u_sz  = [0.3, 0.72, 0.1,  0.55, 0.9,  0.22, 0.66, 0.44];
+const u_sk  = [0.5, 0.25, 0.8,  0.4,  0.65, 0.15, 0.9,  0.55];
+const u_ph  = [0.0, 0.37, 0.71, 0.13, 0.55, 0.88, 0.29, 0.62];
+
+len       = max(audio.len, 1);
+win_len   = max(window_size * len, 1);
+win_start = window_pos * max(len - win_len, 0);
+
+def grain(i) {
+  speed = lerp(speed_min, speed_max, u_spd[i]);
+  dur   = lerp(grain_min, grain_max, u_sz[i]);
+  skew  = clamp(lerp(skew_min, skew_max, u_sk[i]), 0.02, 0.98);
+
+  ph   = phasor(1 / dur, u_ph[i]);              // envelope phase, 0..1
+  pos  = win_start + u_win[i] * win_len + speed * dur.smp * ph;
+  env  = max(0, min(ph / skew, (1 - ph) / (1 - skew))) ^ 2;
+  gate = if i < grains then 1 else 0;
+
+  g   = audio.at(pos, wrap) * env * gate;
+  pan = (0.15 + 0.1 * i) * pi / 2;              // folded at compile time
+  return stereo { l = g * cos(pan), r = g * sin(pan) };
+}
+
+out = (output_gain / 8) * sum(i < 8) grain(i);

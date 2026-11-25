@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 2,
+  "parameters": [
+    {
+      "name": "depth",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 0
+    },
+    {
+      "name": "music_duck.threshold",
+      "type": "float",
+      "min": -6.000000e+01,
+      "max": 0.000000e+00,
+      "default": -2.400000e+01,
+      "unit": "dB",
+      "float_index": 1
+    },
+    {
+      "name": "music_duck.ratio",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 4.000000e+01,
+      "default": 1.200000e+01,
+      "float_index": 2
+    },
+    {
+      "name": "ml.attack",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 2.000000e+02,
+      "default": 8.000000e+00,
+      "unit": "ms",
+      "float_index": 3
+    },
+    {
+      "name": "ml.release",
+      "type": "float",
+      "min": 1.000000e+01,
+      "max": 3.000000e+03,
+      "default": 3.500000e+02,
+      "unit": "ms",
+      "float_index": 4
+    },
+    {
+      "name": "mr.attack",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 2.000000e+02,
+      "default": 8.000000e+00,
+      "unit": "ms",
+      "float_index": 5
+    },
+    {
+      "name": "mr.release",
+      "type": "float",
+      "min": 1.000000e+01,
+      "max": 3.000000e+03,
+      "default": 3.500000e+02,
+      "unit": "ms",
+      "float_index": 6
+    },
+    {
+      "name": "fl.attack",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 2.000000e+02,
+      "default": 8.000000e+00,
+      "unit": "ms",
+      "float_index": 7
+    },
+    {
+      "name": "fl.release",
+      "type": "float",
+      "min": 1.000000e+01,
+      "max": 3.000000e+03,
+      "default": 3.500000e+02,
+      "unit": "ms",
+      "float_index": 8
+    },
+    {
+      "name": "fr.attack",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 2.000000e+02,
+      "default": 8.000000e+00,
+      "unit": "ms",
+      "float_index": 9
+    },
+    {
+      "name": "fr.release",
+      "type": "float",
+      "min": 1.000000e+01,
+      "max": 3.000000e+03,
+      "default": 3.500000e+02,
+      "unit": "ms",
+      "float_index": 10
+    }
+  ],
+  "samplers": ["test_input_0", "test_input_1", "test_input_2"],
+  "inlined_samplers": [],
+  "texture_samplers": [],
+  "events": [
+  ],
+  "meters": [
+    {
+      "name": "Output left",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "Output right",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    }
+  ],
+  "param_outputs": [
+    {
+      "name": "ml.reduction",
+      "type": "float",
+      "out_index": 0,
+      "min": -6.000000e+01,
+      "max": 0.000000e+00
+    },
+    {
+      "name": "mr.reduction",
+      "type": "float",
+      "out_index": 1,
+      "min": -6.000000e+01,
+      "max": 0.000000e+00
+    },
+    {
+      "name": "fl.reduction",
+      "type": "float",
+      "out_index": 2,
+      "min": -6.000000e+01,
+      "max": 0.000000e+00
+    },
+    {
+      "name": "fr.reduction",
+      "type": "float",
+      "out_index": 3,
+      "min": -6.000000e+01,
+      "max": 0.000000e+00
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "dd2606e7"
+}

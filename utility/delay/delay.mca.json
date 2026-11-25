@@ -8,10 +8,10 @@
       "march": "x86-64",
       "mcpu": "haswell",
       "arch": "x86-64",
-      "ipc": 1.2762,
+      "ipc": 1.2955,
       "block_rthroughput": 69.5,
       "cycles_per_sample": 0.1357,
-      "insns_per_block": 184,
+      "insns_per_block": 179,
       "uops_per_block": 278
     },
     {
@@ -20,11 +20,11 @@
       "march": "x86-64",
       "mcpu": "skylake-avx512",
       "arch": "x86-64",
-      "ipc": 1.3662,
-      "block_rthroughput": 46.17,
-      "cycles_per_sample": 0.0902,
-      "insns_per_block": 184,
-      "uops_per_block": 277
+      "ipc": 1.4073,
+      "block_rthroughput": 46.0,
+      "cycles_per_sample": 0.0898,
+      "insns_per_block": 179,
+      "uops_per_block": 276
     },
     {
       "label": "AMD Zen 3 (znver3)",
@@ -32,11 +32,11 @@
       "march": "x86-64",
       "mcpu": "znver3",
       "arch": "x86-64",
-      "ipc": 2.5185,
-      "block_rthroughput": 31.0,
-      "cycles_per_sample": 0.0605,
-      "insns_per_block": 184,
-      "uops_per_block": 186
+      "ipc": 2.1731,
+      "block_rthroughput": 30.33,
+      "cycles_per_sample": 0.0592,
+      "insns_per_block": 179,
+      "uops_per_block": 182
     }
   ]
 }

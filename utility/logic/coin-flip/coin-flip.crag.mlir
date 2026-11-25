@@ -3,7 +3,7 @@
 // Draws one sample of white noise (uniform in roughly [-1, 1]) at the exact
 // sample offset of the `bang` event and thresholds it at zero, so each bang
 // yields an independent ~50/50 true/false outcome.  The drawn value is held
-// (not re-drawn) between bangs, mirroring the hold behaviour used by
+// (not re-drawn) between bangs, mirroring the hold behavior used by
 // `float_peak`/`observe_float`.
 //
 // Events:

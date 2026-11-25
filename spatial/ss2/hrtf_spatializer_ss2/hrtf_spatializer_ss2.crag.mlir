@@ -22,10 +22,11 @@
 // no resample is needed in `scripts/hrtf/prep.py`).
 //
 // IR length budget:
-//   The normalized cache pads SS2 IRs to 256 samples.  At
-//   blockSize=512, a single OLS partition covers the full IR without
-//   aliasing, so we set `num_partitions = 1` per ear.  If a future
-//   cache schema bumps `ir_length` above 512, increase this constant.
+//   The normalized cache pads SS2 IRs to 256 samples.  `num_partitions`
+//   is the partition *cap*: the op runs ceil(ir_length / blockSize)
+//   partitions, so one at the default blockSize of 512 and up to 8 for a
+//   host block as small as 32 frames.  A cap of 1 truncates the IR to the
+//   first blockSize taps whenever the host runs blocks shorter than 256.
 //
 // Usage:
 //   crag-compile \
@@ -67,11 +68,14 @@ module {
     %dist_floor = arith.constant 0.1 : f32
 
     // Convolve the dry mono input with each ear's HRIR.
-    %wet_l = crag.overlap_save_conv %in, %ir_l num_partitions = 1
+    // num_partitions = 8 is a cap, not a cost: ceil(ir_length / blockSize)
+    // partitions run, i.e. one at the default blockSize of 512, and the
+    // full 256-tap IR is still covered down to 32-frame host blocks.
+    %wet_l = crag.overlap_save_conv %in, %ir_l num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_ss2_L">
                    -> !crag.audio<f32, 48000, 1>
-    %wet_r = crag.overlap_save_conv %in, %ir_r num_partitions = 1
+    %wet_r = crag.overlap_save_conv %in, %ir_r num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_ss2_R">
                    -> !crag.audio<f32, 48000, 1>

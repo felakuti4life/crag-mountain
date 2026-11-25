@@ -1,0 +1,131 @@
+// prophet-rev2.tap: an eight-voice synth after the Sequential Prophet Rev2.
+//
+// Each voice is two DCOs (saw, triangle, saw+triangle, pulse) with hard sync,
+// a sub-octave square and noise into a Curtis low-pass, then a VCA; a filter
+// envelope, an amp envelope and an LFO modulate them.  Voices are spread
+// across the stereo field.
+//
+// The filter is the part of the Rev2 that is analog.  Its PA397 chip is a
+// descendant of the Curtis CEM3397: four OTA integrator stages in a row with
+// a feedback path for resonance, switchable between two and four poles.
+// `ota_lowpass` in kit.tap models that; here it is driven hard enough that a
+// full mixer saturates the first stage, and, as on the Rev2, the four-pole
+// mode self-oscillates at full resonance while the two-pole mode cannot.
+//
+// Play it with `note_on` and `note_off` (a music_note; pitch is a MIDI note
+// number, velocity 0..1).  One note-on and one note-off per block.
+//
+// Not modelled: the aux envelope, LFOs 2-4 and the modulation matrix, unison,
+// the second layer, the sequencers, the arpeggiator and the effects.
+
+use "kit";
+
+meta { channels = 2; }
+
+event note_on:  music_note;
+event note_off: music_note;
+
+// Params are grouped: each group is one box on the default panel, and a member
+// is named "<group>.<member>" by the host.  The strings are display labels.
+// See face/examples/prophet-rev2.face for the panel laid out by hand.
+
+param osc1 "Oscillator 1" {
+  shape = saw | tri | sawtri | pulse  "Shape";
+  semi: int = 0 [-24..24]             "Semi";
+  fine  = 0   [-50..50]               "Fine";      // cents
+  pw    = 0.5 [0.02..0.98]            "PW";
+}
+param osc2 "Oscillator 2" {
+  shape = saw | tri | sawtri | pulse  "Shape";
+  semi: int = 0 [-24..24]             "Semi";
+  fine  = 6   [-50..50]               "Fine";      // cents
+  pw    = 0.5 [0.02..0.98]            "PW";
+}
+param mixer "Mixer" {
+  balance = 0.5 [0..1]                "Osc 1/2";   // 0 is osc 1 only, 1 is osc 2 only
+  sub     = 0   [0..1]                "Sub";       // square, an octave under osc 1
+  noise   = 0   [0..1]                "Noise";
+  sync    = off                       "Sync";      // osc 1 restarts with osc 2
+  slop    = 3   [0..50]               "Slop";      // oscillator drift, cents
+  glide   = 0ms [0ms..3s] pow 3       "Glide";
+}
+param filter "Filter" {
+  cutoff       = 500hz [20hz..20khz]  "Cutoff";
+  resonance    = 0.25  [0..1]         "Res";
+  four_pole    = on                   "4-Pole";
+  key_track    = 0.5   [0..1]         "Key";       // 1 follows the keyboard exactly
+  audio_mod    = 0     [0..1]         "Audio";     // osc 1 modulates the cutoff
+  env_amount   = 4     [-8..8]        "Env";       // filter envelope depth, octaves
+  env_velocity = 0.5   [0..1]         "Vel";
+  attack       = 2ms   [1ms..10s]     "A";
+  decay        = 600ms [1ms..10s]     "D";
+  sustain      = 0.3   [0..1]         "S";
+  release      = 500ms [1ms..10s]     "R";
+}
+param amp "Amp" {
+  attack   = 2ms   [1ms..10s]         "A";
+  decay    = 1s    [1ms..10s]         "D";
+  sustain  = 0.8   [0..1]             "S";
+  release  = 400ms [1ms..10s]         "R";
+  velocity = 0.6   [0..1]             "Vel";
+  spread   = 0.6   [0..1]             "Spread";
+  volume   = -9db  [-60db..6db]       "Volume" : gain;
+}
+param lfo "LFO" {
+  rate   = 5hz [0.02hz..40hz]         "Rate";
+  shape  = tri | saw | square | random "Shape";
+  pitch  = 0 [0..12]                  "Pitch";     // semitones
+  cutoff = 0 [0..4]                   "Cutoff";    // octaves
+  pw     = 0 [0..0.48]                "PW";
+}
+
+lfo_p = ramp(audio(lfo.rate) / sr);
+lfo_s = match lfo.shape {
+  tri    => tri_shape(lfo_p),
+  saw    => 2 * lfo_p - 1,
+  square => if lfo_p < 0.5 then 1 else -1,
+  random => sample_hold(noise(), lfo_p)
+};
+
+def osc(shape, p, dt, w) = match shape {
+  saw    => saw_shape(p, dt),
+  tri    => tri_shape(p),
+  sawtri => 0.5 * (saw_shape(p, dt) + tri_shape(p)),
+  pulse  => pulse_shape(p, dt, w)
+};
+
+def voice(v) {
+  note = glide(v.pitch, mixer.glide) + lfo.pitch * lfo_s;
+
+  // osc 2 is the sync master
+  dt2 = mtof(note + osc2.semi + osc2.fine / 100 + drift(mixer.slop)) / sr;
+  dt1 = mtof(note + osc1.semi + osc1.fine / 100 + drift(mixer.slop)) / sr;
+  p2  = ramp(dt2);
+  p1  = synced_ramp(dt1, p2, dt2, mixer.sync);
+  o1  = osc(osc1.shape, p1, dt1, clamp(osc1.pw + lfo.pw * lfo_s, 0.02, 0.98));
+  o2  = osc(osc2.shape, p2, dt2, clamp(osc2.pw + lfo.pw * lfo_s, 0.02, 0.98));
+  sq  = pulse_shape(ramp(dt1 / 2), dt1 / 2, 0.5);
+  mix = (1 - mixer.balance) * o1 + mixer.balance * o2 + mixer.sub * sq + mixer.noise * noise();
+
+  fenv  = env_adsr(v, filter.attack, filter.decay, filter.sustain, filter.release);
+  depth = filter.env_amount * (1 - filter.env_velocity + filter.env_velocity * v.velocity);
+  oct   = depth * fenv + filter.key_track * (note - 60) / 12 + lfo.cutoff * lfo_s + 3 * filter.audio_mod * o1;
+  // two poles of feedback cannot oscillate, so only the four-pole mode sings
+  k     = if filter.four_pole then 4.3 * filter.resonance else 3 * filter.resonance;
+  two   = if filter.four_pole then 0 else 1;
+  y     = ota_lowpass(mix, filter.cutoff * 2 ^ oct, k, two, drive = 0.7);
+
+  aenv = env_adsr(v, amp.attack, amp.decay, amp.sustain, amp.release);
+  return y * aenv * (1 - amp.velocity + amp.velocity * v.velocity);
+}
+
+// `best` is written before `v`: a cycle between bindings has to be entered
+// through a signal, not through the array.
+def slot(i) = voice_ctl(i, best, note_on, note_off);
+best = max(i < 8) v[i].cand;
+v    = [slot(0), slot(1), slot(2), slot(3), slot(4), slot(5), slot(6), slot(7)];
+
+// odd voices lean left, even voices right, the first pair nearest the centre
+def place(i) = 0.5 + amp.spread * (if i % 2 < 1 then 1 else -1) * (floor(i / 2) + 1) / 8;
+
+out = sum(i < 8) pan(voice(v[i]), place(i)) * amp.volume;

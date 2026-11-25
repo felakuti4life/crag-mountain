@@ -1,7 +1,7 @@
 // Pan (mono → stereo)
 //
 // Places a mono audio input in the stereo field using a constant-power
-// (sin/cos) pan law.  At centre both channels receive -3 dB, so perceived
+// (sin/cos) pan law.  At center both channels receive -3 dB, so perceived
 // loudness stays flat as the source sweeps from hard left to hard right.
 //
 //   θ   = (pan + 1) · π/4          pan ∈ [-1, 1] → θ ∈ [0, π/2]
@@ -9,7 +9,7 @@
 //   R   = in · sin(θ)
 //
 // Parameters:
-//   pan  [-1, 1] – -1 = hard left, 0 = centre, +1 = hard right (default 0.0)
+//   pan  [-1, 1] – -1 = hard left, 0 = center, +1 = hard right (default 0.0)
 //
 // Conversion: channels 1 → 2.  The pan gains are computed once per block,
 // so a fast automated sweep steps at block boundaries; smooth the control

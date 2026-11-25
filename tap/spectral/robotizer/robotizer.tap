@@ -1,0 +1,26 @@
+// Robot and whisper voices: keep the magnitudes of speech, replace its phase.
+//
+//   robot    all bins peak together, once per frame, so the voice takes on
+//            one fixed pitch: the frame rate, sr * 4 / bs (375 Hz at 48 kHz
+//            with blocks of 512).  A phase of pi * bin puts that peak in the
+//            middle of the frame, where the window is widest; a phase of 0
+//            would put it at the edges, where the window is closed.
+//   whisper  a new random phase per bin per frame, so no pitch survives
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param voice = robot | whisper "Voice";
+param mix   = 1 [0..1] "Mix";
+
+spec = in.stft(overlap = 4);
+mag  = spec.mag;
+
+wet = match voice {
+  robot   => polar(mag, pi * bin),
+  whisper => polar(mag, pi * asbins(noise())),
+};
+
+out = mix * wet.ifft + (1 - mix) * in.align(spec);

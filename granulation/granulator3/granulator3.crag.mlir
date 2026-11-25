@@ -37,7 +37,7 @@
 //   env = w1*s + w2*s^2 + w4*s^4
 //
 // so morphing costs no extra evaluations and needs no libm call per sample.
-// Grain gain is normalised by each stop's 1/rms, which keeps the shapes at a
+// Grain gain is normalized by each stop's 1/rms, which keeps the shapes at a
 // similar loudness.
 //
 // Multichannel spread
@@ -62,7 +62,7 @@
 // Controls
 // --------
 //   density       [1, 64]     simultaneous voices; fractional values fade the top voice
-//   grain_ms      [5, 2000]   centre grain length
+//   grain_ms      [5, 2000]   center grain length
 //   grain_var     [0, 1]      random length range, up to +/-2 octaves
 //   jitter        [0, 1]      random gap after each grain, up to 2x its length
 //   position      [0, 1]      source read position
@@ -70,7 +70,7 @@
 //   scan          [-2, 2]     moves position through the file; 1 = source speed
 //   pitch         [-24, 24]   semitones
 //   pitch_spread  [0, 24]     random per-grain detune, +/- semitones
-//   reverse       [0, 1]      probability a grain plays backwards
+//   reverse       [0, 1]      probability a grain plays backward
 //   shape         [0, 5]      envelope morph (see above)
 //   shape_spread  [0, 1]      random per-grain shape offset
 //   spread        [0, 1]      how far grains scatter around the ring

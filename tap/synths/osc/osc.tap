@@ -1,0 +1,10 @@
+param type      = sine | saw | triangle | square;
+param frequency = 440hz [0.1hz..20khz];
+param phase     = 0rad  [0..tau];
+
+out = match type {
+  sine     => sine(frequency, phase),
+  saw      => saw(frequency, phase),
+  triangle => tri(frequency, phase, 0.5),
+  square   => square(frequency, phase, 0.5),
+};

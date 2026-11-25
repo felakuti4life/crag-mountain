@@ -12,19 +12,14 @@
 // corresponds to the HRIRs bound to `hrir_cipic_L` / `hrir_cipic_R` at
 // compile time, which the `scripts/hrtf/render.py` driver picks from the
 // normalized cache by index (default = front, az=0°, el=0°).  Runtime
-// per-position IR selection / interpolation is now supported at
-// the dialect level via the `crag.overlap_save_conv_slice` (runtime-
-// offset/length partitioned-FFT variant) and `crag.tap_loop_conv`
-// (direct-form FIR over a runtime IR window) ops; a follow-up renderer
-// template will swap this fixed-position middle for one that takes a
-// position index and slices a single concatenated-IR sampler.
+// per-position IR selection and interpolation live in the sibling
+// `hrtf_spatializer_cipic_runtime.crag.mlir` and
+// `hrtf_spatializer_cipic_interp.crag.mlir` templates.
 //
 // The position parameters are still declared and applied as a residual
 // constant-power lateral pan + inverse-distance gain so hosts can drive
-// the same parameter names regardless of which renderer is loaded.  When
-// runtime per-position IR selection lands, the pan/distance math here
-// will collapse into the IR-selection logic; for now they let the
-// fixed-position renderer respond meaningfully to azimuth changes around
+// the same parameter names regardless of which renderer is loaded; they let
+// the fixed-position renderer respond meaningfully to azimuth changes around
 // the bound IR's "anchor" direction.
 //
 // Citation (per CIPIC's read_me.txt):
@@ -37,11 +32,11 @@
 // 48 kHz by `scripts/hrtf/prep.py` before binding).
 //
 // IR length budget:
-//   The normalized cache pads CIPIC IRs to 256 samples.  At
-//   blockSize=512, a single OLS partition is enough to cover the full IR
-//   without aliasing, so we set `num_partitions = 1` per ear.  If a
-//   future cache schema bumps `ir_length` above 512, increase this
-//   (and the renderer template will recompile transparently).
+//   The normalized cache pads CIPIC IRs to 256 samples.  `num_partitions`
+//   is the partition *cap*: the op runs ceil(ir_length / blockSize)
+//   partitions, so one at the default blockSize of 512 and up to 8 for a
+//   host block as small as 32 frames.  A cap of 1 truncates the IR to the
+//   first blockSize taps whenever the host runs blocks shorter than 256.
 //
 // Usage:
 //   crag-compile \
@@ -91,16 +86,15 @@ module {
     // -----------------------------------------------------------------------
     // Convolve the dry mono input with each ear's HRIR.
     //
-    // num_partitions = 1: the cache caps `ir_length` at 256, well under the
-    // default blockSize of 512, so one partition covers the IR without
-    // aliasing.  Bumping the cache schema's IR length above blockSize
-    // requires bumping this constant in tandem.
+    // num_partitions = 8 is a cap, not a cost: ceil(ir_length / blockSize)
+    // partitions run, i.e. one at the default blockSize of 512, and the
+    // full 256-tap IR is still covered down to 32-frame host blocks.
     // -----------------------------------------------------------------------
-    %wet_l = crag.overlap_save_conv %in, %ir_l num_partitions = 1
+    %wet_l = crag.overlap_save_conv %in, %ir_l num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_cipic_L">
                    -> !crag.audio<f32, 48000, 1>
-    %wet_r = crag.overlap_save_conv %in, %ir_r num_partitions = 1
+    %wet_r = crag.overlap_save_conv %in, %ir_r num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_cipic_R">
                    -> !crag.audio<f32, 48000, 1>

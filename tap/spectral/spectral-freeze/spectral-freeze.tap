@@ -1,0 +1,24 @@
+// Freeze: hold the sound of one instant for as long as the switch is on.
+//
+// A frozen bin keeps its magnitude.  Its phase keeps turning at the rate it
+// was turning when the freeze began, which is what keeps the pitch of the
+// held sound; a phase that stood still would buzz at the frame rate instead.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param freeze = off "Freeze";
+param wet_level = 1 [0..1] "Wet";
+param dry_level = 0 [0..1] "Dry";
+
+spec = in.stft(overlap = 4);
+mag  = spec.mag;
+ph   = spec.phase;
+
+held  = if freeze then held' else mag;
+turn  = if freeze then turn' else ph - ph';        // phase advance per frame
+angle = if freeze then (angle' + turn) % tau else ph;
+
+out = wet_level * polar(held, angle).ifft + dry_level * in.align(spec);

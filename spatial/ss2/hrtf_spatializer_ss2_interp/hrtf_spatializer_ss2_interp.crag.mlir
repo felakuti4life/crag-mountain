@@ -6,13 +6,13 @@
 // and binds them through the per-slot parameters declared below.  The
 // graph blends three concurrently-active HRIR rows so the host can move
 // the source between SS2 measurement points without the audible
-// "switching" artefact a single nearest-neighbour `position_index`
+// "switching" artifact a single nearest-neighbor `position_index`
 // produces.
 //
 // External ABI is a strict superset of the runtime renderer:
 //
 //   * `azimuth_rad`, `elevation_rad`, `distance_m`  — same as before
-//   * `position_index_0/1/2` (i32, default 0)  — IR rows in the pack
+//   * `position_index_0/1/2` (i32, default 781) — IR rows in the pack
 //   * `weight_0/1/2` (f32, default 1/3)       — inverse-distance weights
 //
 // `azimuth_rad` / `elevation_rad` are kept declared for ABI parity; only
@@ -25,12 +25,16 @@
 //   https://github.com/facebookresearch/SS2_HRTF
 //
 // Sample rate / IR length / partition budget all match the runtime
-// renderer (48 kHz native; ir_length = 256 ≤ block size 512 ⇒
-// num_partitions = 1).
+// renderer (48 kHz native; ir_length = 256; num_partitions = 8 caps the
+// partition count so the full IR is covered down to 32-frame host blocks).
+//
+// The index defaults are the straight-ahead row of the committed SS2 pack
+// (781, `front_index` in spatial/hrtf_inline/manifest.json) with weights
+// 1/3 each, so an undriven binary renders the front HRIR at unity weight.
 //
 // position_index range:
-//   `max = 4095` matches the runtime renderer (covers SS2's ~793
-//   measurement points per subject with comfortable headroom).
+//   `max = 4095` matches the runtime renderer (covers the committed SS2
+//   pack's 1625 measurement points with comfortable headroom).
 //
 // Usage:
 //   crag-compile \
@@ -61,11 +65,11 @@ module {
                      unit = "m" : f32
 
     %pos_idx_0 = crag.param_int "position_index_0"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 781 : i32
     %pos_idx_1 = crag.param_int "position_index_1"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 781 : i32
     %pos_idx_2 = crag.param_int "position_index_2"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 781 : i32
 
     %w_0 = crag.param "weight_0"
                min = 0.0 max = 1.0 default = 0.33333333 unit = "" : f32
@@ -91,38 +95,38 @@ module {
     %off_2    = arith.muli %p2_i64, %ir_len : i64
 
     %wet_l_0 = crag.overlap_save_conv_slice %in, %ir_l, %off_0, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_l_1 = crag.overlap_save_conv_slice %in, %ir_l, %off_1, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_l_2 = crag.overlap_save_conv_slice %in, %ir_l, %off_2, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_L">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
 
     %wet_r_0 = crag.overlap_save_conv_slice %in, %ir_r, %off_0, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_R">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_r_1 = crag.overlap_save_conv_slice %in, %ir_r, %off_1, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_R">,
                      i64, i64
                      -> !crag.audio<f32, 48000, 1>
     %wet_r_2 = crag.overlap_save_conv_slice %in, %ir_r, %off_2, %ir_len
-                   num_partitions = 1
+                   num_partitions = 8
                    : !crag.audio<f32, 48000, 1>,
                      !crag.sampler<"hrir_ss2_interp_pack_R">,
                      i64, i64

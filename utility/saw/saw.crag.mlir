@@ -1,5 +1,10 @@
 // Saw Tone
 // a basic graph that emits a saw tone.
+//
+// Parameters:
+//   freq       [20, 10000] Hz – oscillation frequency (default 440)
+//   amplitude  [0, 1]         – output level (default 1.0)
+//   phase      [0, 3.14] rad  – phase offset (default 0)
 
 module {
   crag.graph name = "saw_tone" sample_rate = 0 channels = 1 {

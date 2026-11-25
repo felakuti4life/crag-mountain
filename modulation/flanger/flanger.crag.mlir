@@ -25,7 +25,7 @@
 //   6. Output: out = dry · in + wet_level · wet
 //
 // Buffer parameters (at 48 kHz) — modulatable-delay form (delaySize, maxSize):
-//   delaySize = 48   samples — nominal centre delay (1 ms) for periodicity
+//   delaySize = 48   samples — nominal center delay (1 ms) for periodicity
 //                              analysis and run-time estimates.
 //   maxSize   = 2400 samples — actual allocated buffer (50 ms) sized to hold
 //                              the worst-case modulated delay (max_center +
@@ -40,7 +40,7 @@
 // Parameters:
 //   rate       [0.05, 5]   – LFO frequency in Hz           (default 0.3)
 //   depth_ms   [0.1, 5]    – modulation depth in ms        (default 1.0)
-//   center_ms  [0.5, 10]   – base (centre) delay in ms     (default 1.0)
+//   center_ms  [0.5, 10]   – base (center) delay in ms     (default 1.0)
 //   feedback   [-0.9, 0.9] – feedback gain (negative = phase-inverted)
 //                                                           (default 0.5)
 //   wet_level  [0, 1]      – wet/flange mix amplitude      (default 0.7)

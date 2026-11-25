@@ -5,7 +5,7 @@
 //
 //   mono_out = R
 //
-// Use this mixer when the right channel carries the desired programme material
+// Use this mixer when the right channel carries the desired program material
 // (e.g. a dual-language broadcast where R = secondary language).
 //
 // Conversion: channels 2 → 1

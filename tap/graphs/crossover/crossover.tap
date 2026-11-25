@@ -1,0 +1,11 @@
+// crossover.tap: several signals leave a graph as channels of its one output.
+layout bands: [2] { low, high };
+
+graph crossover(x) {
+  param split = 200hz [40hz..2khz];
+  lo  = x.lpf(split, order = 2);
+  out = bands { low = lo, high = x - lo };
+}
+
+b   = crossover(in);
+out = b.low.soft_clip(drive = 3) + b.high;

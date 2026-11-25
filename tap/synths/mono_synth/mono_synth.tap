@@ -1,0 +1,14 @@
+use "utility/music_note";
+
+event note_on: music_note slow;
+
+param cutoff  = 2khz  [200hz..8khz] slow;
+param attack  = 10ms  [1ms..2s]     slow;
+param decay   = 200ms [1ms..2s]     slow;
+param sustain = 0.8   [0..1]        slow;
+param release = 300ms [1ms..5s]     slow;
+
+freq = mtof(note_on.pitch);
+env  = adsr(attack, decay, sustain, release, note_on);
+
+out = saw(freq).lpf(cutoff, order = 2) * env * note_on.velocity;

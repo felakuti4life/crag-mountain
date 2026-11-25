@@ -58,7 +58,7 @@ module {
     %g       = arith.addf %base_g, %g_inc : f32
 
     // Lowpass cutoff for feedback damping:
-    // crag.get_filter_coeffs expects a normalised frequency in (0, 0.5) where
+    // crag.get_filter_coeffs expects a normalized frequency in (0, 0.5) where
     // 0.5 = Nyquist (half the sample rate).  Map damping=[0,1] to cutoff:
     //   damping=0 → cutoff≈0.45  (nearly full bandwidth, ~21.6 kHz @ 48 kHz)
     //   damping=1 → cutoff≈0.01  (heavy absorption,     ~480 Hz  @ 48 kHz)

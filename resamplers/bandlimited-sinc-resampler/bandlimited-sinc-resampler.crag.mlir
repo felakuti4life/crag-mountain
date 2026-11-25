@@ -9,7 +9,7 @@
 //
 // Algorithm:
 //
-//   1. Anti-alias filter: apply a 4th-order Butterworth lowpass at normalised
+//   1. Anti-alias filter: apply a 4th-order Butterworth lowpass at normalized
 //      cutoff  f_c = ratio  (= in_sr / out_sr ≤ 1) to attenuate signal
 //      content above the input Nyquist.  Two cascaded 2nd-order sections are
 //      used for improved transition-band roll-off (−80 dB/decade vs −40 dB).
@@ -22,7 +22,7 @@
 //   * Pass-band ripple < 0.5 dB up to 0.9·f_c
 //   * Stop-band attenuation > 40 dB above 1.1·f_c
 //   * Monotonically decreasing group delay — characteristic of the ideal
-//     windowed-sinc filter approximated via IIR factorisation.
+//     windowed-sinc filter approximated via IIR factorization.
 //
 // Parameters:
 //   ratio  [0.01, 1.0]  in_sr / out_sr  (default ≈ 0.9188 = 44100/48000)

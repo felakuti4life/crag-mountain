@@ -1,0 +1,10 @@
+meta {
+  visualizer = "oscilloscope";
+}
+
+in: stereo;
+
+out = midside {
+  m = (in.l + in.r) * 0.5,
+  s = (in.l - in.r) * 0.5,
+};

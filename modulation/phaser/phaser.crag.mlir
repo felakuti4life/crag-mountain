@@ -1,7 +1,7 @@
 // Phaser
 //
 // A phaser creates a sweeping, whooshing effect by passing the signal through
-// a chain of notch filters whose centre frequencies are modulated by a low-
+// a chain of notch filters whose center frequencies are modulated by a low-
 // frequency oscillator (LFO).  When mixed with the dry signal, the out-of-
 // phase notches create a distinctive comb-like sweep.
 //
@@ -18,7 +18,7 @@
 // separate state memories) behaves like a classic 8-pole phaser—each filter
 // stage adds one pair of conjugate transmission zeros at the notch frequency.
 //
-// Sweep range (normalised to Nyquist = 1.0):
+// Sweep range (normalized to Nyquist = 1.0):
 //   c_lo ≈ 0.008  (~200 Hz  @ 48 kHz, the bottom of the sweep)
 //   c_hi ≈ 0.17   (~4 kHz   @ 48 kHz, the top of the sweep)
 //
@@ -63,7 +63,7 @@ module {
                     -> !crag.audio<f32, 0, 0>
 
     // -----------------------------------------------------------------------
-    // LFO — sweeps the notch centre frequency
+    // LFO — sweeps the notch center frequency
     // -----------------------------------------------------------------------
     %two_pi = arith.constant 6.28318530 : f32
     %t_f64  = crag.curtime : f64

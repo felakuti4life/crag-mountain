@@ -1,0 +1,16 @@
+// vocal-chain.tap: every graph here is an existing .crag.mlir file.
+use "utility/filter"                      as filter;
+use "compressors/feed-forward-compressor" as compressor;
+use "reverb/freeverb"                     as freeverb;
+use "sequencing/metronome"                as metronome;
+
+meta { rate = 48000; channels = 1; }
+
+hp   = filter(in, type = highpass, slope = "24dB", cutoff_hz = 80hz);
+comp = compressor(hp, attack_ms = 5ms) with { threshold_db = -24db, ratio = 6 };
+verb = freeverb(comp) with { room_size = 0.8 };
+
+out = verb;
+
+click = metronome(beat_ref_sample = 0, beat_period_samples = 24000);
+out event beat = click.beat;

@@ -1,0 +1,17 @@
+// radio-voice.tap: a voice-over chain built from the graphs in dynamics.tap.
+use compressor, ducker from "dynamics";
+
+meta { rate = 48000; channels = 1; }
+
+in music;
+in voice;
+
+param duck_ratio = 8 [1..40];
+
+tight = compressor(voice);
+bed   = ducker(music, tight, ratio = duck_ratio);   // audio by position, params by name
+level = compressor(bed + tight) with { ratio = 2 }; // a second compressor, own knobs
+
+meter ducking = bed.reduction [-60..0];             // a control output of that call
+
+out = level;                                        // used as audio, level is its out

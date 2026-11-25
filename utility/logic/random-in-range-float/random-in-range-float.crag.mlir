@@ -2,7 +2,7 @@
 //
 // Draws one sample of white noise (uniform in roughly [-1, 1]) at the exact
 // sample offset of the `bang` event and remaps it into [min, max].  The drawn
-// value is held between bangs, mirroring the hold behaviour used by
+// value is held between bangs, mirroring the hold behavior used by
 // `float_peak`/`observe_float`.
 //
 // Parameters:

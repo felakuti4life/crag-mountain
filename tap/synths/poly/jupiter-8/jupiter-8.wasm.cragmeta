@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 2,
+  "parameters": [
+    {
+      "name": "lfo_rate",
+      "type": "float",
+      "min": 5.000000e-02,
+      "max": 4.000000e+01,
+      "default": 5.000000e+00,
+      "unit": "hz",
+      "float_index": 0
+    },
+    {
+      "name": "lfo_delay",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 5.000000e+03,
+      "default": 0.000000e+00,
+      "unit": "ms",
+      "float_index": 1
+    },
+    {
+      "name": "lfo_shape",
+      "type": "enum",
+      "values": ["sine", "saw", "square", "random"],
+      "default": 0,
+      "int_index": 0
+    },
+    {
+      "name": "vco_lfo",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.200000e+01,
+      "default": 0.000000e+00,
+      "float_index": 2
+    },
+    {
+      "name": "vco_env",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 4.800000e+01,
+      "default": 0.000000e+00,
+      "float_index": 3
+    },
+    {
+      "name": "vco_mod_to",
+      "type": "enum",
+      "values": ["both", "vco1", "vco2"],
+      "default": 0,
+      "int_index": 1
+    },
+    {
+      "name": "pulse_width",
+      "type": "float",
+      "min": 5.000000e-02,
+      "max": 9.500000e-01,
+      "default": 5.000000e-01,
+      "float_index": 4
+    },
+    {
+      "name": "pwm_lfo",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 4.500000e-01,
+      "default": 0.000000e+00,
+      "float_index": 5
+    },
+    {
+      "name": "pwm_env",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 4.500000e-01,
+      "default": 0.000000e+00,
+      "float_index": 6
+    },
+    {
+      "name": "vco1_octave",
+      "type": "int",
+      "min": -2,
+      "max": 2,
+      "default": 0,
+      "int_index": 2
+    },
+    {
+      "name": "vco1_shape",
+      "type": "enum",
+      "values": ["saw", "tri", "pulse", "square"],
+      "default": 0,
+      "int_index": 3
+    },
+    {
+      "name": "cross_mod",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 7
+    },
+    {
+      "name": "sync",
+      "type": "bool",
+      "default": 0,
+      "int_index": 4
+    },
+    {
+      "name": "vco2_octave",
+      "type": "int",
+      "min": -2,
+      "max": 2,
+      "default": 0,
+      "int_index": 5
+    },
+    {
+      "name": "vco2_tune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 8.000000e-02,
+      "float_index": 8
+    },
+    {
+      "name": "vco2_shape",
+      "type": "enum",
+      "values": ["saw", "sine", "pulse", "noise"],
+      "default": 0,
+      "int_index": 6
+    },
+    {
+      "name": "vco_mix",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 9
+    },
+    {
+      "name": "hpf_cutoff",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 6.000000e+03,
+      "default": 2.000000e+01,
+      "unit": "hz",
+      "float_index": 10
+    },
+    {
+      "name": "cutoff",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 2.000000e+04,
+      "default": 9.000000e+02,
+      "unit": "hz",
+      "float_index": 11
+    },
+    {
+      "name": "resonance",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 2.000000e-01,
+      "float_index": 12
+    },
+    {
+      "name": "slope_24db",
+      "type": "bool",
+      "default": 1,
+      "int_index": 7
+    },
+    {
+      "name": "vcf_env",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 8.000000e+00,
+      "default": 3.500000e+00,
+      "float_index": 13
+    },
+    {
+      "name": "vcf_env_source",
+      "type": "enum",
+      "values": ["env1", "env2"],
+      "default": 0,
+      "int_index": 8
+    },
+    {
+      "name": "vcf_lfo",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 4.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 14
+    },
+    {
+      "name": "key_follow",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.200000e+00,
+      "default": 6.000000e-01,
+      "float_index": 15
+    },
+    {
+      "name": "vca_lfo",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 16
+    },
+    {
+      "name": "env1_attack",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 5.000000e+03,
+      "default": 3.000000e+02,
+      "unit": "ms",
+      "float_index": 17
+    },
+    {
+      "name": "env1_decay",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 1.000000e+04,
+      "default": 1.500000e+03,
+      "unit": "ms",
+      "float_index": 18
+    },
+    {
+      "name": "env1_sustain",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 19
+    },
+    {
+      "name": "env1_release",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 1.000000e+04,
+      "default": 1.000000e+03,
+      "unit": "ms",
+      "float_index": 20
+    },
+    {
+      "name": "env2_attack",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 5.000000e+03,
+      "default": 8.000000e+01,
+      "unit": "ms",
+      "float_index": 21
+    },
+    {
+      "name": "env2_decay",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 1.000000e+04,
+      "default": 1.000000e+03,
+      "unit": "ms",
+      "float_index": 22
+    },
+    {
+      "name": "env2_sustain",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 8.500000e-01,
+      "float_index": 23
+    },
+    {
+      "name": "env2_release",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 1.000000e+04,
+      "default": 9.000000e+02,
+      "unit": "ms",
+      "float_index": 24
+    },
+    {
+      "name": "velocity_amount",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 4.000000e-01,
+      "float_index": 25
+    },
+    {
+      "name": "pan_spread",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 7.000000e-01,
+      "float_index": 26
+    },
+    {
+      "name": "volume",
+      "type": "float",
+      "min": -6.000000e+01,
+      "max": 6.000000e+00,
+      "default": -9.000000e+00,
+      "unit": "dB",
+      "float_index": 27
+    }
+  ],
+  "samplers": [],
+  "inlined_samplers": [],
+  "texture_samplers": [],
+  "events": [
+    {
+      "name": "note_on",
+      "type": "struct",
+      "subtype": "music_note",
+      "int_index": 0,
+      "struct_type": "music_note",
+      "struct_payload_bytes": 8,
+      "struct_fields": [
+        {"name": "pitch", "type": "f32", "offset": 0, "min": 0.000000e+00, "max": 1.270000e+02},
+        {"name": "velocity", "type": "f32", "offset": 4, "min": 0.000000e+00, "max": 1.000000e+00}
+      ]
+    },
+    {
+      "name": "note_off",
+      "type": "struct",
+      "subtype": "music_note",
+      "int_index": 1,
+      "struct_type": "music_note",
+      "struct_payload_bytes": 8,
+      "struct_fields": [
+        {"name": "pitch", "type": "f32", "offset": 0, "min": 0.000000e+00, "max": 1.270000e+02},
+        {"name": "velocity", "type": "f32", "offset": 4, "min": 0.000000e+00, "max": 1.000000e+00}
+      ]
+    }
+  ],
+  "meters": [
+    {
+      "name": "Output left",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "Output right",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "dd2606e7"
+}

@@ -3,7 +3,7 @@
 // Draws one sample of white noise (uniform in roughly [-1, 1]) at the exact
 // sample offset of the `bang` event, remaps it into [min, max], and rounds to
 // the nearest integer.  The drawn value is held between bangs, mirroring the
-// hold behaviour used by `float_peak`/`observe_float`.
+// hold behavior used by `float_peak`/`observe_float`.
 //
 // Parameters:
 //   min  — inclusive lower bound of the output range (default 0)

@@ -40,7 +40,7 @@
 // Parameters:
 //   rate      [0.1, 10]   – LFO frequency in Hz           (default 5.0)
 //   depth_ms  [0.1, 10]   – modulation depth in ms        (default 5.0)
-//   center_ms [10, 40]    – centre (nominal) delay in ms  (default 20.0)
+//   center_ms [10, 40]    – center (nominal) delay in ms  (default 20.0)
 //
 // Usage (after crag.include):
 //   %out = crag.subgraph_ref "vibrato"(%in)

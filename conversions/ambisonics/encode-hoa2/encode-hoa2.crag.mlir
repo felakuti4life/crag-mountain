@@ -1,7 +1,7 @@
 // Second-Order Ambisonics Encoder (Mono → HOA2)
 //
 // Encodes a mono audio source into Second-Order Ambisonics (HOA, order 2)
-// using the ACN channel ordering and SN3D normalisation (AmbiX format).
+// using the ACN channel ordering and SN3D normalization (AmbiX format).
 //
 // A second-order B-format signal has (N+1)² = 9 channels:
 //

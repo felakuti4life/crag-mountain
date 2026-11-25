@@ -1,16 +1,16 @@
-// Stereo-to-5.1 Upmix (Phantom Centre)
+// Stereo-to-5.1 Upmix (Phantom Center)
 //
 // Upmixes a 2-channel (stereo) audio signal to 5.1 surround using a
-// phantom-centre approach:
+// phantom-center approach:
 //
 //   FL  (ch 0) = L
 //   FR  (ch 1) = R
-//   FC  (ch 2) = (L + R) / 2        ← phantom centre (sum / 2)
+//   FC  (ch 2) = (L + R) / 2        ← phantom center (sum / 2)
 //   LFE (ch 3) = 0                   ← silent; no low-frequency content
 //   BL  (ch 4) = L * 0.707           ← left surround (−3 dB for diffuse field)
 //   BR  (ch 5) = R * 0.707           ← right surround
 //
-// This is a simple "Prologic"-style upmix.  The centre channel carries the
+// This is a simple "Prologic"-style upmix.  The center channel carries the
 // average of L and R (equivalent to the M/S mid component) and is attenuated
 // by 6 dB to avoid sum-loudness increase.  The surrounds carry the original
 // L and R signals reduced by ~3 dB (0.707 ≈ 1/√2) to maintain an equal-energy
@@ -19,7 +19,7 @@
 // 5.1 channel layout (ITU-R BS.775 / SMPTE convention):
 //   ch 0: Front Left   (FL)
 //   ch 1: Front Right  (FR)
-//   ch 2: Front Centre (FC)
+//   ch 2: Front Center (FC)
 //   ch 3: LFE / Subwoofer
 //   ch 4: Back/Surround Left  (BL / SL)
 //   ch 5: Back/Surround Right (BR / SR)
@@ -47,17 +47,17 @@ module {
     // FL = L  (channel 0, unchanged)
     // FR = R  (channel 1, unchanged)
 
-    // FC = (L + R) / 2   (phantom centre)
+    // FC = (L + R) / 2   (phantom center)
     %lr_sum  = crag.sum %left, %right
                    : (!crag.audio<f32, 0, 1>, !crag.audio<f32, 0, 1>)
                      -> !crag.audio<f32, 0, 1>
     %half    = arith.constant 5.000000e-01 : f32
-    %centre  = crag.scale %lr_sum, %half
+    %center  = crag.scale %lr_sum, %half
                    : !crag.audio<f32, 0, 1>, f32 -> !crag.audio<f32, 0, 1>
 
     // LFE = silence (zero signal)
     %zero    = arith.constant 0.0 : f32
-    %lfe     = crag.scale %centre, %zero
+    %lfe     = crag.scale %center, %zero
                    : !crag.audio<f32, 0, 1>, f32 -> !crag.audio<f32, 0, 1>
 
     // BL = L * 0.707,  BR = R * 0.707
@@ -68,7 +68,7 @@ module {
                    : !crag.audio<f32, 0, 1>, f32 -> !crag.audio<f32, 0, 1>
 
     // Interleave all six channels: FL, FR, FC, LFE, BL, BR.
-    %out = crag.channel_join %left, %right, %centre, %lfe, %bl, %br
+    %out = crag.channel_join %left, %right, %center, %lfe, %bl, %br
                : (!crag.audio<f32, 0, 1>, !crag.audio<f32, 0, 1>,
                   !crag.audio<f32, 0, 1>, !crag.audio<f32, 0, 1>,
                   !crag.audio<f32, 0, 1>, !crag.audio<f32, 0, 1>)

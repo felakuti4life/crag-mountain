@@ -5,9 +5,9 @@
 //
 //   mono_out = (L + R) / 2
 //
-// This is the standard "flat" or "equal-power" downmix and is the default
+// This is the standard "flat" downmix and is the default
 // mixer used when two-to-one downmixing is requested without further
-// specification.  It preserves centre-panned signals at full amplitude but
+// specification.  It preserves center-panned signals at full amplitude but
 // may reduce the level of hard-panned material by up to 6 dB.
 //
 // Conversion: channels 2 → 1

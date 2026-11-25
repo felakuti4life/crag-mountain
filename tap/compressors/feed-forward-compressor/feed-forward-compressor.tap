@@ -1,0 +1,20 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "compressor-viz";
+}
+
+param threshold = -18db [-60db..0db];
+param ratio     = 4     [1..20];
+param attack    = 10ms  [0.1ms..200ms];
+param release   = 100ms [10ms..2s];
+param makeup    = 0db   [-12db..24db];
+param wet       = 1     [0..1];
+param dry       = 0     [0..1];
+
+env  = in.rms.smooth(attack, release);          // block-rate envelope
+over = max(env, 1e-7).db - threshold.db;        // dB above threshold
+gr   = min(over * (1 / ratio - 1), 0);          // gain reduction, dB
+gain = gr.lin * makeup;
+
+out = wet * gain * in + dry * in;

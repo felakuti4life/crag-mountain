@@ -15,7 +15,7 @@
 //        pos_i = (position·len + frame·playback_speed + scatter_i·scatter·len)
 //                mod len
 //      where scatter_i ∈ [0, 1] is a fixed per-voice offset.
-//   4. Scale by env_i / 6 · output_gain (normalise by voice count).
+//   4. Scale by env_i / 6 · output_gain (normalize by voice count).
 //   5. Pan with fixed per-voice L/R factors.
 //
 // Envelopes cycle at block rate (block-rate modulation), which is an

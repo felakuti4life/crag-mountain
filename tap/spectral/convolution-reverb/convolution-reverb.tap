@@ -1,0 +1,14 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+sampler impulse_response;
+
+param wet_level = 0.5 [0..1];
+param dry_level = 0.5 [0..1];
+
+wet = in.convolve(impulse_response, partitions = 32);
+
+out = dry_level * in + wet_level * wet;

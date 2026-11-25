@@ -1,0 +1,20 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "compressor-viz";
+}
+
+in program;
+in sidechain;
+
+param threshold = -24db [-60db..0db];
+param ratio     = 8     [1..40];
+param attack    = 8ms   [0.1ms..200ms];
+param release   = 350ms [10ms..3s];
+param depth     = -24db [-60db..0db];           // most the program is ducked
+
+env  = sidechain.rms.smooth(attack, release);
+over = max(env, 1e-7).db - threshold.db;
+gr   = clamp(over * (1 / ratio - 1), depth.db, 0);
+
+out = program * gr.lin;

@@ -1,0 +1,171 @@
+// arp-2600.tap: a four-voice synth after the ARP 2600.
+//
+// The 2600 is semi-modular: with no patch cords in, its modules are joined by
+// internal ("normalled") connections, each with a slider.  This file is that
+// normalled patch, slider for slider:
+//
+//   VCO-1 (saw, square)            FM from sample & hold, ADSR, VCO-2 sine
+//   VCO-2 (sine, tri, saw, pulse)  FM from sample & hold, ADSR, VCO-1 square;
+//                                  pulse width modulated by noise
+//   VCO-3 (saw, pulse)             FM from noise, ADSR, VCO-2 sine
+//   ring modulator                 VCO-1 saw x VCO-2 sine
+//   noise generator                white to pink to low-frequency
+//   VCF mixer                      ring mod, VCO-1 square, VCO-2 pulse,
+//                                  VCO-3 saw, noise
+//   VCF                            cutoff from keyboard, ADSR, VCO-2 sine
+//   VCA                            audio from VCF and ring mod; gain from the
+//                                  AR and ADSR envelopes
+//   spring reverb                  on the output mix
+//
+// The VCF is the ARP 4012, a copy of Moog's transistor ladder, modelled by
+// `ladder_lowpass` in kit.tap.  It self-oscillates at full resonance.
+//
+// A real 2600 plays one note (two with the 3620 keyboard).  Here four of them
+// share one front panel.  Play it with `note_on` and `note_off` (a
+// music_note; pitch is a MIDI note number, velocity 0..1).  One note-on and
+// one note-off per block.
+//
+// Not modelled: the patch points themselves, the preamp and envelope
+// follower, the lag processor, voltage processors and electronic switch.
+
+use "kit";
+
+meta { channels = 2; }
+
+event note_on:  music_note;
+event note_off: music_note;
+
+param portamento = 0ms [0ms..3s];
+
+// ---- VCO-1 ---------------------------------------------------------------------
+param vco1_tune = 0 [-36..36];              // semitones
+param vco1_fm_sh   = 0 [0..1];
+param vco1_fm_adsr = 0 [0..1];
+param vco1_fm_vco2 = 0 [0..1];
+// ---- VCO-2 ---------------------------------------------------------------------
+param vco2_tune = 0.1 [-36..36];
+param vco2_width = 0.5 [0.05..0.95];
+param vco2_fm_sh   = 0 [0..1];
+param vco2_fm_adsr = 0 [0..1];
+param vco2_fm_vco1 = 0 [0..1];
+param vco2_pwm_noise = 0 [0..1];
+// ---- VCO-3 ---------------------------------------------------------------------
+param vco3_tune = -12.07 [-36..36];
+param vco3_width = 0.5 [0.05..0.95];
+param vco3_fm_noise = 0 [0..1];
+param vco3_fm_adsr  = 0 [0..1];
+param vco3_fm_vco2  = 0 [0..1];
+
+// ---- noise and sample & hold ---------------------------------------------------
+param noise_color = 1 [0..1];               // 0 low-frequency, 0.5 pink, 1 white
+param sh_rate = 6hz [0.2hz..40hz];
+
+// ---- VCF -----------------------------------------------------------------------
+param mix_ring  = 0   [0..1];
+param mix_vco1  = 0.7 [0..1];
+param mix_vco2  = 0.7 [0..1];
+param mix_vco3  = 0.5 [0..1];
+param mix_noise = 0   [0..1];
+param cutoff    = 250hz [10hz..10khz];
+param resonance = 0.35  [0..1];
+param vcf_kbd   = 0.7 [0..1];
+param vcf_adsr  = 0.6 [0..1];
+param vcf_vco2  = 0   [0..1];
+
+// ---- VCA and envelopes ---------------------------------------------------------
+param vca_vcf   = 1 [0..1];
+param vca_ring  = 0 [0..1];
+param vca_ar    = 0 [0..1];
+param vca_adsr  = 1 [0..1];
+param attack    = 5ms   [1ms..5s];
+param decay     = 500ms [1ms..10s];
+param sustain   = 0.6   [0..1];
+param release   = 300ms [1ms..10s];
+param ar_attack  = 5ms   [1ms..5s];
+param ar_release = 300ms [1ms..10s];
+
+// ---- output --------------------------------------------------------------------
+param pan_spread = 0.4 [0..1];
+param reverb     = 0.2 [0..1];
+param volume     = -9db [-60db..6db];
+
+// The 2600's noise generator fades from white through pink to a slow rumble.
+def colored(color) {
+  w    = noise();
+  pink = 3 * (0.6 * onepole(w, 80hz) + 0.3 * onepole(w, 800hz) + 0.1 * w);
+  low  = 12 * onepole(w, 12hz);
+  return if color < 0.5 then lerp(low, pink, 2 * color) else lerp(pink, w, 2 * color - 1);
+}
+
+// One sample & hold for every voice: noise sampled by the internal clock.
+sh = sample_hold(noise(), ramp(audio(sh_rate) / sr));
+
+// A slider at full scale bends an oscillator by this many semitones.
+const FM_RANGE = 24;
+
+def voice(v) {
+  adsr = env_adsr(v, attack, decay, sustain, release);
+  ar   = env_ar(v, ar_attack, ar_release);
+  nz   = colored(noise_color);
+  note = glide(v.pitch, portamento);
+
+  // The VCOs modulate each other, so each takes the other's last sample.
+  dt1 = mtof(note + vco1_tune + drift(4)
+             + FM_RANGE * (vco1_fm_sh * sh + vco1_fm_adsr * adsr + vco1_fm_vco2 * sine2')) / sr;
+  p1  = ramp(dt1);
+  saw1 = saw_shape(p1, dt1);
+  sq1  = pulse_shape(p1, dt1, 0.5);
+
+  dt2 = mtof(note + vco2_tune + drift(4)
+             + FM_RANGE * (vco2_fm_sh * sh + vco2_fm_adsr * adsr + vco2_fm_vco1 * sq1')) / sr;
+  p2  = ramp(dt2);
+  sine2  = sine_shape(p2);
+  pulse2 = pulse_shape(p2, dt2, clamp(vco2_width + 0.4 * vco2_pwm_noise * nz, 0.05, 0.95));
+
+  dt3 = mtof(note + vco3_tune + drift(4)
+             + FM_RANGE * (vco3_fm_noise * nz + vco3_fm_adsr * adsr + vco3_fm_vco2 * sine2)) / sr;
+  p3  = ramp(dt3);
+  saw3 = saw_shape(p3, dt3);
+
+  ring = saw1 * sine2;
+
+  mix = mix_ring * ring + mix_vco1 * sq1 + mix_vco2 * pulse2 + mix_vco3 * saw3 + mix_noise * nz;
+  oct = vcf_kbd * (note - 60) / 12 + 8 * vcf_adsr * adsr + 4 * vcf_vco2 * sine2;
+  y   = ladder_lowpass(mix, cutoff * 2 ^ oct, 4.4 * resonance, drive = 0.6);
+
+  // the AR input of the VCA is linear, the ADSR input exponential
+  gain = min(vca_ar * ar + vca_adsr * adsr * adsr, 1.5);
+  return (vca_vcf * y + vca_ring * ring) * gain * (0.5 + 0.5 * v.velocity);
+}
+
+// `best` is written before `v`: a cycle between bindings has to be entered
+// through a signal, not through the array.
+def slot(i) = voice_ctl(i, best, note_on, note_off);
+best = max(i < 4) v[i].cand;
+v    = [slot(0), slot(1), slot(2), slot(3)];
+
+def place(i) = 0.5 + pan_spread * (if i % 2 < 1 then 1 else -1) * (floor(i / 2) + 1) / 4;
+dry = sum(i < 4) pan(voice(v[i]), place(i));
+
+// ---- spring reverb -------------------------------------------------------------
+// A spring is dispersive: high frequencies travel faster than low ones, so an
+// impulse comes back as a chirp, again and again.  Each spring here is a
+// delay loop holding a chain of all-pass filters (the dispersion) and a
+// low-pass (the loss).  Two springs of different length, as in the tank.
+def allpass(x, n, a) {
+  y = (x @ n) - a * x + a * (y @ n);
+  return y;
+}
+def spring(x, length, a) {
+  back = allpass(allpass(allpass(allpass(w @ length, 3, a), 7, a), 13, a), 23, a);
+  w    = x + 0.82 * onepole(back, 3.2khz);
+  return dc_block(back);
+}
+// Lengths are in samples (33 ms and 41 ms at 48 kHz) so the graph follows
+// the host's sample rate.
+send = (dry.l + dry.r) * 0.25;
+s1   = spring(send, 1583, 0.62);
+s2   = spring(send, 1973, 0.58);
+tank = stereo { l = s1 + 0.4 * s2, r = s2 + 0.4 * s1 };
+
+out = (dry + reverb * tank) * volume;

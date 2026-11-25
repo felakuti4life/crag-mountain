@@ -16,17 +16,17 @@
 //     picked by a flat `crag.selector`; coefficient computations are shared
 //     across branches of the same type.
 //   - Q above the Butterworth baseline mixes in a two-pole resonator at the
-//     cutoff frequency.  The resonator is normalised by its analytic peak
+//     cutoff frequency.  The resonator is normalized by its analytic peak
 //     gain 1/((1-r)·√(1-2r·cos2θ+r²)) so the emphasis level tracks the Q
 //     knob rather than exploding as the poles approach the unit circle.
 //     At the default Q = 0.7071 the mix is zero and every type produces the
 //     plain Butterworth response.  For the notch type the resonance mix is
-//     disabled entirely: a peak at the notch centre would cancel the cut
+//     disabled entirely: a peak at the notch center would cancel the cut
 //     that the notch exists to provide.
 //
 // Stability clamps (applied in-graph so out-of-range routed values cannot
-// destabilise the filter):
-//   - normalised cutoff clamped to [0.001, 0.499] × Nyquist — keeps the
+// destabilize the filter):
+//   - normalized cutoff clamped to [0.001, 0.499] × Nyquist — keeps the
 //     coefficient computation away from the DC and Nyquist singularities
 //   - Q clamped to [0.05, 8] — keeps the resonator poles strictly inside
 //     the unit circle
@@ -36,7 +36,7 @@
 //                                (default 0 = lowpass)
 //   slope      enum            – 0=6dB, 1=12dB, 2=24dB per octave
 //                                (default 1 = 12dB)
-//   cutoff_hz  [20, 20000] Hz  – cutoff / centre frequency (default 1000)
+//   cutoff_hz  [20, 20000] Hz  – cutoff / center frequency (default 1000)
 //   q          [0.1, 8]        – resonance; 0.7071 = no added emphasis
 //                                (default 0.7071)
 //
@@ -62,7 +62,7 @@ module {
     %q         = crag.param "q"         min = 0.1  max = 8.0     default = 0.7071 : f32
 
     // -----------------------------------------------------------------------
-    // Normalise and clamp the design parameters
+    // Normalize and clamp the design parameters
     // -----------------------------------------------------------------------
     %sr       = crag.sample_rate : f32
     %two      = arith.constant 2.0 : f32
@@ -180,7 +180,7 @@ module {
       })
 
     // -----------------------------------------------------------------------
-    // Resonance: a peak-normalised two-pole resonator at the cutoff, mixed
+    // Resonance: a peak-normalized two-pole resonator at the cutoff, mixed
     // in proportionally to how far Q sits above the Butterworth baseline.
     //
     // Resonator poles: radius r = e^(-π·cutoff/(2Q)), angle θ = π·cutoff.

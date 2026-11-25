@@ -25,7 +25,7 @@
 //     7. Mix: out = dry_level · in + wet_level · peeked
 //
 // The buffer uses the modulatable-delay form (delaySize, maxSize):
-//   delaySize = 960  samples — nominal centre delay (20 ms) used for
+//   delaySize = 960  samples — nominal center delay (20 ms) used for
 //                              periodicity analysis and run-time estimates.
 //   maxSize   = 4800 samples — actual allocated buffer (100 ms) sized to
 //                              hold the worst-case modulated delay
@@ -40,7 +40,7 @@
 // Parameters:
 //   rate       [0.05, 5]   – LFO frequency in Hz        (default 0.5)
 //   depth_ms   [1, 20]     – modulation depth in ms     (default 10.0)
-//   center_ms  [10, 50]    – base (centre) delay in ms  (default 20.0)
+//   center_ms  [10, 50]    – base (center) delay in ms  (default 20.0)
 //   wet_level  [0, 1]      – wet/chorus mix amplitude   (default 0.5)
 //   dry_level  [0, 1]      – dry pass-through amplitude (default 0.5)
 //

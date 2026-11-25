@@ -5,7 +5,7 @@
 //
 //   mid_out = (L + R) / 2
 //
-// The Mid signal represents the centre-panned, phase-coherent content of the
+// The Mid signal represents the center-panned, phase-coherent content of the
 // mix.  The Side signal (L − R) is discarded by this mixer.
 //
 // Numerically this is equivalent to the "stereo_to_mono_average" mixer; the

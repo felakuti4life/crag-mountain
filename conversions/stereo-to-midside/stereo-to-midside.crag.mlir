@@ -4,7 +4,7 @@
 // representation, tagged with subtype="midside".
 //
 // The Mid/Side encoding separates the stereo signal into:
-//   M  (mid)  = (L + R) * 0.5  — mono-compatible centre content
+//   M  (mid)  = (L + R) * 0.5  — mono-compatible center content
 //   S  (side) = (L − R) * 0.5  — stereo difference / width content
 //
 // The 0.5 scale factor ensures a perfect round-trip with the matching

@@ -1,0 +1,16 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param feedback  = 0.6 [0..0.99];
+param wet_level = 0.6 [0..1];
+param dry_level = 0.7 [0..1];
+
+spec = in.fft;
+
+// Three echoes, 4, 8 and 12 blocks back, each quieter than the last.
+echo = sum(n in 1..3) feedback ^ n * (spec @ (4 * n)).ifft;
+
+out = dry_level * in + wet_level * echo;

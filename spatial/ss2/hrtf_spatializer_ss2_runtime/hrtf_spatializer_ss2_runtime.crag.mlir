@@ -18,7 +18,7 @@
 //   - `position_index` (i32, default 0) — selects the active IR row in
 //     the concatenated pack.  The lex-ordered cache layout means
 //     index ↔ `(elevation, azimuth)` is deterministic and dataset-
-//     independent; the host (or a downstream nearest-neighbour pass)
+//     independent; the host (or a downstream nearest-neighbor pass)
 //     resolves az/el/dist → index.
 //
 // `azimuth_rad` / `elevation_rad` / `distance_m` are still declared so
@@ -35,15 +35,21 @@
 // Sample rate: fixed at 48 kHz (matches the SS2 dataset's native rate).
 //
 // IR length budget:
-//   The normalized cache pads SS2 IRs to 256 samples.  At
-//   blockSize=512, a single OLS partition covers the full IR without
-//   aliasing, so we set `num_partitions = 1` per ear.
+//   The normalized cache pads SS2 IRs to 256 samples.  `num_partitions`
+//   is the partition *cap*: the op runs ceil(ir_length / blockSize)
+//   partitions, so one at the default blockSize of 512 and up to 8 for a
+//   host block as small as 32 frames.  A cap of 1 truncates the IR to the
+//   first blockSize taps whenever the host runs blocks shorter than 256.
 //
 // position_index range:
-//   `max = 4095` matches the CIPIC runtime template; SS2 typically
-//   ships ~793 measurement points per subject, well within range.
-//   Bump if a future dataset is larger; over-cautious `max` only widens
-//   the host-callable range and does not allocate any compile-time table.
+//   `max = 4095` matches the CIPIC runtime template; the committed SS2
+//   pack holds 1625 measurement points, well within range.  Bump if a
+//   future dataset is larger; over-cautious `max` only widens the
+//   host-callable range and does not allocate any compile-time table.
+//   The default (781) is the straight-ahead row of that pack
+//   (`front_index` in spatial/hrtf_inline/manifest.json), so an undriven
+//   binary matches the `azimuth_rad = elevation_rad = 0` defaults instead
+//   of playing row 0, the lowest-elevation measurement.
 //
 // Usage:
 //   crag-compile \
@@ -75,7 +81,7 @@ module {
                      min = 0.1 max = 10.0 default = 1.0
                      unit = "m" : f32
     %pos_idx   = crag.param_int "position_index"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 781 : i32
 
     // Per-ear concatenated-IR samplers.  Bind via:
     //   --inline-sampler-data hrir_ss2_pack_L:<subject>_L.wav
@@ -96,14 +102,17 @@ module {
     %ir_offset  = arith.muli %pos_i64, %ir_len : i64
 
     // Convolve the dry mono input with each ear's runtime-selected IR.
+    // num_partitions = 8 is a cap, not a cost: ceil(ir_length / blockSize)
+    // partitions run, i.e. one at the default blockSize of 512, and the
+    // full 256-tap IR is still covered down to 32-frame host blocks.
     %wet_l = crag.overlap_save_conv_slice %in, %ir_l, %ir_offset, %ir_len
-                 num_partitions = 1
+                 num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_ss2_pack_L">,
                    i64, i64
                    -> !crag.audio<f32, 48000, 1>
     %wet_r = crag.overlap_save_conv_slice %in, %ir_r, %ir_offset, %ir_len
-                 num_partitions = 1
+                 num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_ss2_pack_R">,
                    i64, i64

@@ -2,7 +2,7 @@
 //
 // Applies a horizontal yaw rotation to a First-Order Ambisonics (FOA) stream.
 // A positive angle rotates the soundfield counterclockwise when viewed from
-// above (i.e. sources appear to shift towards the left).
+// above (i.e. sources appear to shift toward the left).
 //
 // Transform (ACN/SN3D, rotation of soundfield by angle ψ around Z axis):
 //

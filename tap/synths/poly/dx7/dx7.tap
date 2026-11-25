@@ -1,0 +1,228 @@
+// dx7.tap: a sixteen-voice, six-operator FM synth after the Yamaha DX7.
+//
+// A voice is six sine oscillators ("operators"), each with its own envelope.
+// An operator either sounds (a carrier) or shifts the phase of another
+// operator (a modulator); the `algorithm` chooses which, from the DX7's 32
+// arrangements.  One operator per algorithm feeds back on itself.
+//
+// What is taken from the DX7:
+//   - the 32 algorithms and the feedback path, which averages the last two
+//     output samples
+//   - phase modulation depth: an operator at level 99 moves the phase of the
+//     operator below it by 4 pi, and each level step is 0.75 dB
+//   - the envelope: four rates and four levels, 0..99.  It moves through
+//     level 1, 2 and 3 while the key is down and to level 4 when it is
+//     released.  It falls at a constant number of dB per second, and rises
+//     along a curve that starts fast and flattens toward the top.  A rate
+//     step of 6.25 doubles the speed.
+//   - velocity sensitivity, keyboard rate scaling (higher notes move faster)
+//     and the phase reset at each key-on
+//
+// The default patch is in the style of the DX7's electric piano (algorithm
+// 5: three modulator-carrier pairs, one of them a bright "tine" that decays
+// quickly).
+//
+// Play it with `note_on` and `note_off` (a music_note; pitch is a MIDI note
+// number, velocity 0..1).  One note-on and one note-off per block.
+//
+// Not modelled: fixed-frequency operators, keyboard level scaling, the pitch
+// envelope, LFO amplitude modulation, and the 12-bit converter's grit.
+
+use "kit";
+
+event note_on:  music_note;
+event note_off: music_note;
+
+param algorithm: int = 5 [1..32];
+param feedback  = 6 [0..7];
+param transpose: int = 0 [-24..24];
+param rate_scaling = 3 [0..7];
+param lfo_speed = 5hz [0.05hz..40hz];
+param lfo_pitch = 0   [0..2];               // vibrato depth, semitones
+param volume    = -12db [-60db..6db];
+
+// ---- operators -----------------------------------------------------------------
+// ratio: frequency as a multiple of the note.  detune: about a cent a step.
+// level: output level.  velocity: how much velocity raises the level.
+param op1_ratio = 1  [0.5..31];  param op1_detune = 3  [-7..7];  param op1_level = 99 [0..99];  param op1_velocity = 2 [0..7];
+param op2_ratio = 14 [0.5..31];  param op2_detune = 0  [-7..7];  param op2_level = 58 [0..99];  param op2_velocity = 7 [0..7];
+param op3_ratio = 1  [0.5..31];  param op3_detune = 0  [-7..7];  param op3_level = 99 [0..99];  param op3_velocity = 2 [0..7];
+param op4_ratio = 1  [0.5..31];  param op4_detune = 0  [-7..7];  param op4_level = 89 [0..99];  param op4_velocity = 6 [0..7];
+param op5_ratio = 1  [0.5..31];  param op5_detune = -7 [-7..7];  param op5_level = 99 [0..99];  param op5_velocity = 0 [0..7];
+param op6_ratio = 1  [0.5..31];  param op6_detune = 7  [-7..7];  param op6_level = 79 [0..99];  param op6_velocity = 6 [0..7];
+
+// envelope rates
+param op1_r1 = 96 [0..99];  param op1_r2 = 25 [0..99];  param op1_r3 = 25 [0..99];  param op1_r4 = 67 [0..99];
+param op2_r1 = 95 [0..99];  param op2_r2 = 50 [0..99];  param op2_r3 = 35 [0..99];  param op2_r4 = 78 [0..99];
+param op3_r1 = 95 [0..99];  param op3_r2 = 20 [0..99];  param op3_r3 = 20 [0..99];  param op3_r4 = 50 [0..99];
+param op4_r1 = 95 [0..99];  param op4_r2 = 29 [0..99];  param op4_r3 = 20 [0..99];  param op4_r4 = 50 [0..99];
+param op5_r1 = 95 [0..99];  param op5_r2 = 20 [0..99];  param op5_r3 = 20 [0..99];  param op5_r4 = 50 [0..99];
+param op6_r1 = 95 [0..99];  param op6_r2 = 29 [0..99];  param op6_r3 = 20 [0..99];  param op6_r4 = 50 [0..99];
+
+// envelope levels
+param op1_l1 = 99 [0..99];  param op1_l2 = 75 [0..99];  param op1_l3 = 0 [0..99];  param op1_l4 = 0 [0..99];
+param op2_l1 = 99 [0..99];  param op2_l2 = 75 [0..99];  param op2_l3 = 0 [0..99];  param op2_l4 = 0 [0..99];
+param op3_l1 = 99 [0..99];  param op3_l2 = 95 [0..99];  param op3_l3 = 0 [0..99];  param op3_l4 = 0 [0..99];
+param op4_l1 = 99 [0..99];  param op4_l2 = 95 [0..99];  param op4_l3 = 0 [0..99];  param op4_l4 = 0 [0..99];
+param op5_l1 = 99 [0..99];  param op5_l2 = 95 [0..99];  param op5_l3 = 0 [0..99];  param op5_l4 = 0 [0..99];
+param op6_l1 = 99 [0..99];  param op6_l2 = 95 [0..99];  param op6_l3 = 0 [0..99];  param op6_l4 = 0 [0..99];
+
+struct dx_op {
+  ratio: float;  detune: float;  level: float;  velocity: float;
+  r1: float;  r2: float;  r3: float;  r4: float;
+  l1: float;  l2: float;  l3: float;  l4: float;
+}
+ops = [
+  dx_op { ratio = op1_ratio, detune = op1_detune, level = op1_level, velocity = op1_velocity,
+          r1 = op1_r1, r2 = op1_r2, r3 = op1_r3, r4 = op1_r4, l1 = op1_l1, l2 = op1_l2, l3 = op1_l3, l4 = op1_l4 },
+  dx_op { ratio = op2_ratio, detune = op2_detune, level = op2_level, velocity = op2_velocity,
+          r1 = op2_r1, r2 = op2_r2, r3 = op2_r3, r4 = op2_r4, l1 = op2_l1, l2 = op2_l2, l3 = op2_l3, l4 = op2_l4 },
+  dx_op { ratio = op3_ratio, detune = op3_detune, level = op3_level, velocity = op3_velocity,
+          r1 = op3_r1, r2 = op3_r2, r3 = op3_r3, r4 = op3_r4, l1 = op3_l1, l2 = op3_l2, l3 = op3_l3, l4 = op3_l4 },
+  dx_op { ratio = op4_ratio, detune = op4_detune, level = op4_level, velocity = op4_velocity,
+          r1 = op4_r1, r2 = op4_r2, r3 = op4_r3, r4 = op4_r4, l1 = op4_l1, l2 = op4_l2, l3 = op4_l3, l4 = op4_l4 },
+  dx_op { ratio = op5_ratio, detune = op5_detune, level = op5_level, velocity = op5_velocity,
+          r1 = op5_r1, r2 = op5_r2, r3 = op5_r3, r4 = op5_r4, l1 = op5_l1, l2 = op5_l2, l3 = op5_l3, l4 = op5_l4 },
+  dx_op { ratio = op6_ratio, detune = op6_detune, level = op6_level, velocity = op6_velocity,
+          r1 = op6_r1, r2 = op6_r2, r3 = op6_r3, r4 = op6_r4, l1 = op6_l1, l2 = op6_l2, l3 = op6_l3, l4 = op6_l4 }
+];
+
+// ---- algorithms ----------------------------------------------------------------
+// One row per algorithm.  The first five numbers list, as digits, the
+// operators that modulate operators 1 to 5 (56 is "operators 5 and 6"; 0 is
+// none).  Modulators always have the higher number, so operator 6 has none.
+// Then the carriers, the operator the feedback is taken from, and the
+// operator it goes to.
+const ALG = [
+  //  1    2    3    4    5   carriers  from  to
+  [   2,   0,   4,   5,   6,      13,    6,   6],   //  1
+  [   2,   0,   4,   5,   6,      13,    2,   2],   //  2
+  [   2,   3,   0,   5,   6,      14,    6,   6],   //  3
+  [   2,   3,   0,   5,   6,      14,    4,   6],   //  4
+  [   2,   0,   4,   0,   6,     135,    6,   6],   //  5
+  [   2,   0,   4,   0,   6,     135,    5,   6],   //  6
+  [   2,   0,  45,   0,   6,      13,    6,   6],   //  7
+  [   2,   0,  45,   0,   6,      13,    4,   4],   //  8
+  [   2,   0,  45,   0,   6,      13,    2,   2],   //  9
+  [   2,   3,   0,  56,   0,      14,    3,   3],   // 10
+  [   2,   3,   0,  56,   0,      14,    6,   6],   // 11
+  [   2,   0, 456,   0,   0,      13,    2,   2],   // 12
+  [   2,   0, 456,   0,   0,      13,    6,   6],   // 13
+  [   2,   0,   4,  56,   0,      13,    6,   6],   // 14
+  [   2,   0,   4,  56,   0,      13,    2,   2],   // 15
+  [ 235,   0,   4,   0,   6,       1,    6,   6],   // 16
+  [ 235,   0,   4,   0,   6,       1,    2,   2],   // 17
+  [ 234,   0,   0,   5,   6,       1,    3,   3],   // 18
+  [   2,   3,   0,   6,   6,     145,    6,   6],   // 19
+  [   3,   3,   0,  56,   0,     124,    3,   3],   // 20
+  [   3,   3,   0,   6,   6,    1245,    3,   3],   // 21
+  [   2,   0,   6,   6,   6,    1345,    6,   6],   // 22
+  [   0,   3,   0,   6,   6,    1245,    6,   6],   // 23
+  [   0,   0,   6,   6,   6,   12345,    6,   6],   // 24
+  [   0,   0,   0,   6,   6,   12345,    6,   6],   // 25
+  [   0,   3,   0,  56,   0,     124,    6,   6],   // 26
+  [   0,   3,   0,  56,   0,     124,    3,   3],   // 27
+  [   2,   0,   4,   5,   0,     136,    5,   5],   // 28
+  [   0,   0,   4,   0,   6,    1235,    6,   6],   // 29
+  [   0,   0,   4,   5,   0,    1236,    5,   5],   // 30
+  [   0,   0,   0,   0,   6,   12345,    6,   6],   // 31
+  [   0,   0,   0,   0,   0,  123456,    6,   6]    // 32
+];
+
+// Is `d` one of the digits of `code`?
+def has_digit(code, d) = sum(k < 6) (if floor(code / 10 ^ k) % 10 == d then 1 else 0);
+// 1 if, in the selected algorithm, column `col` of its row has the digit `d`.
+def routed(col, d) = sum(a < 32) (if algorithm == a + 1 then has_digit(ALG[a][col], d) else 0);
+
+// mods[i][j]: operator j+1 modulates operator i+1
+mods = [
+  [0, routed(0, 2), routed(0, 3), routed(0, 4), routed(0, 5), routed(0, 6)],
+  [0, 0,            routed(1, 3), routed(1, 4), routed(1, 5), routed(1, 6)],
+  [0, 0,            0,            routed(2, 4), routed(2, 5), routed(2, 6)],
+  [0, 0,            0,            0,            routed(3, 5), routed(3, 6)],
+  [0, 0,            0,            0,            0,            routed(4, 6)]
+];
+carrier = [routed(5, 1), routed(5, 2), routed(5, 3), routed(5, 4), routed(5, 5), routed(5, 6)];
+fb_from = [routed(6, 1), routed(6, 2), routed(6, 3), routed(6, 4), routed(6, 5), routed(6, 6)];
+fb_to   = [routed(7, 1), routed(7, 2), routed(7, 3), routed(7, 4), routed(7, 5), routed(7, 6)];
+
+// Feedback 7 moves the phase by a full turn for a full-level operator, and
+// each step down halves it.
+fb_depth = if feedback < 0.5 then 0 else tau * 2 ^ (feedback - 7);
+
+vibrato = lfo_pitch * sine(lfo_speed);
+
+// ---- envelope ------------------------------------------------------------------
+// The DX7 reads its 0..99 levels through a table: 0.75 dB a step from 20 up,
+// steeper below.
+def level_steps(l) = if l >= 20 then 28 + l else 2.4 * l;
+
+// The operator's gain, 0..1 (a little over 1 at high velocity).  The envelope
+// state `x` is the level in dB above the DX7's floor, about 91 dB under full.
+def dx_env(v, o) {
+  g = audio(v.gate);
+  n = audio(v.id);
+  // velocity and output level shift every envelope level together
+  vel  = o.velocity * (254 * v.velocity ^ 0.3 - 239) / 16;
+  base = level_steps(o.level) + vel - 133;
+  t1 = max(0.75 * (level_steps(o.l1) + base), 0.4);
+  t2 = max(0.75 * (level_steps(o.l2) + base), 0.4);
+  t3 = max(0.75 * (level_steps(o.l3) + base), 0.4);
+  t4 = max(0.75 * (level_steps(o.l4) + base), 0.4);
+
+  // segment 0, 1, 2 with the key down; 3 after it is released
+  seg = if n != n' then 0
+        else if g < 0.5 then 3
+        else if seg' < 1.5 && arrived' > 0.5 then seg' + 1
+        else seg';
+  target = if seg < 0.5 then t1 else if seg < 1.5 then t2 else if seg < 2.5 then t3 else t4;
+  rate   = if seg < 0.5 then o.r1 else if seg < 1.5 then o.r2 else if seg < 2.5 then o.r3 else o.r4;
+
+  // dB per sample when falling; higher keys run faster
+  quick = rate_scaling * clamp(floor(v.pitch / 3) - 7, 0, 31) / 8;
+  step  = 0.2532 * 2 ^ (min(rate * 0.64 + quick, 63) / 4) / sr;
+  // a rise starts no lower than 40 dB and closes in on a point above the top
+  from  = max(x', 40.4);
+  x = if target > x' then min(from + step * (102.3 - from) / 6.02, target)
+      else max(x' - step, target);
+  arrived = if abs(x - target) < 0.0001 then 1 else 0;
+
+  return 2 ^ ((x - 90.75) / 6.02);
+}
+
+// One operator: a sine whose phase restarts at key-on, shifted by `pm` radians.
+def operator(v, o, pm) {
+  n  = audio(v.id);
+  dt = mtof(v.pitch + transpose + vibrato + 0.01 * o.detune) * o.ratio / sr;
+  p  = if n != n' then 0 else frac(p' + dt);
+  return sin(tau * p + pm) * dx_env(v, o);
+}
+
+def voice(v) {
+  // the average of the feedback operator's last two samples
+  fb_src = fb_from[0] * o1 + fb_from[1] * o2 + fb_from[2] * o3
+         + fb_from[3] * o4 + fb_from[4] * o5 + fb_from[5] * o6;
+  fb     = fb_depth * 0.5 * (fb_src' + fb_src @ 2);
+
+  // Operators run from 6 down to 1, so a modulator is ready before the
+  // operator it modulates.  A full-level modulator shifts the phase by 4 pi.
+  o6 = operator(v, ops[5], fb_to[5] * fb);
+  o5 = operator(v, ops[4], fb_to[4] * fb + 2 * tau * (mods[4][5] * o6));
+  o4 = operator(v, ops[3], fb_to[3] * fb + 2 * tau * (mods[3][4] * o5 + mods[3][5] * o6));
+  o3 = operator(v, ops[2], fb_to[2] * fb + 2 * tau * (mods[2][3] * o4 + mods[2][4] * o5 + mods[2][5] * o6));
+  o2 = operator(v, ops[1], fb_to[1] * fb + 2 * tau * (mods[1][2] * o3 + mods[1][3] * o4 + mods[1][4] * o5 + mods[1][5] * o6));
+  o1 = operator(v, ops[0], 2 * tau * (mods[0][1] * o2 + mods[0][2] * o3 + mods[0][3] * o4 + mods[0][4] * o5 + mods[0][5] * o6));
+
+  return carrier[0] * o1 + carrier[1] * o2 + carrier[2] * o3
+       + carrier[3] * o4 + carrier[4] * o5 + carrier[5] * o6;
+}
+
+// `best` is written before `v`: a cycle between bindings has to be entered
+// through a signal, not through the array.
+def slot(i) = voice_ctl(i, best, note_on, note_off);
+best = max(i < 16) v[i].cand;
+v    = [slot(0), slot(1), slot(2),  slot(3),  slot(4),  slot(5),  slot(6),  slot(7),
+        slot(8), slot(9), slot(10), slot(11), slot(12), slot(13), slot(14), slot(15)];
+
+// the DX7 is mono
+out = sum(i < 16) voice(v[i]) * 0.35 * volume;

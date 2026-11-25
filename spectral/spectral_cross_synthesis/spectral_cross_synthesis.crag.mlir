@@ -14,7 +14,7 @@
 //      this is complex multiplication:
 //         Y[k] = A[k] * B[k]
 //             = |A[k]| · |B[k]| · exp(j · (arg(A[k]) + arg(B[k])))
-//   3. Inverse FFT to recover the cross-synthesised time-domain block.
+//   3. Inverse FFT to recover the cross-synthesized time-domain block.
 //
 // Note on block length:
 //   Like `standard-graphs/reverb/fft-convolution`, this is a single-block
@@ -24,19 +24,19 @@
 //   with one of the inputs preloaded into a sampler.
 //
 // Parameters:
-//   wet_level  [0, 1]  – cross-synthesised signal amplitude  (default 0.7)
+//   wet_level  [0, 1]  – cross-synthesized signal amplitude  (default 0.7)
 //   dry_level  [0, 1]  – first-input dry passthrough         (default 0.0)
 //
 // Inputs:
 //   %a  — the first audio block (often the "carrier"); also routed to the
 //         dry-mix path so that wet_level / dry_level form a wet/dry control
-//         centred on input A.
+//         centered on input A.
 //   %b  — the second audio block (often the "modulator").  Only its spectrum
 //         enters the cross-synthesis output; B is not summed into the dry
 //         path.
 //
 // Output:
-//   The cross-synthesised audio block, optionally blended with input A.
+//   The cross-synthesized audio block, optionally blended with input A.
 //
 // Usage (after crag.include):
 //   %out = crag.subgraph_ref "spectral_cross_synthesis"(%a, %b)

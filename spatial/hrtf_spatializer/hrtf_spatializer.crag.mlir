@@ -4,10 +4,10 @@
 // driven variants (e.g. SS2_HRTF, CIPIC).  This file ships a minimal, dataset-
 // free reference implementation based on the Woodworth interaural time-delay
 // (ITD) approximation plus a simple constant-power interaural level-difference
-// (ILD) panner and inverse-distance gain.  Future variants will replace this
-// "spatialize" body with dataset-driven HRIR convolution while keeping the
-// same input contract and `subtype="binaural"` output, so any caller can swap
-// renderers without changing wiring.
+// (ILD) panner and inverse-distance gain.  The dataset variants (spatial/cipic/,
+// spatial/ss2/) replace this "spatialize" body with HRIR convolution while
+// keeping the same input contract and `subtype="binaural"` output, so any
+// caller can swap renderers without changing wiring.
 //
 // Contract (the "core HRTF spatializer ABI"):
 //
@@ -29,14 +29,14 @@
 //   visualizers and renderers may look for this subtype to distinguish
 //   ear-referenced stereo from generic L/R stereo.
 //
-// Naive model (placeholder until dataset-driven variants land):
+// Naive model:
 //
 //   ITD (Woodworth approximation, head radius r ≈ 0.0875 m, c = 343 m/s):
 //     itd_seconds = (r/c) · sin(azimuth) · cos(elevation)
 //     itd_samples = itd_seconds · sample_rate                   (signed)
 //
 //   Per-ear delays, both biased by max_itd/2 of common latency so that the
-//   centre position (azimuth = 0) yields equal contralateral/ipsilateral
+//   center position (azimuth = 0) yields equal contralateral/ipsilateral
 //   read offsets and no audible asymmetry:
 //
 //     delay_left  = base + max_itd/2 + itd_samples/2
@@ -51,10 +51,12 @@
 //     dist_gain   = 1 / max(distance_m, 0.1)
 //
 // Buffer sizing:
-//   The shared circular buffer must be at least the block size (512 samples)
-//   per the CragLowerAudioToTensor underrun check, and large enough to hold
-//   max_itd_samples plus the centre `base` latency.  At 48 kHz the maximum
-//   ITD is r/c · sr ≈ 12.25 samples; we allocate 1024 samples of headroom.
+//   The shared circular buffer must hold at least one block (the
+//   CragLowerAudioToTensor underrun check) plus max_itd_samples and the
+//   center `base` latency.  At 48 kHz the maximum ITD is r/c · sr ≈ 12.25
+//   samples, so the 4096-sample buffer serves every host block size up to
+//   4096 - 64.  The read offsets are derived from `crag.block_size`, so the
+//   latency (base + max_itd/2 ≈ 22 samples) is the same at every block size.
 //
 // Sample rate:
 //   This template is currently fixed at 48 kHz because `CragResolveAudioRates`
@@ -116,9 +118,14 @@ module {
     %dist_floor  = arith.constant 0.1 : f32
     // Maximum valid peek_delay offset = bufSize - blockSize.  The strict
     // bounds check requires `offset ∈ [0, bufSize - blockSize]` so the
-    // whole block read fits within one circular wrap.  With bufSize=1024
-    // and blockSize=512 this is 512.
-    %off_max_f   = arith.constant 512.0 : f32
+    // whole block read fits within one circular wrap.  Computed from the
+    // compile-time block size: a hardcoded 512 is only right for
+    // blockSize=512 and adds (512 - blockSize) samples of latency (or reads
+    // out of range) at any other host block size.
+    %buf_size_i  = arith.constant 4096 : i64
+    %block_i     = crag.block_size : i64
+    %off_max_i   = arith.subi %buf_size_i, %block_i : i64
+    %off_max_f   = arith.sitofp %off_max_i : i64 to f32
     %off_min_f   = arith.constant 0.0 : f32
 
     // -----------------------------------------------------------------------
@@ -159,39 +166,43 @@ module {
     %delay_r_a = arith.addf %base_delay,  %max_itd_half : f32
     %delay_r   = arith.subf %delay_r_a,   %itd_half     : f32
 
-    // peek_delay offset semantics: with bufSize=1024 and blockSize=512,
-    // valid offsets are in [0, bufSize - blockSize] = [0, 512].  Offset 0
-    // reads the oldest available block (1024 samples back from "now");
-    // offset (bufSize - blockSize) reads the most-recently-pushed block
-    // (0 samples of delay relative to the current input).  Hence:
+    // peek_delay offset semantics: valid offsets are in
+    // [0, bufSize - blockSize].  Offset 0 reads the oldest available block
+    // (bufSize samples back from "now"); offset (bufSize - blockSize) reads
+    // the most-recently-pushed block (0 samples of delay relative to the
+    // current input).  Hence:
     //
     //   off = (bufSize - blockSize) - delay_samples
     //       = off_max_f - delay_samples
     //
-    // With delay_{l,r} ≈ 16 ± 6 samples, off ≈ 496 ± 6 — well within range.
-    // The clamp guards against extreme ITD values that could otherwise drive
-    // off below 0 (delay > 512) and trip the strict bounds check.
+    // With delay_{l,r} ≈ 22 ± 6 samples, off stays well within range.  The
+    // clamp guards against extreme ITD values that could otherwise drive
+    // off below 0 and trip the strict bounds check.  Adding 0.5 before the
+    // truncating fptosi rounds to the nearest sample, so the two ears stay
+    // symmetric about the center latency.
     %off_l_raw = arith.subf %off_max_f, %delay_l : f32
     %off_r_raw = arith.subf %off_max_f, %delay_r : f32
-    %off_l_lo  = arith.maximumf %off_l_raw, %off_min_f : f32
-    %off_r_lo  = arith.maximumf %off_r_raw, %off_min_f : f32
+    %off_l_rnd = arith.addf %off_l_raw, %half : f32
+    %off_r_rnd = arith.addf %off_r_raw, %half : f32
+    %off_l_lo  = arith.maximumf %off_l_rnd, %off_min_f : f32
+    %off_r_lo  = arith.maximumf %off_r_rnd, %off_min_f : f32
     %off_l_f   = arith.minimumf %off_l_lo,  %off_max_f : f32
     %off_r_f   = arith.minimumf %off_r_lo,  %off_max_f : f32
     %off_l     = arith.fptosi %off_l_f : f32 to i32
     %off_r     = arith.fptosi %off_r_f : f32 to i32
 
     // -----------------------------------------------------------------------
-    // Push the dry mono input into a shared 1024-sample circular buffer
+    // Push the dry mono input into a shared 4096-sample circular buffer
     // and peek at the per-ear offsets.
     // -----------------------------------------------------------------------
-    %dl = crag.delay_line : !crag.delay<f32, 48000, 1, 1024>
-    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 1024>,
+    %dl = crag.delay_line : !crag.delay<f32, 48000, 1, 4096>
+    crag.push_delay %dl, %in : !crag.delay<f32, 48000, 1, 4096>,
                                 !crag.audio<f32, 48000, 1>
     %tap_l = crag.peek_delay %dl, %off_l
-                 : !crag.delay<f32, 48000, 1, 1024>, i32
+                 : !crag.delay<f32, 48000, 1, 4096>, i32
                    -> !crag.audio<f32, 0, 1>
     %tap_r = crag.peek_delay %dl, %off_r
-                 : !crag.delay<f32, 48000, 1, 1024>, i32
+                 : !crag.delay<f32, 48000, 1, 4096>, i32
                    -> !crag.audio<f32, 0, 1>
 
     // -----------------------------------------------------------------------

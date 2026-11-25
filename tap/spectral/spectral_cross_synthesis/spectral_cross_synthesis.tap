@@ -1,0 +1,13 @@
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+in a;
+in b;
+
+param wet_level = 0.7 [0..1];
+param dry_level = 0   [0..1];
+
+out = dry_level * a + wet_level * (a.fft * b.fft).ifft;

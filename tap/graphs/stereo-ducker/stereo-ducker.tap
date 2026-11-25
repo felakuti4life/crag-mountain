@@ -1,0 +1,15 @@
+// stereo-ducker.tap: one ducker per channel, sharing the global knobs.
+use ducker from "dynamics";
+
+meta { rate = 48000; }
+
+in music: stereo;
+in voice;
+
+left  = ducker(music.l, voice);
+right = ducker(music.r, voice);
+
+meter duck_l = left.reduction  [-60..0];
+meter duck_r = right.reduction [-60..0];
+
+out = stereo { l = left, r = right };

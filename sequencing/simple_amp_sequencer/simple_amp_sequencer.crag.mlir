@@ -27,7 +27,7 @@
 //   beat_in_measure == 2 → gain_2
 //   beat_in_measure >= 3 → gain_3
 //
-// This graph no longer owns an internal metronome: there is a single
+// This graph does not own a metronome: there is a single
 // authoritative timing source, the upstream conductor, routed in through
 // `beat_input`.  `bpm` is retained because the beat *count* (and hence the
 // beat-in-measure index that drives gain selection) is derived locally from

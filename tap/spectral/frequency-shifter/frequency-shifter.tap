@@ -1,0 +1,20 @@
+// A frequency shifter: every partial moves by the same number of hertz.
+//
+// Moving all partials by one amount, instead of scaling them as a pitch shift
+// would, breaks their harmonic relation: voices turn metallic, and small
+// shifts beat against the dry signal.  The spectrum moves by whole bins, so
+// the shift goes in steps of sr / bs (94 Hz at 48 kHz with blocks of 512).
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param shift = 300hz [-4khz..4khz] "Shift";
+param mix   = 1 [0..1] "Mix";
+
+spec = in.stft(overlap = 4);
+
+moved = spec.shift(shift / (sr / bs));
+
+out = mix * moved.ifft + (1 - mix) * in.align(spec);

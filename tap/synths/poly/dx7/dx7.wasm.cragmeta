@@ -1,0 +1,684 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "algorithm",
+      "type": "int",
+      "min": 1,
+      "max": 32,
+      "default": 5,
+      "int_index": 0
+    },
+    {
+      "name": "feedback",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 6.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "transpose",
+      "type": "int",
+      "min": -24,
+      "max": 24,
+      "default": 0,
+      "int_index": 1
+    },
+    {
+      "name": "rate_scaling",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 3.000000e+00,
+      "float_index": 1
+    },
+    {
+      "name": "lfo_speed",
+      "type": "float",
+      "min": 5.000000e-02,
+      "max": 4.000000e+01,
+      "default": 5.000000e+00,
+      "unit": "hz",
+      "float_index": 2
+    },
+    {
+      "name": "lfo_pitch",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 2.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 3
+    },
+    {
+      "name": "volume",
+      "type": "float",
+      "min": -6.000000e+01,
+      "max": 6.000000e+00,
+      "default": -1.200000e+01,
+      "unit": "dB",
+      "float_index": 4
+    },
+    {
+      "name": "op1_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.000000e+00,
+      "float_index": 5
+    },
+    {
+      "name": "op1_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 3.000000e+00,
+      "float_index": 6
+    },
+    {
+      "name": "op1_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 7
+    },
+    {
+      "name": "op1_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 2.000000e+00,
+      "float_index": 8
+    },
+    {
+      "name": "op2_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.400000e+01,
+      "float_index": 9
+    },
+    {
+      "name": "op2_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 10
+    },
+    {
+      "name": "op2_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.800000e+01,
+      "float_index": 11
+    },
+    {
+      "name": "op2_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 7.000000e+00,
+      "float_index": 12
+    },
+    {
+      "name": "op3_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.000000e+00,
+      "float_index": 13
+    },
+    {
+      "name": "op3_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 14
+    },
+    {
+      "name": "op3_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 15
+    },
+    {
+      "name": "op3_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 2.000000e+00,
+      "float_index": 16
+    },
+    {
+      "name": "op4_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.000000e+00,
+      "float_index": 17
+    },
+    {
+      "name": "op4_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 18
+    },
+    {
+      "name": "op4_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 8.900000e+01,
+      "float_index": 19
+    },
+    {
+      "name": "op4_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 6.000000e+00,
+      "float_index": 20
+    },
+    {
+      "name": "op5_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.000000e+00,
+      "float_index": 21
+    },
+    {
+      "name": "op5_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": -7.000000e+00,
+      "float_index": 22
+    },
+    {
+      "name": "op5_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 23
+    },
+    {
+      "name": "op5_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 24
+    },
+    {
+      "name": "op6_ratio",
+      "type": "float",
+      "min": 5.000000e-01,
+      "max": 3.100000e+01,
+      "default": 1.000000e+00,
+      "float_index": 25
+    },
+    {
+      "name": "op6_detune",
+      "type": "float",
+      "min": -7.000000e+00,
+      "max": 7.000000e+00,
+      "default": 7.000000e+00,
+      "float_index": 26
+    },
+    {
+      "name": "op6_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 7.900000e+01,
+      "float_index": 27
+    },
+    {
+      "name": "op6_velocity",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 7.000000e+00,
+      "default": 6.000000e+00,
+      "float_index": 28
+    },
+    {
+      "name": "op1_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.600000e+01,
+      "float_index": 29
+    },
+    {
+      "name": "op1_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.500000e+01,
+      "float_index": 30
+    },
+    {
+      "name": "op1_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.500000e+01,
+      "float_index": 31
+    },
+    {
+      "name": "op1_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 6.700000e+01,
+      "float_index": 32
+    },
+    {
+      "name": "op2_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 33
+    },
+    {
+      "name": "op2_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.000000e+01,
+      "float_index": 34
+    },
+    {
+      "name": "op2_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 3.500000e+01,
+      "float_index": 35
+    },
+    {
+      "name": "op2_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 7.800000e+01,
+      "float_index": 36
+    },
+    {
+      "name": "op3_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 37
+    },
+    {
+      "name": "op3_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 38
+    },
+    {
+      "name": "op3_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 39
+    },
+    {
+      "name": "op3_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.000000e+01,
+      "float_index": 40
+    },
+    {
+      "name": "op4_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 41
+    },
+    {
+      "name": "op4_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.900000e+01,
+      "float_index": 42
+    },
+    {
+      "name": "op4_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 43
+    },
+    {
+      "name": "op4_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.000000e+01,
+      "float_index": 44
+    },
+    {
+      "name": "op5_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 45
+    },
+    {
+      "name": "op5_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 46
+    },
+    {
+      "name": "op5_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 47
+    },
+    {
+      "name": "op5_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.000000e+01,
+      "float_index": 48
+    },
+    {
+      "name": "op6_r1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 49
+    },
+    {
+      "name": "op6_r2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.900000e+01,
+      "float_index": 50
+    },
+    {
+      "name": "op6_r3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 2.000000e+01,
+      "float_index": 51
+    },
+    {
+      "name": "op6_r4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 5.000000e+01,
+      "float_index": 52
+    },
+    {
+      "name": "op1_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 53
+    },
+    {
+      "name": "op1_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 7.500000e+01,
+      "float_index": 54
+    },
+    {
+      "name": "op1_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 55
+    },
+    {
+      "name": "op1_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 56
+    },
+    {
+      "name": "op2_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 57
+    },
+    {
+      "name": "op2_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 7.500000e+01,
+      "float_index": 58
+    },
+    {
+      "name": "op2_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 59
+    },
+    {
+      "name": "op2_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 60
+    },
+    {
+      "name": "op3_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 61
+    },
+    {
+      "name": "op3_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 62
+    },
+    {
+      "name": "op3_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 63
+    },
+    {
+      "name": "op3_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 64
+    },
+    {
+      "name": "op4_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 65
+    },
+    {
+      "name": "op4_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 66
+    },
+    {
+      "name": "op4_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 67
+    },
+    {
+      "name": "op4_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 68
+    },
+    {
+      "name": "op5_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 69
+    },
+    {
+      "name": "op5_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 70
+    },
+    {
+      "name": "op5_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 71
+    },
+    {
+      "name": "op5_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 72
+    },
+    {
+      "name": "op6_l1",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.900000e+01,
+      "float_index": 73
+    },
+    {
+      "name": "op6_l2",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 9.500000e+01,
+      "float_index": 74
+    },
+    {
+      "name": "op6_l3",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 75
+    },
+    {
+      "name": "op6_l4",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 9.900000e+01,
+      "default": 0.000000e+00,
+      "float_index": 76
+    }
+  ],
+  "samplers": [],
+  "inlined_samplers": [],
+  "texture_samplers": [],
+  "events": [
+    {
+      "name": "note_on",
+      "type": "struct",
+      "subtype": "music_note",
+      "int_index": 0,
+      "struct_type": "music_note",
+      "struct_payload_bytes": 8,
+      "struct_fields": [
+        {"name": "pitch", "type": "f32", "offset": 0, "min": 0.000000e+00, "max": 1.270000e+02},
+        {"name": "velocity", "type": "f32", "offset": 4, "min": 0.000000e+00, "max": 1.000000e+00}
+      ]
+    },
+    {
+      "name": "note_off",
+      "type": "struct",
+      "subtype": "music_note",
+      "int_index": 1,
+      "struct_type": "music_note",
+      "struct_payload_bytes": 8,
+      "struct_fields": [
+        {"name": "pitch", "type": "f32", "offset": 0, "min": 0.000000e+00, "max": 1.270000e+02},
+        {"name": "velocity", "type": "f32", "offset": 4, "min": 0.000000e+00, "max": 1.000000e+00}
+      ]
+    }
+  ],
+  "meters": [
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "dd2606e7"
+}

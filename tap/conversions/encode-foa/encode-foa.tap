@@ -1,0 +1,15 @@
+meta {
+  visualizer = "oscilloscope";
+}
+
+param azimuth   = 0rad [-pi..pi];
+param elevation = 0rad [-pi/2..pi/2];
+
+in: mono;
+
+out = foa {
+  w = in,
+  y = in * sin(azimuth) * cos(elevation),
+  z = in * sin(elevation),
+  x = in * cos(azimuth) * cos(elevation),
+};

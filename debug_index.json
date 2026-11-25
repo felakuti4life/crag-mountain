@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "gen_datetime": "2026-11-08 03:51 UTC",
-  "git_commit": "d6d8c4ac",
+  "gen_datetime": "2026-11-25 18:52 UTC",
+  "git_commit": "525853b9",
   "targets": [
     {
       "stem": "big_muff_full",
@@ -433,6 +433,17 @@
       "short_desc": ""
     },
     {
+      "stem": "intelligibility_analyzer",
+      "subdir": "analysis",
+      "name": "intelligibility_analyzer",
+      "wasm": "analysis/intelligibility_analyzer/intelligibility_analyzer.wasm",
+      "meta": "analysis/intelligibility_analyzer/intelligibility_analyzer.wasm.cragmeta",
+      "debug": "analysis/intelligibility_analyzer/intelligibility_analyzer.wasm.cragdebug.json",
+      "source": "analysis/intelligibility_analyzer/intelligibility_analyzer.crag.mlir",
+      "sources": "analysis/intelligibility_analyzer/intelligibility_analyzer.wasm.cragsrc.json",
+      "short_desc": "Intelligibility Analyzer"
+    },
+    {
       "stem": "dual-stage-serial-compressor",
       "subdir": "compressors",
       "name": "dual_stage_serial_compressor",
@@ -727,7 +738,7 @@
       "debug": "conversions/breakout/51-breakout-center/51-breakout-center.wasm.cragdebug.json",
       "source": "conversions/breakout/51-breakout-center/51-breakout-center.crag.mlir",
       "sources": "conversions/breakout/51-breakout-center/51-breakout-center.wasm.cragsrc.json",
-      "short_desc": "5.1 Surround (ITU-R BS.775 / SMPTE) Breakout - Front Centre  (FC)"
+      "short_desc": "5.1 Surround (ITU-R BS.775 / SMPTE) Breakout - Front Center  (FC)"
     },
     {
       "stem": "51-breakout-front-left",
@@ -793,7 +804,7 @@
       "debug": "conversions/breakout/71-breakout-center/71-breakout-center.wasm.cragdebug.json",
       "source": "conversions/breakout/71-breakout-center/71-breakout-center.crag.mlir",
       "sources": "conversions/breakout/71-breakout-center/71-breakout-center.wasm.cragsrc.json",
-      "short_desc": "7.1 Surround (SMPTE) Breakout - Front Centre  (FC)"
+      "short_desc": "7.1 Surround (SMPTE) Breakout - Front Center  (FC)"
     },
     {
       "stem": "71-breakout-front-left",
@@ -1453,7 +1464,7 @@
       "debug": "conversions/stereo-to-51/stereo-to-51.wasm.cragdebug.json",
       "source": "conversions/stereo-to-51/stereo-to-51.crag.mlir",
       "sources": "conversions/stereo-to-51/stereo-to-51.wasm.cragsrc.json",
-      "short_desc": "Stereo-to-5.1 Upmix (Phantom Centre)"
+      "short_desc": "Stereo-to-5.1 Upmix (Phantom Center)"
     },
     {
       "stem": "stereo-to-midside",
@@ -2268,6 +2279,204 @@
       "source": "webaudio-ports/grainbrain/grainbrain.crag.mlir",
       "sources": "webaudio-ports/grainbrain/grainbrain.wasm.cragsrc.json",
       "short_desc": "grainBrain (Crag port)"
+    },
+    {
+      "stem": "crossover",
+      "subdir": "tap/graphs",
+      "name": "crossover",
+      "wasm": "tap/graphs/crossover/crossover.wasm",
+      "meta": "tap/graphs/crossover/crossover.wasm.cragmeta",
+      "debug": "tap/graphs/crossover/crossover.wasm.cragdebug.json",
+      "source": "tap/graphs/crossover/crossover.crag.mlir",
+      "sources": null,
+      "short_desc": "crossover.tap: several signals leave a graph as channels of its one output."
+    },
+    {
+      "stem": "radio-voice",
+      "subdir": "tap/graphs",
+      "name": "radio-voice",
+      "wasm": "tap/graphs/radio-voice/radio-voice.wasm",
+      "meta": "tap/graphs/radio-voice/radio-voice.wasm.cragmeta",
+      "debug": "tap/graphs/radio-voice/radio-voice.wasm.cragdebug.json",
+      "source": "tap/graphs/radio-voice/radio-voice.crag.mlir",
+      "sources": null,
+      "short_desc": "radio-voice.tap: a voice-over chain built from the graphs in dynamics.tap."
+    },
+    {
+      "stem": "stereo-ducker",
+      "subdir": "tap/graphs",
+      "name": "stereo-ducker",
+      "wasm": "tap/graphs/stereo-ducker/stereo-ducker.wasm",
+      "meta": "tap/graphs/stereo-ducker/stereo-ducker.wasm.cragmeta",
+      "debug": "tap/graphs/stereo-ducker/stereo-ducker.wasm.cragdebug.json",
+      "source": "tap/graphs/stereo-ducker/stereo-ducker.crag.mlir",
+      "sources": null,
+      "short_desc": "stereo-ducker.tap: one ducker per channel, sharing the global knobs."
+    },
+    {
+      "stem": "two-buses",
+      "subdir": "tap/graphs",
+      "name": "two-buses",
+      "wasm": "tap/graphs/two-buses/two-buses.wasm",
+      "meta": "tap/graphs/two-buses/two-buses.wasm.cragmeta",
+      "debug": "tap/graphs/two-buses/two-buses.wasm.cragdebug.json",
+      "source": "tap/graphs/two-buses/two-buses.crag.mlir",
+      "sources": null,
+      "short_desc": "two-buses.tap: `as` gives each import its own set of global params, and"
+    },
+    {
+      "stem": "vocal-chain",
+      "subdir": "tap/graphs",
+      "name": "vocal-chain",
+      "wasm": "tap/graphs/vocal-chain/vocal-chain.wasm",
+      "meta": "tap/graphs/vocal-chain/vocal-chain.wasm.cragmeta",
+      "debug": "tap/graphs/vocal-chain/vocal-chain.wasm.cragdebug.json",
+      "source": "tap/graphs/vocal-chain/vocal-chain.crag.mlir",
+      "sources": null,
+      "short_desc": "vocal-chain.tap: every graph here is an existing .crag.mlir file."
+    },
+    {
+      "stem": "frequency-shifter",
+      "subdir": "tap/spectral",
+      "name": "frequency-shifter",
+      "wasm": "tap/spectral/frequency-shifter/frequency-shifter.wasm",
+      "meta": "tap/spectral/frequency-shifter/frequency-shifter.wasm.cragmeta",
+      "debug": "tap/spectral/frequency-shifter/frequency-shifter.wasm.cragdebug.json",
+      "source": "tap/spectral/frequency-shifter/frequency-shifter.crag.mlir",
+      "sources": null,
+      "short_desc": "A frequency shifter: every partial moves by the same number of hertz."
+    },
+    {
+      "stem": "robotizer",
+      "subdir": "tap/spectral",
+      "name": "robotizer",
+      "wasm": "tap/spectral/robotizer/robotizer.wasm",
+      "meta": "tap/spectral/robotizer/robotizer.wasm.cragmeta",
+      "debug": "tap/spectral/robotizer/robotizer.wasm.cragdebug.json",
+      "source": "tap/spectral/robotizer/robotizer.crag.mlir",
+      "sources": null,
+      "short_desc": "Robot and whisper voices: keep the magnitudes of speech, replace its phase."
+    },
+    {
+      "stem": "spectral-delay",
+      "subdir": "tap/spectral",
+      "name": "spectral-delay",
+      "wasm": "tap/spectral/spectral-delay/spectral-delay.wasm",
+      "meta": "tap/spectral/spectral-delay/spectral-delay.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-delay/spectral-delay.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-delay/spectral-delay.crag.mlir",
+      "sources": null,
+      "short_desc": "A delay with a different time for the lows, the mids and the highs."
+    },
+    {
+      "stem": "spectral-filter",
+      "subdir": "tap/spectral",
+      "name": "spectral-filter",
+      "wasm": "tap/spectral/spectral-filter/spectral-filter.wasm",
+      "meta": "tap/spectral/spectral-filter/spectral-filter.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-filter/spectral-filter.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-filter/spectral-filter.crag.mlir",
+      "sources": null,
+      "short_desc": "A brick-wall band-pass with a tilt, drawn straight onto the spectrum."
+    },
+    {
+      "stem": "spectral-freeze",
+      "subdir": "tap/spectral",
+      "name": "spectral-freeze",
+      "wasm": "tap/spectral/spectral-freeze/spectral-freeze.wasm",
+      "meta": "tap/spectral/spectral-freeze/spectral-freeze.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-freeze/spectral-freeze.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-freeze/spectral-freeze.crag.mlir",
+      "sources": null,
+      "short_desc": "Freeze: hold the sound of one instant for as long as the switch is on."
+    },
+    {
+      "stem": "spectral-gate",
+      "subdir": "tap/spectral",
+      "name": "spectral-gate",
+      "wasm": "tap/spectral/spectral-gate/spectral-gate.wasm",
+      "meta": "tap/spectral/spectral-gate/spectral-gate.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-gate/spectral-gate.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-gate/spectral-gate.crag.mlir",
+      "sources": null,
+      "short_desc": "A noise gate in every bin."
+    },
+    {
+      "stem": "spectral-smear",
+      "subdir": "tap/spectral",
+      "name": "spectral-smear",
+      "wasm": "tap/spectral/spectral-smear/spectral-smear.wasm",
+      "meta": "tap/spectral/spectral-smear/spectral-smear.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-smear/spectral-smear.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-smear/spectral-smear.crag.mlir",
+      "sources": null,
+      "short_desc": "Smear: every bin rings on after its sound has gone, like a reverb with no"
+    },
+    {
+      "stem": "spectral-vocoder",
+      "subdir": "tap/spectral",
+      "name": "spectral-vocoder",
+      "wasm": "tap/spectral/spectral-vocoder/spectral-vocoder.wasm",
+      "meta": "tap/spectral/spectral-vocoder/spectral-vocoder.wasm.cragmeta",
+      "debug": "tap/spectral/spectral-vocoder/spectral-vocoder.wasm.cragdebug.json",
+      "source": "tap/spectral/spectral-vocoder/spectral-vocoder.crag.mlir",
+      "sources": null,
+      "short_desc": "A vocoder without a filter bank: the carrier takes the spectral envelope of"
+    },
+    {
+      "stem": "arp-2600",
+      "subdir": "tap/synths/poly",
+      "name": "arp-2600",
+      "wasm": "tap/synths/poly/arp-2600/arp-2600.wasm",
+      "meta": "tap/synths/poly/arp-2600/arp-2600.wasm.cragmeta",
+      "debug": "tap/synths/poly/arp-2600/arp-2600.wasm.cragdebug.json",
+      "source": "tap/synths/poly/arp-2600/arp-2600.crag.mlir",
+      "sources": null,
+      "short_desc": "arp-2600.tap: a four-voice synth after the ARP 2600."
+    },
+    {
+      "stem": "dx7",
+      "subdir": "tap/synths/poly",
+      "name": "dx7",
+      "wasm": "tap/synths/poly/dx7/dx7.wasm",
+      "meta": "tap/synths/poly/dx7/dx7.wasm.cragmeta",
+      "debug": "tap/synths/poly/dx7/dx7.wasm.cragdebug.json",
+      "source": "tap/synths/poly/dx7/dx7.crag.mlir",
+      "sources": null,
+      "short_desc": "dx7.tap: a sixteen-voice, six-operator FM synth after the Yamaha DX7."
+    },
+    {
+      "stem": "jupiter-8",
+      "subdir": "tap/synths/poly",
+      "name": "jupiter-8",
+      "wasm": "tap/synths/poly/jupiter-8/jupiter-8.wasm",
+      "meta": "tap/synths/poly/jupiter-8/jupiter-8.wasm.cragmeta",
+      "debug": "tap/synths/poly/jupiter-8/jupiter-8.wasm.cragdebug.json",
+      "source": "tap/synths/poly/jupiter-8/jupiter-8.crag.mlir",
+      "sources": null,
+      "short_desc": "jupiter-8.tap: an eight-voice synth after the Roland Jupiter-8."
+    },
+    {
+      "stem": "prophet-rev2",
+      "subdir": "tap/synths/poly",
+      "name": "prophet-rev2",
+      "wasm": "tap/synths/poly/prophet-rev2/prophet-rev2.wasm",
+      "meta": "tap/synths/poly/prophet-rev2/prophet-rev2.wasm.cragmeta",
+      "debug": "tap/synths/poly/prophet-rev2/prophet-rev2.wasm.cragdebug.json",
+      "source": "tap/synths/poly/prophet-rev2/prophet-rev2.crag.mlir",
+      "sources": null,
+      "short_desc": "prophet-rev2.tap: an eight-voice synth after the Sequential Prophet Rev2."
+    },
+    {
+      "stem": "level-meter",
+      "subdir": "tap/visualizers",
+      "name": "level-meter",
+      "wasm": "tap/visualizers/level-meter/level-meter.wasm",
+      "meta": "tap/visualizers/level-meter/level-meter.wasm.cragmeta",
+      "debug": "tap/visualizers/level-meter/level-meter.wasm.cragdebug.json",
+      "source": "tap/visualizers/level-meter/level-meter.crag.mlir",
+      "sources": null,
+      "short_desc": "level-meter.tap: a peak / RMS meter with a peak-hold line, and a small"
     }
   ]
 }

@@ -1,0 +1,26 @@
+// Smear: every bin rings on after its sound has gone, like a reverb with no
+// echoes in it.
+//
+// The magnitude of each bin is followed with a fast rise and a slow fall.
+// While a bin is being fed it keeps the phase of the input; once it is only
+// ringing out, its phase keeps turning at the rate it last had.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param rise  = 0ms   [0ms..200ms] "Rise";
+param decay = 600ms [10ms..10s] "Decay";
+param mix   = 0.6 [0..1] "Mix";
+
+spec = in.stft(overlap = 4);
+mag  = spec.mag;
+ph   = spec.phase;
+
+tail  = bin_smooth(mag, rise, decay);
+fed   = mag > 0.95 * tail;
+turn  = if fed then ph - ph' else turn';
+angle = if fed then ph else (angle' + turn) % tau;
+
+out = mix * polar(tail, angle).ifft + (1 - mix) * in.align(spec);

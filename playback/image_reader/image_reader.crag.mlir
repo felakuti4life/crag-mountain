@@ -6,12 +6,12 @@
 //
 // The reader holds a single texture sampler named "texture" whose asset is
 // bound at runtime via crag_bind_texture_by_index(0, ...).  The decoded image
-// is forwarded unchanged through the visualizer's viz_output; no processing is
-// applied in v1.  A silent audio block is produced as a placeholder output —
+// is forwarded unchanged through the visualizer's crag.texture_output; no
+// processing is applied.  A silent audio block is produced as a placeholder output —
 // the image_reader is purely a texture source and does not contribute to the
 // audio mix.
 //
-// Parameters: none (a future `gain` / `tint` parameter is out of scope here)
+// Parameters: none
 // Events:     none
 //
 // Sampler:

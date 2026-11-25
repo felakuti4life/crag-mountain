@@ -6,14 +6,14 @@
 // (envelope period) and envelope skew, so the grain cloud is genuinely
 // heterogeneous rather than copies of one voice.
 //
-// The grains share one crag.parallel body parameterised by a line index;
+// The grains share one crag.parallel body parameterized by a line index;
 // each grain's distinct values arrive as capture tensors (u_win, u_spd, ...).
 // crag-unroll-parallel expands the constant line count into 8 independent
 // inlined grains at compile time.
 //
 // Each grain is a genuine *per-sample* resampling reader: inside a
 // crag.per_sample region the read cursor advances by the grain's `speed`
-// every output sample (with linear interpolation between neighbouring
+// every output sample (with linear interpolation between neighboring
 // source samples) and the grain envelope is evaluated per sample.  This is
 // what makes playback speed actually re-pitch the grain — a plain block
 // read (crag.sample) can only advance the head one native sample per output

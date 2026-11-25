@@ -138,7 +138,8 @@
       "float_index": 15
     }
   ],
-  "samplers": ["hrir_cipic_pack_L", "hrir_cipic_pack_R"],
+  "samplers": [],
+  "inlined_samplers": ["hrir_cipic_pack_L", "hrir_cipic_pack_R"],
   "texture_samplers": [],
   "expected_duration_secs": 6.666667e+00,
   "events": [
@@ -187,5 +188,5 @@
   "has_audio_output": true,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "7b2e9269"
+  "compiled_with": "dd2606e7"
 }

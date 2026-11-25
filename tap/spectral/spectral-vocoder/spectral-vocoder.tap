@@ -1,0 +1,28 @@
+// A vocoder without a filter bank: the carrier takes the spectral envelope of
+// the voice.
+//
+// An envelope is a magnitude spectrum averaged over neighbouring bins
+// (bin_blur), which keeps the formants and loses the pitch.  The carrier is
+// divided by its own envelope to flatten it, then multiplied by the voice's.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+in carrier;
+in voice;
+
+param depth   = 1 [0..1] "Depth";             // 0 leaves the carrier as it is
+param release = 30ms [0ms..500ms] "Release";  // how long a formant rings on
+param gain    = 0db [-24db..24db] "Gain";
+
+car = carrier.stft(overlap = 4);
+mod = voice.stft(overlap = 4);
+
+car_env = bin_blur(car.mag, 6);
+mod_env = bin_smooth(bin_blur(mod.mag, 6), 0ms, release);
+
+shape = min(mod_env / (car_env + 1e-4), 100);
+
+out = gain * (car * lerp(1, shape, depth)).ifft;

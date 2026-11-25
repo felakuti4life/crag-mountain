@@ -1,5 +1,8 @@
 // White Noise
 // a basic graph that emits noise.
+//
+// Parameters:
+//   amplitude  [0, 1] – output level (default 1.0)
 
 module {
   crag.graph name = "white_noise" sample_rate = 0 channels = 1 {
@@ -12,7 +15,7 @@ module {
     %noise = crag.white_noise : !crag.audio<f32, 0, 1>
 
     // -------------------------------------------------------------------------
-    // Gate by playing state
+    // Attenuate by the amplitude parameter
     // -------------------------------------------------------------------------
     %noise_scaled = crag.scale %noise, %amp
                  : !crag.audio<f32, 0, 1>, f32 -> !crag.audio<f32, 0, 1>

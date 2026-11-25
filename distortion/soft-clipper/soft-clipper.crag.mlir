@@ -3,7 +3,7 @@
 // Smooth soft-clipping distortion using the hyperbolic tangent function as
 // the nonlinear saturator.  Unlike hard clipping, tanh produces a continuous
 // S-curve that gently compresses large amplitudes; there is no abrupt cutoff,
-// so the transition from linear to saturated behaviour is gradual.
+// so the transition from linear to saturated behavior is gradual.
 //
 // Algorithm:
 //   y[n] = tanh(drive * x[n])
@@ -21,7 +21,7 @@
 //   amplitude A the output peak is tanh(drive * A).  With drive = 1 and
 //   A = 1 the output peak is tanh(1) ≈ 0.76; with drive = 5, A = 1 the
 //   output peak is tanh(5) ≈ 0.9999 (nearly fully saturated).  No
-//   post-normalisation is applied; use wet_level to compensate for loudness.
+//   post-normalization is applied; use wet_level to compensate for loudness.
 //
 // Parameters:
 //   drive      [0.5, 20]  – pre-saturation gain    (default 3.0)

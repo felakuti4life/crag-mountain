@@ -24,11 +24,14 @@
 // Same external ABI as `hrtf_spatializer_cipic.crag.mlir` plus one new
 // integer parameter:
 //
-//   - `position_index` (i32, default 0) — selects the active IR row in
-//     the concatenated pack.  The lex-ordered cache layout means
-//     index ↔ `(elevation, azimuth)` is deterministic and dataset-
-//     independent; the host (or a downstream nearest-neighbour pass)
-//     resolves az/el/dist → index.
+//   - `position_index` (i32, default 212 = straight ahead) — selects the
+//     active IR row in the concatenated pack.  The cache layout follows
+//     the CIPIC grid (row = el_idx * 25 + az_idx), so the index ↔
+//     direction mapping is deterministic; the host resolves az/el →
+//     index with `scripts.hrtf.lookup.nearest_position_index`.  The
+//     default is the front row so an undriven binary matches the
+//     `azimuth_rad = elevation_rad = 0` defaults instead of playing row 0
+//     (lateral -80°, polar -45°: hard left and below).
 //
 // `azimuth_rad` / `elevation_rad` / `distance_m` are still declared so
 // hosts can drive the same parameter names regardless of which renderer
@@ -46,12 +49,13 @@
 // 48 kHz by `scripts/hrtf/prep.py` before binding).
 //
 // IR length budget:
-//   The normalized cache pads CIPIC IRs to 256 samples.  At
-//   blockSize=512, a single OLS partition covers the full IR without
-//   aliasing, so we set `num_partitions = 1` per ear.  `ir_length = 256`
-//   matches `prep.TARGET_IR_LENGTH`; bumping that constant in
-//   `scripts/hrtf/prep.py` requires bumping it here too (and possibly
-//   `num_partitions` if it crosses 512).
+//   The normalized cache pads CIPIC IRs to 256 samples.  `num_partitions`
+//   is the partition *cap*: the op runs ceil(ir_length / blockSize)
+//   partitions, so one at the default blockSize of 512 and up to 8 for a
+//   host block as small as 32 frames.  A cap of 1 truncates the IR to the
+//   first blockSize taps whenever the host runs blocks shorter than 256.
+//   `ir_length = 256` matches `prep.TARGET_IR_LENGTH`; bumping that
+//   constant in `scripts/hrtf/prep.py` requires bumping it here too.
 //
 // position_index range:
 //   CIPIC ships 25 azimuths × 50 elevations = 1250 positions per
@@ -96,7 +100,7 @@ module {
                      min = 0.1 max = 10.0 default = 1.0
                      unit = "m" : f32
     %pos_idx   = crag.param_int "position_index"
-                     min = 0 max = 4095 default = 0 : i32
+                     min = 0 max = 4095 default = 212 : i32
 
     // -----------------------------------------------------------------------
     // Per-ear concatenated-IR samplers.  At compile time, bind these via
@@ -127,20 +131,18 @@ module {
     // -----------------------------------------------------------------------
     // Convolve the dry mono input with each ear's runtime-selected IR.
     //
-    // num_partitions = 1: the cache caps `ir_length` at 256, well under the
-    // default blockSize of 512, so one partition covers the IR without
-    // aliasing.  Bumping the cache schema's IR length above blockSize
-    // requires bumping this constant (and the constant 256 above) in
-    // tandem.
+    // num_partitions = 8 is a cap, not a cost: ceil(ir_length / blockSize)
+    // partitions run, i.e. one at the default blockSize of 512, and the
+    // full 256-tap IR is still covered down to 32-frame host blocks.
     // -----------------------------------------------------------------------
     %wet_l = crag.overlap_save_conv_slice %in, %ir_l, %ir_offset, %ir_len
-                 num_partitions = 1
+                 num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_cipic_pack_L">,
                    i64, i64
                    -> !crag.audio<f32, 48000, 1>
     %wet_r = crag.overlap_save_conv_slice %in, %ir_r, %ir_offset, %ir_len
-                 num_partitions = 1
+                 num_partitions = 8
                  : !crag.audio<f32, 48000, 1>,
                    !crag.sampler<"hrir_cipic_pack_R">,
                    i64, i64

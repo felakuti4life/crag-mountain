@@ -1,0 +1,23 @@
+// A brick-wall band-pass with a tilt, drawn straight onto the spectrum.
+//
+// `binhz` is the frequency of the bin being worked out, so a filter is just
+// a gain written as a function of frequency.  Nothing here has a phase
+// response: every bin is scaled, none is turned.
+meta {
+  rate       = 48000;
+  channels   = 1;
+  visualizer = "spectrometer";
+}
+
+param low  = 200hz [20hz..20khz] "Low";
+param high = 4khz  [20hz..20khz] "High";
+param tilt = 0 [-12..12] "Tilt";          // dB per octave, turning about 1 kHz
+param mix  = 1 [0..1] "Mix";
+
+spec = in.stft;
+
+slope = (tilt * log2(max(binhz, 20hz) / 1khz)).lin;
+gain  = band(low, high) * slope;
+
+wet = (spec * gain).ifft;
+out = mix * wet + (1 - mix) * in.align(spec);

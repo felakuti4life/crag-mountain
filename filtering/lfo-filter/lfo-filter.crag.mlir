@@ -2,20 +2,20 @@
 //
 // A low-frequency oscillator (LFO) continuously sweeps the cutoff frequency
 // of a 2nd-order lowpass filter, producing the slow "wah"-like timbral
-// motion that is characteristic of analogue filter sweeps on synth pads,
+// motion that is characteristic of analog filter sweeps on synth pads,
 // dub-reggae snare hits, and lo-fi treatments of percussion loops.
 //
 // Algorithm (per block):
 //   1. Generate a sine LFO at the configured rate:
 //        lfo(t) = sin(2π · rate · t)                      ∈ [-1, 1]
-//   2. Map the LFO into the normalised cutoff range:
+//   2. Map the LFO into the normalized cutoff range:
 //        cutoff = c_lo + (c_hi - c_lo) · (lfo + 1) / 2    ∈ [c_lo, c_hi]
 //   3. Compute fresh 2nd-order lowpass coefficients for that cutoff.
 //   4. Cascade two filter stages with the same coefficients (independent
 //      state) so the slope is steeper and the sweep is more pronounced.
 //   5. Mix: out = dry_level · in + wet_level · filtered
 //
-// Sweep range (normalised to Nyquist = 1.0):
+// Sweep range (normalized to Nyquist = 1.0):
 //   c_lo ≈ 0.01   (~240 Hz @ 48 kHz, the bottom of the sweep)
 //   c_hi ≈ 0.40   (~9.6 kHz @ 48 kHz, the top of the sweep)
 //
@@ -65,7 +65,7 @@ module {
     %lfo_01 = arith.divf %lfo_p1, %two_f : f32
 
     // Interpolate between c_lo and c_hi, then clamp into the legal
-    // (0, 1) Nyquist-normalised range required by get_filter_coeffs.
+    // (0, 1) Nyquist-normalized range required by get_filter_coeffs.
     %c_range = arith.subf %c_hi, %c_lo : f32
     %c_delta = arith.mulf %lfo_01, %c_range : f32
     %c_raw   = arith.addf %c_lo, %c_delta : f32

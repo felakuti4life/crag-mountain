@@ -1,6 +1,6 @@
 // Fuzz Distortion
 //
-// A classic fuzz effect modelling the extreme transistor or diode clipping
+// A classic fuzz effect modeling the extreme transistor or diode clipping
 // circuits found in vintage fuzz pedals (e.g. Fuzz Face, Big Muff).
 //
 // The core idea is to drive an input signal so far into saturation that the
@@ -16,7 +16,7 @@
 //   4. Tone (lowpass): y[n] = LPF(w, tone_cutoff)
 //
 // The double saturation (tanh followed by hard clip) produces a signal that is
-// very close to a square wave at high gain settings, mimicking the behaviour
+// very close to a square wave at high gain settings, mimicking the behavior
 // of BJT transistors biased into hard saturation.  The tone control cuts the
 // upper harmonics from ~3 kHz (tone = 0, dark and woolly) up to full bandwidth
 // (tone = 1, bright and fizzy).
@@ -72,7 +72,7 @@ module {
     // -----------------------------------------------------------------------
     // Stage 4: tone control — 1st-order lowpass to tame harshness
     //
-    // Map tone=[0,1] to cutoff normalised to Nyquist:
+    // Map tone=[0,1] to cutoff normalized to Nyquist:
     //   tone=0 → cutoff ≈ 0.06  (~3 kHz  @ 48 kHz, dark)
     //   tone=1 → cutoff ≈ 0.48  (~23 kHz @ 48 kHz, full bandwidth)
     // -----------------------------------------------------------------------

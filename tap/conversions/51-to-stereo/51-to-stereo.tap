@@ -1,0 +1,12 @@
+meta {
+  visualizer = "oscilloscope";
+}
+
+in: surround51;            // fl, fr, fc, lfe, bl, br
+
+k = 1 / sqrt(2);           // ITU-R BS.775: centre and surrounds at -3 dB
+
+out = stereo {
+  l = in.fl + k * in.fc + k * in.bl,
+  r = in.fr + k * in.fc + k * in.br,
+};

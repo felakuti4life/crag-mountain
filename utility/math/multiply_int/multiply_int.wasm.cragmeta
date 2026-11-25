@@ -6,7 +6,7 @@
     {
       "name": "a",
       "type": "int",
-      "min": -9223372036854775808,
+      "min": -2147483648,
       "max": 2147483647,
       "default": 1,
       "int_index": 0
@@ -14,13 +14,14 @@
     {
       "name": "b",
       "type": "int",
-      "min": -9223372036854775808,
+      "min": -2147483648,
       "max": 2147483647,
       "default": 1,
       "int_index": 1
     }
   ],
   "samplers": [],
+  "inlined_samplers": [],
   "texture_samplers": [],
   "events": [
   ],
@@ -47,5 +48,5 @@
   "has_audio_output": false,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "7b2e9269"
+  "compiled_with": "dd2606e7"
 }

@@ -43,7 +43,7 @@
       "type": "int",
       "min": 0,
       "max": 4095,
-      "default": 0,
+      "default": 212,
       "int_index": 0
     },
     {
@@ -51,7 +51,7 @@
       "type": "int",
       "min": 0,
       "max": 4095,
-      "default": 0,
+      "default": 212,
       "int_index": 1
     },
     {
@@ -59,7 +59,7 @@
       "type": "int",
       "min": 0,
       "max": 4095,
-      "default": 0,
+      "default": 212,
       "int_index": 2
     },
     {
@@ -87,7 +87,8 @@
       "float_index": 6
     }
   ],
-  "samplers": ["audio", "hrir_cipic_interp_pack_L", "hrir_cipic_interp_pack_R"],
+  "samplers": ["audio"],
+  "inlined_samplers": ["hrir_cipic_interp_pack_L", "hrir_cipic_interp_pack_R"],
   "texture_samplers": [],
   "events": [
     {
@@ -117,5 +118,5 @@
   "has_audio_output": true,
   "viz_width": 1024,
   "viz_height": 512,
-  "compiled_with": "7b2e9269"
+  "compiled_with": "dd2606e7"
 }

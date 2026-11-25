@@ -63,7 +63,7 @@ module {
     %seek_fired, %seek_at, %seek_val = crag.event_float "seek" min = 0.0 max = 30.0 : i1, i32, f32
 
     // SR latch: set by "start", reset by "stop".
-    // Initialised to 1 so playback begins immediately.
+    // Initialized to 1 so playback begins immediately.
     %playing    = crag.latch %start_fired, %stop_fired : i1, i1 -> i1
     %playing_f32 = arith.uitofp %playing : i1 to f32
 
@@ -103,7 +103,7 @@ module {
     //   that the read position at seek_at equals floor(seek_val * sr).
     //   crag.per_sample states are loop-carried WITHIN a block and re-seeded
     //   from their operands on every block, so the frame count lives in a
-    //   persistent line cell (zero-initialised, hence frame 0 on the first
+    //   persistent line cell (zero-initialized, hence frame 0 on the first
     //   block) and is written back below.  Seeding it from a constant instead
     //   restarts the asset at frame 0 every block.
     // State 2 (%s0_idx / %idx_hold): i32 within-block sample counter used to

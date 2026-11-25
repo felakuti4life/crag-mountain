@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "parameters": [
+    {
+      "name": "loop",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "hp.type",
+      "type": "enum",
+      "values": ["lowpass", "highpass", "bandpass", "notch"],
+      "default": 0,
+      "int_index": 0
+    },
+    {
+      "name": "hp.slope",
+      "type": "enum",
+      "values": ["6dB", "12dB", "24dB"],
+      "default": 1,
+      "int_index": 1
+    },
+    {
+      "name": "hp.cutoff_hz",
+      "type": "float",
+      "min": 2.000000e+01,
+      "max": 2.000000e+04,
+      "default": 1.000000e+03,
+      "unit": "hz",
+      "float_index": 1
+    },
+    {
+      "name": "hp.q",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 8.000000e+00,
+      "default": 7.071000e-01,
+      "float_index": 2
+    },
+    {
+      "name": "comp.threshold_db",
+      "type": "float",
+      "min": -6.000000e+01,
+      "max": 0.000000e+00,
+      "default": -2.400000e+01,
+      "unit": "dB",
+      "float_index": 3
+    },
+    {
+      "name": "comp.ratio",
+      "type": "float",
+      "min": 1.000000e+00,
+      "max": 2.000000e+01,
+      "default": 6.000000e+00,
+      "float_index": 4
+    },
+    {
+      "name": "comp.attack_ms",
+      "type": "float",
+      "min": 1.000000e-01,
+      "max": 2.000000e+02,
+      "default": 1.000000e+01,
+      "unit": "ms",
+      "float_index": 5
+    },
+    {
+      "name": "comp.release_ms",
+      "type": "float",
+      "min": 1.000000e+01,
+      "max": 2.000000e+03,
+      "default": 1.000000e+02,
+      "unit": "ms",
+      "float_index": 6
+    },
+    {
+      "name": "comp.makeup_gain_db",
+      "type": "float",
+      "min": -1.200000e+01,
+      "max": 2.400000e+01,
+      "default": 0.000000e+00,
+      "unit": "dB",
+      "float_index": 7
+    },
+    {
+      "name": "comp.wet_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 1.000000e+00,
+      "float_index": 8
+    },
+    {
+      "name": "comp.dry_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 0.000000e+00,
+      "float_index": 9
+    },
+    {
+      "name": "verb.room_size",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 8.000000e-01,
+      "float_index": 10
+    },
+    {
+      "name": "verb.damping",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 5.000000e-01,
+      "float_index": 11
+    },
+    {
+      "name": "verb.wet_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 3.000000e-01,
+      "float_index": 12
+    },
+    {
+      "name": "verb.dry_level",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "default": 7.000000e-01,
+      "float_index": 13
+    }
+  ],
+  "samplers": ["audio"],
+  "inlined_samplers": [],
+  "texture_samplers": [],
+  "events": [
+    {
+      "name": "start",
+      "type": "void",
+      "void_index": 0
+    },
+    {
+      "name": "stop",
+      "type": "void",
+      "void_index": 1
+    }
+  ],
+  "meters": [
+    {
+      "name": "progress",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 0
+    },
+    {
+      "name": "Output",
+      "type": "float",
+      "min": 0.000000e+00,
+      "max": 1.000000e+00,
+      "float_index": 1
+    }
+  ],
+  "param_outputs": [
+    {
+      "name": "__tap.arg.comp.attack_ms",
+      "type": "float",
+      "out_index": 0
+    },
+    {
+      "name": "__tap.arg.hp.type",
+      "type": "enum",
+      "out_index": 0,
+      "values": ["lowpass", "highpass", "bandpass", "notch"]
+    },
+    {
+      "name": "__tap.arg.hp.slope",
+      "type": "enum",
+      "out_index": 1,
+      "values": ["6dB", "12dB", "24dB"]
+    },
+    {
+      "name": "__tap.arg.hp.cutoff_hz",
+      "type": "float",
+      "out_index": 1
+    }
+  ],
+  "event_outputs": [
+    {
+      "name": "beat",
+      "type": "void",
+      "fired_index": 0,
+      "value_index": -1
+    }
+  ],
+  "has_visualizer": true,
+  "has_audio_output": true,
+  "viz_width": 1024,
+  "viz_height": 512,
+  "compiled_with": "dd2606e7"
+}
